@@ -1,4 +1,4 @@
-<p align="center">![IndieRunner avatar](https://github.com/IndieRunner.png)</p>
+<p align="center"><img src="https://github.com/IndieRunner.png" alt="IndieRunner avatar"></p>
 
 IndieRunner
 ===========
