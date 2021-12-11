@@ -1,7 +1,4 @@
-![IndieRunner avatar](https://github.com/IndieRunner.png)
-
-IndieRunner
-===========
+# ![IndieRunner avatar](https://github.com/IndieRunner.png) IndieRunner
 
 Advantages
 ==========
