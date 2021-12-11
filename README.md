@@ -1,7 +1,7 @@
-<p align="center"><img src="https://github.com/IndieRunner.png" alt="IndieRunner avatar"></p>
-
-IndieRunner
-===========
+<p align="center">
+<img src="https://github.com/IndieRunner.png" alt="IndieRunner avatar">
+<h1>IndieRunner</h1>
+</p>
 
 Liberate your games from platform-dependent bundled dependencies and maximize the platform compatibility.
 
