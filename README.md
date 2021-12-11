@@ -1,3 +1,5 @@
+![IndieRunner avatar](https://github.com/IndieRunner.png)
+
 IndieRunner
 ===========
 
