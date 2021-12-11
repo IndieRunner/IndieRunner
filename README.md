@@ -1,4 +1,21 @@
-# ![IndieRunner avatar](https://github.com/IndieRunner.png) IndieRunner
+<p align="center">![IndieRunner avatar](https://github.com/IndieRunner.png)</p>
+
+IndieRunner
+===========
+
+Liberate your games from platform-dependent bundled dependencies and maximize the platform compatibility.
+
+Many games are built in a way that allows more platforms than advertised.
+
+For Users
+---------
+
+Free your games from these artificial restraints and preserve your games across many different platforms.
+
+For Developers
+--------------
+
+Stop worrying about bundled dependencies and maximize the portability and longevity of your project, without sacrificing the ability to commercialize the core of your creation.
 
 Advantages
 ==========
