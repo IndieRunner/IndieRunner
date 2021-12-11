@@ -3,7 +3,7 @@
 <h1>IndieRunner</h1>
 </p>
 
-Liberate your games from platform-dependent bundled dependencies and maximize the platform compatibility.
+Liberate your games from platform-dependent bundled dependencies. Maximize platform compatibility and longevity.
 
 Many games are built in a way that allows more platforms than advertised.
 
@@ -15,7 +15,7 @@ Free your games from these artificial restraints and preserve your games across 
 For Developers
 --------------
 
-Stop worrying about bundled dependencies and maximize the portability and longevity of your project, without sacrificing the ability to commercialize the core of your creation.
+Stop worrying about bundled dependencies and maximize the portability and longevity of your project, without sacrificing the ability to commercialize the core of your creation. Contact me if you are looking to see if your project fits to expand its portability and longevity with IndieRunner.
 
 Advantages
 ==========
