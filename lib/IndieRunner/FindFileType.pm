@@ -14,6 +14,10 @@ our %filetypes = (	# allowed filetype strings with filename patterns to look at 
 							     '*.exe',			# e.g. RogueLegacy.exe
 							     '*boot.dat',		# for hashlink
 							   ],
+	'ManagedFramework'		=> [
+							     'FNA.dll',
+							     'MonoGame.Framework.dll',
+							   ],
 	'ManagedLibrary'		=> [ '*.dll', ],	# e.g. Steamworks.NET.dll
 	'NativeExecutable'		=> [ '*' ],			# e.g. RogueLegacy.bin.x86_64
 	'NativeLibrary'			=> [
@@ -22,31 +26,33 @@ our %filetypes = (	# allowed filetype strings with filename patterns to look at 
 							   ],
 );
 
-# use filename patterns to limit what files to check with LibMagic
-sub find_file_type_fast {
+# go through all files and check with LibMagic for a match
+sub find_file_type {
 	my $directory	= $_[0];
 	my $type	= $_[1];
+	my $fast	= $_[2] || 0;	# 1: speed up by matching filenames
 	my @file_list;
+	my @out_list;
 
 	unless (exists($filetypes{$type})) { die "Error: Invalid filetype"; }
 
-	@file_list = File::Find::Rule->file->nonempty->name( $filetypes{$type} )->in( $directory );
-	print join("\n", @file_list);
-
-	return @file_list;
-}
-
-# go through all files and check with LibMagic for a match
-sub find_file_type_thorough {
-	my $directory	= $_[0];
-	my $type	= $_[1];
-	my @file_list;
-
-	@file_list = File::Find::Rule->file->nonempty->in( $directory );
-	print join("\n", @file_list);
+	if $fast {
+		@file_list = File::Find::Rule->file->nonempty->name( $filetypes{$type} )->$in( $directory );
+	} else {
+		@file_list = File::Find::Rule->file->nonempty->in( $directory );
+	}
+	foreach my $file (@file_list) {
+		#print File::LibMagic->new->info_from_filename( $file )->{description}
+		    #. "\n";
+		if ( index( File::LibMagic->new->info_from_filename( $file )->{description},
+		     'Mono/.Net assembly' ) > -1 ) {
+			push @out_list, $file;
+		}
+	}
+	print join("\n", @out_list) . "\n";
 	
 
-	return @file_list;
+	return @out_list;
 }
 
 1;
