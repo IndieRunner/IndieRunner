@@ -83,6 +83,14 @@ FreeBSD
 Linux
 Haiku?
 
+Dependencies
+============
+
+Perl
+
+* File::Find::Rule
+* File::LibMagic
+
 Platform Requirements
 =====================
 
