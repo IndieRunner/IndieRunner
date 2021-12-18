@@ -1,8 +1,9 @@
-package IndieRunner::FindFileType;
+package IndieRunner::IdentifyFiles;
 
+use version; our $VERSION = qv('0.0.1');
 use strict;
 use warnings;
-use version; our $VERSION = qv('0.1.0');
+use Carp;
 
 use File::Find::Rule;
 use File::LibMagic;
@@ -26,28 +27,20 @@ our %filetypes = (
 				   ],
 );
 
-# go through all files and check with LibMagic for a match
+# go through all files and check for a match
 sub find_file_type {
 	my $directory	= $_[0];
 	my $type	= $_[1];
-	my $fast	= $_[2] || 0;	# 1: speed up by matching filenames
 	my $file;
 	my @file_list;
 	my @out_list;
 
-	unless (exists($filetypes{$type})) { die "Error: Invalid filetype"; }
+	unless (exists($filetypes{$type})) { croak "Error: Invalid filetype"; }
 
-	if ($fast) {
-		@file_list = File::Find::Rule->file
-					     ->nonempty
-					     ->name( $filetypes{$type} )
-					     ->in( $directory );
-	}
-	else {
-		@file_list = File::Find::Rule->file
-					     ->nonempty
-					     ->in( $directory );
-	}
+	@file_list = File::Find::Rule->file
+				     ->nonempty
+				     ->name( $filetypes{$type} )
+				     ->in( $directory );
 	foreach $file (@file_list) {
 		if ( index( File::LibMagic->new
 					  ->info_from_filename( $file )
@@ -61,4 +54,23 @@ sub find_file_type {
 	return @out_list;
 }
 
+# equivalent to strings(1)
+sub strings {
+	open(FH, '<:raw', $_[0])	or croak("Couldn't open file $_[0]: $!");
+	local $/ = "\0";
+	while (<FH>) {
+		while (/([\040-\176\s]{4,})/g) {
+			print $1, "\n";
+		}
+	}
+	close(FH);
+}
+
 1;
+__END__
+
+=head1 NAME
+
+=head1 VERSION
+
+=head1 SYNOPSIS
