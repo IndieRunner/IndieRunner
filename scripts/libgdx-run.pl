@@ -25,7 +25,7 @@ my $Os_Java_Version;	# e.g. '1.8.0'
 my $Os_Java_Home;
 my $Os_Java_Bin;	# e.g. '/usr/local/jdk-1.8.0/bin/java'
 my $Jar_Bin;		# e.g. '/usr/local/jdk-1.8.0/bin/jar'
-my $Class_Path;		# from $CONFIG_FILE, e.g. 'desktop-1.0.jar'
+my @Class_Path;		# from $CONFIG_FILE, e.g. [ 'desktop-1.0.jar', ]
 my $Main_Class;		# from $CONFIG_FILE, e.g. 'kaleta.hex3.desktop.DesktopLauncher'
 my @Jvm_Args;		# from $CONFIG_FILE, e.g. [ '-Xmx1G', '-Xms1G', ]
 my @Jvm_Env;		# JAVA_HOME, PATH, JAVACMD
@@ -75,24 +75,26 @@ sub get_java_version {
 	return $Os_Java_Version;
 }
 
-sub get_class_path {
-}
-
-sub get_main_class {
-}
-
-sub get_jvm_args {
-}
-
 sub run {
+
+	# get OS
 	$Os = IndieRunner::IndieRunner::detectplatform;
 	unless ( exists $Valid_Java_Versions{$Os} ) {
 		die "OS not recognized: $Os";
 	}
 
-	$Config_Data = decode_json(path($CONFIG_FILE)->slurp_utf8)
+	# slurp and assign config data
+	$Config_Data		= decode_json(path($CONFIG_FILE)->slurp_utf8)
 		or die "unable to read config data from $CONFIG_FILE: $!";
-	say get_java_version;
+	@Class_Path		= $$Config_Data{'classPath'}
+		or die "Unable to get configuration for classPath: $!";
+	$Main_Class		= $$Config_Data{'mainClass'}
+		or die "Unable to get configurarion for mainClass: $!";
+	if ( exists($$Config_Data{'vmArgs'}) ) {
+		@Jvm_Args	= $$Config_Data{'vmArgs'}
+	}
+
+	print Dumper($Os, @Class_Path, $Main_Class, @Jvm_Args);
 }
 
 run;
