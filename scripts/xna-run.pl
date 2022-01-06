@@ -5,12 +5,13 @@ use warnings;
 use v5.10;
 
 use File::Basename;
+use File::Spec::Functions qw( catdir splitdir splitpath );
 use Readonly;
 
 Readonly::Scalar my $FNAIFY		=>
-	'/home/thfr/cvs/projects/fnaify/fnaify -y';
-Readonly::Scalar my $NOFILE_REGEX	=>
-	'^\[ERROR].*System\.IO\.FileNotFoundException.*Could not find file "([^"]*)';
+	'fnaify -y';
+Readonly::Scalar my $NOTFOUND_REGEX	=>
+	'System\.IO\.[A-Za-z]+NotFoundException: Could not find [a-z ]+"([^"]*)';
 
 sub create_symlink {
 	my $oldfile	= basename(shift(@_));
@@ -26,7 +27,7 @@ sub get_right_file {
 
 	my @files = glob( dirname($wrong_file) . '/*' );
 	foreach my $f (@files) {
-		if ( -f $f and lc($f) eq lc($wrong_file) ) {	# -f skip symlinks
+		if ( -e $f and lc($f) eq lc($wrong_file) ) {
 			return $f;
 		}
 	}
@@ -34,42 +35,70 @@ sub get_right_file {
 	return '';
 }
 
+sub query_rerun {
+	print 'Run again? [y] ';
+	my $input = <STDIN>;
+	chomp $input;
+	if ( $input eq '' or lc($input) eq 'y') {
+		return 1;
+	}
+	return 0;
+}
+
+sub fix_notfound_file {
+	my $notfound_file = shift(@_);
+
+	my $found_file;
+	my @fullpath;
+	my @path;
+
+	# break down the path into components
+	(my $volume, my $directories, my $file) = splitpath( $notfound_file );
+	@fullpath = ( splitdir( $directories ), $file );
+
+	# test path one component at a time and fix with symlink
+	foreach my $p (@fullpath) {
+		push ( @path, $p );
+		next if ( -e catdir(@path) );
+		print 'attempting to fix path for: ' . catdir(@path);
+		if ( $found_file = get_right_file( catdir(@path) ) ) {
+			create_symlink( $found_file, catdir(@path) );
+			say '... done!';
+			return 1;
+		}
+		say '... failed!';
+		last;
+	}
+
+	return 0;
+}
+
 sub run {
-	my $existent_file;
-	my $input;
-	my $nonexistent_file;
+	my $found_file;
+	my $notfound_file;
 	my $output;
 	my $rerun;
 
 	do {
-		$input = '';
 		$rerun = 0;
 
 		# run fnaify and catch output
 		$output = qx($FNAIFY 2>&1);
 
 		# if there was a FileNotFoundException, offer a fix
-		($nonexistent_file) = $output =~ /$NOFILE_REGEX/m;
-		if ( $nonexistent_file ) {
-			say "Game looking for non-existent file: $nonexistent_file";
-			$existent_file = get_right_file($nonexistent_file);
-
-			if ( $existent_file ) {
-				say 'Symlinking to: ' . basename($existent_file);
-				create_symlink($existent_file, $nonexistent_file);
-
-				print 'Run again after symlink created? [y] ';
-				$input = <STDIN>;
-				chomp $input;
-				if ( $input eq '' or lc($input) eq 'y') {
-					$rerun = 1;
-				}
+		($notfound_file) = $output =~ /$NOTFOUND_REGEX/m;
+		if ( $notfound_file ) {
+			say "Game looking for non-existent file: $notfound_file";
+			if ( fix_notfound_file($notfound_file) ) {
+				$rerun = query_rerun;
 			}
 			else {
-				say '... no matching file found.';
+				die 'Can\'t fix path. Aborting.';
 			}
 		}
 	} while ($rerun);
+
+	say "Last Output:\n$output";
 }
 
 run;
