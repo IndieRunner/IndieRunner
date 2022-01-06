@@ -4,7 +4,6 @@ use strict;
 use warnings;
 use v5.10;
 
-use Data::Dumper;	# TODO: mainly for testing/debugging. Remove later
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 use JSON;
