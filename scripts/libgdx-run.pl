@@ -4,6 +4,7 @@ use strict;
 use warnings;
 use v5.10;
 
+use Archive::Extract;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 use JSON;
@@ -26,6 +27,18 @@ my %Valid_Java_Versions = (
 			   ],
 );
 
+sub match_bin_file {
+	my $regex		= shift(@_);
+	my $file		= shift(@_);
+	my $case_insensitive	= defined($_[0]);
+
+	my $out = $1 if ( $case_insensitive ?
+			  path($file)->slurp_raw =~ /($regex)/i :
+			  path($file)->slurp_raw =~ /($regex)/ );
+
+	return $out;
+}
+
 sub get_java_version {
 	my $bundled_java_bin;
 	my $os_java_version;
@@ -35,8 +48,7 @@ sub get_java_version {
 	$bundled_java_bin = 'jre/bin/java';
 
 	# fetch version string from the $bundled_java_bin
-	my $java_bin_content = path($bundled_java_bin)->slurp_raw;
-	my $got_version = $1 if ($java_bin_content =~ /($JAVA_VER_REGEX)/);
+	my $got_version = match_bin_file($JAVA_VER_REGEX, $bundled_java_bin);
 
 	# trim $version_str string to OS JAVA_HOME
 	if ( $Os eq 'openbsd' ) {
@@ -72,27 +84,87 @@ sub get_java_home {
 		die "Unsupported OS: $Os";
 	}
 
-	-d $java_home ? return $java_home :
+	if ( -d $java_home ) {
+		return $java_home
+	}
+	else {
 		die "failed to get JAVA_HOME directory at $java_home: $!";
+	}
 }
 
 sub extract_jar {
-	my @class_path = @{$_[0]};
+	my $ae;
+	my @class_path = @_;
 
-	die "not implemented";
+	foreach my $cp (@class_path) {
+		unless ( -f $cp ) {
+			say "No classpath $cp to extract.";
+			return 0;
+		}
+		say "Extracting $cp ...";
+		$ae = Archive::Extract->new( archive	=> $cp,
+					     type	=> 'zip' );
+		unless ($ae->extract) {
+			say "Couldn't extract $cp";
+			return 0;
+		}
+	}
+
+	return 1;
+}
+
+sub replace_managed_framework {
+	say "not implemented";
+	return 0;
+}
+
+sub replace_lib {
+	say "\nnot implemented";
+	return 0;
 }
 
 sub do_setup {
-	my @class_path = @{$_[0]};
+	my @class_path			= @{$_[0]};
+
+	my $bitness			= '64';		# TODO: make smarter
+	Readonly::Scalar my $SO_SUFX	=> $bitness . '\.so*';
+
+	my $managed_file_to_test
+		= 'com/badlogic/gdx/utils/SharedLibraryLoader.class';
 
 	# has desktop-1.0.jar been extracted?
 	unless (-f 'META-INF/MANIFEST.MF') {
 		extract_jar(@class_path) or return 0;
 	}
 
-	# TODO: does libgdx managed code support this operating system?
+	# does libgdx managed code framework support this operating system?
+	unless ( match_bin_file($Os, $managed_file_to_test, 1) ) {
+		replace_managed_framework or return 0;
+	}
 
 	# TODO: are all needed native libraries present?
+	say "Checking which libraries are present...";
+	my @bundled_libs	= glob( '*' . $SO_SUFX  );
+	my ($f, $l);	# f: regular file test, l: symlink test
+	foreach my $file (@bundled_libs) {
+		print $file;
+		($f, $l) = ( -f $file , -l $file );
+
+		# F L: symlink to existing file => everything ok
+		# F l: non-symlink file => needs fixing
+		# f L: broken symlink => needs fixing
+		# f l: no file found (impossible after glob above)
+		if ($f and $l) {
+			say ' ... ok';
+			next;
+		}
+		else {
+			replace_lib($file) or
+				die "couldn't set up library: $file";
+			say ' ... ok';
+		}
+	}
+	exit;
 
 	return 1;
 }
