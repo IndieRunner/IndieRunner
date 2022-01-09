@@ -6,6 +6,9 @@ use v5.10;
 
 use Archive::Extract;
 use Config;
+use File::Find::Rule;
+use File::Path qw( remove_tree );
+use File::Spec::Functions qw( catfile splitpath );
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 use JSON;
@@ -14,9 +17,26 @@ use Readonly;
 
 use IndieRunner::IndieRunner;
 
-Readonly::Scalar my $CONFIG_FILE	=> 'config.json';
-# version string examples: '1.8.0_312-b07', '1.8.0_181-b02', '11.0.13+8-1', 17.0.1+12-1
-Readonly::Scalar my $JAVA_VER_REGEX	=> '\d{1,2}\.\d{1,2}\.\d{1,2}[_\+][\w\-]+';
+Readonly::Scalar	my $CONFIG_FILE		=> 'config.json';
+
+# Java version string examples:	'1.8.0_312-b07'
+#				'1.8.0_181-b02'
+#				'11.0.13+8-1'
+#				'17.0.1+12-1'
+Readonly::Scalar	my $JAVA_VER_REGEX
+				=> '\d{1,2}\.\d{1,2}\.\d{1,2}[_\+][\w\-]+';
+
+# LibGDX version string examples:	'1.9.9'
+# TODO: is this specific enough?
+Readonly::Scalar	my $LIBGDX_VER_REGEX	=> '\d+\.\d+\.\d+';
+
+# TODO: make this OS-specific and confirm locations exist
+# TODO: remove the /usr/ports one... this is only while testing before
+#	multiversion libgdx port
+Readonly::Array		my @LIBGDX_REPLACE_LOCATIONS
+				=> ( '/usr/local/share/libgdx',
+				     '/usr/ports/pobj/libgdx-1.9.9/libgdx-gdx-parent-1.9.9',
+				   );
 
 my $Os;	
 
@@ -115,7 +135,46 @@ sub extract_jar {
 }
 
 sub replace_managed_framework {
-	say "not implemented";
+	my $bundled_framework;
+	my $framework_version;
+	my $framework_version_file;
+	my $replacement_framework;
+	my $version_class_file = 'Version.class';
+
+	my @candidate_replacements;
+
+	# find version of bundled libgdx
+	$bundled_framework	= 'com/badlogic/gdx';
+	$framework_version_file	= catfile( $bundled_framework,
+					   $version_class_file );
+	unless ( -f $framework_version_file ) {
+		die "missing LibGDX $version_class_file file";
+	}
+	$framework_version = match_bin_file( $LIBGDX_VER_REGEX,
+					     $framework_version_file );
+	say 'found bundled libgdx version: ' . $framework_version;
+
+	# find matching libgdx replacement
+	@candidate_replacements =
+		File::Find::Rule->file
+				->name( $version_class_file )
+				->in( @LIBGDX_REPLACE_LOCATIONS );
+	foreach my $candidate (@candidate_replacements) {
+		if ( match_bin_file( $LIBGDX_VER_REGEX, $candidate ) eq
+		     $framework_version ) {
+			$replacement_framework = ( splitpath($candidate) )[1];
+			say 'found matching replacement version: ' .
+			    $replacement_framework;
+		}
+	}
+
+	# remove and replace bundled libgdx
+	say "removing bundled LibGDX at '$bundled_framework'";
+	remove_tree( $bundled_framework ) or
+		die "failed to delete $bundled_framework: $!";
+	symlink($replacement_framework, $bundled_framework) or
+		die "failed to symlink: $!";
+
 	return 0;
 }
 
