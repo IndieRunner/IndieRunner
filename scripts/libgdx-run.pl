@@ -12,6 +12,7 @@ use File::Spec::Functions qw( catfile splitpath );
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 use JSON;
+use List::Util qw( maxstr );
 use Path::Tiny;
 use Readonly;
 
@@ -27,18 +28,24 @@ Readonly::Scalar	my $JAVA_VER_REGEX
 				=> '\d{1,2}\.\d{1,2}\.\d{1,2}[_\+][\w\-]+';
 
 # LibGDX version string examples:	'1.9.9'
-# TODO: is this specific enough?
 Readonly::Scalar	my $LIBGDX_VER_REGEX	=> '\d+\.\d+\.\d+';
 
-# TODO: make this OS-specific and confirm locations exist
 # TODO: remove the /usr/ports one... this is only while testing before
 #	multiversion libgdx port
 Readonly::Array		my @LIBGDX_REPLACE_LOCATIONS
 				=> ( '/usr/local/share/libgdx',
-				     '/usr/ports/pobj/libgdx-1.9.9/libgdx-gdx-parent-1.9.9',
+				     '/usr/ports/pobj/libgdx-1.9.9/fake-amd64/usr/local/share/libgdx',
+				   );
+
+Readonly::Array		my @LIB_LOCATIONS
+				=> ( '/usr/X11R6/lib',
+				     '/usr/local/lib',
+				     '/usr/local/share/lwjgl',
+				     '/usr/local/share/libgdx',
 				   );
 
 my $Os;	
+my $So_Sufx;
 
 my %Valid_Java_Versions = (
 	'openbsd'	=> [
@@ -169,7 +176,7 @@ sub replace_managed_framework {
 	}
 
 	# remove and replace bundled libgdx
-	say "removing bundled LibGDX at '$bundled_framework'";
+	say "replacing bundled LibGDX at '$bundled_framework'";
 	if ( -l $bundled_framework ) {
 		die "Error: '$bundled_framework' is already a symlink!";
 	}
@@ -178,12 +185,47 @@ sub replace_managed_framework {
 	symlink($replacement_framework, $bundled_framework) or
 		die "failed to symlink: $!";
 
-	return 0;
+	return 1;
 }
 
 sub replace_lib {
-	say "\nnot implemented";
-	return 0;
+	my $lib = shift;
+
+	my $lib_glob;		# pattern to search for $syslib
+	my $syslib;		# the system library to replace $lib
+
+	my @candidate_syslibs;
+
+	# find syslib or fail
+	$lib_glob = substr($lib, 0, -length($So_Sufx));	# libxxx64.so => libxxx
+	$lib_glob = $lib_glob . "{64,}.so*";		# libxxx => libxxx{64,}.so*
+	@candidate_syslibs =
+		File::Find::Rule->file
+				->name( $lib_glob )
+				->in( @LIB_LOCATIONS );
+	my $n = scalar(@candidate_syslibs);
+	if ( $n == 0 ) {
+		say 'not found';
+		return 0;
+	}
+	elsif ( $n == 1 ) {
+		$syslib = $candidate_syslibs[0];
+	}
+	else {
+		# 2 scenarios: differently named files in same dir
+		# or files in different directories
+		# the latter shouldn't happen... (famous last words)
+		# List::Util::maxstr picks e.g. libopenal.so.4.1 over
+		# libopenal64.so.4.0
+		$syslib = maxstr( @candidate_syslibs );
+	}
+
+	# symlink to syslib
+	unlink ( $lib ) or die "failed to unlink '$lib': $!";
+	say "symlink => $syslib";
+	symlink ( $syslib, $lib ) or die "failed to create symlink: $!";
+
+	return 1;
 }
 
 sub do_setup {
@@ -197,7 +239,7 @@ sub do_setup {
 		$bitness = '';
 	}
 
-	Readonly::Scalar my $SO_SUFX	=> $bitness . '\.so*';
+	$So_Sufx = $bitness . '.so';
 
 	my $managed_file_to_test
 		= 'com/badlogic/gdx/utils/SharedLibraryLoader.class';
@@ -214,10 +256,10 @@ sub do_setup {
 
 	# TODO: are all needed native libraries present?
 	say "Checking which libraries are present...";
-	my @bundled_libs	= glob( '*' . $SO_SUFX  );
+	my @bundled_libs	= glob( '*' . $So_Sufx );
 	my ($f, $l);	# f: regular file test, l: symlink test
 	foreach my $file (@bundled_libs) {
-		print $file;
+		print $file . ' ... ';
 		($f, $l) = ( -f $file , -l $file );
 
 		# F L: symlink to existing file => everything ok
@@ -225,16 +267,14 @@ sub do_setup {
 		# f L: broken symlink => needs fixing
 		# f l: no file found (impossible after glob above)
 		if ($f and $l) {
-			say ' ... ok';
+			say 'ok';
 			next;
 		}
 		else {
 			replace_lib($file) or
-				die "couldn't set up library: $file";
-			say ' ... ok';
+				say "couldn't set up library: $file";
 		}
 	}
-	exit;
 
 	return 1;
 }
@@ -278,9 +318,10 @@ sub run {
 	@system_args = ( 'env', @jvm_env, 'java', @jvm_args, $main_class );
 	say "\nExecuting Java Virtual Machine:";
 	say join( ' ', @system_args ) . "\n";
-	$qx_string = join( ' ', ( @system_args, '2>&1 > indierun.log' ) );
-	qx($qx_string);
+	$qx_string = join( ' ', ( @system_args, '2>&1' ) );
+	my $output = qx($qx_string);
 	say "Execution completed with exit code " . ($? >> 8);
+	say $output;
 }
 
 run;
