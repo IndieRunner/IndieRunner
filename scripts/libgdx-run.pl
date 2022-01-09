@@ -5,6 +5,7 @@ use warnings;
 use v5.10;
 
 use Archive::Extract;
+use Config;
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 use JSON;
@@ -126,7 +127,14 @@ sub replace_lib {
 sub do_setup {
 	my @class_path			= @{$_[0]};
 
-	my $bitness			= '64';		# TODO: make smarter
+	my $bitness;
+	if ( $Config{'use64bitint'} ) {
+		$bitness = '64';
+	}
+	else {
+		$bitness = '';
+	}
+
 	Readonly::Scalar my $SO_SUFX	=> $bitness . '\.so*';
 
 	my $managed_file_to_test
