@@ -76,6 +76,27 @@ sub get_java_home {
 		die "failed to get JAVA_HOME directory at $java_home: $!";
 }
 
+sub extract_jar {
+	my @class_path = @{$_[0]};
+
+	die "not implemented";
+}
+
+sub do_setup {
+	my @class_path = @{$_[0]};
+
+	# has desktop-1.0.jar been extracted?
+	unless (-f 'META-INF/MANIFEST.MF') {
+		extract_jar(@class_path) or return 0;
+	}
+
+	# TODO: does libgdx managed code support this operating system?
+
+	# TODO: are all needed native libraries present?
+
+	return 1;
+}
+
 sub run {
 	my $config_data;
 	my $qx_string;
@@ -104,6 +125,8 @@ sub run {
 		@jvm_args	= @{$$config_data{'vmArgs'}};
 	}
 
+	do_setup(@class_path) or die "Couldn't set up the game";
+
 	# build command and execute
 	# TODO: call JVM directly via PBJ::JNI or Jvm from CPAN; better portability?
 	@jvm_env	= (
@@ -111,7 +134,7 @@ sub run {
 				"PATH=$java_home/bin:\$PATH"
 			  );
 	@system_args = ( 'env', @jvm_env, 'java', @jvm_args, $main_class );
-	say "\nExecuting Jave Virtual Machine:";
+	say "\nExecuting Java Virtual Machine:";
 	say join( ' ', @system_args ) . "\n";
 	$qx_string = join( ' ', ( @system_args, '2>&1 > indierun.log' ) );
 	qx($qx_string);
