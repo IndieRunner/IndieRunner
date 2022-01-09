@@ -170,6 +170,9 @@ sub replace_managed_framework {
 
 	# remove and replace bundled libgdx
 	say "removing bundled LibGDX at '$bundled_framework'";
+	if ( -l $bundled_framework ) {
+		die "Error: '$bundled_framework' is already a symlink!";
+	}
 	remove_tree( $bundled_framework ) or
 		die "failed to delete $bundled_framework: $!";
 	symlink($replacement_framework, $bundled_framework) or
