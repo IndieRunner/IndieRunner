@@ -5,6 +5,7 @@ use warnings;
 use v5.10;
 
 use Archive::Extract;
+use Capture::Tiny ':all';
 use Config;
 use File::Find::Rule;
 use File::Path qw( remove_tree );
@@ -281,9 +282,10 @@ sub do_setup {
 
 sub run {
 	my $config_data;
-	my $qx_string;
 	my $java_home;
 	my $main_class;
+	my $stdout;
+	my $stderr;
 	my @class_path;
 	my @jvm_env;
 	my @jvm_args;
@@ -318,10 +320,13 @@ sub run {
 	@system_args = ( 'env', @jvm_env, 'java', @jvm_args, $main_class );
 	say "\nExecuting Java Virtual Machine:";
 	say join( ' ', @system_args ) . "\n";
-	$qx_string = join( ' ', ( @system_args, '2>&1' ) );
-	my $output = qx($qx_string);
-	say "Execution completed with exit code " . ($? >> 8);
-	say $output;
+	($stdout, $stderr) = tee {
+		system( '/bin/sh', '-c', join( ' ', @system_args ) );
+	};
+
+	say "\nExecution completed with exit code " . ($? >> 8);
+	say "STDOUT:\n$stdout";
+	say "STDERR:\n$stderr";
 }
 
 run;
