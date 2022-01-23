@@ -175,6 +175,9 @@ sub replace_managed_framework {
 			    $replacement_framework;
 		}
 	}
+	unless( $replacement_framework ) {
+		die "No matching framework found to replace the bundled one.";
+	}
 
 	# remove and replace bundled libgdx
 	say "replacing bundled LibGDX at '$bundled_framework'";
