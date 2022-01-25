@@ -149,7 +149,7 @@ sub replace_managed_framework {
 	my $replacement_framework;
 	my $version_class_file = 'Version.class';
 
-	my @candidate_replacements;
+	my %candidate_replacements;	# hash of location and version
 
 	# find version of bundled libgdx
 	$bundled_framework	= 'com/badlogic/gdx';
@@ -163,18 +163,25 @@ sub replace_managed_framework {
 	say 'found bundled libgdx version: ' . $framework_version;
 
 	# find matching libgdx replacement
-	@candidate_replacements =
-		File::Find::Rule->file
-				->name( $version_class_file )
-				->in( @LIBGDX_REPLACE_LOCATIONS );
-	foreach my $candidate (@candidate_replacements) {
-		if ( match_bin_file( $LIBGDX_VER_REGEX, $candidate ) eq
-		     $framework_version ) {
-			$replacement_framework = ( splitpath($candidate) )[1];
-			say 'found matching replacement version: ' .
-			    $replacement_framework;
-		}
-	}
+	%candidate_replacements =
+		map { ( splitpath($_) )[1] =>
+				match_bin_file($LIBGDX_VER_REGEX, $_)
+		    } File::Find::Rule->file
+				      ->name( $version_class_file )
+				      ->in( @LIBGDX_REPLACE_LOCATIONS );
+
+	say "Work in progress";
+	exit;
+
+	#foreach my $candidate (@candidate_replacements) {
+		#if ( match_bin_file( $LIBGDX_VER_REGEX, $candidate ) eq
+		     #$framework_version ) {
+			#$replacement_framework = ( splitpath($candidate) )[1];
+			#say 'found matching replacement version: ' .
+			    #$replacement_framework;
+		#}
+	#}
+
 	unless( $replacement_framework ) {
 		die "No matching framework found to replace the bundled one.";
 	}
