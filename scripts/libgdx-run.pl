@@ -142,6 +142,16 @@ sub extract_jar {
 	return 1;
 }
 
+sub select_most_compatible_version {
+	# takes target version, followed by array of candidate version numbers
+	# as argument (@_)
+	# 1. returns the matching version amongst the candidates if exists, or
+	# 2. returns the lowest of version numbers higher than target, or
+	# 3. returns the highest candidate version among lower numbers
+
+	die "not implemented";
+}
+
 sub replace_managed_framework {
 	my $bundled_framework;
 	my $framework_version;
@@ -170,6 +180,11 @@ sub replace_managed_framework {
 				      ->name( $version_class_file )
 				      ->in( @LIBGDX_REPLACE_LOCATIONS );
 
+	use Data::Dumper;
+	print Dumper \%candidate_replacements;
+	select_most_compatible_version( $framework_version,
+					values( %candidate_replacements )
+				      );
 	say "Work in progress";
 	exit;
 
