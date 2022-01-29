@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use v5.10;
 
+use version 0.77;
+
 use Archive::Extract;
 use Capture::Tiny ':all';
 use Config;
@@ -148,6 +150,15 @@ sub select_most_compatible_version {
 	# 1. returns the matching version amongst the candidates if exists, or
 	# 2. returns the lowest of version numbers higher than target, or
 	# 3. returns the highest candidate version among lower numbers
+
+	die "too few arguments to subroutine" unless scalar( @_ ) > 1;
+
+	# are all supplied arguments valid version strings?
+	foreach my $v ( @_ ) {
+		unless ( version->parse($v)->is_lax() ) {
+			die "invalid version string argument to subroutine";
+		}
+	}
 
 	die "not implemented";
 }
