@@ -153,10 +153,20 @@ sub select_most_compatible_version {
 
 	die "too few arguments to subroutine" unless scalar( @_ ) > 1;
 
+	# convert all arguments with version->parse
 	# are all supplied arguments valid version strings?
-	foreach my $v ( @_ ) {
-		unless ( version->parse($v)->is_lax() ) {
+	foreach ( @_ ) {
+		$_ = version->parse($_);
+		unless ( $_->is_lax() ) {
 			die "invalid version string argument to subroutine";
+		}
+	}
+
+	# 1. if match exists, return the first one
+	my $target_v = shift(@_);
+	foreach my $candidate_v (@_) {
+		if ( $candidate_v == $target_v ) {
+			die "MATCH! $candidate_v ... though not implemented fully; aborting";
 		}
 	}
 
