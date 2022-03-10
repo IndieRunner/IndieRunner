@@ -166,10 +166,14 @@ sub select_most_compatible_version {
 	my $target_v = shift(@_);
 	foreach my $candidate_v (@_) {
 		if ( $candidate_v == $target_v ) {
-			die "MATCH! $candidate_v ... though not implemented fully; aborting";
+			return $candidate_v;
 		}
 	}
 
+	# 2. returns the lowest of version numbers higher than target, or
+	# ...
+	# 3. returns the highest candidate version among lower numbers
+	# ...
 	die "not implemented";
 }
 
@@ -195,28 +199,19 @@ sub replace_managed_framework {
 
 	# find matching libgdx replacement
 	%candidate_replacements =
-		map { ( splitpath($_) )[1] =>
-				match_bin_file($LIBGDX_VER_REGEX, $_)
+		map { match_bin_file($LIBGDX_VER_REGEX, $_) =>
+			( splitpath($_) )[1]
 		    } File::Find::Rule->file
 				      ->name( $version_class_file )
 				      ->in( @LIBGDX_REPLACE_LOCATIONS );
 
 	use Data::Dumper;
 	print Dumper \%candidate_replacements;
-	select_most_compatible_version( $framework_version,
-					values( %candidate_replacements )
-				      );
-	say "Work in progress";
-	exit;
-
-	#foreach my $candidate (@candidate_replacements) {
-		#if ( match_bin_file( $LIBGDX_VER_REGEX, $candidate ) eq
-		     #$framework_version ) {
-			#$replacement_framework = ( splitpath($candidate) )[1];
-			#say 'found matching replacement version: ' .
-			    #$replacement_framework;
-		#}
-	#}
+	$replacement_framework = $candidate_replacements{
+		select_most_compatible_version( $framework_version,
+						keys( %candidate_replacements )
+						)
+		};
 
 	unless( $replacement_framework ) {
 		die "No matching framework found to replace the bundled one.";
