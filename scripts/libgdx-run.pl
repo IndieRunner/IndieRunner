@@ -33,11 +33,8 @@ Readonly::Scalar	my $JAVA_VER_REGEX
 # LibGDX version string examples:	'1.9.9'
 Readonly::Scalar	my $LIBGDX_VER_REGEX	=> '\d+\.\d+\.\d+';
 
-# TODO: remove the /usr/ports one... this is only while testing before
-#	multiversion libgdx port
 Readonly::Array		my @LIBGDX_REPLACE_LOCATIONS
 				=> ( '/usr/local/share/libgdx',
-				     '/usr/ports/pobj/libgdx-1.9.9/fake-amd64/usr/local/share/libgdx',
 				   );
 
 Readonly::Array		my @LIB_LOCATIONS
