@@ -15,7 +15,9 @@ Free your games from these artificial restraints and preserve your games across 
 For Developers
 --------------
 
-Stop worrying about bundled dependencies and maximize the portability and longevity of your project, without sacrificing the ability to commercialize the core of your creation. Contact me if you are looking to see if your project fits to expand its portability and longevity with IndieRunner.
+Stop worrying about bundled dependencies and maximize the portability and longevity of your project, without sacrificing the ability to commercialize the core of your creation.
+
+While not ready yet, we are working on offering mentoring and infrastructure for indie game developers to make use of this project to maximize their reach on open source platforms.
 
 Advantages
 ==========
