@@ -204,14 +204,9 @@ sub replace_managed_framework {
 		    } File::Find::Rule->file
 				      ->name( $version_class_file )
 				      ->in( @LIBGDX_REPLACE_LOCATIONS );
-
-	use Data::Dumper;
-	print Dumper \%candidate_replacements;
 	$replacement_framework = $candidate_replacements{
 		select_most_compatible_version( $framework_version,
-						keys( %candidate_replacements )
-						)
-		};
+						keys( %candidate_replacements ) ) };
 
 	unless( $replacement_framework ) {
 		die "No matching framework found to replace the bundled one.";
