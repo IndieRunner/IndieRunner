@@ -21,13 +21,13 @@ use Readonly;
 
 use IndieRunner::IndieRunner;
 
-Readonly::Scalar	my $CONFIG_FILE		=> 'config.json';
+Readonly::Scalar my $CONFIG_FILE => 'config.json';
 
 # Java version string examples:	'1.8.0_312-b07'
 #				'1.8.0_181-b02'
 #				'11.0.13+8-1'
 #				'17.0.1+12-1'
-Readonly::Scalar	my $JAVA_VER_REGEX
+Readonly::Scalar my $JAVA_VER_REGEX
 				=> '\d{1,2}\.\d{1,2}\.\d{1,2}[_\+][\w\-]+';
 
 Readonly::Hash my %managed_subst => (
@@ -36,12 +36,14 @@ Readonly::Hash my %managed_subst => (
 				  'Replace_Loc'		=> '/usr/local/share/libgdx',
 				  'Version_File'	=> 'Version.class',
 				  'Version_Regex'	=> '\d+\.\d+\.\d+',
+				  'Os_Test_File'	=> 'com/badlogic/gdx/utils/SharedLibraryLoader.class',
 				},
 	'steamworks4j' =>	{
 				  'Bundled_Loc'		=> 'com/codedisaster/steamworks',
 				  'Replace_Loc'		=> '/usr/local/share/steamworks4j',
 				  'Version_File'	=> 'Version.class',
 				  'Version_Regex'	=> '\d+\.\d+\.\d+',
+				  'Os_Test_File'	=> 'com/codedisaster/steamworks/SteamSharedLibraryLoader.class',
 				},
 );
 
@@ -285,17 +287,14 @@ sub do_setup {
 
 	$So_Sufx = $bitness . '.so';
 
-	my $managed_file_to_test
-		= 'com/badlogic/gdx/utils/SharedLibraryLoader.class';
-
 	# has desktop-1.0.jar been extracted?
 	unless (-f 'META-INF/MANIFEST.MF') {
 		extract_jar(@class_path) or return 0;
 	}
 
-	# does libgdx managed code framework support this operating system?
-	unless ( match_bin_file($Os, $managed_file_to_test, 1) ) {
-		foreach my $k ( keys( %managed_subst ) ) {
+	# if managed code doesn't support this operating system, replace it
+	foreach my $k ( keys( %managed_subst ) ) {
+		unless ( match_bin_file($Os, $managed_subst{ $k }{ 'Os_Test_File' }, 1) ) {
 			replace_managed($k) or return 0;
 		}
 	}
