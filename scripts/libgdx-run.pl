@@ -47,15 +47,16 @@ Readonly::Hash my %managed_subst => (
 				},
 );
 
-Readonly::Array		my @LIB_LOCATIONS
-				=> ( '/usr/X11R6/lib',
-				     '/usr/local/lib',
-				     '/usr/local/share/lwjgl',
-				     '/usr/local/share/libgdx',
-				   );
+Readonly::Array	my @LIB_LOCATIONS
+	=> ( '/usr/X11R6/lib',
+	     '/usr/local/lib',
+	     '/usr/local/share/lwjgl',
+	     '/usr/local/share/libgdx',
+	   );
 
 my $Os;	
-my $So_Sufx;
+Readonly::Scalar my $So_Sufx => '.so';
+my $Bit_Sufx;
 
 my %Valid_Java_Versions = (
 	'openbsd'	=> [
@@ -243,7 +244,14 @@ sub replace_lib {
 	my @candidate_syslibs;
 
 	# find syslib or fail
-	$lib_glob = substr($lib, 0, -length($So_Sufx));	# libxxx64.so => libxxx
+	if ( $Bit_Sufx and ( substr( $lib, -length($Bit_Sufx) ) eq $Bit_Sufx ) ) {
+		# libxxx64.so => libxxx
+		$lib_glob = substr($lib, 0, -length($So_Sufx));
+	}
+	else {
+		# libxxx.so => libxxx
+		$lib_glob = substr($lib, 0, -length($So_Sufx));
+	}
 	$lib_glob = $lib_glob . "{64,}.so*";		# libxxx => libxxx{64,}.so*
 	@candidate_syslibs =
 		File::Find::Rule->file
@@ -285,7 +293,7 @@ sub do_setup {
 		$bitness = '';
 	}
 
-	$So_Sufx = $bitness . '.so';
+	$Bit_Sufx = $bitness . $So_Sufx;
 
 	# has desktop-1.0.jar been extracted?
 	unless (-f 'META-INF/MANIFEST.MF') {
