@@ -15,7 +15,7 @@ use File::Spec::Functions qw( catfile splitpath );
 use FindBin;
 use lib "$FindBin::Bin/../lib";
 use JSON;
-use List::Util qw( maxstr );
+use List::Util qw( max maxstr );
 use Path::Tiny;
 use Readonly;
 
@@ -155,14 +155,17 @@ sub extract_jar {
 sub select_most_compatible_version {
 	# takes target version, followed by array of candidate version numbers
 	# as argument (@_)
-	# 1. returns the matching version amongst the candidates if exists, or
-	# 2. returns the lowest of version numbers higher than target, or
-	# 3. returns the highest candidate version among lower numbers
+	# 1. if target version is '_MAX_', then select the highest version
+	# 2. returns the matching version amongst the candidates if exists, or
+	# 3. returns the lowest of version numbers higher than target, or
+	# 4. returns the highest candidate version among lower numbers
 
 	die "too few arguments to subroutine" unless scalar( @_ ) > 1;
 
+	my $target_v = shift(@_);
+
 	# convert all arguments with version->parse
-	# are all supplied arguments valid version strings?
+	# are all supplied arguments valid version strings? (or '_MAX_'?)
 	foreach ( @_ ) {
 		$_ = version->parse($_);
 		unless ( $_->is_lax() ) {
@@ -170,19 +173,33 @@ sub select_most_compatible_version {
 		}
 	}
 
-	# 1. if match exists, return the first one
-	my $target_v = shift(@_);
+	# 1. if target_v is '_MAX_', return highest version
+	if ( $target_v eq '_MAX_' ) {
+		return max(@_);
+	}
+
+	# 2. if match exists, return the first one
 	foreach my $candidate_v (@_) {
 		if ( $candidate_v == $target_v ) {
 			return $candidate_v;
 		}
 	}
 
-	# 2. returns the lowest of version numbers higher than target, or
-	# ...
-	# 3. returns the highest candidate version among lower numbers
-	# ...
-	die "not implemented";
+	# 3. returns the lowest of version numbers higher than target, or
+	foreach my $candidate_v ( sort(@_) ) {
+		if ( $candidate_v > $target_v ) {
+			return $candidate_v;
+		}
+	}
+
+	# 4. returns the highest candidate version among lower numbers
+	foreach my $candidate_v ( sort {$b cmp $a} @_ ) {
+		if ( $candidate_v < $target_v ) {
+			return $candidate_v;
+		}
+	}
+
+	die "Unable to find a replacement version";	# this shouldn't be reached
 }
 
 sub replace_managed {
@@ -198,14 +215,21 @@ sub replace_managed {
 
 	# find bundled version
 	$bundled_loc	= $managed_subst{ $framework_name }{ 'Bundled_Loc' };
+	unless ( -e $bundled_loc ) {
+		return 1;	# the framework/managed code doesn't exist
+	}
 	$framework_version_file	= catfile( $bundled_loc,
 					   $version_class_file );
-	unless ( -f $framework_version_file ) {
-		die "missing LibGDX $version_class_file file";
-	}
-	$framework_version = match_bin_file( $managed_subst{ $framework_name }{ 'Version_Regex'},
+
+	if ( -f $framework_version_file ) {
+		$framework_version = match_bin_file( $managed_subst{ $framework_name }{ 'Version_Regex'},
 					     $framework_version_file );
-	say "found bundled $framework_name, version $framework_version";
+		say "found bundled $framework_name, version $framework_version";
+	}
+	else {
+		say "Missing $version_class_file file for $framework_name. Picking highest available one.";
+		$framework_version = '_MAX_';
+	}
 
 	# find matching replacement
 	%candidate_replacements =
@@ -307,7 +331,7 @@ sub do_setup {
 		}
 	}
 
-	# TODO: are all needed native libraries present?
+	# TODO: are all needed native libraries present? Prompt to install missing ones
 	say "Checking which libraries are present...";
 	my @bundled_libs	= glob( '*' . $So_Sufx );
 	my ($f, $l);	# f: regular file test, l: symlink test
@@ -376,9 +400,11 @@ sub run {
 		system( '/bin/sh', '-c', join( ' ', @system_args ) );
 	};
 
-	say "\nExecution completed with exit code " . ($? >> 8);
-	say "STDOUT:\n$stdout";
-	say "STDERR:\n$stderr";
+	#say "\nExecution completed with exit code " . ($? >> 8);
+	#say "STDOUT:\n$stdout";
+	#say "STDERR:\n$stderr";
+
+	exit ($? >> 8);
 }
 
 run;
