@@ -30,12 +30,20 @@ Readonly::Scalar	my $CONFIG_FILE		=> 'config.json';
 Readonly::Scalar	my $JAVA_VER_REGEX
 				=> '\d{1,2}\.\d{1,2}\.\d{1,2}[_\+][\w\-]+';
 
-# LibGDX version string examples:	'1.9.9'
-Readonly::Scalar	my $LIBGDX_VER_REGEX	=> '\d+\.\d+\.\d+';
-
-Readonly::Array		my @LIBGDX_REPLACE_LOCATIONS
-				=> ( '/usr/local/share/libgdx',
-				   );
+Readonly::Hash my %managed_subst => (
+	'libgdx' =>		{
+				  'Bundled_Loc'		=> 'com/badlogic/gdx',
+				  'Replace_Loc'		=> '/usr/local/share/libgdx',
+				  'Version_File'	=> 'Version.class',
+				  'Version_Regex'	=> '\d+\.\d+\.\d+',
+				},
+	'steamworks4j' =>	{
+				  'Bundled_Loc'		=> 'com/codedisaster/steamworks',
+				  'Replace_Loc'		=> '/usr/local/share/steamworks4j',
+				  'Version_File'	=> 'Version.class',
+				  'Version_Regex'	=> '\d+\.\d+\.\d+',
+				},
+);
 
 Readonly::Array		my @LIB_LOCATIONS
 				=> ( '/usr/X11R6/lib',
@@ -174,49 +182,51 @@ sub select_most_compatible_version {
 	die "not implemented";
 }
 
-sub replace_managed_framework {
-	my $bundled_framework;
+sub replace_managed {
+	my $framework_name = shift(@_);
+
+	my $bundled_loc;
 	my $framework_version;
 	my $framework_version_file;
 	my $replacement_framework;
-	my $version_class_file = 'Version.class';
+	my $version_class_file = $managed_subst{ $framework_name }{ 'Version_File' };
 
 	my %candidate_replacements;	# hash of location and version
 
-	# find version of bundled libgdx
-	$bundled_framework	= 'com/badlogic/gdx';
-	$framework_version_file	= catfile( $bundled_framework,
+	# find bundled version
+	$bundled_loc	= $managed_subst{ $framework_name }{ 'Bundled_Loc' };
+	$framework_version_file	= catfile( $bundled_loc,
 					   $version_class_file );
 	unless ( -f $framework_version_file ) {
 		die "missing LibGDX $version_class_file file";
 	}
-	$framework_version = match_bin_file( $LIBGDX_VER_REGEX,
+	$framework_version = match_bin_file( $managed_subst{ $framework_name }{ 'Version_Regex'},
 					     $framework_version_file );
-	say 'found bundled libgdx version: ' . $framework_version;
+	say "found bundled $framework_name, version $framework_version";
 
-	# find matching libgdx replacement
+	# find matching replacement
 	%candidate_replacements =
-		map { match_bin_file($LIBGDX_VER_REGEX, $_) =>
+		map { match_bin_file( $managed_subst{ $framework_name }{ 'Version_Regex' }, $_) =>
 			( splitpath($_) )[1]
 		    } File::Find::Rule->file
 				      ->name( $version_class_file )
-				      ->in( @LIBGDX_REPLACE_LOCATIONS );
+				      ->in( $managed_subst{ $framework_name }{ 'Replace_Loc' } );
 	$replacement_framework = $candidate_replacements{
 		select_most_compatible_version( $framework_version,
 						keys( %candidate_replacements ) ) };
 
 	unless( $replacement_framework ) {
-		die "No matching framework found to replace the bundled one.";
+		die "No matching framework found to replace bundled $framework_name";
 	}
 
-	# remove and replace bundled libgdx
-	say "replacing bundled LibGDX at '$bundled_framework'";
-	if ( -l $bundled_framework ) {
-		die "Error: '$bundled_framework' is already a symlink!";
+	# remove and replace bundled version
+	say "replacing bundled $framework_name at '$bundled_loc'";
+	if ( -l $bundled_loc ) {
+		die "Error: '$bundled_loc' is already a symlink!";
 	}
-	remove_tree( $bundled_framework ) or
-		die "failed to delete $bundled_framework: $!";
-	symlink($replacement_framework, $bundled_framework) or
+	remove_tree( $bundled_loc ) or
+		die "failed to delete $bundled_loc: $!";
+	symlink($replacement_framework, $bundled_loc) or
 		die "failed to symlink: $!";
 
 	return 1;
@@ -285,7 +295,9 @@ sub do_setup {
 
 	# does libgdx managed code framework support this operating system?
 	unless ( match_bin_file($Os, $managed_file_to_test, 1) ) {
-		replace_managed_framework or return 0;
+		foreach my $k ( keys( %managed_subst ) ) {
+			replace_managed($k) or return 0;
+		}
 	}
 
 	# TODO: are all needed native libraries present?
