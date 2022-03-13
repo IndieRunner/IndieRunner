@@ -241,7 +241,6 @@ sub replace_managed {
 	$replacement_framework = $candidate_replacements{
 		select_most_compatible_version( $framework_version,
 						keys( %candidate_replacements ) ) };
-
 	unless( $replacement_framework ) {
 		die "No matching framework found to replace bundled $framework_name";
 	}
@@ -326,7 +325,8 @@ sub do_setup {
 
 	# if managed code doesn't support this operating system, replace it
 	foreach my $k ( keys( %managed_subst ) ) {
-		unless ( match_bin_file($Os, $managed_subst{ $k }{ 'Os_Test_File' }, 1) ) {
+		if ( -e $managed_subst{ $k }{ 'Bundled_Loc' }
+			and not match_bin_file($Os, $managed_subst{ $k }{ 'Os_Test_File' }, 1) ) {
 			replace_managed($k) or return 0;
 		}
 	}
