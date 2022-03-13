@@ -141,3 +141,12 @@ Library Changes
 
 * jpeg ...
 * mojoshader ...
+
+List of Working Games
+=====================
+
+As of 2022-03-12.
+
+* Slay the Spire
+* Urtuk the Desolation
+* Battlevoid Harbinger (no audio)

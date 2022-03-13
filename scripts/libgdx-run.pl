@@ -85,6 +85,9 @@ sub get_java_version {
 	# find bundled java binary, alternatively libjava.so or libjvm.so
 	# TODO: make smarter
 	$bundled_java_bin = 'jre/bin/java';
+	unless ( -f $bundled_java_bin ) {
+		return '1.8.0';	# no file to get version from; default to 1.8.0
+	}
 
 	# fetch version string from the $bundled_java_bin
 	my $got_version = match_bin_file($JAVA_VER_REGEX, $bundled_java_bin);
