@@ -92,6 +92,11 @@ sub get_java_version {
 	# fetch version string from the $bundled_java_bin
 	my $got_version = match_bin_file($JAVA_VER_REGEX, $bundled_java_bin);
 
+	# if version is pre-1.8.0, choose 1.8.0
+	if ( ! $got_version or version->parse( $got_version ) < version->parse( '1.8.0' ) ) {
+		return '1.8.0';
+	}
+
 	# trim $version_str string to OS JAVA_HOME
 	if ( $Os eq 'openbsd' ) {
 		# OpenBSD: '1.8.0', '11', '17'
