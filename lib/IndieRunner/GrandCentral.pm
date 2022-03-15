@@ -7,7 +7,7 @@ use Readonly;
 
 ###
 # Module to provide the main functions to pick and choose
-# pathway to make game run
+# pathway to run the game
 ###
 
 Readonly::Hash my Indicator_Files => (	# files that are indicative of a framework
@@ -28,6 +28,12 @@ Readonly::Hash my Indicator_Files => (	# files that are indicative of a framewor
 	'liblwjgl64.so'			=> 'LWJGL',
 	'lwjgl.dll'			=> 'LWJGL',
 	'lwjgl64.dll'			=> 'LWJGL',
+	'liblwjgl_opengl.so'		=> 'LWJGL3',
+	'liblwjgl_opengl.dylib'		=> 'LWJGL3',
+	'lwjgl_opengl.dll'		=> 'LWJGL3',
+	'liblwjgl_remotery.so'		=> 'LWJGL3',
+	'liblwjgl_stb.so'		=> 'LWJGL3',
+	'liblwjgl_xxhash.so'		=> 'LWJGL3',
 	'MonoGame.Framework.dll'	=> 'MonoGame',
 	'MonoGame.Framework.dll.config'	=> 'MonoGame',
 );
