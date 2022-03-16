@@ -314,7 +314,13 @@ sub replace_lib {
 }
 
 sub do_setup {
-	my @class_path			= @{$_[0]};
+	my @class_path;
+	if ( $_[0] ) {
+		@class_path = @{$_[0]};
+	}
+	else {
+		@class_path = undef;
+	}
 
 	my $bitness;
 	if ( $Config{'use64bitint'} ) {
@@ -328,7 +334,12 @@ sub do_setup {
 
 	# has desktop-1.0.jar been extracted?
 	unless (-f 'META-INF/MANIFEST.MF') {
-		extract_jar(@class_path) or return 0;
+		if (defined $class_path[0]) {
+			extract_jar(@class_path) or return 0;
+		}
+		else {
+			extract_jar( glob( '*.jar' ) ) or return 0;
+		}
 	}
 
 	# if managed code doesn't support this operating system, replace it
