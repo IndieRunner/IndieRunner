@@ -2,7 +2,7 @@ package IndieRunner::IndieRunner;
 
 use strict;
 use warnings;
-use version; our $VERSION = qv('0.1.0');
+use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use Config;
 
