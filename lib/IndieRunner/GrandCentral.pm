@@ -10,7 +10,7 @@ use Readonly;
 # pathway to run the game
 ###
 
-Readonly::Hash my Indicator_Files => (	# files that are indicative of a framework
+Readonly::Hash my %Indicator_Files => (	# files that are indicative of a framework
 	'FNA.dll'			=> 'FNA',
 	'FNA.dll.config'		=> 'FNA',
 	'*.pck'				=> 'Godot',
