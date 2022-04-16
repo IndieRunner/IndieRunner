@@ -1,10 +1,12 @@
 package IndieRunner::GrandCentral;
 
-use version; our $VERSION = qv('0.0.1');
 use strict;
 use warnings;
+use v5.10;
+use version; our $VERSION = qv('0.0.1');
 use Carp;
 
+use Fcntl qw( SEEK_CUR SEEK_END );
 use Readonly;
 use Text::Glob qw( match_glob );
 
@@ -41,13 +43,50 @@ Readonly::Hash my %Indicator_Files => (	# files that are indicative of a framewo
 	'MonoGame.Framework.dll.config'	=> 'MonoGame',
 );
 
+Readonly::Hash my %Indicator_Bytes => (	# byte sequences that are indicative of a framework
+	'Godot'	=> {
+		'glob'	=> '*.x86_64',
+		'bytes'	=> 'GDPC',
+	},
+);
+
+sub find_bytes {
+	my ($file, $bytes) = @_;
+	my $num_bytes = length( $bytes );
+	my $read_bytes;
+
+	open( my $fh, '<:raw', $file ) or croak "Can't open $file";
+	while ( sysread( $fh, $read_bytes, $num_bytes ) ) {
+		if ( $read_bytes eq $bytes ) {
+			return 1;
+		}
+		sysseek( $fh, 1, SEEK_CUR ) or croak;
+	}
+	return 0;
+}
+
 sub identify_engine {
 	my $file = shift;
+
 	foreach my $engine_pattern ( keys %Indicator_Files ) {
 		if ( match_glob( $engine_pattern, $file ) ) {
 			return $Indicator_Files{ $engine_pattern };
 		}
 	}
+
+	return '';
+}
+
+sub identify_engine_bytes {
+	my $file = shift;
+
+	foreach my $engine ( keys %Indicator_Bytes ) {
+		if ( match_glob( $Indicator_Bytes{$engine}{'glob'}, $file ) and
+		     find_bytes( $file, $Indicator_Bytes{$engine}{'bytes'} )	) {
+			return $engine;
+		}
+	}
+
 	return '';
 }
 

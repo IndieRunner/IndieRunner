@@ -29,6 +29,7 @@ my $engine;
 my $game_file;
 my @files = File::Find::Rule->file()->in( '.' );
 
+# 1st Pass: File Names
 foreach my $f ( @files ) {
 	$engine = IndieRunner::GrandCentral::identify_engine($f);
 	if ( $engine ) {
@@ -39,10 +40,22 @@ foreach my $f ( @files ) {
 	}
 }
 
-# TODO: salvage (e.g. find Godot binary in *.x86_64)
+# 2nd Pass: Byte Sequences
+unless ( $engine ) {
+	say "Failed to identify game engine on first pass; attempting second pass (slower)."
+	foreach my $f ( @files ) {
+		$engine = IndieRunner::GrandCentral::identify_engine_bytes($f);
+		if ( $engine ) {
+			$game_file = $f;
+			say "Game File: $game_file";
+			say "Engine: $engine";
+			last;
+		}
+	}
+}
 
 unless ( $engine ) {
-	say "No engine identified. Aborting.";
+	say "No game engine identified. Aborting.";
 	exit 1;
 }
 
