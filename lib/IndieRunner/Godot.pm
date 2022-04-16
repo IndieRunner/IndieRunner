@@ -4,15 +4,22 @@ use strict;
 use warnings;
 use v5.10;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
-require Exporter;
-our @ISA = qw(Exporter);
 
 use Carp;
+use Readonly;
 
-sub parse_and_run {
-	my $self = shift;
+Readonly::Scalar my $BIN => 'godot';
 
-	croak "aborting in module";
+sub run_cmd {
+	my ($self, $game_file) = @_;
+
+	my $main_pack = "--main-pack \"$game_file\"";
+
+	return join(' ', $BIN, $main_pack);
+}
+
+sub setup {
+	# No setup needed.
 }
 
 1;

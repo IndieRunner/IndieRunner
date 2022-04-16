@@ -5,6 +5,7 @@ use warnings;
 use v5.10;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
+use Capture::Tiny ':all';
 use Getopt::Long;
 use File::Find::Rule;
 use FindBin; use lib "$FindBin::Bin/../lib";
@@ -25,15 +26,20 @@ or pod2usage(2);
 ### detect game engine ###
 
 my $engine;
+my $game_file;
 my @files = File::Find::Rule->file()->in( '.' );
 
 foreach my $f ( @files ) {
 	$engine = IndieRunner::GrandCentral::identify_engine($f);
 	if ( $engine ) {
+		$game_file = $f;
+		say "Game File: $game_file";
 		say "Engine: $engine";
 		last;
 	}
 }
+
+# TODO: salvage (e.g. find Godot binary in *.x86_64)
 
 unless ( $engine ) {
 	say "No engine identified. Aborting.";
@@ -42,10 +48,19 @@ unless ( $engine ) {
 
 ### detect bundled dependencies ###
 
-### hand off to the module for the engine ###
+### setup (if needed) and build the launch command ###
 
 my $module = "IndieRunner::$engine";
-$module->parse_and_run();
+$module->setup();
+my $run_cmd = $module->run_cmd( $game_file );
+
+### Execute $run_cmd and log results/output ###
+
+say "Run Command: $run_cmd";
+my ($stdout, $stderr) = tee {
+	system( '/bin/sh', '-c', $run_cmd );
+};
+my $err_exit = $? >> 8;
 
 ### clean up ###
 
