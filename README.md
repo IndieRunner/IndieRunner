@@ -81,17 +81,18 @@ Platforms
 =========
 
 OpenBSD
-FreeBSD
-Linux
+FreeBSD (planned)
+NetBSD?
 Haiku?
+Linux?
 
 Dependencies
 ============
 
-Perl
-
-* File::Find::Rule
-* File::LibMagic
+Install Perl dependencies on OpenBSD:
+```
+# pkg_add p5-Archive-Extract p5-Capture-Tiny p5-File-Find-Rule p5-File-LibMagic p5-JSON p5-Path-Tiny p5-Readonly p5-Text-Glob
+```
 
 Platform Requirements
 =====================

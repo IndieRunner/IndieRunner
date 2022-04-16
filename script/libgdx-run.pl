@@ -401,7 +401,6 @@ sub run {
 	do_setup(@class_path) or die "Couldn't set up the game";
 
 	# build command and execute
-	# TODO: call JVM directly via PBJ::JNI or Jvm from CPAN; better portability?
 	@jvm_env	= (
 				"JAVA_HOME=$java_home",
 				"PATH=$java_home/bin:\$PATH"
