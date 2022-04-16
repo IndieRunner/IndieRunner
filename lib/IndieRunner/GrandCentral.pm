@@ -1,9 +1,12 @@
+package IndieRunner::GrandCentral;
+
 use version; our $VERSION = qv('0.0.1');
 use strict;
 use warnings;
 use Carp;
 
 use Readonly;
+use Text::Glob qw( match_glob );
 
 ###
 # Module to provide the main functions to pick and choose
@@ -37,6 +40,16 @@ Readonly::Hash my %Indicator_Files => (	# files that are indicative of a framewo
 	'MonoGame.Framework.dll'	=> 'MonoGame',
 	'MonoGame.Framework.dll.config'	=> 'MonoGame',
 );
+
+sub identify_engine {
+	my $file = shift;
+	foreach my $engine_pattern ( keys %Indicator_Files ) {
+		if ( match_glob( $engine_pattern, $file ) ) {
+			return $Indicator_Files{ $engine_pattern };
+		}
+	}
+	return '';
+}
 
 sub identify_native_runtime {
 }

@@ -10,22 +10,46 @@ use File::Find::Rule;
 use FindBin; use lib "$FindBin::Bin/../lib";
 use Pod::Usage;
 
+use IndieRunner::Godot;
 use IndieRunner::GrandCentral;
 
 ### process config & options ###
 
 my $verbose;	# flags
-
 GetOptions (	"help|h"	=> sub { pod2usage(1) },
 		"man"		=> sub { pod2usage(-exitval => 0, -verbose => 2) },
 		"verbose|v"	=> \$verbose,
-	) or pod2usage(2);
+	   )
+or pod2usage(2);
 
 ### detect game engine ###
+
+my $engine;
+my @files = File::Find::Rule->file()->in( '.' );
+
+foreach my $f ( @files ) {
+	$engine = IndieRunner::GrandCentral::identify_engine($f);
+	if ( $engine ) {
+		say "Engine: $engine";
+		last;
+	}
+}
+
+unless ( $engine ) {
+	say "No engine identified. Aborting.";
+	exit 1;
+}
 
 ### detect bundled dependencies ###
 
 ### hand off to the module for the engine ###
+
+my $module = "IndieRunner::$engine";
+$module->parse_and_run();
+
+### clean up ###
+
+exit;
 
 __END__
 
