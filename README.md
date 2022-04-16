@@ -80,11 +80,11 @@ Any of the above will lose the portability options if closed-source libraries ge
 Platforms
 =========
 
-OpenBSD
-FreeBSD (planned)
-NetBSD?
-Haiku?
-Linux?
+* OpenBSD
+* FreeBSD (planned)
+* NetBSD?
+* Haiku?
+* Linux?
 
 Dependencies
 ============
