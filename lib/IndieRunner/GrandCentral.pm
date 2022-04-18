@@ -41,6 +41,9 @@ Readonly::Hash my %Indicator_Files => (	# files that are indicative of a framewo
 	'liblwjgl_xxhash.so'		=> 'LWJGL3',
 	'MonoGame.Framework.dll'	=> 'MonoGame',
 	'MonoGame.Framework.dll.config'	=> 'MonoGame',
+	# TODO:	add detection for framework-less games
+	#	(Atom Zombie Smasher, Zachtronics games)
+	# TODO:	add detection for XNA games
 );
 
 Readonly::Hash my %Indicator_Bytes => (	# byte sequences that are indicative of a framework

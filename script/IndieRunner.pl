@@ -11,6 +11,7 @@ use File::Find::Rule;
 use FindBin; use lib "$FindBin::Bin/../lib";
 use Pod::Usage;
 
+use IndieRunner::FNA;
 use IndieRunner::Godot;
 use IndieRunner::GrandCentral;
 
@@ -42,7 +43,7 @@ foreach my $f ( @files ) {
 
 # 2nd Pass: Byte Sequences
 unless ( $engine ) {
-	say "Failed to identify game engine on first pass; attempting second pass (slower)."
+	say "Failed to identify game engine on first pass; attempting second pass (slower).";
 	foreach my $f ( @files ) {
 		$engine = IndieRunner::GrandCentral::identify_engine_bytes($f);
 		if ( $engine ) {
