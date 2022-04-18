@@ -12,9 +12,7 @@ Readonly::Scalar my $BIN => 'godot';
 
 sub run_cmd {
 	my ($self, $game_file) = @_;
-
 	my $main_pack = "--main-pack \"$game_file\"";
-
 	return join(' ', $BIN, $main_pack);
 }
 

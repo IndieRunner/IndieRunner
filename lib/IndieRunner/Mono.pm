@@ -13,4 +13,21 @@ use Readonly;
 
 Readonly::Scalar our $BIN => 'mono';
 
+Readonly::Array my @FILES2REMOVE => (
+	'I18N{,.*}.dll',
+	'Microsoft.*.dll',
+	'Mono.*.dll',
+	'System{,.*}.dll',
+	'libMonoPosixHelper.so*',
+	'monoconfig',
+	'monomachineconfig',
+	'mscorlib.dll',
+	);
+
+sub remove_mono_files {
+	foreach my $g ( @FILES2REMOVE ) {
+		say join( ' ', glob( $g ) ) || 'NONE';
+	}
+}
+
 1;
