@@ -1,14 +1,12 @@
 package IndieRunner::FNA;
 
+use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
 use v5.10;
-use version 0.77; our $VERSION = version->declare('v0.0.1');
-
 use Carp;
-use Readonly;
 
-Readonly::Scalar my $BIN => 'mono';
+use IndieRunner::Mono qw( $BIN );
 
 sub run_cmd {
 	my ($self, $game_file) = @_;
@@ -32,6 +30,8 @@ sub run_cmd {
 		'MONO_PATH='		. join( ':', @mono_path ),
 		);
 
+	say join( ' ', 'env', @env, $BIN, '"'.$exe[0].'"' );
+	exit;
 	return join( ' ', 'env', @env, $BIN, '"'.$exe[0].'"' );
 }
 
