@@ -13,7 +13,8 @@ use Pod::Usage;
 use IndieRunner::FNA;
 use IndieRunner::Godot;
 use IndieRunner::GrandCentral;
-use IndieRunner::Mono;
+use IndieRunner::Mono qw( get_mono_files );
+use IndieRunner::MonoGame;
 
 ### process config & options ###
 
@@ -49,6 +50,11 @@ foreach my $f ( @files ) {
 		say "Engine: $engine" if $verbose;
 		last;
 	}
+}
+
+# not FNA or MonoGame on 1st pass; check if it could still be Mono
+unless ( $engine ) {
+	$engine = 'Mono' if get_mono_files;
 }
 
 # 2nd Pass: Byte Sequences

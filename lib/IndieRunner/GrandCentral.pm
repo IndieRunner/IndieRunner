@@ -93,9 +93,6 @@ sub identify_engine_bytes {
 	return '';
 }
 
-sub identify_native_runtime {
-}
-
 1;
 __END__
 

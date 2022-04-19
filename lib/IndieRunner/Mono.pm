@@ -6,14 +6,14 @@ use v5.10;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use base qw( Exporter );
-our @EXPORT_OK = qw( $BIN remove_mono_files run_mono );
+our @EXPORT_OK = qw( get_mono_files );
 
 use Carp;
 use Readonly;
 
 Readonly::Scalar our $BIN => 'mono';
 
-Readonly::Array my @GLOBS2REMOVE => (
+Readonly::Array my @MONO_GLOBS => (
 	'I18N{,.*}.dll',
 	'Microsoft.*.dll',
 	'Mono.*.dll',
@@ -24,17 +24,17 @@ Readonly::Array my @GLOBS2REMOVE => (
 	'mscorlib.dll',
 	);
 
-sub remove_mono_files {
-	my @files2remove;
+sub get_mono_files {
+	my @mono_files;
 
-	foreach my $g ( @GLOBS2REMOVE ) {
-		push( @files2remove, glob( $g ) );
+	foreach my $g ( @MONO_GLOBS ) {
+		push( @mono_files, glob( $g ) );
 	}
-	unlink @files2remove;
+	return @mono_files;
 }
 
-sub run_mono {
-	my $game_file = shift;
+sub run_cmd {
+	my ($self, $game_file) = @_;
 
 	# TODO: check for quirks: eagle island, MONO_FORCE_COMPAT
 	# TODO: setup config (symlinks, MidBoss)
@@ -67,6 +67,11 @@ sub run_mono {
 		);
 
 	return join( ' ', 'env', @env, $BIN, '"'.$game_file.'"' );
+}
+
+sub setup {
+	unlink get_mono_files();
+	# XXX
 }
 
 1;
