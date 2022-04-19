@@ -11,8 +11,8 @@ use Readonly;
 Readonly::Scalar my $BIN => 'godot';
 
 sub run_cmd {
-	my ($self, $game_file) = @_;
-	my $main_pack = "--main-pack \"$game_file\"";
+	my ($self, $engine_id_file) = @_;
+	my $main_pack = "--main-pack \"$engine_id_file\"";
 	return join(' ', $BIN, $main_pack);
 }
 
