@@ -7,6 +7,7 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use Capture::Tiny ':all';
 use Getopt::Long;
+use File::Spec::Functions qw( splitpath );
 use FindBin; use lib "$FindBin::Bin/../lib";
 use Pod::Usage;
 
@@ -33,6 +34,12 @@ if ( $game_file ) {
 		say "No such file: $game_file";
 		exit 1;
 	}
+}
+
+# if $game_file contains directory, switch to that directory
+if ( $game_file ) {
+	my ($gf_volume, $gf_directories, $gf_file) = splitpath( $game_file );
+	chdir $gf_volume . $gf_directories if ( $gf_directories ) or die;
 }
 
 ### detect game engine ###
