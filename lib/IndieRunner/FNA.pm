@@ -6,7 +6,7 @@ use warnings;
 use v5.10;
 use Carp;
 
-use IndieRunner::Mono qw( $BIN );
+use IndieRunner::Mono qw( $BIN remove_mono_files );
 
 sub run_cmd {
 	my ($self, $game_file) = @_;
@@ -36,6 +36,7 @@ sub run_cmd {
 }
 
 sub setup {
+	remove_mono_files();
 	# XXX
 }
 

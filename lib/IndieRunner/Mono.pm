@@ -6,14 +6,14 @@ use v5.10;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use base qw( Exporter );
-our @EXPORT_OK = qw( $BIN );
+our @EXPORT_OK = qw( $BIN remove_mono_files );
 
 use Carp;
 use Readonly;
 
 Readonly::Scalar our $BIN => 'mono';
 
-Readonly::Array my @FILES2REMOVE => (
+Readonly::Array my @GLOBS2REMOVE => (
 	'I18N{,.*}.dll',
 	'Microsoft.*.dll',
 	'Mono.*.dll',
@@ -25,9 +25,12 @@ Readonly::Array my @FILES2REMOVE => (
 	);
 
 sub remove_mono_files {
-	foreach my $g ( @FILES2REMOVE ) {
-		say join( ' ', glob( $g ) ) || 'NONE';
+	my @files2remove;
+
+	foreach my $g ( @GLOBS2REMOVE ) {
+		push( @files2remove, glob( $g ) );
 	}
+	unlink @files2remove;
 }
 
 1;
