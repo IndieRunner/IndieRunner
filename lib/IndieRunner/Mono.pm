@@ -26,10 +26,16 @@ Readonly::Array my @MONO_GLOBS => (
 
 sub get_mono_files {
 	my @mono_files;
+	my @match;
 
 	foreach my $g ( @MONO_GLOBS ) {
-		push( @mono_files, glob( $g ) );
+		@match = glob( $g );
+		next unless @match;
+		if ( -f $match[0] ) {		# check that globbed files exist
+			push( @mono_files, @match );
+		}
 	}
+
 	return @mono_files;
 }
 
