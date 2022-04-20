@@ -14,6 +14,7 @@ use Pod::Usage;
 use IndieRunner::FNA;
 use IndieRunner::Godot;
 use IndieRunner::GrandCentral;
+use IndieRunner::HashLink;
 use IndieRunner::Mono qw( get_mono_files );
 use IndieRunner::MonoGame;
 
