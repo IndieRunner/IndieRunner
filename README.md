@@ -57,6 +57,7 @@ Opensource your Engine Code; Sell the Assets
 Examples:
 * Barony
 * idTech
+* Wolfire Games (Lugaru, Overgrowth)
 
 Use a ByteCode Framework that Relies on Opensource Native Libraries
 -------------------------------------------------------------------
