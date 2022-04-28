@@ -24,7 +24,9 @@ my ($dryrun, $verbose);	# flags
 GetOptions (	"help|h"	=> sub { pod2usage(1) },
 		"dryrun|d"	=> \$dryrun,
 		"man"		=> sub { pod2usage(-exitval => 0, -verbose => 2) },
+		"usage"		=> sub { pod2usage(-exitval => 0, -verbose => 1) },
 		"verbose|v"	=> \$verbose,
+		"version"	=> sub { say $VERSION; exit; },
 	   )
 or pod2usage(2);
 my $game_file = $ARGV[0];
@@ -86,6 +88,8 @@ unless ( $engine ) {
 
 ### detect bundled dependencies ###
 
+# XXX
+
 ### setup (if needed) and build the launch command ###
 
 my $module = "IndieRunner::$engine";
@@ -121,21 +125,29 @@ IndieRunner [options] [game file]
 
 =over 8
 
-=item B<-dryrun/-d>
+=item B<--dryrun/-d>
 
 Show command that would be run, but don't execute it. Skips setup, too.
 
-=item B<-help/-h>
+=item B<--help/-h>
 
 Print a brief help message.
 
-=item B<-man/-m>
+=item B<--man/-m>
 
 Prints the manual page and exits.
 
-=item B<-verbose/-v>
+=item B<--usage>
+
+Print short usage information.
+
+=item B<--verbose/-v>
 
 Enable verbose output.
+
+=item B<--version>
+
+Print version.
 
 =item B<game file>
 
