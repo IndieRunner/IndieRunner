@@ -120,7 +120,7 @@ IndieRunner [options] [file]
 
 =item B<--dryrun/-d>
 
-Show command that would be run, but don't execute it. Skips setup, too.
+Show actions that would be taken, without changing or executing anything.
 
 =item B<--help/-h>
 
@@ -128,7 +128,7 @@ Print a brief help message.
 
 =item B<--man/-m>
 
-Prints the manual page and exits.
+Print the manual page and exits.
 
 =item B<--usage>
 
