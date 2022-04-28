@@ -112,7 +112,7 @@ IndieRunner - Launch your indie games on more platforms
 
 =head1 SYNOPSIS
 
-IndieRunner [options] [game file]
+IndieRunner [options] [file]
 
 =head1 OPTIONS
 
@@ -142,7 +142,7 @@ Enable verbose output.
 
 Print version.
 
-=item B<game file>
+=item B<file>
 
 Specify the main game file and bypass autodetection. Optional.
 
