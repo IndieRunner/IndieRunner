@@ -6,13 +6,20 @@ use warnings;
 use v5.10;
 use Carp;
 
+use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+
 sub run_cmd {
 	my ($self, $engine_id_file, $game_file) = @_;
 	croak "Not implemented";
 }
 
 sub setup {
-	# XXX
+        my $dryrun = cli_dryrun;
+
+        foreach my $f ( glob( '*.hdll' ) ) {
+                say "Remove: $f" if ( $dryrun || cli_verbose );
+                unlink $f unless $dryrun;
+        }
 }
 
 1;

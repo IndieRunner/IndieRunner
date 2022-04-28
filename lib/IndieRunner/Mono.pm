@@ -11,6 +11,8 @@ our @EXPORT_OK = qw( get_mono_files );
 use Carp;
 use Readonly;
 
+use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+
 Readonly::Scalar our $BIN => 'mono';
 
 Readonly::Array my @MONO_GLOBS => (
@@ -76,8 +78,12 @@ sub run_cmd {
 }
 
 sub setup {
-	unlink get_mono_files();
-	# XXX
+	my $dryrun = cli_dryrun;
+
+	foreach my $f ( get_mono_files ) {
+		say "Remove: $f" if ( $dryrun || cli_verbose );
+		unlink $f unless $dryrun;
+	}
 }
 
 1;

@@ -6,11 +6,10 @@ use v5.10;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use Capture::Tiny ':all';
-use Getopt::Long;
 use File::Spec::Functions qw( splitpath );
 use FindBin; use lib "$FindBin::Bin/../lib";
-use Pod::Usage;
 
+use IndieRunner::Cmdline qw( cli_dryrun cli_file cli_verbose init_cli );
 use IndieRunner::FNA;
 use IndieRunner::Godot;
 use IndieRunner::GrandCentral;
@@ -20,28 +19,22 @@ use IndieRunner::MonoGame;
 
 ### process config & options ###
 
-my ($dryrun, $verbose);	# flags
-GetOptions (	"help|h"	=> sub { pod2usage(1) },
-		"dryrun|d"	=> \$dryrun,
-		"man"		=> sub { pod2usage(-exitval => 0, -verbose => 2) },
-		"usage"		=> sub { pod2usage(-exitval => 0, -verbose => 1) },
-		"verbose|v"	=> \$verbose,
-		"version"	=> sub { say $VERSION; exit; },
-	   )
-or pod2usage(2);
-my $game_file = $ARGV[0];
+init_cli;
+my $cli_file	= cli_file;
+my $dryrun	= cli_dryrun;
+my $verbose	= cli_verbose;
 
-# check that $game_file exists (can be globbed)
-if ( $game_file ) {
-	unless ( -f $game_file and ( $game_file eq glob( $game_file ) ) ) {
-		say "No such file: $game_file";
+# check that $cli_file exists (can be globbed)
+if ( $cli_file ) {
+	unless ( -f $cli_file and ( $cli_file eq glob( $cli_file ) ) ) {
+		say "No such file: $cli_file";
 		exit 1;
 	}
 }
 
-# if $game_file contains directory, switch to that directory
-if ( $game_file ) {
-	my ($gf_volume, $gf_directories, $gf_file) = splitpath( $game_file );
+# if $cli_file contains directory, switch to that directory
+if ( $cli_file ) {
+	my ($gf_volume, $gf_directories, $gf_file) = splitpath( $cli_file );
 	chdir $gf_volume . $gf_directories if ( $gf_directories ) or die;
 }
 
@@ -93,8 +86,8 @@ unless ( $engine ) {
 ### setup (if needed) and build the launch command ###
 
 my $module = "IndieRunner::$engine";
-$module->setup() unless $dryrun;
-my $run_cmd = $module->run_cmd( $engine_id_file, $game_file );
+$module->setup();
+my $run_cmd = $module->run_cmd( $engine_id_file, $cli_file );
 
 ### Execute $run_cmd and log results/output ###
 
