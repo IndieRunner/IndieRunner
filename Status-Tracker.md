@@ -14,6 +14,7 @@ Letters indicate which platform versions have been tested successfully:
 |-----------------------|-------|-------|-------|-------|-------|-------|---------------|
 |Axiom Verge		|FNA	|	|	|	|	|	|		|
 |Battlevoid Harbinger	|LibGDX	|	|	|	|	|	|no audio	|
-|Crystal Project	|FNA	|	|	|	|	|	|		|
+|Crystal Project	|FNA	|L	|	|	|	|	|		|
+|Mewnbase		|LibGDX	|	|	|	|	|	|		|
 |Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j	|
 |Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|		|
