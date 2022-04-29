@@ -7,6 +7,9 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use Carp;
 use Readonly;
 
+use base qw( Exporter );
+our @EXPORT_OK = qw( get_dllmap_target );
+
 Readonly::Scalar my $dllmap => <<"END_DLLMAP";
 <!-- IndieRunner monolithic config -->
 <configuration>
@@ -231,5 +234,14 @@ Readonly::Scalar my $dllmap => <<"END_DLLMAP";
 	</dllmap>
 </configuration>
 END_DLLMAP
+
+sub get_dllmap_target {
+	# XXX: check	CLI-supplied file (-c argument?)
+	#		~/.IndieRunner/IndieRunner.dllmap.config
+	#		/usr/local/share/IndieRunner/IndieRunner.dllmap.config
+
+	# TODO: change this to better infrastructure
+	return '/usr/local/share/fnaify/fnaify.dllmap.config';
+}
 
 1;

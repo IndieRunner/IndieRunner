@@ -9,9 +9,11 @@ use base qw( Exporter );
 our @EXPORT_OK = qw( get_mono_files );
 
 use Carp;
+use File::Path qw( make_path );
 use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+use IndieRunner::Mono::Dllmap qw( get_dllmap_target );
 
 Readonly::Scalar our $BIN => 'mono';
 
@@ -79,10 +81,45 @@ sub run_cmd {
 
 sub setup {
 	my $dryrun = cli_dryrun;
+	my $verbose = cli_verbose;
 
+	# remove system Mono assemblies
 	foreach my $f ( get_mono_files ) {
-		say "Remove: $f" if ( $dryrun || cli_verbose );
+		say "Remove: $f" if ( $dryrun || $verbose );
 		unlink $f unless $dryrun;
+	}
+
+	# set up all dllmap's in .config files
+	my $dllmap_target = get_dllmap_target;
+	my @configs = glob '*.config';
+	foreach my $c ( @configs ) {
+		my @name_parts = split( /\./, $c );
+		next if scalar( @name_parts ) < 3;	# too short, e.g. Xxx.config
+		pop @name_parts;
+		my $assembly_ext = pop @name_parts;
+		my $assembly_name = join( '.', @name_parts);
+		my $assembly_config_dir =
+			$ENV{'HOME'} .
+			'/.mono/assemblies/' .
+			$assembly_name . '/';
+		my $assembly_config_fullpath = $assembly_config_dir .
+			 $assembly_name . '.' . $assembly_ext .
+			'.' . 'config';
+		unless ( -d $assembly_config_dir ) {
+			say "Create: $assembly_config_dir"
+				if ( $dryrun || $verbose );
+			unless ( $dryrun ) {
+				make_path( $assembly_config_dir ) or croak;
+			}
+		}
+		unless ( -e $assembly_config_fullpath ) {
+			say "Symlink: $assembly_config_fullpath -> $dllmap_target"
+				if ( $dryrun || $verbose );
+			unless ( $dryrun ) {
+				symlink( $dllmap_target, $assembly_config_fullpath )
+					or croak;
+			}
+		}
 	}
 }
 
