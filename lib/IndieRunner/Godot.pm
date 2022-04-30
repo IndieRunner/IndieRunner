@@ -31,6 +31,7 @@ sub run_cmd {
 }
 
 sub setup {
+	my ($self) = @_;
 	# No setup needed.
 }
 

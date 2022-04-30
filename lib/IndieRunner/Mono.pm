@@ -94,6 +94,7 @@ sub run_cmd {
 }
 
 sub setup {
+	my ($self) = @_;
 	my $dryrun = cli_dryrun;
 	my $verbose = cli_verbose;
 

@@ -24,11 +24,12 @@ use IndieRunner::Mono;
 
 sub run_cmd {
 	my ($self, $engine_id_file, $game_file) = @_;
-	return IndieRunner::Mono::run_cmd( $game_file );
+	return IndieRunner::Mono->run_cmd( $game_file );
 }
 
 sub setup {
-	IndieRunner::Mono::setup();
+	my ($self) = @_;
+	IndieRunner::Mono->setup();
 	# XXX
 }
 
