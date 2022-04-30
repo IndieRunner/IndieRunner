@@ -38,14 +38,6 @@ my $cli_file	= cli_file;
 my $dryrun	= cli_dryrun;
 my $verbose	= cli_verbose;
 
-# check that $cli_file exists (can be globbed)
-if ( $cli_file ) {
-	unless ( -f $cli_file and ( $cli_file eq glob( $cli_file ) ) ) {
-		say "No such file: $cli_file";
-		exit 1;
-	}
-}
-
 # if $cli_file contains directory, switch to that directory
 if ( $cli_file ) {
 	die "No such file or directory: $cli_file" unless ( -e $cli_file );
@@ -57,6 +49,8 @@ if ( $cli_file ) {
 		chdir $gf_volume . $gf_directories if ( $gf_directories );
 	}
 }
+
+# XXX: process config file
 
 ### detect game engine ###
 
