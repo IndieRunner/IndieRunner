@@ -48,8 +48,14 @@ if ( $cli_file ) {
 
 # if $cli_file contains directory, switch to that directory
 if ( $cli_file ) {
-	my ($gf_volume, $gf_directories, $gf_file) = splitpath( $cli_file );
-	chdir $gf_volume . $gf_directories if ( $gf_directories ) or die;
+	die "No such file or directory: $cli_file" unless ( -e $cli_file );
+	if ( -d $cli_file ) {
+		chdir $cli_file;
+	}
+	else {
+		my ($gf_volume, $gf_directories, $gf_file) = splitpath( $cli_file );
+		chdir $gf_volume . $gf_directories if ( $gf_directories );
+	}
 }
 
 ### detect game engine ###

@@ -16,5 +16,6 @@ Letters indicate which platform versions have been tested successfully:
 |Battlevoid Harbinger	|LibGDX	|	|	|	|	|	|no audio	|
 |Crystal Project	|FNA	|L	|	|	|	|	|		|
 |Mewnbase		|LibGDX	|	|	|	|	|	|		|
+|Simona's Requiem	|Godot	|L	|	|	|	|	|		|
 |Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j	|
 |Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|		|
