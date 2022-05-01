@@ -85,10 +85,16 @@ sub find_bytes {
 sub identify_engine {
 	my $file = shift;
 
+	# standard detection by globbing for keys of %Indicator_Files
 	foreach my $engine_pattern ( keys %Indicator_Files ) {
 		if ( match_glob( $engine_pattern, $file ) ) {
 			return $Indicator_Files{ $engine_pattern };
 		}
+	}
+
+	# detect XNA
+	if ( -d '_CommonRedist/XNA' ) {
+		return 'XNA';
 	}
 
 	return '';
