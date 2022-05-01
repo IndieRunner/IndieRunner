@@ -70,7 +70,14 @@ foreach my $f ( @files ) {
 	}
 }
 
-# not FNA or MonoGame on 1st pass; check if it could still be Mono
+# detect XNA
+if ( -d '_CommonRedist/XNA' ) {
+	$engine = 'XNA';
+	$engine_id_file = '';
+	say "Engine: $engine" if $verbose;
+}
+
+# not FNA, XNA, or MonoGame on 1st pass; check if it could still be Mono
 unless ( $engine ) {
 	$engine = 'Mono' if get_mono_files;
 }

@@ -92,11 +92,6 @@ sub identify_engine {
 		}
 	}
 
-	# detect XNA
-	if ( -d '_CommonRedist/XNA' ) {
-		return 'XNA';
-	}
-
 	return '';
 }
 
