@@ -109,18 +109,28 @@ unless ( $engine ) {
 
 my $module = "IndieRunner::$engine";
 $module->setup();
-my $run_cmd = $module->run_cmd( $engine_id_file, $cli_file );
+my @run_cmd = $module->run_cmd( $engine_id_file, $cli_file );
 
-### Execute $run_cmd and log results/output ###
+### Execute @run_cmd and log results/output ###
 
-say 'Run Command:' unless $dryrun;
-print "\t" unless $dryrun;
-say "$run_cmd";
+print "Run Command:\n\t" unless $dryrun;
+say join( ' ', @run_cmd );	# XXX: use quotation to make whitespace clear
 exit 0 if $dryrun;
 my ($stdout, $stderr) = tee {
-	system( '/bin/sh', '-c', $run_cmd );
+	system( @run_cmd );
 };
-my $err_exit = $? >> 8;
+
+# report if error occurred
+if ($? == -1) {
+	say "failed to execute: $!";
+}
+elsif ($? & 127) {
+	printf "child died with signal %d, %s coredump\n",
+		($? & 127),  ($? & 128) ? 'with' : 'without';
+}
+else {
+	printf "child exited with value %d\n", $? >> 8;
+}
 
 ### clean up ###
 

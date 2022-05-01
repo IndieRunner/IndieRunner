@@ -255,7 +255,7 @@ sub get_dllmap_target {
 	#		/usr/local/share/IndieRunner/IndieRunner.dllmap.config
 
 	# TODO: change this to better infrastructure
-	return '/usr/local/share/fnaify/fnaify.dllmap.config';
+	return '/home/thfr/cvs/projects/fnaify/fnaify.dllmap.config';
 }
 
 1;
