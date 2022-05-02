@@ -20,7 +20,7 @@ use v5.10;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use base qw( Exporter );
-our @EXPORT_OK = qw( get_mono_files );
+our @EXPORT_OK = qw( get_assembly_version get_mono_files );
 
 use Carp;
 use File::Path qw( make_path );
@@ -56,6 +56,18 @@ sub get_mono_files {
 	}
 
 	return @mono_files;
+}
+
+sub get_assembly_version {
+        my ($assembly_file) = @_;
+
+        my $monodis_info = qx( monodis --assembly $assembly_file );
+        if ( $monodis_info =~ /\nVersion:\s+([0-9\.]+)/ ) {
+	        return $1;
+        }
+        else {
+		return '';
+        }
 }
 
 sub run_cmd {

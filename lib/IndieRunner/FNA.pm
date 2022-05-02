@@ -20,7 +20,15 @@ use warnings;
 use v5.10;
 use Carp;
 
-use IndieRunner::Mono;
+use File::Copy qw( copy );
+use Readonly;
+
+use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+use IndieRunner::Mono qw( get_assembly_version );
+
+# $FNA_MIN_VERSION depends on the version of the native support libraries
+Readonly::Scalar my $FNA_MIN_VERSION => version->parse( '19.2' );
+Readonly::Scalar my $FNA_REPLACEMENT => '/usr/local/share/FNA/FNA.dll';
 
 sub run_cmd {
 	my ($self, $engine_id_file, $game_file) = @_;
@@ -29,8 +37,41 @@ sub run_cmd {
 
 sub setup {
 	my ($self) = @_;
+	my $dryrun = cli_dryrun();
+	my $verbose = cli_verbose();
+	my $fna_file = 'FNA.dll';
+
 	IndieRunner::Mono->setup();
-	# XXX
+
+	# check if FNA version needs to be replaced
+	my $fna_bundled_version = version->parse( get_assembly_version( $fna_file ) )
+		or croak "Failed to get version of $fna_file";
+	my $fna_replacement_version = '';
+	if ( $fna_bundled_version < $FNA_MIN_VERSION ) {
+		# check if replacement FNA can be used
+		if ( -f $FNA_REPLACEMENT ) {
+			$fna_replacement_version =
+				version->parse( get_assembly_version( $FNA_REPLACEMENT ) );
+		}
+		unless ( $fna_replacement_version &&
+			$fna_replacement_version >= $FNA_MIN_VERSION ) {
+			say "No FNA.dll found with version >= $FNA_MIN_VERSION";
+			exit 1;
+		}
+		else {
+			say "Replace: $fna_file $fna_bundled_version " .
+				"=> $fna_file $fna_replacement_version"
+				if ( $dryrun || $verbose );
+			unless ( $dryrun ) {
+				unlink $fna_file or croak;
+				copy( $FNA_REPLACEMENT, $fna_file )
+					or croak "Copy failed: $!";
+			}
+		}
+	}
+	else {
+		say "FNA.dll version ok: $fna_bundled_version" if $verbose;
+	}
 }
 
 1;
