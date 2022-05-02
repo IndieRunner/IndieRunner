@@ -32,8 +32,7 @@ use IndieRunner::Mono qw( get_mono_files );
 use IndieRunner::MonoGame;
 use IndieRunner::XNA;
 
-### process config & options ###
-
+# process config & options
 init_cli;
 my $cli_file	= cli_file;
 my $dryrun	= cli_dryrun;
@@ -53,8 +52,7 @@ if ( $cli_file ) {
 
 # XXX: process config file
 
-### detect game engine ###
-
+# detect game engine
 my $engine;
 my $engine_id_file;
 my @files = glob '*';
@@ -101,39 +99,39 @@ unless ( $engine ) {
 	exit 1;
 }
 
-### detect bundled dependencies ###
+# XXX: detect bundled dependencies
 
-# XXX
-
-### setup (if needed) and build the launch command ###
-
+# setup and build launch command
 my $module = "IndieRunner::$engine";
 $module->setup();
 my @run_cmd = $module->run_cmd( $engine_id_file, $cli_file );
 
-### Execute @run_cmd and log results/output ###
-
-print "Run Command:\n\t" unless $dryrun;
-say join( ' ', @run_cmd );	# XXX: use quotation to make whitespace clear
+# Execute @run_cmd and log output
+print "Launching Application:\n\t" unless $dryrun;
+say join( ' ', @run_cmd ) . ( ( $dryrun ) ? '' : "\n" );
 exit 0 if $dryrun;
 my ($stdout, $stderr) = tee {
 	system( @run_cmd );
 };
 
 # report if error occurred
-if ($? == -1) {
+if ( $? == 0 ) {
+	say 'Application exited without errors' if $verbose;
+}
+elsif ( $? == -1 ) {
 	say "failed to execute: $!";
 }
-elsif ($? & 127) {
+elsif ( $? & 127 ) {
 	printf "child died with signal %d, %s coredump\n",
-		($? & 127),  ($? & 128) ? 'with' : 'without';
+		( $? & 127 ),  ( $? & 128 ) ? 'with' : 'without';
 }
 else {
 	printf "child exited with value %d\n", $? >> 8;
 }
 
-### clean up ###
+# XXX: inspect $stdout, $stderr
 
+# clean up (if needed) and exit
 exit;
 
 __END__

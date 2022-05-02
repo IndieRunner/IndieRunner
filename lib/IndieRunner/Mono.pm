@@ -87,11 +87,11 @@ sub run_cmd {
 		);
 	my @env = (
 		'LD_LIBRARY_PATH='	. join( ':', @ld_library_path ),
-		'MONO_CONFIG='		. get_dllmap_target;
+		'MONO_CONFIG='		. get_dllmap_target(),
 		'MONO_PATH='		. join( ':', @mono_path ),
 		);
 
-	return ( 'env', @env, $BIN, '"'.$game_file.'"' );
+	return ( 'env', @env, $BIN, $game_file );
 }
 
 sub setup {
