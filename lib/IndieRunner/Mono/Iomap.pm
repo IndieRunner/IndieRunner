@@ -37,6 +37,9 @@ Readonly::Hash my %iomap => {
 		[ 'HitSparks', 'Content/Sprites/Hitsparks' ],
 		[ 'preFabs.awx', 'Content/Data/prefabs.awx' ],
 		],
+	'AtTheGates.exe' => [
+		[ '../../Components/GraphicalButtons/Pillage_64.xnb', 'Content/Images/Interface/Icons/Concepts/Pillage.xnb' ],
+		],
 	'CSTW.exe' => [
 		[ 'paws_Happy.xnb', 'Content/Portrait/Paws/Paws_Happy.xnb' ],
 		],

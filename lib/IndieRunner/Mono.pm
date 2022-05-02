@@ -28,6 +28,7 @@ use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 use IndieRunner::Mono::Dllmap qw( get_dllmap_target );
+use IndieRunner::Mono::Iomap qw( iomap_symlink );
 
 Readonly::Scalar our $BIN => 'mono';
 
@@ -103,6 +104,11 @@ sub setup {
 	foreach my $f ( get_mono_files ) {
 		say "Remove: $f" if ( $dryrun || $verbose );
 		unlink $f unless $dryrun;
+	}
+
+	# to make up for mono's lost MONO_IOMAP, call iomap_symlink
+	foreach my $f ( glob '*' ) {
+		last if iomap_symlink( $f );
 	}
 }
 

@@ -24,7 +24,6 @@ use File::Find::Rule;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 use IndieRunner::Mono;
-use IndieRunner::Mono::Iomap qw( iomap_symlink );
 
 sub run_cmd {
 	my ($self, $engine_id_file, $game_file) = @_;
@@ -67,11 +66,6 @@ sub setup {
 			system( @ffmpeg_cmd ) == 0 or
 				croak "system @ffmpeg_cmd failed: $?";
 		}
-	}
-
-	# to make up for mono's lost MONO_IOMAP, call iomap_symlink
-	foreach my $f ( glob '*' ) {
-		last if iomap_symlink( $f );
 	}
 }
 
