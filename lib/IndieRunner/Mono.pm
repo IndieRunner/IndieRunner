@@ -67,9 +67,9 @@ sub run_cmd {
 	unless ( $game_file ) {
 		my @exe = glob "*.exe";
 		if ( scalar @exe > 1 ) {
-			say 'More than one .exe file found:';
+			say "\nMore than one .exe file found:";
 			say join( ' ', @exe );
-			say 'In this case, you must specify the main assembly (for mono)';
+			say 'In this case, you must specify the main mono assembly.';
 			say "Example: $0 [options] $exe[0]";
 			exit 1;
 		}
