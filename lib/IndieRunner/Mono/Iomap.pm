@@ -21,30 +21,32 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use Carp;
 use Readonly;
 
-#use base qw( Exprter );
-#our @EXPORT_OK =qw( get_dllmap_target );
+use base qw( Exporter );
+our @EXPORT_OK =qw( iomap_symlink );
 
-Readonly::Hash m %iomap => {
-	'AJ1.exe' => (
+use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+
+Readonly::Hash my %iomap => {
+	'AJ1.exe' => [
 		[ 'j_rip.xnb', 'Content/AJ1/j_Rip.xnb' ],
 		[ 'j_rip.xnb', 'Content/AJ2/j_Rip.xnb' ],
 		[ 'Owlturnneo2.xnb', 'Content/AJ1/owlturnneo2.xnb' ],
 		[ 'Owlturnneo2.xnb', 'Content/AJ2/owlturnneo2.xn' ],
-		),
-	'Aces Wild.exe' => (
+		],
+	'Aces Wild.exe' => [
 		[ 'HitSparks', 'Content/Sprites/Hitsparks' ],
 		[ 'preFabs.awx', 'Content/Data/prefabs.awx' ],
-		),
-	'CSTW.exe' => (
+		],
+	'CSTW.exe' => [
 		[ 'paws_Happy.xnb', 'Content/Portrait/Paws/Paws_Happy.xnb' ],
-		),
-	'CameraObscura.exe' => (
+		],
+	'CameraObscura.exe' => [
 		[ 'enemies', 'Content/Enemies' ],
 		[ 'buttons', 'Content/Buttons' ],
 		[ 'ui', 'Content/UI' ],
 		[ 'particle', 'Content/Particle' ],
-		),
-	'DLC.exe' => (
+		],
+	'DLC.exe' => [
 		[ '../../campaigns/dlcquest/texture/awardmentSpriteSheet.xnb', 'Content/base/texture/awardmentSpriteSheet.xnb' ],
 		[ '../../campaigns/dlcquest/texture/dlcSpriteSheet.xnb', 'Content/base/texture/dlcSpriteSheet.xnb' ],
 		[ '../../campaigns/dlcquest/data/map', 'Content/base/data/map' ],
@@ -63,8 +65,8 @@ Readonly::Hash m %iomap => {
 		[ '../../../campaigns/dlcquest/data/npc/gunsmith.xnb', 'Content/base/data/npc/gunsmith.xnb' ],
 		[ '../../../campaigns/dlcquest/data/npc/princess.xnb', 'Content/base/data/npc/princess.xnb' ],
 		[ '../../../campaigns/dlcquest/data/npc/horse.xnb', 'Content/base/data/npc/horse.xnb' ],
-		),
-	'Dead Pixels.exe' => (
+		],
+	'Dead Pixels.exe' => [
 		[ 'Sprites', 'Content/sprites' ],
 		[ 'Effects', 'Content/Sprites/effects' ],
 		[ 'Splash', 'Content/Sprites/splash' ],
@@ -96,8 +98,8 @@ Readonly::Hash m %iomap => {
 		[ 'effects', 'Content/Sprites/Effects' ],
 		[ 'cuemark.xnb', 'Content/Sprites/effects/cueMark.xnb' ],
 		[ 'Static.xnb', 'Content/Sprites/Menu/Preview/static.xnb' ],
-		),
-	'EvilQuest.exe' => (
+		],
+	'EvilQuest.exe' => [
 		[ 'Weapons', 'Content/weapons' ],
 		[ 'DialogWindow.xnb', 'Content/HUD/dialogWindow.xnb' ],
 		[ 'SpellSprites', 'Content/spellSprites' ],
@@ -148,8 +150,8 @@ Readonly::Hash m %iomap => {
 		[ 'Prison1.xnb', 'Content/PRISON1.xnb' ],
 		[ 'Items.xml', 'Data/items.dat' ],
 		[ 'NPCs.xml', 'Data/NPCS.dat' ],
-		),
-	'Grand Class Melee.exe' => (
+		],
+	'Grand Class Melee.exe' => [
 		[ 'water.xnb', 'Content/Sounds/Water.xnb' ],
 		[ 'grass.xnb', 'Content/Sounds/Grass.xnb' ],
 		[ 'move.xnb', 'Content/Sounds/Move.xnb' ],
@@ -183,8 +185,8 @@ Readonly::Hash m %iomap => {
 		[ 'sword1.xnb', 'Content/Sounds/Sword1.xnb' ],
 		[ 'frame_ingame_right_dune.xnb', 'Content/Textures/Menu/frame_ingame_right_Dune.xnb' ],
 		[ 'staff1.xnb', 'Content/Sounds/Staff1.xnb' ],
-		),
-	'HELLYEAH.exe' => (
+		],
+	'HELLYEAH.exe' => [
 		[ 'QuadNoir.xnb', 'Content/QUADNOIR.xnb' ],
 		[ 'QuadBlanc.xnb', 'Content/QUADBLANC.xnb' ],
 		[ 'TRANS_Mask.xnb', 'Content/TRANS_MASK.xnb' ],
@@ -268,16 +270,16 @@ Readonly::Hash m %iomap => {
 		[ 'TITLE_LogoMask.xnb', 'Content/TITLE/TITLE_LOGOMASK.xnb' ],
 		[ 'TITLE_Background.xnb', 'Content/TITLE/TITLE_BACKGROUND.xnb' ],
 		[ 'TITLE_Select.xnb', 'Content/TITLE/TITLE_SELECT.xnb' ],
-		),
-	'HonourRuns.exe' => (
+		],
+	'HonourRuns.exe' => [
 		[ 'Sprites', 'Content/sprites' ],
 		[ 'Textures', 'Content/textures' ],
 		[ 'Levels', 'Content/levels' ],
-		),
-	'LaserCat.exe' => (
+		],
+	'LaserCat.exe' => [
 		[ 'audio', 'Content/Audio' ],
-		),
-	'MountYourFriends.exe' => (
+		],
+	'MountYourFriends.exe' => [
 		[ 'menuBg.xnb', 'Content/images/menubg.xnb' ],
 		[ 'humanClean.xnb', 'Content/images/humanclean.xnb' ],
 		[ 'humanCleanNorm.xnb', 'Content/images/humancleannorm.xnb' ],
@@ -289,23 +291,23 @@ Readonly::Hash m %iomap => {
 		[ 'BP3_SSTRIP_64.xnb', 'Content/images/bp3_sstrip_64.xnb' ],
 		[ 'BP3_SSTRIP_32.xnb', 'Content/images/bp3_sstrip_32.xnb' ],
 		[ 'keySheet.xnb', 'Content/images/keysheet.xnb' ],
-		),
-	'One Finger Death Punch.exe' => (
+		],
+	'One Finger Death Punch.exe' => [
 		[ 'font2.xnb', 'Content/Font2.xnb' ],
 		[ 'font5.xnb', 'Content/Font5.xnb' ],
 		[ 'font6.xnb', 'Content/Font6.xnb' ],
-		),
-	'POOF.exe' => (
+		],
+	'POOF.exe' => [
 		[ 'QuadNoir.xnb', 'Content/QUADNOIR.xnb' ],
 		[ 'QuadBlanc.xnb', 'Content/QUADBLANC.xnb' ],
 		[ 'TRANS_Mask.xnb', 'Content/TRANS_MASK.xnb' ],
-		),
-	'PhoenixForce.exe' => (
+		],
+	'PhoenixForce.exe' => [
 		[ 'LIfeBar.xnb', 'Content/1.4/Boss/lifeBar.xnb' ],
 		[ 'firewavexml.xml', 'Content/1.4/Player/fireWavexml.xml' ],
 		[ 'firewave.xnb', 'Content/1.4/Player/fireWave.xnb' ],
-		),
-	'SSGame.exe' => (
+		],
+	'SSGame.exe' => [
 		# SSDD and SSDDXXL have the same named SSGame.exe
 		# SSDDXXL
 		[ 'HUD_ShopBackground.xnb', 'Content/textures/menus/HUD_Shopbackground.xnb' ],
@@ -314,23 +316,45 @@ Readonly::Hash m %iomap => {
 		[ 'LEVEL1.xnb', 'Content/levels/level1.xnb' ],
 		# SSDD
 		[ 'FRONT.xnb', 'Content/levels/front.xnb' ],
-		),
-	'Snails.exe' => (
+		],
+	'Snails.exe' => [
 		[ 'ScreensData.xnb', 'Content/screens/screensdata.xnb' ],
 		[ 'footerMessage.xnb', 'Content/fonts/footermessage.xnb' ],
 		[ 'MainMenu.xnb', 'Content/screens/mainmenu.xnb' ],
 		[ 'UISnailsMenu.xnb', 'Content/screens/controls/uisnailsmenu.xnb' ],
 		[ 'UIMainMenuBodyPanel.xnb', 'Content/screens/controls/uimainmenubodypanel.xnb' ],
-		),
-	'Streets of Fury EX.exe' => (
+		],
+	'Streets of Fury EX.exe' => [
 		[ 'ShockWave.xnb', 'Content/Texture2D/Shockwave.xnb' ],
-		),
-	'TheFallOfGods2.exe' => (
+		],
+	'TheFallOfGods2.exe' => [
 		[ 'Data', 'Content/data' ],
-		),
-	'ThePit.exe' => (
+		],
+	'ThePit.exe' => [
 		[ 'UI', 'Content/ui' ],
-		),
-	}; 
+		],
+	};
+
+sub iomap_symlink {
+	my ($index_file) = @_;
+	my $dryrun = cli_dryrun();
+	my $verbose = cli_verbose();
+
+	return 0 unless ( grep( /^\Q$index_file\E$/, keys %iomap ) );
+	say "Found $index_file; create symlinks to make up for abandoned MONO_IOMAP"
+		if $verbose;
+
+	foreach my $symlink_pair ( @{ $iomap{ $index_file } } ) {
+		my ($oldfile, $newfile) = @{ $symlink_pair };
+		next if ( -l $newfile );
+		say "Symlink: $newfile -> $oldfile" if ( $dryrun || $verbose );
+		unless ( $dryrun ) {
+			symlink($oldfile, $newfile) or
+				croak "Failed to create symlink $newfile: $!";
+		}
+	}
+
+	return 1;
+}
 
 1;
