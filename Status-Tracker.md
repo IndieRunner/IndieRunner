@@ -14,9 +14,13 @@ Letters indicate which platform versions have been tested successfully:
 |-----------------------|-------|-------|-------|-------|-------|-------|---------------|
 |Akane the Kunoichi	|XNA	|W	|	|	|	|	|		|
 |Amazing Princess Sarah	|XNA	|W	|	|	|	|	|		|
-|Axiom Verge		|FNA	|	|	|	|	|	|		|
+|Apotheon		|FNA	|L	|	|	|	|	|		|
+|Apple Jack 1&2		|XNA	|W	|	|	|	|	|		|
+|Atom Zombie Smasher	|Mono	|L
+|Axiom Verge		|FNA	|	|	|	|1.51	|	|1.51 dies on exit; 1.54 on Steam works with fnaify, but not IndieRunner	|
 |Battlevoid Harbinger	|LibGDX	|	|	|	|	|	|no audio	|
 |Crystal Project	|FNA	|L	|	|	|	|	|		|
+|Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|FNA 22.1	|
 |Mewnbase		|LibGDX	|	|	|	|	|	|		|
 |Simona's Requiem	|Godot	|L	|	|	|	|	|		|
 |Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j	|
