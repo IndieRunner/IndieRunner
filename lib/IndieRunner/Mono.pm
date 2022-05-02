@@ -61,7 +61,7 @@ sub run_cmd {
 	my ($self, $game_file) = @_;
 
 	# TODO: check for quirks: eagle island, MONO_FORCE_COMPAT
-	# TODO: setup config (symlinks, MidBoss)
+	# TODO: setup custom config for MidBoss
 
 	# determine which file is the main assembly for mono
 	unless ( $game_file ) {

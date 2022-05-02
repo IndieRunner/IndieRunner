@@ -12,6 +12,8 @@ Letters indicate which platform versions have been tested successfully:
 
 |Game			|Module	|Steam	|GOG	|itch.io|Epic	|Other	|Comments	|
 |-----------------------|-------|-------|-------|-------|-------|-------|---------------|
+|Akane the Kunoichi	|XNA	|W	|	|	|	|	|		|
+|Amazing Princess Sarah	|XNA	|W	|	|	|	|	|		|
 |Axiom Verge		|FNA	|	|	|	|	|	|		|
 |Battlevoid Harbinger	|LibGDX	|	|	|	|	|	|no audio	|
 |Crystal Project	|FNA	|L	|	|	|	|	|		|
