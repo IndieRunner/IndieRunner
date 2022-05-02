@@ -20,10 +20,12 @@ Letters indicate which platform versions have been tested successfully:
 |Axiom Verge		|FNA	|	|	|	|1.51	|	|1.51 dies on exit; 1.54 on Steam works with fnaify, but not IndieRunner	|
 |Battlevoid Harbinger	|LibGDX	|	|	|	|	|	|no audio	|
 |Bleed			|FNA	|	|	|	|	|Humble:L|		|
+|Bleed 2		|FNA	|	|	|	|	|	|Error (Steam-related)	|
 |Breath of Death VII	|XNA	|W	|	|	|	|	|		|
 |Crystal Project	|FNA	|L	|	|	|	|	|		|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|FNA 22.1	|
 |Mewnbase		|LibGDX	|	|	|	|	|	|		|
+|Owlboy			|FNA	|L	|	|	|	|	|GOG version 1.3 not working	|
 |Simona's Requiem	|Godot	|L	|	|	|	|	|		|
 |Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j	|
 |Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|		|
