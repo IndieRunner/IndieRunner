@@ -107,14 +107,15 @@ $module->setup();
 my @run_cmd = $module->run_cmd( $engine_id_file, $cli_file );
 
 # Execute @run_cmd and log output
-print "Launching Application:\n\t" unless $dryrun;
-say join( ' ', @run_cmd ) . ( ( $dryrun ) ? '' : "\n" );
-exit 0 if $dryrun;
+say 'Launching child process:' unless $dryrun;
+say join( ' ', @run_cmd );
+$dryrun ? exit 0 : say '';
 my ($stdout, $stderr) = tee {
 	system( @run_cmd );
 };
 
 # report if error occurred
+say '';
 if ( $? == 0 ) {
 	say 'Application exited without errors' if $verbose;
 }
