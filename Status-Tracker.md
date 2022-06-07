@@ -26,10 +26,12 @@ Letters indicate which platform versions have been tested successfully:
 |Capsized		|MonoGame|	|L	|	|	|	|		|
 |Celeste		|FNA	|	|	|L	|	|	|no audio	|
 |Crystal Project	|FNA	|L	|	|	|	|	|		|
+|Dead Cells		|HashLink|	|L	|	|	|	|		|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|FNA 22.1	|
 |Mewnbase		|LibGDX	|	|	|	|	|	|		|
 |Owlboy			|FNA	|L	|	|	|	|	|GOG version 1.3 not working|
 |Planetfriend		|FNA	|	|	|L	|	|	|SDL_PLATFORM=Linux|
 |Simona's Requiem	|Godot	|L	|	|	|	|	|		|
 |Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j	|
+|TowerFall: Ascension	|FNA	|	|	|L	|	|	|SDL_PLATFORM=Linux|
 |Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|steamworks4j		|

@@ -18,12 +18,20 @@ use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
 use v5.10;
+
 use Carp;
+use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 
+Readonly::Scalar my $BIN => 'hl';
+
 sub run_cmd {
 	my ($self, $engine_id_file, $game_file) = @_;
+	if ( -e 'hlboot.dat' ) {
+		return ( $BIN, 'hlboot.dat' );
+	}
+
 	croak "Not implemented";
 	# XXX: return array for system
 }
