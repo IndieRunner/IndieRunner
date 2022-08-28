@@ -335,6 +335,10 @@ Readonly::Hash my %iomap => {
 		],
 	'ThePit.exe' => [
 		[ 'UI', 'Content/ui' ],
+		[ 'm_security_bot_C_sprites.xnb', 'Content/characters/enemies/security_bot/m_security_bot_c_sprites.xnb' ],
+		],
+	'WagonAdventure.exe' => [
+		[ 'CRT.xnb', 'Content/FX/Crt.xnb' ],
 		],
 	};
 
