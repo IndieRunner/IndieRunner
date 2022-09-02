@@ -340,6 +340,9 @@ Readonly::Hash my %iomap => {
 	'WagonAdventure.exe' => [
 		[ 'CRT.xnb', 'Content/FX/Crt.xnb' ],
 		],
+	'WoCGame.exe' => [
+		[ 'Arial14.xnb', 'Content/fonts/arial14.xnb' ],
+		],
 	};
 
 sub iomap_symlink {
