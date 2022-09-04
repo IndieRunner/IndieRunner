@@ -63,7 +63,7 @@ sub setup {
 				"=> $fna_file $fna_replacement_version"
 				if ( $dryrun || $verbose );
 			unless ( $dryrun ) {
-				unlink $fna_file or croak;
+				rename $fna_file, $fna_file . '_' or croak;
 				copy( $FNA_REPLACEMENT, $fna_file )
 					or croak "Copy failed: $!";
 			}

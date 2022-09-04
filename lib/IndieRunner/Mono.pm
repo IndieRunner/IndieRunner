@@ -114,8 +114,8 @@ sub setup {
 
 	# remove system Mono assemblies
 	foreach my $f ( get_mono_files ) {
-		say "Remove: $f" if ( $dryrun || $verbose );
-		unlink $f unless $dryrun;
+		say "Rename: ${f} => ${f}_" if ( $dryrun || $verbose );
+		rename $f, $f . '_' unless $dryrun;
 	}
 
 	# to make up for mono's lost MONO_IOMAP, call iomap_symlink

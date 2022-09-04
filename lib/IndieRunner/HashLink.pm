@@ -41,8 +41,8 @@ sub setup {
         my $dryrun = cli_dryrun;
 
         foreach my $f ( glob( '*.hdll' ) ) {
-                say "Remove: $f" if ( $dryrun || cli_verbose );
-                unlink $f unless $dryrun;
+                say "Rename: ${f} => ${f}_" if ( $dryrun || cli_verbose );
+                rename $f, $f . '_' unless $dryrun;
         }
 }
 

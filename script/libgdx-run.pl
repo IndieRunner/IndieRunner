@@ -314,7 +314,7 @@ sub replace_lib {
 	}
 
 	# symlink to syslib
-	unlink ( $lib ) or die "failed to unlink '$lib': $!";
+	rename $lib, $lib . '_' or die "failed to rename '${lib}' -> '${lib}_': $!";
 	say "symlink => $syslib";
 	symlink ( $syslib, $lib ) or die "failed to create symlink: $!";
 

@@ -13,7 +13,7 @@ Letters indicate which platform versions have been tested successfully:
 |Game			|Module	|Steam	|GOG	|itch.io|Epic	|Other	|Comments	|
 |-----------------------|-------|-------|-------|-------|-------|-------|---------------|
 |Akane the Kunoichi	|XNA	|W	|	|	|	|	|		|
-|Amazing Princess Sarah	|XNA	|W	|	|	|	|	|		|
+|Amazing Princess Sarah	|XNA	|~~W~~	|	|	|	|	|iomap error when loading level	|
 |Apotheon		|FNA	|L	|	|	|	|	|		|
 |Apple Jack 1&2		|XNA	|W	|	|	|	|	|		|
 |Atom Zombie Smasher	|Mono	|L

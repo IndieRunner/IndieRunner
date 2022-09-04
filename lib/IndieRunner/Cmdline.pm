@@ -31,7 +31,7 @@ my $verbose	= 0;
 
 sub init_cli {
 	Getopt::Long::Configure ("bundling");
-	GetOptions (    "help"          => sub { pod2usage(-exitval => 0, -verbose => 1) },
+	GetOptions (    "help|h"          => sub { pod2usage(-exitval => 0, -verbose => 1) },
 			"dryrun|d"      => \$dryrun,
 			"man"           => sub { pod2usage(-exitval => 0, -verbose => 2) },
 			"usage"         => sub { pod2usage(-exitval => 0, -verbose => 0) },
