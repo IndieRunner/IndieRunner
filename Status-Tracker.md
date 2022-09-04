@@ -16,8 +16,8 @@ Letters indicate which platform versions have been tested successfully:
 |Amazing Princess Sarah	|XNA	|	|	|	|	|	|iomap error when loading level	|
 |Apotheon		|FNA	|L	|	|	|	|	|		|
 |Apple Jack 1&2		|XNA	|W	|	|	|	|	|		|
-|Atom Zombie Smasher	|Mono	|L
-|Axiom Verge		|FNA	|	|	|	|1.51	|	|1.51 dies on exit; 1.54 on Steam works with fnaify, but not IndieRunner (fails to initialize SteamAPI)|
+|Atom Zombie Smasher	|Mono	|L	|	|	|	|	|		|
+|Axiom Verge		|FNA	|L(1.56)|	|	|1.51	|	|		|
 |Battlevoid Harbinger	|LibGDX	|	|	|	|	|	|no audio	|
 |Bleed			|FNA	|	|	|	|	|Humble:L|		|
 |Bleed 2		|FNA	|L	|	|	|	|	|		|
@@ -27,7 +27,7 @@ Letters indicate which platform versions have been tested successfully:
 |Celeste		|FNA	|	|	|L	|	|	|no audio	|
 |Crystal Project	|FNA	|L	|	|	|	|	|		|
 |Dead Cells		|HashLink|	|L	|	|	|	|		|
-|Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|FNA 22.1	|
+|Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
 |Mewnbase		|LibGDX	|	|	|	|	|	|		|
 |Owlboy			|FNA	|L	|L	|	|	|	|		|
 |Planetfriend		|FNA	|	|	|L	|	|	|		|
