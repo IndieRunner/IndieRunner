@@ -40,6 +40,7 @@ sub setup {
 	my $dryrun = cli_dryrun();
 	my $verbose = cli_verbose();
 	my $fna_file = 'FNA.dll';
+	my $fna_config_file = 'FNA.dll.config';
 
 	IndieRunner::Mono->setup();
 
@@ -59,8 +60,8 @@ sub setup {
 			exit 1;
 		}
 		else {
-			say "Replace: $fna_file $fna_bundled_version " .
-				"=> $fna_file $fna_replacement_version"
+			say "Replace: $fna_file v$fna_bundled_version " .
+				"=> $fna_file v$fna_replacement_version"
 				if ( $dryrun || $verbose );
 			unless ( $dryrun ) {
 				rename $fna_file, $fna_file . '_' or croak;
@@ -71,6 +72,14 @@ sub setup {
 	}
 	else {
 		say "FNA.dll version ok: $fna_bundled_version" if $verbose;
+	}
+
+	# neuter bundled .config file
+	say "Rename: ${fna_config_file} => ${fna_config_file}_"
+		if ( $dryrun || $verbose );
+	unless ( $dryrun ) {
+		rename $fna_config_file, $fna_config_file . '_'
+			or croak;
 	}
 }
 
