@@ -31,7 +31,7 @@ Readonly::Hash my %iomap => {
 		[ 'j_rip.xnb', 'Content/AJ1/j_Rip.xnb' ],
 		[ 'j_rip.xnb', 'Content/AJ2/j_Rip.xnb' ],
 		[ 'Owlturnneo2.xnb', 'Content/AJ1/owlturnneo2.xnb' ],
-		[ 'Owlturnneo2.xnb', 'Content/AJ2/owlturnneo2.xn' ],
+		[ 'Owlturnneo2.xnb', 'Content/AJ2/owlturnneo2.xnb' ],
 		],
 	'Aces Wild.exe' => [
 		[ 'HitSparks', 'Content/Sprites/Hitsparks' ],

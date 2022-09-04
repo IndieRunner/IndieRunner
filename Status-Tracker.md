@@ -21,6 +21,7 @@ Letters indicate which platform versions have been tested successfully:
 |Battlevoid Harbinger	|LibGDX	|	|	|	|	|	|no audio	|
 |Bleed			|FNA	|	|	|	|	|Humble:L|		|
 |Bleed 2		|FNA	|L	|	|	|	|	|		|
+|Blossom Tales II: The Minotaur Prince	|FNA	|L	|	|	|	|	|		|
 |Breath of Death VII	|XNA	|W	|	|	|	|	|		|
 |Brushwood Buddies	|FNA	|	|	|L	|	|	|		|
 |Capsized		|MonoGame|	|L	|	|	|	|		|

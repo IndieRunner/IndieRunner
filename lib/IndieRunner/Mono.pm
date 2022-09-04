@@ -27,6 +27,7 @@ use File::Path qw( make_path );
 use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+use IndieRunner::IdentifyFiles qw( get_magic_descr );
 use IndieRunner::Mono::Dllmap qw( get_dllmap_target );
 use IndieRunner::Mono::Iomap qw( iomap_symlink );
 
@@ -79,14 +80,22 @@ sub run_cmd {
 	# determine which file is the main assembly for mono
 	unless ( $game_file ) {
 		my @exe = glob "*.exe";
-		if ( scalar @exe > 1 ) {
-			say "\nMore than one .exe file found:";
-			say join( ' ', @exe );
+		my @cil;
+		foreach my $e ( @exe ) {
+			if ( index( get_magic_descr( $e ),
+				'Mono/.Net assembly' ) > -1 ) {
+					push @cil, $e;
+			}
+		}
+
+		if ( scalar @cil > 1 ) {
+			say "\nMore than one CIL .exe file found:";
+			say join( ' ', @cil );
 			say 'In this case, you must specify the main mono assembly.';
-			say "Example: $0 [options] $exe[0]";
+			say "Example: $0 [options] $cil[0]";
 			exit 1;
 		}
-		$game_file = $exe[0];
+		$game_file = $cil[0];
 	}
 
 	my @ld_library_path = (

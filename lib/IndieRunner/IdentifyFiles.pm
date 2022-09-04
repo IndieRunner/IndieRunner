@@ -14,11 +14,15 @@ package IndieRunner::IdentifyFiles;
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-use version; our $VERSION = qv('0.0.1');
 use strict;
 use warnings;
-use Carp;
+use v5.10;
+use version 0.77; our $VERSION = version->declare('v0.0.1');
 
+use base qw( Exporter );
+our @EXPORT_OK = qw( get_magic_descr );
+
+use Carp;
 use File::Find::Rule;
 use File::LibMagic;
 
@@ -66,6 +70,14 @@ sub find_file_type {
 	print join("\n", @out_list) . "\n";
 	
 	return @out_list;
+}
+
+# get LibMagic description of a file
+sub get_magic_descr {
+	my $file = shift;
+	return File::LibMagic	->new
+				->info_from_filename( $file )
+				->{description};
 }
 
 # equivalent to strings(1)
