@@ -102,6 +102,7 @@ sub run_cmd {
 		'LD_LIBRARY_PATH='	. join( ':', @ld_library_path ),
 		'MONO_CONFIG='		. get_dllmap_target(),
 		'MONO_PATH='		. join( ':', @mono_path ),
+		'SDL_PLATFORM=Linux',
 		);
 
 	return ( 'env', @env, $BIN, $game_file );

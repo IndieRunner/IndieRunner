@@ -17,10 +17,10 @@ Letters indicate which platform versions have been tested successfully:
 |Apotheon		|FNA	|L	|	|	|	|	|		|
 |Apple Jack 1&2		|XNA	|W	|	|	|	|	|		|
 |Atom Zombie Smasher	|Mono	|L
-|Axiom Verge		|FNA	|	|	|	|1.51	|	|1.51 dies on exit; 1.54 on Steam works with fnaify, but not IndieRunner|
+|Axiom Verge		|FNA	|	|	|	|1.51	|	|1.51 dies on exit; 1.54 on Steam works with fnaify, but not IndieRunner (fails to initialize SteamAPI)|
 |Battlevoid Harbinger	|LibGDX	|	|	|	|	|	|no audio	|
 |Bleed			|FNA	|	|	|	|	|Humble:L|		|
-|Bleed 2		|FNA	|	|	|	|	|	|Error (Steam-related)	|
+|Bleed 2		|FNA	|L	|	|	|	|	|		|
 |Breath of Death VII	|XNA	|W	|	|	|	|	|		|
 |Brushwood Buddies	|FNA	|	|	|L	|	|	|		|
 |Capsized		|MonoGame|	|L	|	|	|	|		|
@@ -30,8 +30,8 @@ Letters indicate which platform versions have been tested successfully:
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|FNA 22.1	|
 |Mewnbase		|LibGDX	|	|	|	|	|	|		|
 |Owlboy			|FNA	|L	|	|	|	|	|GOG version 1.3 not working|
-|Planetfriend		|FNA	|	|	|L	|	|	|SDL_PLATFORM=Linux|
+|Planetfriend		|FNA	|	|	|L	|	|	|		|
 |Simona's Requiem	|Godot	|L	|	|	|	|	|		|
 |Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j	|
-|TowerFall: Ascension	|FNA	|	|	|L	|	|	|SDL_PLATFORM=Linux|
-|Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|steamworks4j		|
+|TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
+|Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|steamworks4j	|
