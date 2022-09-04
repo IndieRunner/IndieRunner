@@ -75,11 +75,13 @@ sub setup {
 	}
 
 	# neuter bundled .config file
-	say "Rename: ${fna_config_file} => ${fna_config_file}_"
-		if ( $dryrun || $verbose );
-	unless ( $dryrun ) {
-		rename $fna_config_file, $fna_config_file . '_'
-			or croak;
+	if ( -f $fna_config_file ) {
+		say "Rename: ${fna_config_file} => ${fna_config_file}_"
+			if ( $dryrun || $verbose );
+		unless ( $dryrun ) {
+			rename $fna_config_file, $fna_config_file . '_'
+				or croak;
+		}
 	}
 }
 

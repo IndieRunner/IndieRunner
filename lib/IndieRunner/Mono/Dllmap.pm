@@ -21,8 +21,12 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use Carp;
 use Readonly;
 
+use autodie;
+
 use base qw( Exporter );
 our @EXPORT_OK = qw( get_dllmap_target );
+
+use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 
 Readonly::Scalar my $dllmap => <<"END_DLLMAP";
 <!-- IndieRunner monolithic config -->
@@ -54,12 +58,8 @@ Readonly::Scalar my $dllmap => <<"END_DLLMAP";
 	<dllmap dll="steam_api" target="libsteam_api.so"/>
 	<dllmap dll="steam_api64" target="libsteam_api.so"/>
 	<dllmap dll="CSteamworks.dll" target="libCSteamworks.so"/>
-	<dllmap dll="SteamworksNative" target="libSteamworksNative.so"/>
+	<dllmap dll="i:SteamworksNative" target="libSteamworksNative.so"/>
 	<dllmap dll="i:steamwrapper.dll" target="libsteamwrapper.so"/>
-
-	<dllmap dll="kernel32">
-		<dllentry dll="ld.so" name="LoadLibrary" target="dlopen"/>
-	</dllmap>
 
 	<dllmap dll="user32.dll">
 		<dllentry dll="libc.so" name="GetWindowThreadProcessId" target="getthrid"/>
@@ -92,6 +92,10 @@ Readonly::Scalar my $dllmap => <<"END_DLLMAP";
 
 	<dllmap dll="fmod_event.dll">
 		<dllentry dll="libstubborn.so" name="FMOD_EventSystem_Create" target="int_0"/>
+	</dllmap>
+
+	<dllmap dll="kernel32">
+		<dllentry dll="ld.so" name="LoadLibrary" target="dlopen"/>
 	</dllmap>
 
 	<dllmap dll="fmodstudio">
@@ -135,8 +139,21 @@ Readonly::Scalar my $dllmap => <<"END_DLLMAP";
 		<dllentry dll="libstubborn.so" name="FMOD_Studio_System_FlushCommands" target="int_0"/>
 		<dllentry dll="libstubborn.so" name="FMOD_Studio_Bus_GetChannelGroup" target="int_0"/>
 		<dllentry dll="libstubborn.so" name="FMOD_Studio_EventInstance_SetCallback" target="int_0"/>
+		<dllentry dll="libstubborn.so" name="FMOD_Studio_System_UnloadAll" target="int_0"/>
+		<dllentry dll="libstubborn.so" name="FMOD_Studio_System_GetCoreSystem" target="int_0"/>
+		<dllentry dll="libstubborn.so" name="FMOD_Studio_Bus_SetVolume" target="int_0"/>
+		<dllentry dll="libstubborn.so" name="FMOD_Studio_EventInstance_SetPitch" target="int_0"/>
 	</dllmap>
 
+	<!-- Epic -->
+	<dllmap dll="EOSSDK-Win64-Shipping.dll">
+		<dllentry dll="libstubborn.so" name="EOS_Initialize" target="int_0"/>
+		<dllentry dll="libstubborn.so" name="EOS_Logging_SetLogLevel" target="int_0"/>
+		<dllentry dll="libstubborn.so" name="EOS_Logging_SetCallback" target="int_0"/>
+		<dllentry dll="libstubborn.so" name="EOS_Platform_Create" target="ptr_null"/>
+	</dllmap>
+
+	<!-- FMOD -->
 	<dllmap dll="fmodstudio.dll">
 		<dllentry dll="libstubborn.so" name="FMOD_Studio_System_Create"	 target="int_0"/>
 		<dllentry dll="libstubborn.so" name="FMOD_Studio_System_Initialize" target="int_0"/>
@@ -207,10 +224,14 @@ Readonly::Scalar my $dllmap => <<"END_DLLMAP";
 		<dllentry dll="libstubborn.so" name="FMOD_System_SetDSPBufferSize" target="int_0"/>
 		<dllentry dll="libstubborn.so" name="FMOD_System_SetAdvancedSettings" target="int_0"/>
 		<dllentry dll="libstubborn.so" name="FMOD_System_SetSoftwareChannels" target="int_0"/>
+		<dllentry dll="libstubborn.so" name="FMOD5_System_SetSoftwareChannels" target="int_0"/>
+		<dllentry dll="libstubborn.so" name="FMOD5_System_SetSoftwareFormat" target="int_0"/>
+		<dllentry dll="libstubborn.so" name="FMOD5_System_Release" target="int_0"/>
 		<dllentry dll="libstubborn.so" name="FMOD_ChannelGroup_SetVolume" target="int_0"/>
 		<dllentry dll="libstubborn.so" name="FMOD_ChannelGroup_SetPitch" target="int_0"/>
 	</dllmap>
 
+	<!-- PhotonBridge (Unrailed!) -->
 	<dllmap dll="PhotonBridge">
 		<dllentry dll="libstubborn.so" name="init" target="int_1"/>
 		<dllentry dll="libstubborn.so" name="Init" target="int_1"/>
@@ -254,8 +275,27 @@ sub get_dllmap_target {
 	#		~/.IndieRunner/IndieRunner.dllmap.config
 	#		/usr/local/share/IndieRunner/IndieRunner.dllmap.config
 
-	# TODO: change this to better infrastructure
-	return '/home/thfr/cvs/projects/fnaify/fnaify.dllmap.config';
+	my $temp_dllmap_file = '/tmp/IndieRunner.dllmap';
+	my $dryrun = cli_dryrun;
+	my $verbose = cli_verbose;
+
+	if ( -f $temp_dllmap_file ) {
+		if ( $verbose ) {
+			say "Dllmap file $temp_dllmap_file already present.";
+		}
+		return $temp_dllmap_file;
+	}
+
+	if ( $dryrun || $verbose ) {
+		say "Writing Dllmap file to $temp_dllmap_file.";
+	}
+	unless ( $dryrun ) {
+		open(my $fh, '>', $temp_dllmap_file);
+		print $fh $dllmap;
+		close $fh;
+	}
+
+	return $temp_dllmap_file;
 }
 
 1;
