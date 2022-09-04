@@ -180,10 +180,10 @@ sub select_most_compatible_version {
 
 	my $target_v = shift(@_);
 
-	# convert all arguments with version->parse
+	# convert all arguments with version->declare
 	# are all supplied arguments valid version strings? (or '_MAX_'?)
 	foreach ( @_ ) {
-		$_ = version->parse($_);
+		$_ = version->declare($_);
 		unless ( $_->is_lax() ) {
 			die "invalid version string argument to subroutine";
 		}
