@@ -27,7 +27,7 @@ use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 use IndieRunner::Mono qw( get_assembly_version );
 
 # $FNA_MIN_VERSION depends on the version of the native support libraries
-Readonly::Scalar my $FNA_MIN_VERSION => version->parse( '19.2' );
+Readonly::Scalar my $FNA_MIN_VERSION => version->parse( '20.9' );
 Readonly::Scalar my $FNA_REPLACEMENT => '/usr/local/share/FNA/FNA.dll';
 
 sub run_cmd {
