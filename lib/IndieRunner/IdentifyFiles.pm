@@ -45,6 +45,14 @@ our %filetypes = (
 				   ],
 );
 
+# get LibMagic description of a file
+sub get_magic_descr {
+	my $file = shift;
+	return File::LibMagic	->new
+				->info_from_filename( $file )
+				->{description};
+}
+
 # go through all files and check for a match
 sub find_file_type {
 	my $directory	= $_[0];
@@ -60,9 +68,7 @@ sub find_file_type {
 				     ->name( $filetypes{$type} )
 				     ->in( $directory );
 	foreach $file (@file_list) {
-		if ( index( File::LibMagic->new
-					  ->info_from_filename( $file )
-					  ->{description},
+		if ( index( get_magic_descr( $file ),
 		     'Mono/.Net assembly' ) > -1 ) {
 			push @out_list, $file;
 		}
@@ -70,14 +76,6 @@ sub find_file_type {
 	print join("\n", @out_list) . "\n";
 	
 	return @out_list;
-}
-
-# get LibMagic description of a file
-sub get_magic_descr {
-	my $file = shift;
-	return File::LibMagic	->new
-				->info_from_filename( $file )
-				->{description};
 }
 
 # equivalent to strings(1)
