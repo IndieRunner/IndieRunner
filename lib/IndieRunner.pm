@@ -76,7 +76,8 @@ if ( -d '_CommonRedist/XNA' || -f 'xnafx40_redist.msi' ) {
 
 # not FNA, XNA, or MonoGame on 1st pass; check if it could still be Mono
 unless ( $engine ) {
-	$engine = 'Mono' if get_mono_files or get_mono_files '_';
+	$engine = 'Mono' if get_mono_files or get_mono_files '_'
+		or grep { $_ eq 'LaserCat.exe' } @files;
 }
 
 # 2nd Pass: Byte Sequences

@@ -50,7 +50,10 @@ Letters indicate which platform versions have been tested successfully:
 |Glitchangels		|FNA	|L	|	|	|	|	|		|
 |Growing Pains		|FNA	|L	|	|	|	|	|		|
 |Hacknet		|FNA	|	|L	|	|	|	|		|
+|Hive			|FNA	|L	|	|	|	|	|		|
+|Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
+|LaserCat		|XNA	|	|	|L	|	|	|		|
 |Mewnbase		|LibGDX	|	|	|	|	|	|		|
 |Owlboy			|FNA	|L	|L	|	|	|	|		|
 |Planetfriend		|FNA	|	|	|L	|	|	|		|
