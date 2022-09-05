@@ -33,22 +33,40 @@ sub setup {
 	my ($self) = @_;
 	my $dryrun = cli_dryrun();
 	my $verbose = cli_verbose();
+	my @wmafiles;
+	my @wmvfiles;
 
 	IndieRunner::Mono->setup();
 
 	# convert .wma to .ogg, and .wmv to .ogv
-	my @wmafiles = File::Find::Rule->file()
+
+	# enumerate all WMA and WMV files
+	my @wmafiles_found = File::Find::Rule->file()
 					->name( '*.wma' )
 					->in( '.' );
-	my @wmvfiles = File::Find::Rule->file()
+	my @wmvfiles_found = File::Find::Rule->file()
 					->name( '*.wmv' )
 					->in( '.' );
+
+	# see which WMA and WMV files have OGG/OGV match
+	foreach my $w ( @wmafiles_found ) {
+		if ( not -f substr( $w, 0, -3 ) . 'ogg' ) {
+			push( @wmafiles, $w );
+		}
+	}
+	foreach my $w ( @wmvfiles_found ) {
+		if ( not -f substr( $w, 0, -3 ) . 'ogv' ) {
+			push( @wmvfiles, $w );
+		}
+	}
+
 	if ( scalar( @wmafiles ) + scalar( @wmvfiles ) > 0
 		&& ! $dryrun ) {
 			say "Converting WMA and WMV media files. "
 				. "This may take a minute...";
 	}
 
+	# convert with ffmpeg
 	foreach my $wma ( @wmafiles ) {
 		my $ogg = substr( $wma, 0, -3 ) . 'ogg';
 		last if ( -f $ogg );
