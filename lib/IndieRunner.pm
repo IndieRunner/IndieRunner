@@ -68,7 +68,8 @@ foreach my $f ( @files ) {
 }
 
 # detect XNA
-if ( -d '_CommonRedist/XNA' || -f 'xnafx40_redist.msi' ) {
+if ( -d '_CommonRedist/XNA' || -f 'xnafx40_redist.msi'
+	|| -f 'LaserCat.exe' ) {
 	$engine = 'XNA';
 	$engine_id_file = '';
 	say "Engine: $engine" if $verbose;
@@ -76,8 +77,7 @@ if ( -d '_CommonRedist/XNA' || -f 'xnafx40_redist.msi' ) {
 
 # not FNA, XNA, or MonoGame on 1st pass; check if it could still be Mono
 unless ( $engine ) {
-	$engine = 'Mono' if get_mono_files or get_mono_files '_'
-		or grep { $_ eq 'LaserCat.exe' } @files;
+	$engine = 'Mono' if get_mono_files or get_mono_files '_';
 }
 
 # 2nd Pass: Byte Sequences
