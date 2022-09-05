@@ -45,6 +45,8 @@ Letters indicate which platform versions have been tested successfully:
 |FEZ			|FNA	|	|	|	|	|	|beta: NullReferenceException|
 |Fist Puncher		|FNA	|	|L	|	|	|	|		|
 |Flinthook		|FNA	|L	|	|	|	|	|		|
+|Flotilla		|FNA	|	|	|L	|	|	|		|
+|Gateways		|MonoGame|	|	|	|	|Humble:L|Humble version works. Steam version needs more API in steamwrapper stub.|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
 |Mewnbase		|LibGDX	|	|	|	|	|	|		|
 |Owlboy			|FNA	|L	|L	|	|	|	|		|
