@@ -90,9 +90,9 @@ sub run_cmd {
 
 		if ( scalar @cil > 1 ) {
 			say "\nMore than one CIL .exe file found:";
-			say join( ' ', @cil );
-			say 'In this case, you must specify the main mono assembly.';
-			say "Example: $0 [options] $cil[0]";
+			say "\n\t" . join( "\n\t", @cil ) . "\n";
+			say "In this case, you must specify the main mono assembly.\n";
+			say "Example:\n$0 \"$cil[0]\"\n";
 			exit 1;
 		}
 		$game_file = $cil[0];

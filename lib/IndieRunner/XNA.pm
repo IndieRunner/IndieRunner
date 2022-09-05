@@ -63,7 +63,7 @@ sub setup {
 	if ( scalar( @wmafiles ) + scalar( @wmvfiles ) > 0
 		&& ! $dryrun ) {
 			say "Converting WMA and WMV media files. "
-				. "This may take a minute...";
+				. "This may take a few minutes...";
 	}
 
 	# convert with ffmpeg

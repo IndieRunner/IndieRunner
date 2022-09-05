@@ -26,7 +26,14 @@ Letters indicate which platform versions have been tested successfully:
 |Brushwood Buddies	|FNA	|	|	|L	|	|	|		|
 |Capsized		|MonoGame|	|L	|	|	|	|		|
 |Celeste		|FNA	|	|	|L	|	|	|no audio	|
+|Charlie Murder		|FNA	|L	|	|	|	|	|no online multiplayer|
+|Chasm			|FNA	|	|L	|	|	|	|		|
+|CometStriker		|FNA	|L	|	|	|	|	|		|
+|CRYPTARK		|FNA	|	|L	|	|	|	|		|
 |Crystal Project	|FNA	|L	|	|	|	|	|		|
+|Cthulhu Saves the World|XNA	|W	|	|	|	|	|		|
+|Curse of the Crescent Isle DX|FNA	|	|	|	|	|Humble:L|	|
+|Dad Quest		|MonoGame|W	|	|	|	|	|no gamecontroller support|
 |Dead Cells		|HashLink|	|L	|	|	|	|		|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
 |Mewnbase		|LibGDX	|	|	|	|	|	|		|

@@ -98,7 +98,6 @@ Readonly::Hash my %iomap => {
 		[ 'mainbackground.xnb', 'Content/ConfigSprites/mainBackground.xnb' ],
 		[ 'largeCuts.xnb', 'Content/Sprites/effects/largecuts.xnb' ],
 		[ 'smallCuts.xnb', 'Content/Sprites/effects/smallcuts.xnb' ],
-		[ 'effects', 'Content/Sprites/Effects' ],
 		[ 'cuemark.xnb', 'Content/Sprites/effects/cueMark.xnb' ],
 		[ 'Static.xnb', 'Content/Sprites/Menu/Preview/static.xnb' ],
 		],
