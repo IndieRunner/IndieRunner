@@ -77,7 +77,7 @@ if ( -d '_CommonRedist/XNA' || -f 'xnafx40_redist.msi' ) {
 
 # not FNA, XNA, or MonoGame on 1st pass; check if it could still be Mono
 unless ( $engine ) {
-	$engine = 'Mono' if get_mono_files;
+	$engine = 'Mono' if get_mono_files or get_mono_files '_';
 }
 
 # 2nd Pass: Byte Sequences
@@ -113,6 +113,7 @@ $dryrun ? exit 0 : say '';
 my ($stdout, $stderr) = tee {
 	system( @run_cmd );
 };
+# XXX: some games like Eliza don't return from system(), but drop directly to shell
 
 # report if error occurred
 say '' unless ( $stdout eq '' && $stderr eq '' );

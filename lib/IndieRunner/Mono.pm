@@ -34,23 +34,23 @@ use IndieRunner::Mono::Iomap qw( iomap_symlink );
 Readonly::Scalar our $BIN => 'mono';
 
 Readonly::Array my @MONO_GLOBS => (
-	# also account for renamed files with a suffix like '_'
-	'I18N{,.*}.dll*',
-	'Microsoft.*.dll*',
-	'Mono.*.dll*',
-	'System{,.*}.dll*',
-	'libMonoPosixHelper.so*',
-	'monoconfig*',
-	'monomachineconfig*',
-	'mscorlib.dll*',
+	'I18N{,.*}.dll',
+	'Microsoft.*.dll',
+	'Mono.*.dll',
+	'System{,.*}.dll',
+	'libMonoPosixHelper.so{,.x86{,_64}}',
+	'monoconfig',
+	'monomachineconfig',
+	'mscorlib.dll',
 	);
 
 sub get_mono_files {
+	my $custom_suffix = shift || '';	# e.g. '_'
 	my @mono_files;
 	my @match;
 
 	foreach my $g ( @MONO_GLOBS ) {
-		@match = glob( $g );
+		@match = glob( $g . $custom_suffix );
 		next unless @match;
 		if ( -f $match[0] ) {		# check that globbed files exist
 			push( @mono_files, @match );
