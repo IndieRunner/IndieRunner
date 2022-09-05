@@ -115,7 +115,7 @@ my ($stdout, $stderr) = tee {
 };
 
 # report if error occurred
-say '';
+say '' unless ( $stdout eq '' && $stderr eq '' );
 if ( $? == 0 ) {
 	say 'Application exited without errors' if $verbose;
 }

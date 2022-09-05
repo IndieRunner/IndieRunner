@@ -34,14 +34,15 @@ use IndieRunner::Mono::Iomap qw( iomap_symlink );
 Readonly::Scalar our $BIN => 'mono';
 
 Readonly::Array my @MONO_GLOBS => (
-	'I18N{,.*}.dll',
-	'Microsoft.*.dll',
-	'Mono.*.dll',
-	'System{,.*}.dll',
+	# also account for renamed files with a suffix like '_'
+	'I18N{,.*}.dll*',
+	'Microsoft.*.dll*',
+	'Mono.*.dll*',
+	'System{,.*}.dll*',
 	'libMonoPosixHelper.so*',
-	'monoconfig',
-	'monomachineconfig',
-	'mscorlib.dll',
+	'monoconfig*',
+	'monomachineconfig*',
+	'mscorlib.dll*',
 	);
 
 sub get_mono_files {

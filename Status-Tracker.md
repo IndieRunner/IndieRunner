@@ -41,6 +41,7 @@ Letters indicate which platform versions have been tested successfully:
 |Eliza			|Mono	|	|L	|	|	|	|		|
 |Escape Goat		|MonoGame|	|	|	|	|Humble:L|		|
 |Escape Goat 2		|MonoGame|	|	|	|	|Humble:L|		|
+|EXAPUNKS		|Mono	|	|L	|	|	|	|		|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
 |Mewnbase		|LibGDX	|	|	|	|	|	|		|
 |Owlboy			|FNA	|L	|L	|	|	|	|		|
