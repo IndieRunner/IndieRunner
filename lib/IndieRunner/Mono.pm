@@ -31,7 +31,7 @@ use IndieRunner::IdentifyFiles qw( get_magic_descr );
 use IndieRunner::Mono::Dllmap qw( get_dllmap_target );
 use IndieRunner::Mono::Iomap qw( iomap_symlink );
 
-Readonly::Scalar our $BIN => 'mono';
+Readonly::Scalar my $BIN => 'mono';
 
 Readonly::Array my @MONO_GLOBS => (
 	'I18N{,.*}.dll',
@@ -43,6 +43,22 @@ Readonly::Array my @MONO_GLOBS => (
 	'monomachineconfig',
 	'mscorlib.dll',
 	);
+
+Readonly::Hash my %QUIRKS_ARGS => {
+	'-disableweb'	=> [ 'Hacknet.exe', ],
+	'-noSound'	=> [ 'ScourgeBringer.exe', ],
+};
+
+Readonly::Hash my %QUIRKS_ENV => {
+	'MONO_FORCE_COMPAT=1'	=> [
+		'Blueberry.exe',
+		'Shenzhen.exe',
+		'ThePit.exe',
+		],
+};
+
+my @cil_args;
+my @env;
 
 sub get_mono_files {
 	my $custom_suffix = shift || '';	# e.g. '_'
@@ -70,6 +86,21 @@ sub get_assembly_version {
         else {
 		return '';
         }
+}
+
+sub quirks {
+	my $game_file = shift;
+	foreach my $k ( keys %QUIRKS_ARGS ) {
+		if ( grep { $_ eq $game_file } @{ $QUIRKS_ARGS{ $k } } ) {
+			push @cil_args, $k;
+		}
+	}
+	foreach my $k ( keys %QUIRKS_ENV ) {
+		if ( grep { $_ eq $game_file } @{ $QUIRKS_ENV{ $k } } ) {
+			push @env, $k;
+		}
+	}
+	# XXX: for 'SSGame.exe': mkdir -p ~/.local/share/SSDD
 }
 
 sub run_cmd {
@@ -108,14 +139,15 @@ sub run_cmd {
 		'/usr/local/share/FNA',
 		'/usr/local/lib/steamworks-nosteam',
 		);
-	my @env = (
+	@env = (
 		'LD_LIBRARY_PATH='	. join( ':', @ld_library_path ),
 		'MONO_CONFIG='		. get_dllmap_target(),
 		'MONO_PATH='		. join( ':', @mono_path ),
 		'SDL_PLATFORM=Linux',
 		);
+	quirks $game_file;
 
-	return ( 'env', @env, $BIN, $game_file );
+	return ( 'env', @env, $BIN, $game_file, @cil_args );
 }
 
 sub setup {

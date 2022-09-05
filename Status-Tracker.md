@@ -47,10 +47,14 @@ Letters indicate which platform versions have been tested successfully:
 |Flinthook		|FNA	|L	|	|	|	|	|		|
 |Flotilla		|FNA	|	|	|L	|	|	|		|
 |Gateways		|MonoGame|	|	|	|	|Humble:L|Humble version works. Steam version needs more API in steamwrapper stub.|
+|Glitchangels		|FNA	|L	|	|	|	|	|		|
+|Growing Pains		|FNA	|L	|	|	|	|	|		|
+|Hacknet		|FNA	|	|L	|	|	|	|		|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
 |Mewnbase		|LibGDX	|	|	|	|	|	|		|
 |Owlboy			|FNA	|L	|L	|	|	|	|		|
 |Planetfriend		|FNA	|	|	|L	|	|	|		|
+|SHENZHEN I/O		|Mono	|	|L	|	|	|	|		|
 |Simona's Requiem	|Godot	|L	|	|	|	|	|		|
 |Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j	|
 |TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
