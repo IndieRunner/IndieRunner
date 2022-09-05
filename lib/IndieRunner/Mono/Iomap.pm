@@ -355,7 +355,7 @@ sub iomap_symlink {
 
 	foreach my $symlink_pair ( @{ $iomap{ $index_file } } ) {
 		my ($oldfile, $newfile) = @{ $symlink_pair };
-		next if ( -l $newfile );
+		next if ( -e $newfile );
 		say "Symlink: $newfile -> $oldfile" if ( $dryrun || $verbose );
 		unless ( $dryrun ) {
 			symlink($oldfile, $newfile) or
