@@ -42,6 +42,9 @@ Letters indicate which platform versions have been tested successfully:
 |Escape Goat		|MonoGame|	|	|	|	|Humble:L|		|
 |Escape Goat 2		|MonoGame|	|	|	|	|Humble:L|		|
 |EXAPUNKS		|Mono	|	|L	|	|	|	|		|
+|FEZ			|FNA	|	|	|	|	|	|beta: NullReferenceException|
+|Fist Puncher		|FNA	|	|L	|	|	|	|		|
+|Flinthook		|FNA	|L	|	|	|	|	|		|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
 |Mewnbase		|LibGDX	|	|	|	|	|	|		|
 |Owlboy			|FNA	|L	|L	|	|	|	|		|
