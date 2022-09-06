@@ -54,7 +54,13 @@ Letters indicate which platform versions have been tested successfully:
 |Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
 |LaserCat		|XNA	|	|	|L	|	|	|		|
+|Little Racers STREET	|FNA	|L	|	|	|	|	|		|
+|Mercenary Kings	|FNA	|	|	|	|	|	|NLog.NLogConfigurationException|
 |Mewnbase		|LibGDX	|	|	|	|	|	|		|
+|MidBoss		|FNA	|	|	|L	|	|	|Crash on death; needs SDL_image fix from fnaify|
+|Mobius Front '83	|Mono	|	|L	|	|	|	|has been buggy during play|
+|MOLEK-SYNTEZ		|Mono	|	|L	|	|	|	|		|
+|Mount Your Friends	|XNA	|W	|	|	|	|	|		|
 |Owlboy			|FNA	|L	|L	|	|	|	|		|
 |Planetfriend		|FNA	|	|	|L	|	|	|		|
 |SHENZHEN I/O		|Mono	|	|L	|	|	|	|		|
