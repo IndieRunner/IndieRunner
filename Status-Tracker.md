@@ -68,3 +68,4 @@ Letters indicate which platform versions have been tested successfully:
 |Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j	|
 |TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
 |Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|steamworks4j	|
+|The Zachtronics Solitaire Collection|Mono	|L	|	|	|	|	|		|
