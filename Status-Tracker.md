@@ -61,6 +61,10 @@ Letters indicate which platform versions have been tested successfully:
 |Mobius Front '83	|Mono	|	|L	|	|	|	|has been buggy during play|
 |MOLEK-SYNTEZ		|Mono	|	|L	|	|	|	|		|
 |Mount Your Friends	|XNA	|W	|	|	|	|	|		|
+|Murder Miners		|FNA	|L	|	|	|	|	|no online support|
+|NeuroVoider		|MonoGame|	|L	|	|	|	|SQL error on launch|
+|Ninja Warrior		|XNA	|	|	|	|	|	|engine detection fails|
+|One Finger Death Punch	|XNA	|W	|	|	|	|	|		|
 |Owlboy			|FNA	|L	|L	|	|	|	|		|
 |Planetfriend		|FNA	|	|	|L	|	|	|		|
 |SHENZHEN I/O		|Mono	|	|L	|	|	|	|		|

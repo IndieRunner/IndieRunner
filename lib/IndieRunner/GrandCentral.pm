@@ -95,7 +95,7 @@ sub identify_engine {
 	return '';
 }
 
-sub identify_engine_bytes {
+sub identify_engine_thorough {
 	my $file = shift;
 
 	foreach my $engine ( keys %Indicator_Bytes ) {

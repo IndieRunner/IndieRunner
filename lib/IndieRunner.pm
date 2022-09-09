@@ -84,7 +84,7 @@ unless ( $engine ) {
 unless ( $engine ) {
 	say "Failed to identify game engine on first pass; attempting second pass (slower).";
 	foreach my $f ( @files ) {
-		$engine = IndieRunner::GrandCentral::identify_engine_bytes($f);
+		$engine = IndieRunner::GrandCentral::identify_engine_thorough($f);
 		if ( $engine ) {
 			$engine_id_file = $f;
 			say "Engine identified from file: $engine_id_file" if $verbose;
