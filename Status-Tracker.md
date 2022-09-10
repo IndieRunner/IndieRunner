@@ -65,8 +65,15 @@ Letters indicate which platform versions have been tested successfully:
 |NeuroVoider		|MonoGame|	|L	|	|	|	|SQL error on launch|
 |Ninja Warrior		|XNA	|	|	|	|	|	|engine detection fails|
 |One Finger Death Punch	|XNA	|W	|	|	|	|	|		|
+|Opus Magnum		|Mono	|	|L	|	|	|	|		|
+|Overdriven Reloaded	|FNA	|L	|	|	|	|	|		|
 |Owlboy			|FNA	|L	|L	|	|	|	|		|
+|Paladin		|FNA	|	|	|	|	|Humble:L|		|
+|Penny Arcade's On the Rain-Slick Precipice of Darkness 3|XNA|||||||
+|Penny Arcade's On the Rain-Slick Precipice of Darkness 4|XNA|||||||
 |Planetfriend		|FNA	|	|	|L	|	|	|		|
+|Rex Rocket		|FNA	|L	|	|	|	|	|		|
+|Rogue Legacy		|FNA	|L	|	|	|	|	|		|
 |SHENZHEN I/O		|Mono	|	|L	|	|	|	|		|
 |Simona's Requiem	|Godot	|L	|	|	|	|	|		|
 |Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j	|
