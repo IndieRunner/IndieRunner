@@ -12,6 +12,7 @@ Letters indicate which platform versions have been tested successfully:
 
 |Game			|Module	|Steam	|GOG	|itch.io|Epic	|Other	|Comments	|
 |-----------------------|-------|-------|-------|-------|-------|-------|---------------|
+|The Adventures of Shuggy|FNA	|	|	|	|	|Humble:L|		|
 |Akane the Kunoichi	|XNA	|W	|	|	|	|	|		|
 |Amazing Princess Sarah	|XNA	|	|	|	|	|	|iomap error when loading level	|
 |Apotheon		|FNA	|L	|	|	|	|	|		|
@@ -74,9 +75,12 @@ Letters indicate which platform versions have been tested successfully:
 |Planetfriend		|FNA	|	|	|L	|	|	|		|
 |Rex Rocket		|FNA	|L	|	|	|	|	|		|
 |Rogue Legacy		|FNA	|L	|	|	|	|	|		|
+|Salt & Sanctuary	|FNA	|L	|	|	|	|	|		|
 |SHENZHEN I/O		|Mono	|	|L	|	|	|	|		|
 |Simona's Requiem	|Godot	|L	|	|	|	|	|		|
+|Skulls of the Shogun	|MonoGame|	|L	|	|	|	|		|
 |Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j	|
+|Sword of the Stars: The Pit|XNA|	|W	|	|	|	|		|
 |TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
 |Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|steamworks4j	|
 |The Zachtronics Solitaire Collection|Mono	|L	|	|	|	|	|		|

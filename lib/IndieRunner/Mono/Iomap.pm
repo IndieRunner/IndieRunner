@@ -335,6 +335,17 @@ Readonly::Hash my %iomap => {
 	'ThePit.exe' => [
 		[ 'UI', 'Content/ui' ],
 		[ 'm_security_bot_C_sprites.xnb', 'Content/characters/enemies/security_bot/m_security_bot_c_sprites.xnb' ],
+		[ 'retriever_sprites.xnb', 'Content/characters/enemies/retriever/retriever_Sprites.xnb' ],
+		[ 'retrieverB_sprites.xnb', 'Content/characters/enemies/retriever/retrieverB_Sprites.xnb' ],
+		[ 'retrieverC_sprites.xnb', 'Content/characters/enemies/retriever/retrieverC_Sprites.xnb' ],
+		[ 'zuul_infant_swarm_sprites.xnb', 'Content/characters/enemies/zuul_infant_swarm/zuul_infant_swarm_Sprites.xnb' ],
+		[ 'zuul_infant_swarmB_sprites.xnb', 'Content/characters/enemies/zuul_infant_swarm/zuul_infant_swarmB_Sprites.xnb' ],
+		[ 'tarkodileA_Sprites.xnb', 'Content/dlc/mg/characters/enemies/tarkodile/tarkodileA_sprites.xnb' ],
+		[ 'tarkodileB_Sprites.xnb', 'Content/dlc/mg/characters/enemies/tarkodile/tarkodileB_sprites.xnb' ],
+		[ 'tarkodileC_Sprites.xnb', 'Content/dlc/mg/characters/enemies/tarkodile/tarkodileC_sprites.xnb' ],
+		[ 'cow_sprites.xnb', 'Content/dlc/mg/characters/enemies/cow/cow_Sprites.xnb' ],
+		[ 'fryoid_Sprites.xnb', 'Content/dlc/mg/characters/enemies/protean_blob/fryoid_sprites.xnb' ],
+		[ 'cryoid_Sprites.xnb', 'Content/dlc/mg/characters/enemies/protean_blob/cryoid_sprites.xnb' ],
 		],
 	'WagonAdventure.exe' => [
 		[ 'CRT.xnb', 'Content/FX/Crt.xnb' ],

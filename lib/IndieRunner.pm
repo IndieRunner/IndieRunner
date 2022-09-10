@@ -68,8 +68,8 @@ foreach my $f ( @files ) {
 }
 
 # detect XNA
-if ( -d '_CommonRedist/XNA' || -f 'xnafx40_redist.msi'
-	|| -f 'LaserCat.exe' || -f 'MountYourFriends.exe' ) {
+if ( -d '_CommonRedist/XNA' || -f 'xnafx40_redist.msi' || -f 'LaserCat.exe'
+     || -f 'MountYourFriends.exe' || -f 'ThePit.exe' ) {
 	$engine = 'XNA';
 	$engine_id_file = '';
 	say "Engine: $engine" if $verbose;
