@@ -30,6 +30,11 @@ use IndieRunner::Mono qw( get_assembly_version );
 Readonly::Scalar my $FNA_MIN_VERSION => version->declare( '20.9' );
 Readonly::Scalar my $FNA_REPLACEMENT => '/usr/local/share/FNA/FNA.dll';
 
+Readonly::Array  my @ALLOW_BUNDLED_FNA => (
+	# 'Game.exe',		# game version, FNA version
+	'SuperBernieWorld.exe',	# 1.2.0 (Kitsune Zero), 19.3
+	);
+
 sub run_cmd {
 	my ($self, $engine_id_file, $game_file) = @_;
 	return IndieRunner::Mono->run_cmd( $game_file );
@@ -41,37 +46,49 @@ sub setup {
 	my $verbose = cli_verbose();
 	my $fna_file = 'FNA.dll';
 	my $fna_config_file = 'FNA.dll.config';
+	my $skip_fna_version;
 
 	IndieRunner::Mono->setup();
 
-	# check if FNA version needs to be replaced
-	my $fna_bundled_version = version->declare( get_assembly_version( $fna_file ) )
-		or croak "Failed to get version of $fna_file";
-	my $fna_replacement_version = '';
-	if ( $fna_bundled_version < $FNA_MIN_VERSION ) {
-		# check if replacement FNA can be used
-		if ( -f $FNA_REPLACEMENT ) {
-			$fna_replacement_version =
-				version->declare( get_assembly_version( $FNA_REPLACEMENT ) );
-		}
-		unless ( $fna_replacement_version &&
-			$fna_replacement_version >= $FNA_MIN_VERSION ) {
-			say "No FNA.dll found with version >= $FNA_MIN_VERSION";
-			exit 1;
-		}
-		else {
-			say "Replace: $fna_file v$fna_bundled_version " .
-				"=> $fna_file v$fna_replacement_version"
-				if ( $dryrun || $verbose );
-			unless ( $dryrun ) {
-				rename $fna_file, $fna_file . '_' or croak;
-				copy( $FNA_REPLACEMENT, $fna_file )
-					or croak "Copy failed: $!";
-			}
+	# check if this is a game where we allow FNA version lower than FNA_MIN_VERSION
+	foreach my $f ( glob '*' ) {
+		if ( grep( /^\Q$f\E$/, @ALLOW_BUNDLED_FNA ) ) {
+			$skip_fna_version = 1;
+			last;
 		}
 	}
-	else {
-		say "FNA.dll version ok: $fna_bundled_version" if $verbose;
+
+	# check if FNA version needs to be replaced
+	unless ( $skip_fna_version ) {
+		my $fna_bundled_version = version->declare(
+			get_assembly_version( $fna_file ) )
+			or croak "Failed to get version of $fna_file";
+		my $fna_replacement_version = '';
+		if ( $fna_bundled_version < $FNA_MIN_VERSION ) {
+			# check if replacement FNA can be used
+			if ( -f $FNA_REPLACEMENT ) {
+				$fna_replacement_version =
+					version->declare( get_assembly_version( $FNA_REPLACEMENT ) );
+			}
+			unless ( $fna_replacement_version &&
+				$fna_replacement_version >= $FNA_MIN_VERSION ) {
+				say "No FNA.dll found with version >= $FNA_MIN_VERSION";
+				exit 1;
+			}
+			else {
+				say "Replace: $fna_file v$fna_bundled_version " .
+					"=> $fna_file v$fna_replacement_version"
+					if ( $dryrun || $verbose );
+				unless ( $dryrun ) {
+					rename $fna_file, $fna_file . '_' or croak;
+					copy( $FNA_REPLACEMENT, $fna_file )
+						or croak "Copy failed: $!";
+				}
+			}
+		}
+		else {
+			say "FNA.dll version ok: $fna_bundled_version" if $verbose;
+		}
 	}
 
 	# neuter bundled .config file

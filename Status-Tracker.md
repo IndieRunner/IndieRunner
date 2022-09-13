@@ -54,7 +54,7 @@ Letters indicate which platform versions have been tested successfully:
 |Hive			|FNA	|L	|	|	|	|	|		|
 |Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
-|Kitsune Zero		|FNA	|	|	|	|	|	|relies on outdated FNA API (19.3)|
+|Kitsune Zero		|FNA	|	|	|L	|	|	|		|
 |LaserCat		|XNA	|	|	|L	|	|	|		|
 |Little Racers STREET	|FNA	|L	|	|	|	|	|		|
 |Mercenary Kings	|FNA	|	|	|	|	|	|NLog.NLogConfigurationException|
@@ -81,7 +81,7 @@ Letters indicate which platform versions have been tested successfully:
 |Simona's Requiem	|Godot	|L	|	|	|	|	|		|
 |Skulls of the Shogun	|MonoGame|	|L	|	|	|	|		|
 |Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j	|
-|Super Bernie World	|FNA	|	|	|	|	|	|relies on outdated FNA API (19.3)|
+|Super Bernie World	|FNA	|	|	|L	|	|	|		|
 |Sword of the Stars: The Pit|XNA|	|W	|	|	|	|		|
 |TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
 |Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|steamworks4j	|
