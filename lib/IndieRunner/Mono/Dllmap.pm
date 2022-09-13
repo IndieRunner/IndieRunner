@@ -33,7 +33,7 @@ Readonly::Scalar my $dllmap => <<"END_DLLMAP";
 <configuration>
 	<dllmap dll="FAudio" target="libFAudio.so"/>
 	<dllmap dll="FNA3D" target="libFNA3D.so"/>
-	<dllmap dll="MojoShader.dll" target="libmojoshader.so"/>
+	<dllmap dll="MojoShader.dll" target="libFNA3D.so"/>
 	<dllmap dll="SDL2.dll" target="libSDL2.so"/>
 	<dllmap dll="SDL2_image.dll" target="libSDL2_image.so"/>
 	<dllmap dll="SDL2_mixer.dll" target="libSDL2_mixer.so"/>
