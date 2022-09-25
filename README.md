@@ -100,6 +100,7 @@ Platform Requirements
 
 * interpreter for IndieRunner
 * runtimes (mono, hashlink, java)
+* libraries (SDL, freetype, libstubborn, ...)
 * tools: ffmpeg (for conversion of XNA media files)
 
 Problems:

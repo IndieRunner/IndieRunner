@@ -150,7 +150,10 @@ Readonly::Scalar my $dllmap => <<"END_DLLMAP";
 		<dllentry dll="libstubborn.so" name="EOS_Initialize" target="int_0"/>
 		<dllentry dll="libstubborn.so" name="EOS_Logging_SetLogLevel" target="int_0"/>
 		<dllentry dll="libstubborn.so" name="EOS_Logging_SetCallback" target="int_0"/>
-		<dllentry dll="libstubborn.so" name="EOS_Platform_Create" target="ptr_null"/>
+		<dllentry dll="libstubborn.so" name="EOS_Platform_Create" target="ptr_zeroed"/>
+		<dllentry dll="libstubborn.so" name="EOS_Platform_GetConnectInterface" target="ptr_zeroed"/>
+		<dllentry dll="libstubborn.so" name="EOS_Connect_AddNotifyAuthExpiration" target="ptr_zeroed"/>
+		<dllentry dll="libstubborn.so" name="EOS_Connect_AddNotifyLoginStatusChanged" target="ptr_zeroed"/>
 	</dllmap>
 
 	<!-- FMOD -->
