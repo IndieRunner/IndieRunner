@@ -114,7 +114,6 @@ $dryrun ? exit 0 : say '';
 my ($stdout, $stderr) = tee {
 	system( @run_cmd );
 };
-# XXX: some games like Eliza don't return from system(), but drop directly to shell
 
 # report if error occurred
 say '' unless ( $stdout eq '' && $stderr eq '' );
