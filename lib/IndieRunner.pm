@@ -42,6 +42,7 @@ if ( $cli_file ) {
 	die "No such file or directory: $cli_file" unless ( -e $cli_file );
 	if ( -d $cli_file ) {
 		chdir $cli_file;
+		undef $cli_file;
 	}
 	else {
 		my ($gf_volume, $gf_directories, $gf_file) = splitpath( $cli_file );
