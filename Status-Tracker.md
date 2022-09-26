@@ -43,7 +43,7 @@ Letters indicate which platform versions have been tested successfully:
 |Escape Goat		|MonoGame|	|	|	|	|Humble:L|		|
 |Escape Goat 2		|MonoGame|	|	|	|	|Humble:L|		|
 |EXAPUNKS		|Mono	|	|L	|	|	|	|		|
-|FEZ			|FNA	|	|	|	|	|	|beta: NullReferenceException|
+|FEZ			|FNA	|L(beta)|	|	|	|	|		|
 |Fist Puncher		|FNA	|	|L	|	|	|	|		|
 |Flinthook		|FNA	|L	|	|	|	|	|		|
 |Flotilla		|FNA	|	|	|L	|	|	|		|
