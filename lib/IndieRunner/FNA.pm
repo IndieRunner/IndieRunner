@@ -31,8 +31,8 @@ Readonly::Scalar my $FNA_MIN_VERSION => version->declare( '20.9' );
 Readonly::Scalar my $FNA_REPLACEMENT => '/usr/local/share/FNA/FNA.dll';
 
 Readonly::Array  my @ALLOW_BUNDLED_FNA => (
-	# 'Game.exe',		# game version, FNA version
-	'SuperBernieWorld.exe',	# 1.2.0 (Kitsune Zero), 19.3
+	# 'Game.exe',		# game version,		FNA version
+	'SuperBernieWorld.exe',	# 1.2.0 (Kitsune Zero),	19.3
 	);
 
 sub run_cmd {
