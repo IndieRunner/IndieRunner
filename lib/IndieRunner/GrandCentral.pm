@@ -19,6 +19,7 @@ use warnings;
 use v5.10;
 use version; our $VERSION = qv('0.0.1');
 use Carp;
+use autodie;
 
 use Fcntl qw( SEEK_CUR SEEK_END );
 use Readonly;
@@ -69,16 +70,17 @@ Readonly::Hash my %Indicator_Bytes => (	# byte sequences that are indicative of 
 
 sub find_bytes {
 	my ($file, $bytes) = @_;
-	my $num_bytes = length( $bytes );
-	my $read_bytes;
+	my $chunksize = 4096;
+	my $string;
 
-	open( my $fh, '<:raw', $file ) or croak "Can't open $file";
-	while ( sysread( $fh, $read_bytes, $num_bytes ) ) {
-		if ( $read_bytes eq $bytes ) {
+	open( my $fh, '<:raw', $file );
+	while ( read( $fh, $_, $chunksize ) ) {
+		if ( /(\Q$bytes\E[[:print:]]+)/ ) {
+			close $fh;
 			return 1;
 		}
-		sysseek( $fh, 1, SEEK_CUR ) or croak;
 	}
+	close $fh;
 	return 0;
 }
 

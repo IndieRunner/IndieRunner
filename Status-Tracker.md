@@ -37,6 +37,7 @@ Letters indicate which platform versions have been tested successfully:
 |Dad Quest		|MonoGame|W	|	|	|	|	|no gamecontroller support|
 |Dead Cells		|HashLink|	|L	|	|	|	|		|
 |Dead Pixels II		|FNA	|L	|	|	|	|	|Early Access (2022-08-27)|
+|Dome Keeper		|Godot	|L	|	|	|	|	|		|
 |Draw a Stickman: EPIC	|XNA	|	|	|	|	|	|crashes early without Steamworks.NET.dll stub|
 |Dust: An Elysian Tail	|FNA	|	|L	|	|	|	|		|
 |Eliza			|Mono	|	|L	|	|	|	|		|
@@ -60,7 +61,7 @@ Letters indicate which platform versions have been tested successfully:
 |Mercenary Kings	|FNA	|	|	|	|	|	|NLog.NLogConfigurationException|
 |Mewnbase		|LibGDX	|	|	|	|	|	|		|
 |MidBoss		|FNA	|	|	|L	|	|	|Crash on death; needs SDL_image fix from fnaify|
-|Mobius Front '83	|Mono	|	|L	|	|	|	|has been buggy during play|
+|Mobius Front '83	|Mono	|	|L	|	|	|	|buggy with random crashes|
 |MOLEK-SYNTEZ		|Mono	|	|L	|	|	|	|		|
 |Mount Your Friends	|XNA	|W	|	|	|	|	|		|
 |Murder Miners		|FNA	|L	|	|	|	|	|no online support|
