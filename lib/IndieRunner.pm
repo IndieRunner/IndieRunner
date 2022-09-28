@@ -57,23 +57,18 @@ my $engine;
 my $engine_id_file;
 my @files = glob '*';
 
+# add indicator files/directories in subdirectories if they exist
+push( @files, '_CommonRedist/XNA' ) if ( -e '_CommonRedist/XNA' );
+
 # 1st Pass: File Names
 foreach my $f ( @files ) {
 	$engine = IndieRunner::GrandCentral::identify_engine($f);
 	if ( $engine ) {
 		$engine_id_file = $f;
-		say "Engine identified from file: $engine_id_file" if $verbose;
+		say "Engine identified via file: $engine_id_file" if $verbose;
 		say "Engine: $engine" if $verbose;
 		last;
 	}
-}
-
-# detect XNA
-if ( -d '_CommonRedist/XNA' || -f 'xnafx40_redist.msi' || -f 'LaserCat.exe'
-     || -f 'MountYourFriends.exe' || -f 'ThePit.exe' ) {
-	$engine = 'XNA';
-	$engine_id_file = '';
-	say "Engine: $engine" if $verbose;
 }
 
 # not FNA, XNA, or MonoGame on 1st pass; check if it could still be Mono
@@ -88,7 +83,7 @@ unless ( $engine ) {
 		$engine = IndieRunner::GrandCentral::identify_engine_thorough($f);
 		if ( $engine ) {
 			$engine_id_file = $f;
-			say "Engine identified from file: $engine_id_file" if $verbose;
+			say "Engine identified via file: $engine_id_file" if $verbose;
 			say "Engine: $engine" if $verbose;
 			last;
 		}

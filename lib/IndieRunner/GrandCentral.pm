@@ -56,14 +56,16 @@ Readonly::Hash my %Indicator_Files => (	# files that are indicative of a framewo
 	'liblwjgl_xxhash.so'		=> 'LWJGL3',
 	'MonoGame.Framework.dll'	=> 'MonoGame',
 	'MonoGame.Framework.dll.config'	=> 'MonoGame',
-	# TODO:	add detection for framework-less games
-	#	(Atom Zombie Smasher, Zachtronics games)
-	# TODO:	add detection for XNA games
+	'xnafx40_redist.msi'		=> 'XNA',
+	'LaserCat.exe'			=> 'XNA',
+	'MountYourFriends.exe'		=> 'XNA',
+	'ThePit.exe'			=> 'XNA',
+	'_CommonRedist/XNA'		=> 'XNA',
 );
 
 Readonly::Hash my %Indicators => (	# byte sequences that are indicative of a framework
 	'Godot'	=> {
-		'glob'	=> '*.x86_64',
+		'glob'		=> '*.x86_64',
 		'magic_bytes'	=> 'GDPC',
 	},
 );

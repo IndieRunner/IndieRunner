@@ -27,6 +27,7 @@ use IndieRunner::Mono;
 
 sub run_cmd {
 	my ($self, $engine_id_file, $game_file) = @_;
+	# ignoring $engine_id_file for XNA
 	return IndieRunner::Mono->run_cmd( $game_file );
 }
 sub setup {
