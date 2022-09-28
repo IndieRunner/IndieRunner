@@ -61,10 +61,10 @@ Readonly::Hash my %Indicator_Files => (	# files that are indicative of a framewo
 	# TODO:	add detection for XNA games
 );
 
-Readonly::Hash my %Indicator_Bytes => (	# byte sequences that are indicative of a framework
+Readonly::Hash my %Indicators => (	# byte sequences that are indicative of a framework
 	'Godot'	=> {
 		'glob'	=> '*.x86_64',
-		'bytes'	=> 'GDPC',
+		'magic_bytes'	=> 'GDPC',
 	},
 );
 
@@ -75,7 +75,7 @@ sub find_bytes {
 
 	open( my $fh, '<:raw', $file );
 	while ( read( $fh, $_, $chunksize ) ) {
-		if ( /(\Q$bytes\E[[:print:]]+)/ ) {
+		if ( /\Q$bytes\E/ ) {
 			close $fh;
 			return 1;
 		}
@@ -100,9 +100,10 @@ sub identify_engine {
 sub identify_engine_thorough {
 	my $file = shift;
 
-	foreach my $engine ( keys %Indicator_Bytes ) {
-		if ( match_glob( $Indicator_Bytes{$engine}{'glob'}, $file ) and
-		     find_bytes( $file, $Indicator_Bytes{$engine}{'bytes'} )	) {
+	# thorough detection via "magic bytes"
+	foreach my $engine ( keys %Indicators ) {
+		if ( match_glob( $Indicators{$engine}{'glob'}, $file ) and
+		     find_bytes( $file, $Indicators{$engine}{'magic_bytes'} )	) {
 			return $engine;
 		}
 	}

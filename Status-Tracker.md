@@ -24,6 +24,7 @@ Letters indicate which platform versions have been tested successfully:
 |Bleed 2		|FNA	|L	|	|	|	|	|		|
 |Blossom Tales II: The Minotaur Prince	|FNA	|L	|	|	|	|	|		|
 |Breath of Death VII	|XNA	|W	|	|	|	|	|		|
+|Brotato		|Godot	|W	|	|	|	|	|		|
 |Brushwood Buddies	|FNA	|	|	|L	|	|	|		|
 |Capsized		|MonoGame|	|L	|	|	|	|		|
 |Celeste		|FNA	|	|	|L	|	|	|no audio	|
