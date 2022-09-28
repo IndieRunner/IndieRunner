@@ -26,7 +26,9 @@ use autodie;
 use base qw( Exporter );
 our @EXPORT_OK = qw( get_dllmap_target );
 
-use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+use File::Spec::Functions qw( splitpath );
+
+use IndieRunner::Cmdline qw( cli_dllmap_file cli_dryrun cli_verbose );
 
 Readonly::Scalar my $dllmap => <<"END_DLLMAP";
 <!-- IndieRunner monolithic config -->
@@ -274,31 +276,31 @@ Readonly::Scalar my $dllmap => <<"END_DLLMAP";
 END_DLLMAP
 
 sub get_dllmap_target {
-	# XXX: check	CLI-supplied file (-c argument?)
-	#		~/.IndieRunner/IndieRunner.dllmap.config
-	#		/usr/local/share/IndieRunner/IndieRunner.dllmap.config
+	# XXX: ~/.IndieRunner/IndieRunner.dllmap.config
 
-	my $temp_dllmap_file = '/tmp/IndieRunner.dllmap';
 	my $dryrun = cli_dryrun;
 	my $verbose = cli_verbose;
+	my $dllmap_file = cli_dllmap_file;
 
-	if ( -f $temp_dllmap_file ) {
-		if ( $verbose ) {
-			say "Dllmap file $temp_dllmap_file already present.";
+	unless ( $dllmap_file ) {
+		# no $dllmap_file available; use temporary one
+		$dllmap_file = '/tmp/IndieRunner/dllmap.config';
+		break if ( -f $dllmap_file );
+
+		# create temporary config file
+		if ( $dryrun || $verbose ) {
+			say "Writing temporary Dllmap file: $dllmap_file";
 		}
-		return $temp_dllmap_file;
+		unless ( $dryrun ) {
+			my ($vol, $dir, $fil) = splitpath( $dllmap_file );
+			mkdir $vol . $dir unless ( -d $vol . $dir );
+			open(my $fh, '>', $dllmap_file);
+			print $fh $dllmap;
+			close $fh;
+		}
 	}
 
-	if ( $dryrun || $verbose ) {
-		say "Writing Dllmap file to $temp_dllmap_file.";
-	}
-	unless ( $dryrun ) {
-		open(my $fh, '>', $temp_dllmap_file);
-		print $fh $dllmap;
-		close $fh;
-	}
-
-	return $temp_dllmap_file;
+	return $dllmap_file;
 }
 
 1;
