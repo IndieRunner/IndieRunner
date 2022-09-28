@@ -24,16 +24,23 @@ use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 
-Readonly::Scalar my $BIN => 'hl';
+Readonly::Scalar	my $BIN => 'hl';
+Readonly::Array		my @DAT => (
+					'sdlboot.dat',
+					'hlboot.dat',
+					);
 
 sub run_cmd {
 	my ($self, $engine_id_file, $game_file) = @_;
-	if ( -e 'hlboot.dat' ) {
-		return ( $BIN, 'hlboot.dat' );
-	}
 
-	croak "Not implemented";
-	# XXX: return array for system
+        my @env = (
+		'LD_LIBRARY_PATH=/usr/local/lib/steamworks-nosteam/',
+		);
+
+	foreach my $d ( @DAT ) {
+		return ( 'env', @env, $BIN, $d ) if ( -f $d );
+	}
+	croak "Failed to find .dat file for hashlink";
 }
 
 sub setup {

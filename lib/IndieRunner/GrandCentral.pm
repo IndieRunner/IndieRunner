@@ -39,6 +39,7 @@ Readonly::Hash my %Indicator_Files => (	# files that are indicative of a framewo
 	'libhl.so'			=> 'HashLink',
 	'libhl.dll'			=> 'HashLink',
 	'detect.hl'			=> 'HashLink',
+	'sdlboot.dat'			=> 'HashLink',
 	'libgdx.so'			=> 'LibGDX',
 	'libgdx64.so'			=> 'LibGDX',
 	'gdx.dll'			=> 'LibGDX',
@@ -91,7 +92,9 @@ sub identify_engine {
 
 	# standard detection by globbing for keys of %Indicator_Files
 	foreach my $engine_pattern ( keys %Indicator_Files ) {
-		if ( match_glob( $engine_pattern, $file ) ) {
+		# account for possible '_' add the end after previous run
+		if ( match_glob( $engine_pattern, $file )
+		  || match_glob( $engine_pattern . '_', $file ) ) {
 			return $Indicator_Files{ $engine_pattern };
 		}
 	}

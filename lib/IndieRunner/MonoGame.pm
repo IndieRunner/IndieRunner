@@ -30,7 +30,7 @@ sub run_cmd {
 sub setup {
 	my ($self) = @_;
 	IndieRunner::Mono->setup();
-	# XXX
+	# XXX: fix detection of libraries (sdl2, openal, dl)
 }
 
 1;

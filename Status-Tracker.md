@@ -44,6 +44,7 @@ Letters indicate which platform versions have been tested successfully:
 |Eliza			|Mono	|	|L	|	|	|	|		|
 |Escape Goat		|MonoGame|	|	|	|	|Humble:L|		|
 |Escape Goat 2		|MonoGame|	|	|	|	|Humble:L|		|
+|Evoland Legendary Edition|HashLink|	|	|	|	|	|steam.hdll stub: Steam failed to activate|
 |EXAPUNKS		|Mono	|	|L	|	|	|	|		|
 |FEZ			|FNA	|L(beta)|	|	|	|	|		|
 |Fist Puncher		|FNA	|	|L	|	|	|	|		|
