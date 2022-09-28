@@ -285,7 +285,7 @@ sub get_dllmap_target {
 
 	unless ( $dllmap_file ) {
 		# no $dllmap_file available; use temporary one
-		$dllmap_file = catpath( '', $tmpdir, 'dllmap.config';
+		$dllmap_file = catpath( '', $tmpdir, 'dllmap.config' );
 		break if ( -f $dllmap_file );
 
 		# create temporary config file
