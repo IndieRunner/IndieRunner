@@ -26,7 +26,7 @@ use autodie;
 use base qw( Exporter );
 our @EXPORT_OK = qw( get_dllmap_target );
 
-use File::Spec::Functions qw( splitpath );
+use File::Spec::Functions qw( catpath splitpath );
 
 use IndieRunner::Cmdline qw( cli_dllmap_file cli_dryrun cli_verbose );
 
@@ -281,10 +281,11 @@ sub get_dllmap_target {
 	my $dryrun = cli_dryrun;
 	my $verbose = cli_verbose;
 	my $dllmap_file = cli_dllmap_file;
+	my $tmpdir = '/tmp/IndieRunner/';
 
 	unless ( $dllmap_file ) {
 		# no $dllmap_file available; use temporary one
-		$dllmap_file = '/tmp/IndieRunner/dllmap.config';
+		$dllmap_file = catpath( '', $tmpdir, 'dllmap.config';
 		break if ( -f $dllmap_file );
 
 		# create temporary config file
@@ -292,8 +293,9 @@ sub get_dllmap_target {
 			say "Writing temporary Dllmap file: $dllmap_file";
 		}
 		unless ( $dryrun ) {
+			# XXX: replace with: write_file( $dllmap, $dllmap_file );
 			my ($vol, $dir, $fil) = splitpath( $dllmap_file );
-			mkdir $vol . $dir unless ( -d $vol . $dir );
+			mkdir catpath($vol, $dir) unless ( -d catpath($vol, $dir) );
 			open(my $fh, '>', $dllmap_file);
 			print $fh $dllmap;
 			close $fh;

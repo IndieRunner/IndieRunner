@@ -20,9 +20,9 @@ use v5.10;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use Capture::Tiny ':all';
-use File::Spec::Functions qw( splitpath );
+use File::Spec::Functions qw( catpath splitpath );
 
-use IndieRunner::Cmdline qw( cli_dryrun cli_file cli_verbose init_cli );
+use IndieRunner::Cmdline qw( cli_dryrun cli_file cli_logdir cli_verbose init_cli );
 use IndieRunner::FNA;
 use IndieRunner::Godot;
 use IndieRunner::GrandCentral;
@@ -34,6 +34,7 @@ use IndieRunner::XNA;
 # process config & options
 init_cli;
 my $cli_file	= cli_file;
+my $logdir	= cli_logdir;
 my $dryrun	= cli_dryrun;
 my $verbose	= cli_verbose;
 
@@ -124,6 +125,13 @@ elsif ( $? & 127 ) {
 }
 else {
 	printf "child exited with value %d\n", $? >> 8;
+}
+
+# write $stdout, $stderr to $logdir
+say "storing logs in $logdir" if ( $dryrun || $verbose );
+unless ( $dryrun ) {
+	# XXX: write_file( $stdout, catpath( '', $logdir, 'stdout.log' ) );
+	# XXX: write_file( $stderr, catpath( '', $logdir, 'stderr.log' ) );
 }
 
 # XXX: inspect $stdout, $stderr
