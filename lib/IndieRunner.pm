@@ -66,8 +66,8 @@ foreach my $f ( @files ) {
 	$engine = IndieRunner::GrandCentral::identify_engine($f);
 	if ( $engine ) {
 		$engine_id_file = $f;
-		say "Engine identified via file: $engine_id_file" if $verbose;
-		say "Engine: $engine" if $verbose;
+		say "Engine heuristic via file: $engine_id_file" if $verbose;
+		say "Engine heuristic result: $engine" if $verbose;
 		last;
 	}
 }
@@ -79,13 +79,13 @@ unless ( $engine ) {
 
 # 2nd Pass: Byte Sequences
 unless ( $engine ) {
-	say "Failed to identify game engine on first pass; attempting second pass (slower).";
+	say "Failed to identify game engine on first pass; performing second pass.";
 	foreach my $f ( @files ) {
 		$engine = IndieRunner::GrandCentral::identify_engine_thorough($f);
 		if ( $engine ) {
 			$engine_id_file = $f;
-			say "Engine identified via file: $engine_id_file" if $verbose;
-			say "Engine: $engine" if $verbose;
+			say "Engine heuristic via file: $engine_id_file" if $verbose;
+			say "Engine heuristic result: $engine" if $verbose;
 			last;
 		}
 	}
@@ -120,7 +120,7 @@ elsif ( $? == -1 ) {
 	say "failed to execute: $!";
 }
 elsif ( $? & 127 ) {
-	printf "child died with signal %d, %s coredump\n",
+	printf "child process died with signal %d, %s coredump\n",
 		( $? & 127 ),  ( $? & 128 ) ? 'with' : 'without';
 }
 else {

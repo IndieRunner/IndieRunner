@@ -58,9 +58,6 @@ Readonly::Hash my %Indicator_Files => (	# files that are indicative of a framewo
 	'MonoGame.Framework.dll'	=> 'MonoGame',
 	'MonoGame.Framework.dll.config'	=> 'MonoGame',
 	'xnafx40_redist.msi'		=> 'XNA',
-	'LaserCat.exe'			=> 'XNA',
-	'MountYourFriends.exe'		=> 'XNA',
-	'ThePit.exe'			=> 'XNA',
 	'_CommonRedist/XNA'		=> 'XNA',
 );
 
@@ -68,6 +65,22 @@ Readonly::Hash my %Indicators => (	# byte sequences that are indicative of a fra
 	'Godot'	=> {
 		'glob'		=> '*.x86_64',
 		'magic_bytes'	=> 'GDPC',
+	},
+	'XNA'	=> {
+		# 'Microsoft.Xna.Framework' is found in XNA, FNA, and MonoGame
+		# This needs to be part of a staged heuristic
+		'glob'		=> '*.exe',
+		'magic_bytes'	=> 'Microsoft.Xna.Framework',
+	},
+	'MonoGame'	=> {
+		'glob'		=> '*.exe',
+		'magic_bytes'	=> 'MonoGame.Framework',
+	},
+	'FNA'	=> {
+		# likely not specific enough to be reliable
+		# alternatively, consider `monodis --assemblyref *.exe | fgrep 'Name=FNA'`
+		'glob'		=> '*.exe',
+		'magic_bytes'	=> 'FNA',
 	},
 );
 
@@ -77,6 +90,8 @@ sub find_bytes {
 	my $string;
 
 	open( my $fh, '<:raw', $file );
+	# XXX:	works so far, but unclear if this may fail to detect string that
+	# 	extends over 2 chunks
 	while ( read( $fh, $_, $chunksize ) ) {
 		if ( /\Q$bytes\E/ ) {
 			close $fh;
