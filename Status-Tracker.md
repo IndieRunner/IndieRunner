@@ -69,6 +69,7 @@ Letters indicate which platform versions have been tested successfully:
 |Murder Miners		|FNA	|L	|	|	|	|	|no online support|
 |NeuroVoider		|MonoGame|	|L	|	|	|	|SQL error on launch|
 |Ninja Warrior		|XNA	|	|	|	|	|	|engine detection fails|
+|Nuclear Blaze		|HashLink|	|	|	|	|	|steam.hdll stub: Steam is not running!|
 |One Finger Death Punch	|XNA	|W	|	|	|	|	|		|
 |Opus Magnum		|Mono	|	|L	|	|	|	|		|
 |Overdriven Reloaded	|FNA	|L	|	|	|	|	|		|
