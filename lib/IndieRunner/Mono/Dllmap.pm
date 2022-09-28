@@ -286,19 +286,19 @@ sub get_dllmap_target {
 	unless ( $dllmap_file ) {
 		# no $dllmap_file available; use temporary one
 		$dllmap_file = catpath( '', $tmpdir, 'dllmap.config' );
-		break if ( -f $dllmap_file );
-
-		# create temporary config file
-		if ( $dryrun || $verbose ) {
-			say "Writing temporary Dllmap file: $dllmap_file";
-		}
-		unless ( $dryrun ) {
-			# XXX: replace with: write_file( $dllmap, $dllmap_file );
-			my ($vol, $dir, $fil) = splitpath( $dllmap_file );
-			mkdir catpath($vol, $dir) unless ( -d catpath($vol, $dir) );
-			open(my $fh, '>', $dllmap_file);
-			print $fh $dllmap;
-			close $fh;
+		unless ( -f $dllmap_file ) {
+			# create temporary config file
+			if ( $dryrun || $verbose ) {
+				say "Writing temporary Dllmap file: $dllmap_file";
+			}
+			unless ( $dryrun ) {
+				# XXX: replace with: write_file( $dllmap, $dllmap_file );
+				my ($vol, $dir, $fil) = splitpath( $dllmap_file );
+				mkdir catpath($vol, $dir) unless ( -d catpath($vol, $dir) );
+				open(my $fh, '>', $dllmap_file);
+				print $fh $dllmap;
+				close $fh;
+			}
 		}
 	}
 

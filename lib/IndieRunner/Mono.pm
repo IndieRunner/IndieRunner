@@ -104,7 +104,7 @@ sub quirks {
 }
 
 sub run_cmd {
-	my ($self, $game_file) = @_;
+	my ($self, $engine_id_file, $game_file) = @_;
 
 	# TODO: check for quirks: eagle island, MONO_FORCE_COMPAT
 	# TODO: setup custom config for MidBoss
