@@ -21,17 +21,18 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use Carp;
 use Readonly;
 
-use autodie;
+use autodie;	# XXX: remove?
 
 use base qw( Exporter );
 our @EXPORT_OK = qw( get_dllmap_target );
 
-use File::Spec::Functions qw( catpath splitpath );
+use File::Spec::Functions qw( catpath splitpath );	# XXX: remove?
 
 use IndieRunner::Cmdline qw( cli_dllmap_file cli_dryrun cli_verbose );
+use IndieRunner::Io qw( write_file );
 
 Readonly::Scalar my $dllmap => <<"END_DLLMAP";
-<!-- IndieRunner monolithic config -->
+<!-- IndieRunner monolithic Dllmap -->
 <configuration>
 	<dllmap dll="FAudio" target="libFAudio.so"/>
 	<dllmap dll="FNA3D" target="libFNA3D.so"/>
@@ -287,18 +288,9 @@ sub get_dllmap_target {
 		# no $dllmap_file available; use temporary one
 		$dllmap_file = catpath( '', $tmpdir, 'dllmap.config' );
 		unless ( -f $dllmap_file ) {
-			# create temporary config file
-			if ( $dryrun || $verbose ) {
-				say "Writing temporary Dllmap file: $dllmap_file";
-			}
-			unless ( $dryrun ) {
-				# XXX: replace with: write_file( $dllmap, $dllmap_file );
-				my ($vol, $dir, $fil) = splitpath( $dllmap_file );
-				mkdir catpath($vol, $dir) unless ( -d catpath($vol, $dir) );
-				open(my $fh, '>', $dllmap_file);
-				print $fh $dllmap;
-				close $fh;
-			}
+			say "Writing temporary Dllmap file: $dllmap_file"
+				if ( $dryrun || $verbose );
+			write_file( $dllmap, $dllmap_file ) unless $dryrun;
 		}
 	}
 

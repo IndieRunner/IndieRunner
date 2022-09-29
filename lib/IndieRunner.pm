@@ -21,12 +21,14 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use Capture::Tiny ':all';
 use File::Spec::Functions qw( catpath splitpath );
+use POSIX qw( strftime );
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_file cli_logdir cli_verbose init_cli );
 use IndieRunner::FNA;
 use IndieRunner::Godot;
 use IndieRunner::GrandCentral;
 use IndieRunner::HashLink;
+use IndieRunner::Io qw( write_file );
 use IndieRunner::Mono qw( get_mono_files );
 use IndieRunner::MonoGame;
 use IndieRunner::XNA;
@@ -128,10 +130,13 @@ else {
 }
 
 # write $stdout, $stderr to $logdir
-say "storing logs in $logdir" if ( $dryrun || $verbose );
+say "storing logs in $logdir" if ( $verbose );
 unless ( $dryrun ) {
-	# XXX: write_file( $stdout, catpath( '', $logdir, 'stdout.log' ) );
-	# XXX: write_file( $stderr, catpath( '', $logdir, 'stderr.log' ) );
+	my $now = strftime "%Y-%m-%d-%H-%M-%S", localtime;
+	write_file( $stdout, catpath( '', $logdir, "${now}-stdout.log" ) )
+		if $stdout;
+	write_file( $stderr, catpath( '', $logdir, "${now}-stderr.log" ) )
+		if $stderr;
 }
 
 # XXX: inspect $stdout, $stderr
