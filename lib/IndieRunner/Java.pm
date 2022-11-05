@@ -23,7 +23,48 @@ use Carp;
 use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
-use IndieRunner::IdentifyFiles qw( get_magic_descr );
+use IndieRunner::IdentifyFiles qw( get_magic_descr );	# XXX: is this used here?
+
+# Java version string examples: '1.8.0_312-b07'
+#                               '1.8.0_181-b02'
+#                               '11.0.13+8-1'
+#                               '17.0.1+12-1'
+Readonly::Scalar my $JAVA_VER_REGEX
+				=> '\d{1,2}\.\d{1,2}\.\d{1,2}[_\+][\w\-]+';
+
+Readonly::Hash my %managed_subst => (
+	'libgdx' =>             {
+				'Bundled_Loc'         => 'com/badlogic/gdx',
+				'Replace_Loc'         => '/usr/local/share/libgdx',
+				'Version_File'        => 'Version.class',
+				'Version_Regex'       => '\d+\.\d+\.\d+',
+				'Os_Test_File'        => 'com/badlogic/gdx/utils/SharedLibraryLoader.class',
+				},
+	'steamworks4j' =>       {
+				'Bundled_Loc'         => 'com/codedisaster/steamworks',
+				'Replace_Loc'         => '/usr/local/share/steamworks4j',
+				'Version_File'        => 'Version.class',
+				'Version_Regex'       => '\d+\.\d+\.\d+',
+				'Os_Test_File'        => 'com/codedisaster/steamworks/SteamSharedLibraryLoader.class',
+				},
+);
+
+Readonly::Array my @LIB_LOCATIONS
+        => ( '/usr/X11R6/lib',
+	     '/usr/local/lib',
+	     '/usr/local/share/lwjgl',
+	     '/usr/local/share/libgdx',
+);
+
+my %Valid_Java_Versions = (
+	'openbsd'       => [
+				'1.8.0',
+				'11',
+				'17',
+			   ],
+);
+
+# ... TODO: copy more over from libgdx-run
 
 sub run_cmd {
 	my ($self, $game_file) = @_;

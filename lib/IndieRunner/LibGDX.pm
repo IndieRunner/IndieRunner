@@ -24,6 +24,8 @@ use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 
+Readonly::Scalar my $CONFIG_FILE => 'config.json';
+
 sub run_cmd {
 	my ($self, $engine_id_file, $game_file) = @_;
 
