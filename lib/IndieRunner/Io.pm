@@ -27,6 +27,8 @@ use Carp;
 use File::Path qw( make_path );
 use File::Spec::Functions qw( catpath splitpath );
 
+use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+
 sub write_file {
 	my ($data, $filename) = @_;
 
@@ -40,9 +42,18 @@ sub write_file {
 }
 
 # helper function for symlink in IndieRunner
-# Syntax: ir_symlink( glob_of_oldfile, newfile )
+# Syntax: ir_symlink( string glob_of_oldfile, string newfile, bool overwrite )
 sub ir_symlink {
-	my ($oldfile_glob, $newfile) = @_;
+	my ($oldfile_glob, $newfile, $overwrite) = @_;
+
+	if ( -e $newfile ) {
+		if ( $overwrite ) {
+			rename $newfile, $newfile . '_';
+		}
+		else {
+			return 1;
+		}
+	}
 
 	my @oldfile_array = glob( $oldfile_glob );
 	my $oldfile;
@@ -63,7 +74,10 @@ sub ir_symlink {
 		$oldfile = pop @oldfile_array;
 	}
 
-	symlink($oldfile, $newfile);
+	say "Symlink: $newfile -> $oldfile" if ( cli_dryrun || cli_verbose );
+	unless ( cli_dryrun ) {
+		symlink($oldfile, $newfile);
+	}
 
 	return 1;
 }

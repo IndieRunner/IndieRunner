@@ -18,12 +18,14 @@ use strict;
 use warnings;
 use v5.10;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
+use autodie;
 use Carp;
 
 use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 use IndieRunner::IdentifyFiles qw( get_magic_descr );	# XXX: is this used here?
+use IndieRunner::Io qw( ir_symlink );
 use IndieRunner::Platform qw( get_os );
 
 use Archive::Extract;
@@ -267,10 +269,9 @@ sub replace_managed {
 	if ( -l $bundled_loc ) {
 		die "Error: '$bundled_loc' is already a symlink!";
 	}
-	remove_tree( $bundled_loc ) or
-		die "failed to delete $bundled_loc: $!";
-	symlink($replacement_framework, $bundled_loc) or
-		die "failed to symlink: $!";
+	remove_tree( $bundled_loc );
+	# TODO: replace with ir_symlink
+	symlink($replacement_framework, $bundled_loc);
 
 	return 1;
 }
@@ -283,41 +284,11 @@ sub replace_lib {
 
 	my @candidate_syslibs;
 
-	# find syslib or fail
-	if ( $Bit_Sufx and ( substr( $lib, -length($Bit_Sufx) ) eq $Bit_Sufx ) ) {
-		# libxxx64.so => libxxx
-		$lib_glob = substr($lib, 0, -length($So_Sufx));
-	}
-	else {
-		# libxxx.so => libxxx
-		$lib_glob = substr($lib, 0, -length($So_Sufx));
-	}
-	$lib_glob = $lib_glob . "{64,}.so*";		# libxxx => libxxx{64,}.so*
-	@candidate_syslibs =
-		File::Find::Rule->file
-				->name( $lib_glob )
-				->in( @LIB_LOCATIONS );
-	my $n = scalar(@candidate_syslibs);
-	if ( $n == 0 ) {
-		say 'not found';
-		return 0;
-	}
-	elsif ( $n == 1 ) {
-		$syslib = $candidate_syslibs[0];
-	}
-	else {
-		# 2 scenarios: differently named files in same dir
-		# or files in different directories
-		# the latter shouldn't happen... (famous last words)
-		# List::Util::maxstr picks e.g. libopenal.so.4.1 over
-		# libopenal64.so.4.0
-		$syslib = maxstr( @candidate_syslibs );
-	}
+	# create glob string 'libxxx{64,}.so*'
+	$lib_glob = substr($lib, 0, -length($So_Sufx));
+	$lib_glob = $lib_glob . "{64,}.so*";
 
-	# symlink to syslib
-	rename $lib, $lib . '_' or die "failed to rename '${lib}' -> '${lib}_': $!";
-	say "symlink => $syslib";
-	symlink ( $syslib, $lib ) or die "failed to create symlink: $!";
+	ir_symlink( $lib_glob, $lib, 1 ) or confess "failed to replace $lib with symlink";
 
 	return 1;
 }
@@ -422,7 +393,7 @@ sub setup {
 	my $verbose = cli_verbose;
 
 	carp "Warning: Preliminary implementation";
-	do_setup;
+	do_setup || confess "do_setup exited with 0";
 }
 
 1;

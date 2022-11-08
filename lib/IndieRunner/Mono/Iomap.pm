@@ -24,7 +24,8 @@ use Readonly;
 use base qw( Exporter );
 our @EXPORT_OK =qw( iomap_symlink );
 
-use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+use IndieRunner::Cmdline qw( cli_verbose );
+use IndieRunner::Io qw( ir_symlink );
 
 Readonly::Hash my %iomap => {
 	'AJ1.exe' => [
@@ -377,21 +378,15 @@ Readonly::Hash my %iomap => {
 
 sub iomap_symlink {
 	my ($index_file) = @_;
-	my $dryrun = cli_dryrun();
-	my $verbose = cli_verbose();
 
 	return 0 unless ( grep( /^\Q$index_file\E$/, keys %iomap ) );
-	say "Found $index_file; create symlinks to make up for abandoned MONO_IOMAP"
-		if $verbose;
+	say "Found $index_file; create symlinks to simulate (abandoned) MONO_IOMAP"
+		if cli_verbose;
 
 	foreach my $symlink_pair ( @{ $iomap{ $index_file } } ) {
 		my ($oldfile, $newfile) = @{ $symlink_pair };
 		next if ( -e $newfile );
-		say "Symlink: $newfile -> $oldfile" if ( $dryrun || $verbose );
-		unless ( $dryrun ) {
-			symlink($oldfile, $newfile) or
-				croak "Failed to create symlink $newfile: $!";
-		}
+		ir_symlink( $oldfile, $newfile );
 	}
 
 	return 1;
