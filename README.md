@@ -32,7 +32,8 @@ Showcase
 
 * Northgard
 * Dead Cells
-* Curse of the Crescent Isle DX
+* Urtuk the Desolation
+* Nuclear Blaze
 
 "Indie"?
 ========

@@ -24,6 +24,7 @@ use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 use IndieRunner::IdentifyFiles qw( get_magic_descr );	# XXX: is this used here?
+use IndieRunner::IndieRunner;
 
 use Archive::Extract;
 use Capture::Tiny ':all';
@@ -36,8 +37,6 @@ use JSON;
 use List::Util qw( max maxstr );
 use Path::Tiny;
 use Readonly;
-
-use IndieRunner::IndieRunner;
 
 Readonly::Scalar my $CONFIG_FILE => 'config.json';
 
@@ -387,16 +386,17 @@ sub do_setup {
 	return 1;
 }
 
-sub do_run {
+sub run_cmd {
+	my ($self, $game_file) = @_;
+
 	my $config_data;
 	my $java_home;
 	my $main_class;
-	my $stdout;
-	my $stderr;
 	my @class_path;
 	my @jvm_env;
 	my @jvm_args;
-	my @system_args;
+
+	carp "Warning: Preliminary implementation";
 
 	# get OS and OS Java variables
 	$Os = IndieRunner::IndieRunner::detectplatform;
@@ -416,32 +416,8 @@ sub do_run {
 		@jvm_args	= @{$$config_data{'vmArgs'}};
 	}
 
-	do_setup(@class_path) or die "Couldn't set up the game";
-
-	# build command and execute
-	@jvm_env	= (
-				"JAVA_HOME=$java_home",
-				"PATH=$java_home/bin:\$PATH"
-			  );
-	@system_args = ( 'env', @jvm_env, 'java', @jvm_args, $main_class );
-	say "\nExecuting Java Virtual Machine:";
-	say join( ' ', @system_args ) . "\n";
-	($stdout, $stderr) = tee {
-		system( '/bin/sh', '-c', join( ' ', @system_args ) );
-	};
-
-	#say "\nExecution completed with exit code " . ($? >> 8);
-	#say "STDOUT:\n$stdout";
-	#say "STDERR:\n$stderr";
-
-	exit ($? >> 8);
-}
-
-sub run_cmd {
-	my ($self, $game_file) = @_;
-
-	carp "Warning: Preliminary implementation";
-	do_run;
+	@jvm_env	= ( "JAVA_HOME=$java_home", );
+	return( 'env', @jvm_env, $java_home . '/bin/java', @jvm_args, $main_class );
 }
 
 sub setup {

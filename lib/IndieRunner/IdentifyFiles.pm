@@ -78,6 +78,7 @@ sub find_file_type {
 	return @out_list;
 }
 
+# XXX: is this function used?
 # equivalent to strings(1)
 sub strings {
 	open(FH, '<:raw', $_[0])	or croak("Couldn't open file $_[0]: $!");
