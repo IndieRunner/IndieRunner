@@ -46,15 +46,8 @@ sub write_file {
 sub ir_symlink {
 	my ($oldfile_glob, $newfile, $overwrite) = @_;
 
-	if ( -e $newfile ) {
-		if ( $overwrite ) {
-			rename $newfile, $newfile . '_';
-		}
-		else {
-			return 1;
-		}
-	}
-
+	my $dryrun = cli_dryrun();
+	my $verbose = cli_verbose();
 	my @oldfile_array = glob( $oldfile_glob );
 	my $oldfile;
 
@@ -74,8 +67,18 @@ sub ir_symlink {
 		$oldfile = pop @oldfile_array;
 	}
 
-	say "Symlink: $newfile -> $oldfile" if ( cli_dryrun || cli_verbose );
-	unless ( cli_dryrun ) {
+	say "Symlink: $newfile -> $oldfile" if ( $dryrun || $verbose );
+	if ( -e $newfile ) {
+		if ( $overwrite ) {
+			say "Rename: ${newfile} => ${newfile}_" if ( $dryrun || $verbose );
+			rename $newfile, $newfile . '_' unless $dryrun;
+		}
+		else {
+			return 1;
+		}
+	}
+
+	unless ( $dryrun ) {
 		symlink($oldfile, $newfile);
 	}
 

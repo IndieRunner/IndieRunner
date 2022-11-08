@@ -64,11 +64,12 @@ Readonly::Hash my %managed_subst => (
 				},
 );
 
+# TODO: fix using hardcoded libgdx/1.9.11 path
 Readonly::Array my @LIB_LOCATIONS
         => ( '/usr/X11R6/lib',
 	     '/usr/local/lib',
 	     '/usr/local/share/lwjgl',
-	     '/usr/local/share/libgdx',
+	     '/usr/local/share/libgdx/1.9.11',
 );
 
 Readonly::Scalar my $So_Sufx => '.so';
@@ -227,6 +228,7 @@ sub replace_managed {
 	my $bundled_loc;
 	my $framework_version;
 	my $framework_version_file;
+	my $most_compatible_version;
 	my $replacement_framework;
 	my $version_class_file = $managed_subst{ $framework_name }{ 'Version_File' };
 
@@ -257,9 +259,9 @@ sub replace_managed {
 		    } File::Find::Rule->file
 				      ->name( $version_class_file )
 				      ->in( $managed_subst{ $framework_name }{ 'Replace_Loc' } );
-	$replacement_framework = $candidate_replacements{
-		select_most_compatible_version( $framework_version,
-						keys( %candidate_replacements ) ) };
+	$most_compatible_version = select_most_compatible_version( $framework_version,
+				keys( %candidate_replacements ) );
+	$replacement_framework = $candidate_replacements{ $most_compatible_version };
 	unless( $replacement_framework ) {
 		die "No matching framework found to replace bundled $framework_name";
 	}
@@ -280,7 +282,6 @@ sub replace_lib {
 	my $lib = shift;
 
 	my $lib_glob;		# pattern to search for $syslib
-	my $syslib;		# the system library to replace $lib
 
 	my @candidate_syslibs;
 
@@ -288,7 +289,9 @@ sub replace_lib {
 	$lib_glob = substr($lib, 0, -length($So_Sufx));
 	$lib_glob = $lib_glob . "{64,}.so*";
 
-	ir_symlink( $lib_glob, $lib, 1 ) or confess "failed to replace $lib with symlink";
+	foreach my $l ( @LIB_LOCATIONS ) {
+		ir_symlink( catfile( $l, $lib_glob ), $lib, 1 ) and last;
+	}
 
 	return 1;
 }
