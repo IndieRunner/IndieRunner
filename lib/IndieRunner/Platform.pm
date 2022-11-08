@@ -1,4 +1,4 @@
-package IndieRunner::IndieRunner;
+package IndieRunner::Platform;
 
 # Copyright (c) 2022 Thomas Frohwein
 #
@@ -17,6 +17,9 @@ package IndieRunner::IndieRunner;
 use strict;
 use warnings;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
+
+use base qw( Exporter );
+our @EXPORT_OK = qw( detectplatform );
 
 use Config;
 

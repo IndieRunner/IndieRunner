@@ -24,10 +24,9 @@ use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 use IndieRunner::IdentifyFiles qw( get_magic_descr );	# XXX: is this used here?
-use IndieRunner::IndieRunner;
+use IndieRunner::Platform qw( detectplatform );
 
 use Archive::Extract;
-use Capture::Tiny ':all';
 use Config;
 use File::Find::Rule;
 use File::Path qw( remove_tree );
