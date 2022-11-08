@@ -23,13 +23,13 @@ use Carp;
 use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+use IndieRunner::Java;
 
 Readonly::Scalar my $CONFIG_FILE => 'config.json';
 
 sub run_cmd {
 	my ($self, $engine_id_file, $game_file) = @_;
 
-	croak "Not yet implemented";
 	return IndieRunner::Java->run_cmd( $game_file );
 }
 
@@ -37,8 +37,6 @@ sub setup {
 	my ($self) = @_;
 	my $dryrun = cli_dryrun();
 	my $verbose = cli_verbose();
-
-	croak "Not yet implemented";
 
 	IndieRunner::Java->setup();
 }
