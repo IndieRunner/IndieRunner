@@ -19,11 +19,11 @@ use warnings;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use base qw( Exporter );
-our @EXPORT_OK = qw( detectplatform );
+our @EXPORT_OK = qw( get_os );
 
 use Config;
 
-sub detectplatform {
+sub get_os {
 	return $Config{qw(osname)};
 }
 

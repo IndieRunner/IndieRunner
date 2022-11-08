@@ -24,7 +24,7 @@ use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 use IndieRunner::IdentifyFiles qw( get_magic_descr );	# XXX: is this used here?
-use IndieRunner::Platform qw( detectplatform );
+use IndieRunner::Platform qw( get_os );
 
 use Archive::Extract;
 use Config;
@@ -69,7 +69,6 @@ Readonly::Array my @LIB_LOCATIONS
 	     '/usr/local/share/libgdx',
 );
 
-my $Os;
 Readonly::Scalar my $So_Sufx => '.so';
 my $Bit_Sufx;
 
@@ -108,7 +107,7 @@ sub get_java_version {
 	my $got_version = match_bin_file($JAVA_VER_REGEX, $bundled_java_bin);
 
 	# trim $version_str string to OS JAVA_HOME
-	if ( $Os eq 'openbsd' ) {
+	if ( get_os eq 'openbsd' ) {
 		# OpenBSD: '1.8.0', '11', '17'
 		if (substr($got_version, 0, 2) eq '1.') {
 			$os_java_version = '1.8.0';
@@ -118,11 +117,11 @@ sub get_java_version {
 		}
 	}
 	else {
-		die "Unsupported OS: $Os";
+		confess "Unsupported OS: " . get_os;
 	}
 
 	# validate $os_java_version
-	unless (grep( /^$os_java_version$/, @{$Valid_Java_Versions{$Os}} )) {
+	unless (grep( /^$os_java_version$/, @{$Valid_Java_Versions{get_os}} )) {
 		die ( "No valid Java version found in '$bundled_java_bin': ",
 			"$os_java_version"
 		    );
@@ -134,11 +133,11 @@ sub get_java_version {
 sub get_java_home {
 	my $java_home;
 
-	if ( $Os eq 'openbsd' ) {
+	if ( get_os eq 'openbsd' ) {
 		$java_home = '/usr/local/jdk-' . get_java_version;
 	}
 	else {
-		die "Unsupported OS: $Os";
+		die "Unsupported OS: " . get_os;
 	}
 
 	if ( -d $java_home ) {
@@ -355,7 +354,7 @@ sub do_setup {
 	# if managed code doesn't support this operating system, replace it
 	foreach my $k ( keys( %managed_subst ) ) {
 		if ( -e $managed_subst{ $k }{ 'Bundled_Loc' }
-			and not match_bin_file($Os, $managed_subst{ $k }{ 'Os_Test_File' }, 1) ) {
+			and not match_bin_file(get_os, $managed_subst{ $k }{ 'Os_Test_File' }, 1) ) {
 			replace_managed($k) or return 0;
 		}
 	}
@@ -389,7 +388,6 @@ sub run_cmd {
 	my ($self, $game_file) = @_;
 
 	my $config_data;
-	my $java_home;
 	my $main_class;
 	my @class_path;
 	my @jvm_env;
@@ -398,11 +396,9 @@ sub run_cmd {
 	carp "Warning: Preliminary implementation";
 
 	# get OS and OS Java variables
-	$Os = IndieRunner::IndieRunner::detectplatform;
-	unless ( exists $Valid_Java_Versions{$Os} ) {
-		die "OS not recognized: $Os";
+	unless ( exists $Valid_Java_Versions{get_os} ) {
+		die "OS not recognized: " . get_os;
 	}
-	$java_home = get_java_home;
 
 	# slurp and assign config data
 	$config_data		= decode_json(path($CONFIG_FILE)->slurp_utf8)
@@ -415,8 +411,9 @@ sub run_cmd {
 		@jvm_args	= @{$$config_data{'vmArgs'}};
 	}
 
-	@jvm_env	= ( "JAVA_HOME=$java_home", );
-	return( 'env', @jvm_env, $java_home . '/bin/java', @jvm_args, $main_class );
+	@jvm_env	= ( "JAVA_HOME=" . get_java_home, );
+
+	return( 'env', @jvm_env, get_java_home . '/bin/java', @jvm_args, $main_class );
 }
 
 sub setup {
