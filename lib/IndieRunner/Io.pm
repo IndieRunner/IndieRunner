@@ -20,7 +20,7 @@ use v5.10;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use base qw( Exporter );
-our @EXPORT_OK = qw( write_file );
+our @EXPORT_OK = qw( ir_symlink write_file );
 
 use autodie;
 use Carp;
@@ -37,6 +37,35 @@ sub write_file {
 	open( my $fh, '>', $filename );
 	print $fh $data;
 	close $fh;
+}
+
+# helper function for symlink in IndieRunner
+# Syntax: ir_symlink( glob_of_oldfile, newfile )
+sub ir_symlink {
+	my ($oldfile_glob, $newfile) = @_;
+
+	my @oldfile_array = glob( $oldfile_glob );
+	my $oldfile;
+
+	# 3 scenarios: no file, 1 file, more than 1 file
+	if ( @oldfile_array == 0 ) {
+		return 0;	# no replacement file found
+	}
+	if ( @oldfile_array == 1 ) {
+		$oldfile = $oldfile_array[0];
+	}
+	elsif ( @oldfile_array < 0 ) {
+		confess "scalar should never return < 0";
+	}
+	else {
+		# if file is versioned (e.g. libopenal.so.4.2)
+		# last item in array *should* be the highest version
+		$oldfile = pop @oldfile_array;
+	}
+
+	symlink($oldfile, $newfile);
+
+	return 1;
 }
 
 1;

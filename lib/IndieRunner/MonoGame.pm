@@ -31,6 +31,7 @@ sub setup {
 	my ($self) = @_;
 	IndieRunner::Mono->setup();
 	# XXX: fix detection of libraries (sdl2, openal, dl)
+	# use IndieRunner::Io::ir_symlink
 }
 
 1;
