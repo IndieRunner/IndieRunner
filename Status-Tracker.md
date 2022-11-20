@@ -38,6 +38,7 @@ Letters indicate which platform versions have been tested successfully:
 |Dad Quest		|MonoGame|W	|	|	|	|	|no gamecontroller support|
 |Dead Cells		|HashLink|	|L	|	|	|	|		|
 |Dead Pixels II		|FNA	|L	|	|	|	|	|Early Access (2022-08-27)|
+|Dice Tribes: Ambitions	|HashLink|L	|	|	|	|	|		|
 |Dome Keeper		|Godot	|L	|	|	|	|	|		|
 |Draw a Stickman: EPIC	|XNA	|	|	|	|	|	|crashes early without Steamworks.NET.dll stub|
 |Dust: An Elysian Tail	|FNA	|	|L	|	|	|	|		|
