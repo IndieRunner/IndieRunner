@@ -25,8 +25,9 @@ use Carp;
 use base qw( Exporter );
 our @EXPORT_OK = qw( get_java_home get_java_version match_bin_file );
 
-use Archive::Extract;
+#use Archive::Extract;	# XXX: Remove in favor of IO::Uncompress::Unzip?
 use Config;
+#use IO::Uncompress::Unzip qw($UnzipError);	# XXX: remove?
 use JSON;
 use Path::Tiny;
 use Readonly;
@@ -214,6 +215,17 @@ sub setup {
 	unless (-f 'META-INF/MANIFEST.MF') {
 		extract_jar( glob( '*.jar' ) );
 	}
+=cut
+
+=begin
+	### EXAMPLE for how to list files from a zip/.jar archive  without extracting ###
+	my $u = new IO::Uncompress::Unzip 'game.jar' or confess "Cannot open 'game.jar': $UnzipError";
+	my $status;
+	for ($status = 1; $status > 0; $status = $u->nextStream()) {
+		say $u->getHeaderInfo()->{Name};
+	}
+	$u->close;
+	exit;
 =cut
 }
 
