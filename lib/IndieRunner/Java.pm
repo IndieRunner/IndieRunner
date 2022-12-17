@@ -21,6 +21,9 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use autodie;
 use Carp;
 
+use base qw( Exporter );
+our @EXPORT_OK = qw( get_java_home get_java_version );
+
 use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
@@ -83,6 +86,9 @@ my %Valid_Java_Versions = (
 			   ],
 );
 
+my $java_home;
+my $os_java_version;
+
 sub match_bin_file {
 	my $regex               = shift;
 	my $file                = shift;
@@ -95,9 +101,8 @@ sub match_bin_file {
 	return $out;
 }
 
-sub get_java_version {
+sub set_java_version {
 	my $bundled_java_bin;
-	my $os_java_version;
 
 	# find bundled java binary, alternatively libjava.so or libjvm.so
 	# TODO: make smarter
@@ -129,13 +134,13 @@ sub get_java_version {
 			"$os_java_version"
 		    );
 	}
+}
 
+sub get_java_version {
 	return $os_java_version;
 }
 
-sub get_java_home {
-	my $java_home;
-
+sub set_java_home {
 	if ( get_os() eq 'openbsd' ) {
 		$java_home = '/usr/local/jdk-' . get_java_version;
 	}
@@ -143,12 +148,13 @@ sub get_java_home {
 		die "Unsupported OS: " . get_os();
 	}
 
-	if ( -d $java_home ) {
-		return $java_home
-	}
-	else {
+	unless ( -d $java_home ) {
 		die "failed to get JAVA_HOME directory at $java_home: $!";
 	}
+}
+
+sub get_java_home {
+	return $java_home;
 }
 
 sub extract_jar {
@@ -297,6 +303,10 @@ sub replace_lib {
 }
 
 sub do_setup {
+	# initialize key variables
+	set_java_version();
+	set_java_home();
+
 	my @class_path;
 	if ( $_[0] ) {
 		@class_path = @{$_[0]};
@@ -315,7 +325,7 @@ sub do_setup {
 
 	$Bit_Sufx = $bitness . $So_Sufx;
 
-	# has desktop-1.0.jar been extracted?
+	# has main JAR archive (e.g. desktop-1.0.jar) been extracted?
 	unless (-f 'META-INF/MANIFEST.MF') {
 		if (defined $class_path[0]) {
 			extract_jar(@class_path) or return 0;
@@ -333,7 +343,6 @@ sub do_setup {
 		}
 	}
 
-	# TODO: are all needed native libraries present? Prompt to install missing ones
 	say "Checking which libraries are present...";
 	my @bundled_libs	= glob( '*' . $So_Sufx );
 	my ($f, $l);	# f: regular file test, l: symlink test
