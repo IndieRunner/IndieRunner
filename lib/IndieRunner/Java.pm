@@ -21,26 +21,19 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use autodie;
 use Carp;
 
+# XXX: are all of these exports really needed?
 use base qw( Exporter );
-our @EXPORT_OK = qw( get_java_home get_java_version );
-
-use Readonly;
-
-use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
-use IndieRunner::IdentifyFiles qw( get_magic_descr );	# XXX: is this used here?
-use IndieRunner::Io qw( ir_symlink );
-use IndieRunner::Platform qw( get_os );
+our @EXPORT_OK = qw( get_java_home get_java_version match_bin_file );
 
 use Archive::Extract;
 use Config;
-use File::Find::Rule;
-use File::Path qw( remove_tree );
-use File::Spec::Functions qw( catfile splitpath );
 use FindBin; use lib "$FindBin::Bin/../lib";
 use JSON;
-use List::Util qw( max maxstr );
 use Path::Tiny;
 use Readonly;
+
+use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+use IndieRunner::Platform qw( get_os );
 
 Readonly::Scalar my $CONFIG_FILE => 'config.json';
 
@@ -49,31 +42,6 @@ Readonly::Scalar my $CONFIG_FILE => 'config.json';
 #                               '11.0.13+8-1'
 #                               '17.0.1+12-1'
 Readonly::Scalar my $JAVA_VER_REGEX => '\d{1,2}\.\d{1,2}\.\d{1,2}[_\+][\w\-]+';
-
-Readonly::Hash my %managed_subst => (
-	'libgdx' =>             {
-				'Bundled_Loc'         => 'com/badlogic/gdx',
-				'Replace_Loc'         => '/usr/local/share/libgdx',
-				'Version_File'        => 'Version.class',
-				'Version_Regex'       => '\d+\.\d+\.\d+',
-				'Os_Test_File'        => 'com/badlogic/gdx/utils/SharedLibraryLoader.class',
-				},
-	'steamworks4j' =>       {
-				'Bundled_Loc'         => 'com/codedisaster/steamworks',
-				'Replace_Loc'         => '/usr/local/share/steamworks4j',
-				'Version_File'        => 'Version.class',
-				'Version_Regex'       => '\d+\.\d+\.\d+',
-				'Os_Test_File'        => 'com/codedisaster/steamworks/SteamSharedLibraryLoader.class',
-				},
-);
-
-# TODO: fix using hardcoded libgdx/1.9.11 path
-Readonly::Array my @LIB_LOCATIONS
-        => ( '/usr/X11R6/lib',
-	     '/usr/local/lib',
-	     '/usr/local/share/lwjgl',
-	     '/usr/local/share/libgdx/1.9.11',
-);
 
 Readonly::Scalar my $So_Sufx => '.so';
 my $Bit_Sufx;
@@ -86,6 +54,10 @@ my %Valid_Java_Versions = (
 			   ],
 );
 
+my $main_class;
+my @class_path;
+my @jvm_env;
+my @jvm_args;
 my $java_home;
 my $os_java_version;
 
@@ -173,139 +145,26 @@ sub extract_jar {
 	}
 }
 
-sub select_most_compatible_version {
-	# takes target version, followed by array of candidate version numbers
-	# as argument (@_)
-	# 1. if target version is '_MAX_', then select the highest version
-	# 2. returns the matching version amongst the candidates if exists, or
-	# 3. returns the lowest of version numbers higher than target, or
-	# 4. returns the highest candidate version among lower numbers
-
-	die "too few arguments to subroutine" unless scalar( @_ ) > 1;
-
-	my $target_v = shift(@_);
-
-	# convert all arguments with version->declare
-	# are all supplied arguments valid version strings? (or '_MAX_'?)
-	foreach ( @_ ) {
-		$_ = version->declare($_);
-		unless ( $_->is_lax() ) {
-			die "invalid version string argument to subroutine";
-		}
-	}
-
-	# 1. if target_v is '_MAX_', return highest version
-	if ( $target_v eq '_MAX_' ) {
-		return max(@_);
-	}
-
-	# 2. if match exists, return the first one
-	foreach my $candidate_v (@_) {
-		if ( $candidate_v == $target_v ) {
-			return $candidate_v;
-		}
-	}
-
-	# 3. returns the lowest of version numbers higher than target, or
-	foreach my $candidate_v ( sort(@_) ) {
-		if ( $candidate_v > $target_v ) {
-			return $candidate_v;
-		}
-	}
-
-	# 4. returns the highest candidate version among lower numbers
-	foreach my $candidate_v ( sort {$b cmp $a} @_ ) {
-		if ( $candidate_v < $target_v ) {
-			return $candidate_v;
-		}
-	}
-
-	die "Unable to find a replacement version";	# this shouldn't be reached
-}
-
-sub replace_managed {
-	my $framework_name = shift(@_);
-
-	my $bundled_loc;
-	my $framework_version;
-	my $framework_version_file;
-	my $most_compatible_version;
-	my $replacement_framework;
-	my $version_class_file = $managed_subst{ $framework_name }{ 'Version_File' };
-
-	my %candidate_replacements;	# hash of location and version
-
-	# find bundled version
-	$bundled_loc	= $managed_subst{ $framework_name }{ 'Bundled_Loc' };
-	unless ( -e $bundled_loc ) {
-		return 1;	# the framework/managed code doesn't exist
-	}
-	$framework_version_file	= catfile( $bundled_loc,
-					   $version_class_file );
-
-	if ( -f $framework_version_file ) {
-		$framework_version = match_bin_file( $managed_subst{ $framework_name }{ 'Version_Regex'},
-					     $framework_version_file );
-		say "found bundled $framework_name, version $framework_version";
-	}
-	else {
-		say "Missing $version_class_file file for $framework_name. Picking highest available one.";
-		$framework_version = '_MAX_';
-	}
-
-	# find matching replacement
-	%candidate_replacements =
-		map { match_bin_file( $managed_subst{ $framework_name }{ 'Version_Regex' }, $_) =>
-			( splitpath($_) )[1]
-		    } File::Find::Rule->file
-				      ->name( $version_class_file )
-				      ->in( $managed_subst{ $framework_name }{ 'Replace_Loc' } );
-	$most_compatible_version = select_most_compatible_version( $framework_version,
-				keys( %candidate_replacements ) );
-	$replacement_framework = $candidate_replacements{ $most_compatible_version };
-	unless( $replacement_framework ) {
-		die "No matching framework found to replace bundled $framework_name";
-	}
-
-	# remove and replace bundled version
-	say "replacing bundled $framework_name at '$bundled_loc'";
-	if ( -l $bundled_loc ) {
-		die "Error: '$bundled_loc' is already a symlink!";
-	}
-	remove_tree( $bundled_loc );
-	# TODO: replace with ir_symlink
-	symlink($replacement_framework, $bundled_loc);
-
-	return 1;
-}
-
-sub replace_lib {
-	my $lib = shift;
-
-	my $lib_glob;		# pattern to search for $syslib
-
-	my @candidate_syslibs;
-
-	# create glob string 'libxxx{64,}.so*'
-	$lib_glob = substr($lib, 0, -length($So_Sufx));
-	$lib_glob = $lib_glob . "{64,}.so*";
-
-	foreach my $l ( @LIB_LOCATIONS ) {
-		ir_symlink( catfile( $l, $lib_glob ), $lib, 1 ) and last;
-	}
-
-	return 1;
-}
-
 sub setup {
 	my ($self) = @_;
 
 	$dryrun = cli_dryrun;
 	$verbose = cli_verbose;
 
+	die "OS not recognized: " . get_os() unless ( exists $Valid_Java_Versions{get_os()} );
+
 	# initialize key variables
 	set_java_version();
 	set_java_home();
+
+	my $config_data		= decode_json(path($CONFIG_FILE)->slurp_utf8)
+		or die "unable to read config data from $CONFIG_FILE: $!";
+	$main_class		= $$config_data{'mainClass'}
+		or die "Unable to get configurarion for mainClass: $!";
+	@class_path		= $$config_data{'classPath'}
+		or die "Unable to get configuration for classPath: $!";
+	@jvm_args = @{$$config_data{'vmArgs'}} if ( exists($$config_data{'vmArgs'}) );
+	@jvm_env = ( "JAVA_HOME=" . get_java_home, );
 
 	my $bitness;
 	if ( $Config{'use64bitint'} ) {
@@ -327,63 +186,10 @@ sub setup {
 	unless (-f 'META-INF/MANIFEST.MF') {
 		extract_jar( glob( '*.jar' ) );
 	}
-
-	# if managed code doesn't support this operating system, replace it
-	foreach my $k ( keys( %managed_subst ) ) {
-		if ( -e $managed_subst{ $k }{ 'Bundled_Loc' }
-			and not match_bin_file(get_os(), $managed_subst{ $k }{ 'Os_Test_File' }, 1) ) {
-			replace_managed($k) or confess "Failed to replace managed java files for $k";
-		}
-	}
-
-	say "Checking which libraries are present...";
-	my @bundled_libs	= glob( '*' . $So_Sufx );
-	my ($f, $l);	# f: regular file test, l: symlink test
-	foreach my $file (@bundled_libs) {
-		print $file . ' ... ';
-		($f, $l) = ( -f $file , -l $file );
-
-		# F L: symlink to existing file => everything ok
-		# F l: non-symlink file => needs fixing
-		# f L: broken symlink => needs fixing
-		# f l: no file found (impossible after glob above)
-		if ($f and $l) {
-			say 'ok';
-			next;
-		}
-		else {
-			replace_lib($file) or
-				say "couldn't set up library: $file";
-		}
-	}
 }
 
 sub run_cmd {
 	my ($self, $game_file) = @_;
-
-	my $config_data;
-	my $main_class;
-	my @class_path;
-	my @jvm_env;
-	my @jvm_args;
-
-	# get OS and OS Java variables
-	unless ( exists $Valid_Java_Versions{get_os()} ) {
-		die "OS not recognized: " . get_os();
-	}
-
-	# slurp and assign config data
-	$config_data		= decode_json(path($CONFIG_FILE)->slurp_utf8)
-		or die "unable to read config data from $CONFIG_FILE: $!";
-	$main_class		= $$config_data{'mainClass'}
-		or die "Unable to get configurarion for mainClass: $!";
-	@class_path		= $$config_data{'classPath'}
-		or die "Unable to get configuration for classPath: $!";
-	if ( exists($$config_data{'vmArgs'}) ) {
-		@jvm_args	= @{$$config_data{'vmArgs'}};
-	}
-
-	@jvm_env	= ( "JAVA_HOME=" . get_java_home, );
 
 	return( 'env', @jvm_env, get_java_home . '/bin/java', @jvm_args, $main_class );
 }
