@@ -31,6 +31,10 @@ use Text::Glob qw( match_glob );
 ###
 
 Readonly::Hash my %Indicator_Files => (	# files that are indicative of a framework
+	# priority files to override regular engine/framework detection
+	'steampuppy-public.jar'		=> 'LWJGL',	# Titan Attacks, Ultratron
+
+	# regular engine/framework detection
 	'FNA.dll'			=> 'FNA',
 	'FNA.dll.config'		=> 'FNA',
 	'*.pck'				=> 'Godot',

@@ -26,7 +26,6 @@ use Readonly;
 use File::Find::Rule;
 use File::Path qw( remove_tree );
 use File::Spec::Functions qw( catfile splitpath );
-use FindBin; use lib "$FindBin::Bin/../lib";
 use List::Util qw( max );
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
@@ -132,6 +131,9 @@ sub replace_lib {
 sub replace_managed {
 	my $framework_name = shift(@_);
 
+	my $dryrun = cli_dryrun();
+	my $verbose = cli_verbose();
+
 	my $bundled_loc;
 	my $framework_version;
 	my $framework_version_file;
@@ -144,7 +146,7 @@ sub replace_managed {
 	# find bundled version
 	$bundled_loc	= $MANAGED_SUBST{ $framework_name }{ 'Bundled_Loc' };
 	unless ( -e $bundled_loc ) {
-		return 1;	# the framework/managed code doesn't exist
+		return;	# the framework/managed code doesn't exist
 	}
 	$framework_version_file	= catfile( $bundled_loc,
 					   $version_class_file );
@@ -178,11 +180,8 @@ sub replace_managed {
 	if ( -l $bundled_loc ) {
 		confess "Error: '$bundled_loc' is already a symlink!";
 	}
-	remove_tree( $bundled_loc );
-	# TODO: replace with ir_symlink
-	symlink($replacement_framework, $bundled_loc);
-
-	return 1;
+	remove_tree( $bundled_loc ) unless $dryrun;
+	ir_symlink($replacement_framework, $bundled_loc);
 }
 
 sub setup {
@@ -196,7 +195,7 @@ sub setup {
 	foreach my $k ( keys( %MANAGED_SUBST ) ) {
 		if ( -e $MANAGED_SUBST{ $k }{ 'Bundled_Loc' }
 			and not match_bin_file(get_os(), $MANAGED_SUBST{ $k }{ 'Os_Test_File' }, 1) ) {
-			replace_managed($k) or confess "Failed to replace managed java files for $k";
+				replace_managed($k);
 		}
 	}
 
@@ -216,8 +215,7 @@ sub setup {
 			next;
 		}
 		else {
-			replace_lib($file) or
-				say "couldn't set up library: $file";
+			replace_lib($file) or say "couldn't set up library: $file";
 		}
 	}
 }

@@ -27,7 +27,6 @@ use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 sub run_cmd {
 	my ($self, $engine_id_file, $game_file) = @_;
 
-	croak "Not yet implemented";
 	return IndieRunner::Java->run_cmd( $game_file );
 }
 
@@ -35,8 +34,6 @@ sub setup {
 	my ($self) = @_;
 	my $dryrun = cli_dryrun();
 	my $verbose = cli_verbose();
-
-	croak "Not yet implemented";
 
 	IndieRunner::Java->setup();
 }

@@ -21,6 +21,7 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use Capture::Tiny ':all';
 use File::Spec::Functions qw( catpath splitpath );
+use List::Util qw( first );
 use POSIX qw( strftime );
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_file cli_logdir cli_verbose init_cli );
@@ -63,8 +64,10 @@ my $engine;
 my $engine_id_file;
 my @files = glob '*';
 
-# add indicator files/directories in subdirectories if they exist
-push( @files, '_CommonRedist/XNA' ) if ( -e '_CommonRedist/XNA' );
+# add indicator files/directories with priority or in subdirectories to the front
+foreach my $a ( '_CommonRedist/XNA', 'steampuppy-public.jar' ) {
+	unshift( @files, $a ) if ( -e $a );
+}
 
 # 1st Pass: File Names
 foreach my $f ( @files ) {

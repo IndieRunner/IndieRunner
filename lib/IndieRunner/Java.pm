@@ -27,7 +27,6 @@ our @EXPORT_OK = qw( get_java_home get_java_version match_bin_file );
 
 use Archive::Extract;
 use Config;
-use FindBin; use lib "$FindBin::Bin/../lib";
 use JSON;
 use Path::Tiny;
 use Readonly;
@@ -61,9 +60,6 @@ my @jvm_args;
 my $java_home;
 my $os_java_version;
 
-my $dryrun;
-my $verbose;
-
 sub match_bin_file {
 	my $regex               = shift;
 	my $file                = shift;
@@ -83,7 +79,8 @@ sub set_java_version {
 	# TODO: make smarter
 	$bundled_java_bin = 'jre/bin/java';
 	unless ( -f $bundled_java_bin ) {
-		return '1.8.0';	# no file to get version from; default to 1.8.0
+		$os_java_version = '1.8.0';	# no file to get version from; default to 1.8.0
+		return;
 	}
 
 	# fetch version string from the $bundled_java_bin
@@ -148,8 +145,8 @@ sub extract_jar {
 sub setup {
 	my ($self) = @_;
 
-	$dryrun = cli_dryrun;
-	$verbose = cli_verbose;
+	my $dryrun = cli_dryrun;
+	my $verbose = cli_verbose;
 
 	die "OS not recognized: " . get_os() unless ( exists $Valid_Java_Versions{get_os()} );
 
@@ -157,14 +154,20 @@ sub setup {
 	set_java_version();
 	set_java_home();
 
-	my $config_data		= decode_json(path($CONFIG_FILE)->slurp_utf8)
-		or die "unable to read config data from $CONFIG_FILE: $!";
-	$main_class		= $$config_data{'mainClass'}
-		or die "Unable to get configurarion for mainClass: $!";
-	@class_path		= $$config_data{'classPath'}
-		or die "Unable to get configuration for classPath: $!";
-	@jvm_args = @{$$config_data{'vmArgs'}} if ( exists($$config_data{'vmArgs'}) );
-	@jvm_env = ( "JAVA_HOME=" . get_java_home, );
+	if ( -f $CONFIG_FILE ) {
+		my $config_data		= decode_json(path($CONFIG_FILE)->slurp_utf8)
+			or die "unable to read config data from $CONFIG_FILE: $!";
+		$main_class		= $$config_data{'mainClass'}
+			or die "Unable to get configurarion for mainClass: $!";
+		@class_path		= $$config_data{'classPath'}
+			or die "Unable to get configuration for classPath: $!";
+		@jvm_args = @{$$config_data{'vmArgs'}} if ( exists($$config_data{'vmArgs'}) );
+		@jvm_env = ( "JAVA_HOME=" . get_java_home, );
+	}
+	else {
+		# e.g. Puppy Games LWJGL game, like Titan Attacks, Ultratron
+		confess "XXX: Not implemented";
+	}
 
 	my $bitness;
 	if ( $Config{'use64bitint'} ) {
