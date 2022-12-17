@@ -20,6 +20,7 @@ use v5.10;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use Capture::Tiny ':all';
+use File::Find::Rule;
 use File::Spec::Functions qw( catpath splitpath );
 use List::Util qw( first );
 use POSIX qw( strftime );
@@ -62,16 +63,19 @@ if ( $cli_file ) {
 # detect game engine
 my $engine;
 my $engine_id_file;
-my @files = glob '*';
+my @files = File::Find::Rule->file()->maxdepth( 3 )->in( '.' );	# XXX: is maxdepth 3 enough?
 
-# add indicator files/directories with priority or in subdirectories to the front
-foreach my $a ( '_CommonRedist/XNA', 'steampuppy-public.jar' ) {
+# add files/directories with priority to the front
+foreach my $a ( 'steampuppy-public.jar' ) {
 	unshift( @files, $a ) if ( -e $a );
 }
 
 # 1st Pass: File Names
 foreach my $f ( @files ) {
-	$engine = IndieRunner::GrandCentral::identify_engine($f);
+	# use just basename of file, as different games put those files
+	# in different directories
+	my $basename = (splitpath( $f ))[2];
+	$engine = IndieRunner::GrandCentral::identify_engine($basename);
 	if ( $engine ) {
 		$engine_id_file = $f;
 		say "Engine heuristic via file: $engine_id_file" if $verbose;

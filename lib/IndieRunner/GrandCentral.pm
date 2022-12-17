@@ -62,7 +62,7 @@ Readonly::Hash my %Indicator_Files => (	# files that are indicative of a framewo
 	'MonoGame.Framework.dll'	=> 'MonoGame',
 	'MonoGame.Framework.dll.config'	=> 'MonoGame',
 	'xnafx40_redist.msi'		=> 'XNA',
-	'_CommonRedist/XNA'		=> 'XNA',
+	'_CommonRedist/XNA'		=> 'XNA',	# XXX: check if this is useful at all here
 );
 
 Readonly::Hash my %Indicators => (	# byte sequences that are indicative of a framework

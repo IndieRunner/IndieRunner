@@ -45,6 +45,11 @@ Readonly::Scalar my $JAVA_VER_REGEX => '\d{1,2}\.\d{1,2}\.\d{1,2}[_\+][\w\-]+';
 Readonly::Scalar my $So_Sufx => '.so';
 my $Bit_Sufx;
 
+Readonly::Array my @JAVA_LIB_PATH => (
+	'/usr/local/lib',
+	'/usr/local/share/lwjgl',
+	);
+
 my %Valid_Java_Versions = (
 	'openbsd'       => [
 				'1.8.0',
@@ -53,6 +58,7 @@ my %Valid_Java_Versions = (
 			   ],
 );
 
+my $game_jar;
 my $main_class;
 my @class_path;
 my @jvm_env;
@@ -70,6 +76,18 @@ sub match_bin_file {
 		path($file)->slurp_raw =~ /($regex)/ );
 
 	return $out;
+}
+
+sub fix_jvm_args {
+	say 'JVM Args before fixing:';
+	say join( ' ', @jvm_args ) . "\n";
+
+	# replace any '-Djava.library.path=...' with a generic path
+	map { $_ = (split( '=' ))[0] . join( ':', @JAVA_LIB_PATH) . ':' . (split( '=' ))[1] }
+		grep( /^\-Djava\.library\.path=/, @jvm_args );
+
+	say 'JVM Args after fixing:';
+	say join( ' ', @jvm_args );
 }
 
 sub set_java_version {
@@ -127,6 +145,8 @@ sub get_java_home {
 	return $java_home;
 }
 
+=begin
+### check if this should be in LibGDX.pm ###
 sub extract_jar {
 	my $ae;
 	my @class_path = @_;
@@ -141,6 +161,7 @@ sub extract_jar {
 		$ae->extract or die $ae->error unless cli_dryrun();
 	}
 }
+=cut
 
 sub setup {
 	my ($self) = @_;
@@ -157,8 +178,10 @@ sub setup {
 	if ( -f $CONFIG_FILE ) {
 		my $config_data		= decode_json(path($CONFIG_FILE)->slurp_utf8)
 			or die "unable to read config data from $CONFIG_FILE: $!";
+		$game_jar		= $$config_data{'jar'}
+			or die "Unable to get configuration for mainClass: $!";
 		$main_class		= $$config_data{'mainClass'}
-			or die "Unable to get configurarion for mainClass: $!";
+			or die "Unable to get configuration for mainClass: $!";
 		@class_path		= $$config_data{'classPath'}
 			or die "Unable to get configuration for classPath: $!";
 		@jvm_args = @{$$config_data{'vmArgs'}} if ( exists($$config_data{'vmArgs'}) );
@@ -180,19 +203,24 @@ sub setup {
 
 	if ( $verbose ) {
 		say "Bundled Java Version: " . get_java_version();
-		say "Will use Java Home: " . get_java_home() . " for execution";
+		say "Will use Java Home " . get_java_home() . " for execution";
 		say "Library suffix: $Bit_Sufx";
 	}
 
+=begin
+	### check if this shoul be handled in LibGDX.pm ###
 	# has main JAR archive (e.g. desktop-1.0.jar) been extracted?
 	# TODO: don't extract all .jar, but the class_path file from config.json
 	unless (-f 'META-INF/MANIFEST.MF') {
 		extract_jar( glob( '*.jar' ) );
 	}
+=cut
 }
 
 sub run_cmd {
 	my ($self, $game_file) = @_;
+
+	fix_jvm_args();
 
 	return( 'env', @jvm_env, get_java_home . '/bin/java', @jvm_args, $main_class );
 }
