@@ -89,6 +89,9 @@ my %Valid_Java_Versions = (
 my $java_home;
 my $os_java_version;
 
+my $dryrun;
+my $verbose;
+
 sub match_bin_file {
 	my $regex               = shift;
 	my $file                = shift;
@@ -142,15 +145,13 @@ sub get_java_version {
 
 sub set_java_home {
 	if ( get_os() eq 'openbsd' ) {
-		$java_home = '/usr/local/jdk-' . get_java_version;
+		$java_home = '/usr/local/jdk-' . get_java_version();
 	}
 	else {
 		die "Unsupported OS: " . get_os();
 	}
 
-	unless ( -d $java_home ) {
-		die "failed to get JAVA_HOME directory at $java_home: $!";
-	}
+	confess "Couldn't locate desired JAVA_HOME directory at $java_home: $!" unless ( -d $java_home );
 }
 
 sub get_java_home {
@@ -163,19 +164,13 @@ sub extract_jar {
 
 	foreach my $cp (@class_path) {
 		unless ( -f $cp ) {
-			say "No classpath $cp to extract.";
-			return 0;
+			croak "No classpath $cp to extract.";
 		}
 		say "Extracting $cp ...";
 		$ae = Archive::Extract->new( archive	=> $cp,
 					     type	=> 'zip' );
-		unless ($ae->extract) {
-			say "Couldn't extract $cp";
-			return 0;
-		}
+		$ae->extract or die $ae->error unless cli_dryrun();
 	}
-
-	return 1;
 }
 
 sub select_most_compatible_version {
@@ -302,18 +297,15 @@ sub replace_lib {
 	return 1;
 }
 
-sub do_setup {
+sub setup {
+	my ($self) = @_;
+
+	$dryrun = cli_dryrun;
+	$verbose = cli_verbose;
+
 	# initialize key variables
 	set_java_version();
 	set_java_home();
-
-	my @class_path;
-	if ( $_[0] ) {
-		@class_path = @{$_[0]};
-	}
-	else {
-		@class_path = undef;
-	}
 
 	my $bitness;
 	if ( $Config{'use64bitint'} ) {
@@ -322,24 +314,25 @@ sub do_setup {
 	else {
 		$bitness = '';
 	}
-
 	$Bit_Sufx = $bitness . $So_Sufx;
 
+	if ( $verbose ) {
+		say "Bundled Java Version: " . get_java_version();
+		say "Will use Java Home: " . get_java_home() . " for execution";
+		say "Library suffix: $Bit_Sufx";
+	}
+
 	# has main JAR archive (e.g. desktop-1.0.jar) been extracted?
+	# TODO: don't extract all .jar, but the class_path file from config.json
 	unless (-f 'META-INF/MANIFEST.MF') {
-		if (defined $class_path[0]) {
-			extract_jar(@class_path) or return 0;
-		}
-		else {
-			extract_jar( glob( '*.jar' ) ) or return 0;
-		}
+		extract_jar( glob( '*.jar' ) );
 	}
 
 	# if managed code doesn't support this operating system, replace it
 	foreach my $k ( keys( %managed_subst ) ) {
 		if ( -e $managed_subst{ $k }{ 'Bundled_Loc' }
 			and not match_bin_file(get_os(), $managed_subst{ $k }{ 'Os_Test_File' }, 1) ) {
-			replace_managed($k) or return 0;
+			replace_managed($k) or confess "Failed to replace managed java files for $k";
 		}
 	}
 
@@ -363,8 +356,6 @@ sub do_setup {
 				say "couldn't set up library: $file";
 		}
 	}
-
-	return 1;
 }
 
 sub run_cmd {
@@ -375,8 +366,6 @@ sub run_cmd {
 	my @class_path;
 	my @jvm_env;
 	my @jvm_args;
-
-	carp "XXX: Warning: Preliminary implementation";
 
 	# get OS and OS Java variables
 	unless ( exists $Valid_Java_Versions{get_os()} ) {
@@ -397,15 +386,6 @@ sub run_cmd {
 	@jvm_env	= ( "JAVA_HOME=" . get_java_home, );
 
 	return( 'env', @jvm_env, get_java_home . '/bin/java', @jvm_args, $main_class );
-}
-
-sub setup {
-	my ($self) = @_;
-	my $dryrun = cli_dryrun;
-	my $verbose = cli_verbose;
-
-	carp "XXX: Warning: Preliminary implementation";
-	do_setup || confess "do_setup exited with 0";
 }
 
 1;
