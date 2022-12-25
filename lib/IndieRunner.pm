@@ -136,7 +136,7 @@ elsif ( $? & 127 ) {
 		( $? & 127 ),  ( $? & 128 ) ? 'with' : 'without';
 }
 else {
-	printf "child exited with value %d\n", $? >> 8;
+	printf "child process exited with value %d\n", $? >> 8;
 }
 
 # write $stdout, $stderr to $logdir

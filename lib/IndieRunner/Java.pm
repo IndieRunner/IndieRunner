@@ -179,12 +179,11 @@ sub setup {
 	if ( -f $CONFIG_FILE ) {
 		my $config_data		= decode_json(path($CONFIG_FILE)->slurp_utf8)
 			or die "unable to read config data from $CONFIG_FILE: $!";
-		$game_jar		= $$config_data{'jar'}
-			or die "Unable to get configuration for mainClass: $!";
 		$main_class		= $$config_data{'mainClass'}
 			or die "Unable to get configuration for mainClass: $!";
 		@class_path		= $$config_data{'classPath'}
 			or die "Unable to get configuration for classPath: $!";
+		$game_jar		= $$config_data{'jar'} if ( exists($$config_data{'jar'}) );
 		@jvm_args = @{$$config_data{'vmArgs'}} if ( exists($$config_data{'vmArgs'}) );
 		@jvm_env = ( "JAVA_HOME=" . get_java_home, );
 	}
