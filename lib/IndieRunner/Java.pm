@@ -95,7 +95,8 @@ sub set_java_version {
 	my $bundled_java_bin;
 
 	# find bundled java binary, alternatively libjava.so or libjvm.so
-	# TODO: make smarter
+	# TODO: make smarter, e.g. File::Find::Rule for filename 'java'
+	# Delver: 'jre-linux/linux64/bin/java'; is also 1.8.0
 	$bundled_java_bin = 'jre/bin/java';
 	unless ( -f $bundled_java_bin ) {
 		$os_java_version = '1.8.0';	# no file to get version from; default to 1.8.0
@@ -188,8 +189,36 @@ sub setup {
 		@jvm_env = ( "JAVA_HOME=" . get_java_home, );
 	}
 	else {
-		# e.g. Puppy Games LWJGL game, like Titan Attacks, Ultratron
-		confess "XXX: Not implemented";
+		# e.g. Puppy Games LWJGL game, like Titan Attacks, Ultratron (ultratron.sh)
+		# e.g. Delver (run-delver.sh)
+
+		# find and slurp .sh file
+		my @sh_files = glob '*.sh';
+		my $content;
+		my @lines;
+		my @java_lines;
+		foreach my $sh ( @sh_files ) {
+			# slurp and format content of file
+			$content = path( $sh )->slurp_utf8;
+			$content =~ s/\s*\\\n\s*/ /g;	# rm escaped newlines
+			#$content =~ s/\n(\s*(env\s+)*\w+=\w*)+\s+/\n/g;	# XXX: rm env vars
+
+			@lines = split( /\n/, $content );
+			@lines = grep { !/^#/ } @lines;	# rm comments
+			@java_lines = grep { /^java\s/ } @lines;	# find java invocation
+
+			last if scalar @java_lines == 1;
+
+			if ( scalar @java_lines > 1 ) {
+				confess "XXX: Not implemented";
+			}
+		}
+
+		# extract important stuff from the java invocation
+		if ( $java_lines[0] =~ m/\-jar\s+\"?(\S+\.jar)\"?/i ) {
+			$game_jar = $1;
+		}
+		say "game_jar: $game_jar";
 	}
 
 	my $bitness;

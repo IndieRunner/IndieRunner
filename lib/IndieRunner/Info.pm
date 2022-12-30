@@ -31,7 +31,6 @@ Readonly::Scalar my $STEAM_FILE => 'steam_appid.txt';
 
 sub goggame_name {
 	my ($info_file) = glob 'goggame-*.info';
-	say "info_file: $info_file";
 	return '' unless $info_file;
 
 	my $dat = decode_json( path( $info_file )->slurp_utf8 ) or return '';
@@ -40,7 +39,7 @@ sub goggame_name {
 
 sub steam_appid {
 	return '' unless -f $STEAM_FILE;
-	return path( $STEAM_FILE )->slurp_utf8 or return '';
+	return path( $STEAM_FILE )->slurp_utf8;
 }
 
 1;
