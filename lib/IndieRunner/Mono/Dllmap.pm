@@ -281,7 +281,7 @@ sub get_dllmap_target {
 	my $dryrun =		cli_dryrun();
 	my $verbose =		cli_verbose();
 	my $cli_map =		cli_dllmap_file();
-	my $tmpdir_map =	catpath( '', $tmpdir, 'dllmap.config' );
+	my $tmpdir_map =	catpath( '', cli_tmpdir(), 'dllmap.config' );
 	my $userdir_map =	catpath( '', cli_userdir(), 'dllmap.config' );
 
 	# 1. return the user-supplied dllmap file if available

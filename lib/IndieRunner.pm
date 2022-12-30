@@ -25,7 +25,7 @@ use File::Spec::Functions qw( catpath splitpath );
 use List::Util qw( first );
 use POSIX qw( strftime );
 
-use IndieRunner::Cmdline qw( cli_dryrun cli_file cli_logdir cli_verbose init_cli );
+use IndieRunner::Cmdline qw( cli_dryrun cli_file cli_tmpdir cli_verbose init_cli );
 use IndieRunner::FNA;
 use IndieRunner::Godot;
 use IndieRunner::GrandCentral;
@@ -41,7 +41,7 @@ use IndieRunner::XNA;
 # process config & options
 init_cli;
 my $cli_file	= cli_file;
-my $logdir	= cli_logdir;
+my $tmpdir	= cli_tmpdir;
 my $dryrun	= cli_dryrun;
 my $verbose	= cli_verbose;
 
@@ -139,13 +139,13 @@ else {
 	printf "child process exited with value %d\n", $? >> 8;
 }
 
-# write $stdout, $stderr to $logdir
-say "storing logs in $logdir" if ( $verbose );
+# write $stdout, $stderr to $tmpdir
+say "storing logs in $tmpdir" if ( $verbose );
 unless ( $dryrun ) {
 	my $now = strftime "%Y-%m-%d-%H-%M-%S", localtime;
-	write_file( $stdout, catpath( '', $logdir, "${now}-stdout.log" ) )
+	write_file( $stdout, catpath( '', $tmpdir, "${now}-stdout.log" ) )
 		if $stdout;
-	write_file( $stderr, catpath( '', $logdir, "${now}-stderr.log" ) )
+	write_file( $stderr, catpath( '', $tmpdir, "${now}-stderr.log" ) )
 		if $stderr;
 }
 
