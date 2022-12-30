@@ -25,7 +25,8 @@ use File::Spec::Functions qw( catpath splitpath );
 use List::Util qw( first );
 use POSIX qw( strftime );
 
-use IndieRunner::Cmdline qw( cli_dryrun cli_file cli_tmpdir cli_verbose init_cli );
+use IndieRunner::Cmdline qw( cli_dryrun cli_file cli_log_steam_time cli_tmpdir
+                             cli_verbose init_cli );
 use IndieRunner::FNA;
 use IndieRunner::Godot;
 use IndieRunner::GrandCentral;
@@ -35,6 +36,7 @@ use IndieRunner::Io qw( write_file );
 use IndieRunner::LWJGL;
 use IndieRunner::LWJGL3;
 use IndieRunner::LibGDX;
+use IndieRunner::Misc qw( log_steam_time );
 use IndieRunner::Mono qw( get_mono_files );
 use IndieRunner::MonoGame;
 use IndieRunner::XNA;
@@ -123,7 +125,14 @@ my @run_cmd = $module->run_cmd( $engine_id_file, $cli_file );
 $game_name = ( $game_name ) ? $game_name : '';
 $game_name = goggame_name() unless $game_name;
 $game_name = 'unknown' unless $game_name;
-say 'Checking for steam_appid... ' . steam_appid() if $verbose;
+
+my $steam_appid = steam_appid();
+my $child_steamlog;
+if ( $steam_appid ) {
+	say 'Found steam_appid: ' . $steam_appid;
+	$child_steamlog = log_steam_time $steam_appid if cli_log_steam_time();
+}
+
 say "Launching game: $game_name";
 
 # print what will be executed; stop here if $dryrun
@@ -159,7 +168,8 @@ write_file( $merged_out, $logfile ) if $merged_out;
 
 # XXX: inspect $merged_out
 
-# XXX: clean up (if needed?) and exit
+# clean up and exit
+kill 'KILL', $child_steamlog;
 exit;
 
 1;

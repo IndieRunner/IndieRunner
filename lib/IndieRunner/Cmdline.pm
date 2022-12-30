@@ -20,14 +20,15 @@ use v5.10;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use base qw( Exporter );
-our @EXPORT_OK = qw( cli_dllmap_file cli_dryrun cli_file cli_tmpdir cli_verbose
-			cli_userdir init_cli );
+our @EXPORT_OK = qw( cli_dllmap_file cli_dryrun cli_file cli_log_steam_time
+                     cli_tmpdir cli_verbose cli_userdir init_cli );
 
 use Getopt::Long;
 use Pod::Usage;
 
 my $cli_file;
 my $dllmap_file;
+my $log_steam_time;
 my $tmpdir	= '/tmp/IndieRunner/';
 my $userdir	= $ENV{HOME} . '.IndieRunner';
 my $dryrun	= 0;
@@ -39,6 +40,7 @@ sub init_cli {
 	                "dllmap|D=s"	=> \$dllmap_file,
 			"dryrun|d"      => \$dryrun,
 			# XXX: "logdir|L=s"	=> \$logdir,?? equals tmpdir?
+			"log-steam-time"=> \$log_steam_time,
 			"man"           => sub { pod2usage(-exitval => 0, -verbose => 2) },
 			"usage"         => sub { pod2usage(-exitval => 0, -verbose => 0) },
 			# XXX: "userdir" ??
@@ -52,6 +54,7 @@ sub init_cli {
 sub cli_dllmap_file	{ return $dllmap_file; }
 sub cli_dryrun		{ return $dryrun; }
 sub cli_file		{ return $cli_file; }
+sub cli_log_steam_time	{ return $log_steam_time; }
 sub cli_tmpdir		{ return $tmpdir; }
 sub cli_userdir		{ return $userdir; }
 sub cli_verbose		{ return $verbose; }
