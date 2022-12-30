@@ -119,12 +119,12 @@ my @run_cmd = $module->run_cmd( $engine_id_file, $cli_file );
 say 'Launching child process:' unless $dryrun;
 say join( ' ', @run_cmd );
 $dryrun ? exit 0 : say '';
-my ($stdout, $stderr) = tee {
+my $merged_out = tee_merged {	# $merged_out combines stdout and stderr
 	system( @run_cmd );
 };
+say '' if $merged_out;
 
 # report if error occurred
-say '' unless ( $stdout eq '' && $stderr eq '' );
 if ( $? == 0 ) {
 	say 'Application exited without errors' if $verbose;
 }
@@ -139,19 +139,15 @@ else {
 	printf "child process exited with value %d\n", $? >> 8;
 }
 
-# write $stdout, $stderr to $tmpdir
+# store $merged_out in $tmpdir
 say "storing logs in $tmpdir" if ( $verbose );
-unless ( $dryrun ) {
-	my $now = strftime "%Y-%m-%d-%H-%M-%S", localtime;
-	write_file( $stdout, catpath( '', $tmpdir, "${now}-stdout.log" ) )
-		if $stdout;
-	write_file( $stderr, catpath( '', $tmpdir, "${now}-stderr.log" ) )
-		if $stderr;
-}
+my $now = strftime "%Y-%m-%d-%H-%M-%S", localtime;
+write_file( $merged_out, catpath( '', $tmpdir, "${now}.log" ) )
+	if $merged_out;
 
-# XXX: inspect $stdout, $stderr
+# XXX: inspect $merged_out
 
-# clean up (if needed) and exit
+# XXX: clean up (if needed?) and exit
 exit;
 
 1;
