@@ -129,7 +129,7 @@ sub run_cmd {
 		}
 		$game_file = $cil[0];
 	}
-	IndieRunner::set_game_name $game_file;
+	IndieRunner::set_game_name( (split /\./, $game_file)[0] );
 
 	my @ld_library_path = (
 		'/usr/local/lib',
