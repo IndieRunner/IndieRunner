@@ -20,14 +20,16 @@ use v5.10;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use base qw( Exporter );
-our @EXPORT_OK = qw( cli_dllmap_file cli_dryrun cli_file cli_logdir cli_verbose init_cli );
+our @EXPORT_OK = qw( cli_dllmap_file cli_dryrun cli_file cli_tmpdir cli_verbose
+			cli_userdir init_cli );
 
 use Getopt::Long;
 use Pod::Usage;
 
 my $cli_file;
 my $dllmap_file;
-my $logdir	= '/tmp/IndieRunner/';
+my $tmpdir	= '/tmp/IndieRunner/';
+my $userdir	= $ENV{HOME} . '.IndieRunner';
 my $dryrun	= 0;
 my $verbose	= 0;
 
@@ -36,9 +38,10 @@ sub init_cli {
 	GetOptions (    "help|h"	=> sub { pod2usage(-exitval => 0, -verbose => 1) },
 	                "dllmap|D=s"	=> \$dllmap_file,
 			"dryrun|d"      => \$dryrun,
-			"logdir|L=s"	=> \$logdir,
+			# XXX: "logdir|L=s"	=> \$logdir,?? equals tmpdir?
 			"man"           => sub { pod2usage(-exitval => 0, -verbose => 2) },
 			"usage"         => sub { pod2usage(-exitval => 0, -verbose => 0) },
+			# XXX: "userdir" ??
 			"verbose|v"     => \$verbose,
 			"version"       => sub { say $VERSION; exit; },
 		   )
@@ -49,7 +52,8 @@ sub init_cli {
 sub cli_dllmap_file	{ return $dllmap_file; }
 sub cli_dryrun		{ return $dryrun; }
 sub cli_file		{ return $cli_file; }
-sub cli_logdir		{ return $logdir; }
+sub cli_tmpdir		{ return $tmpdir; }
+sub cli_userdir		{ return $userdir; }
 sub cli_verbose		{ return $verbose; }
 
 1;

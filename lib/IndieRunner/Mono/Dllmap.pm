@@ -28,7 +28,8 @@ our @EXPORT_OK = qw( get_dllmap_target );
 
 use File::Spec::Functions qw( catpath splitpath );	# XXX: remove?
 
-use IndieRunner::Cmdline qw( cli_dllmap_file cli_dryrun cli_verbose );
+use IndieRunner::Cmdline qw( cli_dllmap_file cli_dryrun cli_tmpdir cli_userdir
+                             cli_verbose );
 use IndieRunner::Io qw( write_file );
 
 Readonly::Scalar my $dllmap => <<"END_DLLMAP";
@@ -277,24 +278,26 @@ Readonly::Scalar my $dllmap => <<"END_DLLMAP";
 END_DLLMAP
 
 sub get_dllmap_target {
-	# XXX: ~/.IndieRunner/IndieRunner.dllmap.config
+	my $dryrun =		cli_dryrun();
+	my $verbose =		cli_verbose();
+	my $cli_map =		cli_dllmap_file();
+	my $tmpdir_map =	catpath( '', $tmpdir, 'dllmap.config' );
+	my $userdir_map =	catpath( '', cli_userdir(), 'dllmap.config' );
 
-	my $dryrun = cli_dryrun;
-	my $verbose = cli_verbose;
-	my $dllmap_file = cli_dllmap_file;
-	my $tmpdir = '/tmp/IndieRunner/';
+	# 1. return the user-supplied dllmap file if available
+	return $cli_map if $cli_map;
 
-	unless ( $dllmap_file ) {
-		# no $dllmap_file available; use temporary one
-		$dllmap_file = catpath( '', $tmpdir, 'dllmap.config' );
-		unless ( -f $dllmap_file ) {
-			say "Writing temporary Dllmap file: $dllmap_file"
-				if ( $dryrun || $verbose );
-			write_file( $dllmap, $dllmap_file ) unless $dryrun;
-		}
+	# 2. return IndieRunner.dllmap.config in userdir if exists
+	# XXX: create/install this file by default?
+	return $userdir_map if -f $userdir_map;
+
+	# 3. Fallback: create and use a temporary file
+	unless ( -f $tmpdir_map ) {
+		say "Writing temporary Dllmap file: $tmpdir_map"
+			if ( $dryrun || $verbose );
+		write_file( $dllmap, $tmpdir_map ) unless $dryrun;
 	}
-
-	return $dllmap_file;
+	return $tmpdir_map;
 }
 
 1;
