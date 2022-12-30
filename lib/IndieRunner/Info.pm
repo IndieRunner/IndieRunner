@@ -20,11 +20,14 @@ use v5.10;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use base qw( Exporter );
-our @EXPORT_OK = qw( goggame_name );
+our @EXPORT_OK = qw( goggame_name steam_appid );
 
 use autodie;
 use JSON;
 use Path::Tiny;
+use Readonly;
+
+Readonly::Scalar my $STEAM_FILE => 'steam_appid.txt';
 
 sub goggame_name {
 	my ($info_file) = glob 'goggame-*.info';
@@ -33,6 +36,11 @@ sub goggame_name {
 
 	my $dat = decode_json( path( $info_file )->slurp_utf8 ) or return '';
 	( exists $$dat{'name'} ) ? return $$dat{'name'} : return '';
+}
+
+sub steam_appid {
+	return '' unless -f $STEAM_FILE;
+	return path( $STEAM_FILE )->slurp_utf8 or return '';
 }
 
 1;

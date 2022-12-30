@@ -30,7 +30,7 @@ use IndieRunner::FNA;
 use IndieRunner::Godot;
 use IndieRunner::GrandCentral;
 use IndieRunner::HashLink;
-use IndieRunner::Info qw( goggame_name );
+use IndieRunner::Info qw( goggame_name steam_appid );
 use IndieRunner::Io qw( write_file );
 use IndieRunner::LWJGL;
 use IndieRunner::LWJGL3;
@@ -123,6 +123,7 @@ my @run_cmd = $module->run_cmd( $engine_id_file, $cli_file );
 $game_name = ( $game_name ) ? $game_name : '';
 $game_name = goggame_name() unless $game_name;
 $game_name = 'unknown' unless $game_name;
+say 'Checking for steam_appid... ' . steam_appid() if $verbose;
 say "Launching game: $game_name";
 
 # print what will be executed; stop here if $dryrun
