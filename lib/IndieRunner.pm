@@ -30,6 +30,7 @@ use IndieRunner::FNA;
 use IndieRunner::Godot;
 use IndieRunner::GrandCentral;
 use IndieRunner::HashLink;
+use IndieRunner::Info qw( goggame_name );
 use IndieRunner::Io qw( write_file );
 use IndieRunner::LWJGL;
 use IndieRunner::LWJGL3;
@@ -118,10 +119,17 @@ my $module = "IndieRunner::$engine";
 $module->setup();
 my @run_cmd = $module->run_cmd( $engine_id_file, $cli_file );
 
-# Execute @run_cmd and log output
-printf "Launching game: %s\n", ( $game_name ) ? $game_name : 'unknown';
+# heuristic for game name
+$game_name = ( $game_name ) ? $game_name : '';
+$game_name = goggame_name() unless $game_name;
+$game_name = 'unknown' unless $game_name;
+say "Launching game: $game_name";
+
+# print what will be executed; stop here if $dryrun
 say join( ' ', @run_cmd );
 $dryrun ? exit 0 : say '';
+
+# Execute @run_cmd and log output
 my $merged_out = tee_merged {	# $merged_out combines stdout and stderr
 	system( @run_cmd );
 };
@@ -143,10 +151,10 @@ else {
 }
 
 # store $merged_out in $tmpdir
-say "storing logs in $tmpdir" if ( $verbose );
-my $now = strftime "%Y-%m-%d-%H-%M-%S", localtime;
-write_file( $merged_out, catpath( '', $tmpdir, "${now}.log" ) )
-	if $merged_out;
+my $now = strftime "%Y-%m-%d-%H:%M:%S", localtime;
+my $logfile = catpath( '', $tmpdir, "${game_name}-${now}.log" );
+say "storing logs in $logfile" if $verbose;
+write_file( $merged_out, $logfile ) if $merged_out;
 
 # XXX: inspect $merged_out
 
