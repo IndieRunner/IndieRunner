@@ -1,3 +1,5 @@
+package IndieRunner;
+
 # Copyright (c) 2022 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -11,8 +13,6 @@
 # WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-
-package IndieRunner;
 
 use strict;
 use warnings;
@@ -37,6 +37,9 @@ use IndieRunner::LibGDX;
 use IndieRunner::Mono qw( get_mono_files );
 use IndieRunner::MonoGame;
 use IndieRunner::XNA;
+
+my $game_name = '';
+sub set_game_name { $game_name = join( ' ', @_); }
 
 # process config & options
 init_cli;
@@ -116,7 +119,7 @@ $module->setup();
 my @run_cmd = $module->run_cmd( $engine_id_file, $cli_file );
 
 # Execute @run_cmd and log output
-say 'Launching child process:' unless $dryrun;
+printf "Launching game: %s\n", ( $game_name ) ? $game_name : 'unknown';
 say join( ' ', @run_cmd );
 $dryrun ? exit 0 : say '';
 my $merged_out = tee_merged {	# $merged_out combines stdout and stderr
