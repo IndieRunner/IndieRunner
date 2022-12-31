@@ -55,6 +55,7 @@ Letters indicate which platform versions have been tested successfully:
 |Gateways		|MonoGame|	|	|	|	|Humble:L|Humble version works. Steam version needs more API in steamwrapper stub.|
 |Glitchangels		|FNA	|L	|	|	|	|	|		|
 |Growing Pains		|FNA	|L	|	|	|	|	|		|
+|Gunslugs		|LibGDX	|	|	|L	|	|	|		|
 |Hacknet		|FNA	|	|L	|	|	|	|		|
 |Heroes of Loot		|LibGDX	|	|	|L	|	|	|		|
 |Hive			|FNA	|L	|	|	|	|	|		|
