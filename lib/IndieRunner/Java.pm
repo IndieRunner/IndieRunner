@@ -35,7 +35,6 @@ use Readonly;
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 use IndieRunner::Platform qw( get_os );
 
-Readonly::Scalar my $CONFIG_FILE	=> 'config.json';
 Readonly::Scalar my $MANIFEST		=> 'META-INF/MANIFEST.MF';
 
 # Java version string examples: '1.8.0_312-b07'
@@ -62,7 +61,7 @@ my %Valid_Java_Versions = (
 
 my $game_jar;
 my $main_class;
-my @class_path;
+my $class_path;
 my @jvm_env;
 my @jvm_args;
 my $java_home;
@@ -176,12 +175,14 @@ sub setup {
 	set_java_version();
 	set_java_home();
 
-	if ( -f $CONFIG_FILE ) {
-		my $config_data		= decode_json(path($CONFIG_FILE)->slurp_utf8)
-			or die "unable to read config data from $CONFIG_FILE: $!";
+	my ($config_file) = glob '*.json';
+
+	if ( -f $config_file ) {
+		my $config_data		= decode_json(path($config_file)->slurp_utf8)
+			or die "unable to read config data from $config_file: $!";
 		$main_class		= $$config_data{'mainClass'}
 			or die "Unable to get configuration for mainClass: $!";
-		@class_path		= $$config_data{'classPath'}
+		$class_path		= $$config_data{'classPath'}
 			or die "Unable to get configuration for classPath: $!";
 		$game_jar		= $$config_data{'jar'} if ( exists($$config_data{'jar'}) );
 		@jvm_args = @{$$config_data{'vmArgs'}} if ( exists($$config_data{'vmArgs'}) );
@@ -238,9 +239,15 @@ sub setup {
 	}
 
 	unless (-f $MANIFEST ) {
-		#extract_jar( glob( '*.jar' ) );
-		confess "no .jar file to extract" unless $game_jar;
-		extract_jar $game_jar; 
+		if ( $game_jar ) {
+			extract_jar $game_jar;
+		}
+		elsif ( $class_path ) {
+			extract_jar @{$class_path}[0];
+		}
+		else {
+			confess "no .jar file to extract";
+		}
 	}
 
 =begin

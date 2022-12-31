@@ -34,6 +34,7 @@ Readonly::Hash my %Indicator_Files => (	# files that are indicative of a framewo
 	# priority files to override regular engine/framework detection
 	'steampuppy-public.jar'		=> 'LWJGL',	# Titan Attacks, Ultratron
 	'delver.jar'			=> 'LibGDX',
+	'tfd.jar'			=> 'LibGDX',	# Crawl Tactics
 
 	# regular engine/framework detection
 	'FNA.dll'			=> 'FNA',

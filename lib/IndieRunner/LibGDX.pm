@@ -176,7 +176,7 @@ sub replace_managed {
 	}
 
 	# remove and replace bundled version
-	say "replacing bundled $framework_name at '$bundled_loc'";
+	say "replacing bundled $framework_name at '$bundled_loc' with version $most_compatible_version";
 
 	my $r = dircopy( $replacement_framework, $bundled_loc );
 }
