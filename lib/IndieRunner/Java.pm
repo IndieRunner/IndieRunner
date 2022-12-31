@@ -169,13 +169,23 @@ sub setup {
 	my $dryrun = cli_dryrun;
 	my $verbose = cli_verbose;
 
-	die "OS not recognized: " . get_os() unless ( exists $Valid_Java_Versions{get_os()} );
+	my $config_file;
 
-	# initialize key variables
+	# 1. Check OS and initialize basic variables
+	die "OS not recognized: " . get_os() unless ( exists $Valid_Java_Versions{get_os()} );
 	set_java_version();
 	set_java_home();
+	@jvm_env = ( "JAVA_HOME=" . get_java_home(), );
+	$Bit_Sufx = ( $Config{'use64bitint'} ? '64' : '' ) . $So_Sufx;
 
-	my ($config_file) = glob '*.json';
+	# 2. Get data on main JAR file and more
+	# 	a. first check JSON config file
+	if ( -f 'config.json' ) {	# commonly config.json, but sometimes e.g. TFD.json
+		$config_file = 'config.json';
+	}
+	else {
+		($config_file) = glob '*.json';
+	}
 
 	if ( -f $config_file ) {
 		my $config_data		= decode_json(path($config_file)->slurp_utf8)
@@ -187,9 +197,10 @@ sub setup {
 		$game_jar		= $$config_data{'jar'} if ( exists($$config_data{'jar'}) );
 		@jvm_args = @{$$config_data{'vmArgs'}} if ( exists($$config_data{'vmArgs'}) );
 	}
+	#	b. check shellscripts for the data
 	else {
-		# e.g. Puppy Games LWJGL game, like Titan Attacks, Ultratron (ultratron.sh)
-		# e.g. Delver (run-delver.sh)
+		#	e.g. Puppy Games LWJGL game, like Titan Attacks, Ultratron (ultratron.sh)
+		#	e.g. Delver (run-delver.sh)
 
 		# find and slurp .sh file
 		my @sh_files = glob '*.sh';
@@ -200,7 +211,6 @@ sub setup {
 			# slurp and format content of file
 			$content = path( $sh )->slurp_utf8;
 			$content =~ s/\s*\\\n\s*/ /g;	# rm escaped newlines
-			#$content =~ s/\n(\s*(env\s+)*\w+=\w*)+\s+/\n/g;	# XXX: rm env vars
 
 			@lines = split( /\n/, $content );
 			@lines = grep { !/^#/ } @lines;	# rm comments
@@ -221,23 +231,13 @@ sub setup {
 		push @jvm_args, grep { /^\-D/ } @java_components;
 	}
 
-	@jvm_env = ( "JAVA_HOME=" . get_java_home, );
-
-	my $bitness;
-	if ( $Config{'use64bitint'} ) {
-		$bitness = '64';
-	}
-	else {
-		$bitness = '';
-	}
-	$Bit_Sufx = $bitness . $So_Sufx;
-
 	if ( $verbose ) {
 		say "Bundled Java Version: " . get_java_version();
 		say "Will use Java Home " . get_java_home() . " for execution";
 		say "Library suffix: $Bit_Sufx";
 	}
 
+	# X. Extract JAR file if not done yet
 	unless (-f $MANIFEST ) {
 		if ( $game_jar ) {
 			extract_jar $game_jar;
