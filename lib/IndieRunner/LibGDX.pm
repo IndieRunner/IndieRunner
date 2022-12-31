@@ -21,12 +21,12 @@ use v5.10;
 use autodie;
 use Carp;
 
-use Readonly;
-
+use File::Copy::Recursive qw( dircopy );
 use File::Find::Rule;
 use File::Path qw( remove_tree );
 use File::Spec::Functions qw( catfile splitpath );
 use List::Util qw( max );
+use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 use IndieRunner::Io qw( ir_symlink );
@@ -177,11 +177,8 @@ sub replace_managed {
 
 	# remove and replace bundled version
 	say "replacing bundled $framework_name at '$bundled_loc'";
-	if ( -l $bundled_loc ) {
-		confess "Error: '$bundled_loc' is already a symlink!";
-	}
-	remove_tree( $bundled_loc ) unless $dryrun;
-	ir_symlink($replacement_framework, $bundled_loc);
+
+	my $r = dircopy( $replacement_framework, $bundled_loc );
 }
 
 sub setup {
