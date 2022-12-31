@@ -55,18 +55,21 @@ Letters indicate which platform versions have been tested successfully:
 |Flotilla		|FNA	|	|	|L	|	|	|		|
 |Gateways		|MonoGame|	|	|	|	|Humble:L|Humble version works. Steam version needs more API in steamwrapper stub.|
 |Glitchangels		|FNA	|L	|	|	|	|	|		|
+|Groundskeeper 2	|LibGDX	|	|	|L	|	|	|		|
 |Growing Pains		|FNA	|L	|	|	|	|	|		|
 |Gunslugs		|LibGDX	|	|	|L	|	|	|		|
+|Gunslugs 3: Rogue Tactics|LibGDX|	|	|L	|	|	|		|
 |Hacknet		|FNA	|	|L	|	|	|	|		|
 |Heroes of Loot		|LibGDX	|	|	|L	|	|	|		|
 |Hive			|FNA	|L	|	|	|	|	|		|
 |Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
-|INC: The Beginning	|LibGDX	|	|	|L	|	|	|extracting the main JAR needs fixing directory permissions chmod +x repeatedly|
+|INC: The Beginning	|LibGDX	|	|	|L	|	|	|		|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
 |Kitsune Zero		|FNA	|	|	|L	|	|	|		|
 |LaserCat		|XNA	|	|	|L	|	|	|		|
 |Little Racers STREET	|FNA	|L	|	|	|	|	|		|
 |Meganoid		|LibGDX	|	|	|L	|	|	|		|
+|Meganoid: Grandpa's Chronicles|LibGDX|	|	|L	|	|	|		|
 |Mercenary Kings	|FNA	|	|	|	|	|	|NLog.NLogConfigurationException|
 |Mewnbase		|LibGDX	|	|	|	|	|	|		|
 |MidBoss		|FNA	|	|	|L	|	|	|Crash on death; needs SDL_image fix from fnaify|
@@ -74,6 +77,7 @@ Letters indicate which platform versions have been tested successfully:
 |MOLEK-SYNTEZ		|Mono	|	|L	|	|	|	|		|
 |Mount Your Friends	|XNA	|W	|	|	|	|	|		|
 |Murder Miners		|FNA	|L	|	|	|	|	|no online support|
+|Neoteria		|LibGDX	|	|	|	|	|	|		|
 |NeuroVoider		|MonoGame|	|L	|	|	|	|SQL error on launch|
 |Ninja Warrior		|XNA	|	|	|	|	|	|engine detection fails|
 |Nuclear Blaze		|HashLink|	|	|	|	|	|steam.hdll stub: Steam is not running!|
@@ -93,8 +97,10 @@ Letters indicate which platform versions have been tested successfully:
 |Sir Questionnaire	|LibGDX	|	|	|L	|	|	|		|
 |Skulls of the Shogun	|MonoGame|	|L	|	|	|	|		|
 |Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j	|
+|Snake Core		|LibGDX	|	|	|L	|	|	|		|
 |Space Grunts		|LibGDX	|	|	|L	|	|	|		|
-|Stardash		|LibGDX	|	|	|L	|	|	|extracting the main JAR needs fixing directory permissions chmod +x repeatedly|
+|Space Grunts 2		|LibGDX	|	|	|L	|	|	|		|
+|Stardash		|LibGDX	|	|	|L	|	|	|		|
 |Super Bernie World	|FNA	|	|	|L	|	|	|		|
 |Sword of the Stars: The Pit|XNA|	|W	|	|	|	|		|
 |TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
