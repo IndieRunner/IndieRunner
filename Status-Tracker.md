@@ -17,6 +17,7 @@ Letters indicate which platform versions have been tested successfully:
 |Amazing Princess Sarah	|XNA	|	|	|	|	|	|iomap error when loading level	|
 |Apotheon		|FNA	|L	|	|	|	|	|		|
 |Apple Jack 1&2		|XNA	|W	|	|	|	|	|		|
+|Ashworld		|LibGDX	|	|	|L	|	|	|		|
 |Atom Zombie Smasher	|Mono	|L	|	|	|	|	|		|
 |Axiom Verge		|FNA	|L(1.56)|	|	|1.51	|	|		|
 |Battlevoid Harbinger	|LibGDX	|	|	|	|	|	|no audio	|
@@ -60,10 +61,12 @@ Letters indicate which platform versions have been tested successfully:
 |Heroes of Loot		|LibGDX	|	|	|L	|	|	|		|
 |Hive			|FNA	|L	|	|	|	|	|		|
 |Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
+|INC: The Beginning	|LibGDX	|	|	|L	|	|	|extracting the main JAR needs fixing directory permissions chmod +x repeatedly|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
 |Kitsune Zero		|FNA	|	|	|L	|	|	|		|
 |LaserCat		|XNA	|	|	|L	|	|	|		|
 |Little Racers STREET	|FNA	|L	|	|	|	|	|		|
+|Meganoid		|LibGDX	|	|	|L	|	|	|		|
 |Mercenary Kings	|FNA	|	|	|	|	|	|NLog.NLogConfigurationException|
 |Mewnbase		|LibGDX	|	|	|	|	|	|		|
 |MidBoss		|FNA	|	|	|L	|	|	|Crash on death; needs SDL_image fix from fnaify|
@@ -87,8 +90,11 @@ Letters indicate which platform versions have been tested successfully:
 |Salt & Sanctuary	|FNA	|L	|	|	|	|	|		|
 |SHENZHEN I/O		|Mono	|	|L	|	|	|	|		|
 |Simona's Requiem	|Godot	|L	|	|	|	|	|		|
+|Sir Questionnaire	|LibGDX	|	|	|L	|	|	|		|
 |Skulls of the Shogun	|MonoGame|	|L	|	|	|	|		|
 |Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j	|
+|Space Grunts		|LibGDX	|	|	|L	|	|	|		|
+|Stardash		|LibGDX	|	|	|L	|	|	|extracting the main JAR needs fixing directory permissions chmod +x repeatedly|
 |Super Bernie World	|FNA	|	|	|L	|	|	|		|
 |Sword of the Stars: The Pit|XNA|	|W	|	|	|	|		|
 |TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
