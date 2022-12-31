@@ -25,7 +25,6 @@ use Carp;
 use base qw( Exporter );
 our @EXPORT_OK = qw( get_java_home get_java_version match_bin_file );
 
-use Archive::Extract;	# XXX: replace in favor of IO::Uncompress::Unzip?
 use Config;
 use File::Find::Rule;
 use JSON;
@@ -156,14 +155,18 @@ sub extract_jar {
 	my $ae;
 	my @class_path = @_;
 
+	# Notes on options for extracting:
+	# - Archive::Extract fails to fix directory permissions +x (Stardash, INC: The Beginning)
+	# - jar(1) (JDK 1.8) also fails to fix directory permissions
+	# - unzip(1) from packages: use -qq to silence and -o to overwrite existing files
 	foreach my $cp (@class_path) {
 		unless ( -f $cp ) {
 			croak "No classpath $cp to extract.";
 		}
 		say "Extracting $cp ...";
-		$ae = Archive::Extract->new( archive	=> $cp,
-					     type	=> 'zip' );
-		$ae->extract or die $ae->error unless cli_dryrun();
+		return if cli_dryrun();
+		system( 'unzip', '-qqo', $cp ) and
+			confess "Error while attempting to extract $cp";
 	}
 }
 
