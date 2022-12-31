@@ -1,4 +1,4 @@
-package IndieRunner::LWJGL;
+package IndieRunner::Java::LWJGL2;
 
 # Copyright (c) 2022 Thomas Frohwein
 #
@@ -18,7 +18,7 @@ use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
 use v5.10;
-use Carp;
+use Carp qw( cluck );
 
 use Readonly;
 
@@ -29,7 +29,7 @@ sub setup {
 	my $dryrun = cli_dryrun();
 	my $verbose = cli_verbose();
 
-	IndieRunner::Java->setup();
+	cluck "XXX: not implemented yet";
 }
 
 1;

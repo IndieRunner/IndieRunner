@@ -27,12 +27,16 @@ our @EXPORT_OK = qw( get_java_home get_java_version match_bin_file );
 
 use Archive::Extract;	# XXX: replace in favor of IO::Uncompress::Unzip?
 use Config;
-#use IO::Uncompress::Unzip qw($UnzipError);	# XXX: remove?
+use File::Find::Rule;
 use JSON;
 use Path::Tiny;
 use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+use IndieRunner::Java::LibGDX;
+use IndieRunner::Java::LWJGL2;
+use IndieRunner::Java::LWJGL3;
+use IndieRunner::Java::Steamworks4j;
 use IndieRunner::Platform qw( get_os );
 
 Readonly::Scalar my $MANIFEST		=> 'META-INF/MANIFEST.MF';
@@ -62,9 +66,10 @@ my %Valid_Java_Versions = (
 my $game_jar;
 my $main_class;
 my $class_path;
+my @java_frameworks;
+my $java_home;
 my @jvm_env;
 my @jvm_args;
-my $java_home;
 my $os_java_version;
 
 sub match_bin_file {
@@ -147,7 +152,6 @@ sub get_java_home {
 	return $java_home;
 }
 
-### XXX: check if this should be in LibGDX.pm ###
 sub extract_jar {
 	my $ae;
 	my @class_path = @_;
@@ -161,6 +165,25 @@ sub extract_jar {
 					     type	=> 'zip' );
 		$ae->extract or die $ae->error unless cli_dryrun();
 	}
+}
+
+sub has_libgdx { ( glob '*gdx*.{so,dll}' ) ? return 1 : return 0; }
+sub has_steamworks4j { ( glob '*steamworks4j*.{so,dll}' ) ? return 1 : return 0; }
+
+sub has_lwjgl_any {
+	if ( File::Find::Rule->file
+			     ->name( '*lwjgl*.{so,dll}' )
+			     ->in( '.' )
+	   ) { return 1; }
+	return 0;
+}
+
+sub lwjgl_2_or_3 {
+	if ( File::Find::Rule->file
+			     ->name( '*lwjgl_{opengl,remotery,stb,xxhash}.{so,dll}' )
+			     ->in( '.' )
+	   ) { return 3; }
+	return 2;
 }
 
 sub setup {
@@ -177,6 +200,12 @@ sub setup {
 	set_java_home();
 	@jvm_env = ( "JAVA_HOME=" . get_java_home(), );
 	$Bit_Sufx = ( $Config{'use64bitint'} ? '64' : '' ) . $So_Sufx;
+	if ( $verbose ) {
+		say "Bundled Java Version: " . get_java_version();
+		say "Will use Java Home " . get_java_home() . " for execution";
+		say "Library suffix: $Bit_Sufx";
+	}
+
 
 	# 2. Get data on main JAR file and more
 	# 	a. first check JSON config file
@@ -231,13 +260,7 @@ sub setup {
 		push @jvm_args, grep { /^\-D/ } @java_components;
 	}
 
-	if ( $verbose ) {
-		say "Bundled Java Version: " . get_java_version();
-		say "Will use Java Home " . get_java_home() . " for execution";
-		say "Library suffix: $Bit_Sufx";
-	}
-
-	# X. Extract JAR file if not done yet
+	# 3. Extract JAR file if not done previously
 	unless (-f $MANIFEST ) {
 		if ( $game_jar ) {
 			extract_jar $game_jar;
@@ -246,20 +269,27 @@ sub setup {
 			extract_jar @{$class_path}[0];
 		}
 		else {
-			confess "no .jar file to extract";
+			confess "no JAR file to extract";
 		}
 	}
 
-=begin
-	### XXX: EXAMPLE for how to list files from a zip/.jar archive  without extracting ###
-	my $u = new IO::Uncompress::Unzip 'game.jar' or confess "Cannot open 'game.jar': $UnzipError";
-	my $status;
-	for ($status = 1; $status > 0; $status = $u->nextStream()) {
-		say $u->getHeaderInfo()->{Name};
+	# 4. Enumerate frameworks (LibGDX, LWJGL{2,3}, Steamworks4j)
+
+	if ( has_libgdx() ) {
+		push( @java_frameworks, 'LibGDX' );
+		push( @java_frameworks, 'LWJGL' . lwjgl_2_or_3() );	# LibGDX implies LWJGL
 	}
-	$u->close;
-	exit;
-=cut
+	elsif ( has_lwjgl_any() ) {
+		push( @java_frameworks, 'LWJGL' . lwjgl_2_or_3() );
+	}
+	push @java_frameworks, 'Steamworks4j' if has_steamworks4j();
+	say 'Bundled Java Frameworks: ' . join( ' ', @java_frameworks) if $verbose;
+
+	# 5. Call specific setup for each framework
+	foreach my $f ( @java_frameworks ) {
+		my $module = "IndieRunner::Java::$f";
+		$module->setup();
+	}
 }
 
 sub run_cmd {

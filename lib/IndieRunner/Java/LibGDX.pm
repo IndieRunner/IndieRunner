@@ -1,4 +1,4 @@
-package IndieRunner::LibGDX;
+package IndieRunner::Java::LibGDX;
 
 # Copyright (c) 2022 Thomas Frohwein
 #
@@ -19,7 +19,7 @@ use strict;
 use warnings;
 use v5.10;
 use autodie;
-use Carp;
+use Carp qw( cluck confess );
 
 use File::Copy::Recursive qw( dircopy );
 use File::Find::Rule;
@@ -30,7 +30,6 @@ use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 use IndieRunner::Io qw( ir_symlink );
-use IndieRunner::Java qw( match_bin_file );
 use IndieRunner::Platform qw( get_os );
 
 Readonly::Scalar my $So_Sufx => '.so';
@@ -152,7 +151,7 @@ sub replace_managed {
 					   $version_class_file );
 
 	if ( -f $framework_version_file ) {
-		$framework_version = match_bin_file( $MANAGED_SUBST{ $framework_name }{ 'Version_Regex'},
+		$framework_version = IndieRunner::Java::match_bin_file( $MANAGED_SUBST{ $framework_name }{ 'Version_Regex'},
 					     $framework_version_file );
 		say "found bundled $framework_name, version $framework_version";
 	}
@@ -163,7 +162,7 @@ sub replace_managed {
 
 	# find matching replacement
 	%candidate_replacements =
-		map { match_bin_file( $MANAGED_SUBST{ $framework_name }{ 'Version_Regex' }, $_) =>
+		map { IndieRunner::Java::match_bin_file( $MANAGED_SUBST{ $framework_name }{ 'Version_Regex' }, $_) =>
 			( splitpath($_) )[1]
 		    } File::Find::Rule->file
 				      ->name( $version_class_file )
@@ -186,12 +185,12 @@ sub setup {
 	my $dryrun = cli_dryrun();
 	my $verbose = cli_verbose();
 
-	IndieRunner::Java->setup();
+	cluck "XXX: preliminary implementation";
 
 	# if managed code doesn't support this operating system, replace it
 	foreach my $k ( keys( %MANAGED_SUBST ) ) {
 		if ( -e $MANAGED_SUBST{ $k }{ 'Bundled_Loc' }
-			and not match_bin_file(get_os(), $MANAGED_SUBST{ $k }{ 'Os_Test_File' }, 1) ) {
+			and not IndieRunner::Java::match_bin_file(get_os(), $MANAGED_SUBST{ $k }{ 'Os_Test_File' }, 1) ) {
 				replace_managed($k);
 		}
 	}

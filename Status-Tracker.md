@@ -56,6 +56,7 @@ Letters indicate which platform versions have been tested successfully:
 |Glitchangels		|FNA	|L	|	|	|	|	|		|
 |Growing Pains		|FNA	|L	|	|	|	|	|		|
 |Hacknet		|FNA	|	|L	|	|	|	|		|
+|Heroes of Loot		|LibGDX	|	|	|L	|	|	|		|
 |Hive			|FNA	|L	|	|	|	|	|		|
 |Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
