@@ -24,12 +24,6 @@ use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 
-sub run_cmd {
-	my ($self, $engine_id_file, $game_file) = @_;
-
-	return IndieRunner::Java->run_cmd( $game_file );
-}
-
 sub setup {
 	my ($self) = @_;
 	my $dryrun = cli_dryrun();

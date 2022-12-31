@@ -33,9 +33,7 @@ use IndieRunner::GrandCentral;
 use IndieRunner::HashLink;
 use IndieRunner::Info qw( goggame_name steam_appid );
 use IndieRunner::Io qw( write_file );
-use IndieRunner::LWJGL;
-use IndieRunner::LWJGL3;
-use IndieRunner::LibGDX;
+use IndieRunner::Java;
 use IndieRunner::Misc qw( log_steam_time );
 use IndieRunner::Mono qw( get_mono_files );
 use IndieRunner::MonoGame;
@@ -70,11 +68,6 @@ if ( $cli_file ) {
 my $engine;
 my $engine_id_file;
 my @files = File::Find::Rule->file()->maxdepth( 3 )->in( '.' );	# XXX: is maxdepth 3 enough?
-
-# add files/directories with priority to the front
-foreach my $a ( 'steampuppy-public.jar' ) {
-	unshift( @files, $a ) if ( -e $a );
-}
 
 # 1st Pass: File Names
 foreach my $f ( @files ) {

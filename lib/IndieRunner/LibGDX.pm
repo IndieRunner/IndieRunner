@@ -218,10 +218,4 @@ sub setup {
 	say '';
 }
 
-sub run_cmd {
-	my ($self, $engine_id_file, $game_file) = @_;
-
-	return IndieRunner::Java->run_cmd( $game_file );
-}
-
 1;

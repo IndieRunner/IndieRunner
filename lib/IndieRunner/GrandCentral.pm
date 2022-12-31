@@ -31,36 +31,18 @@ use Text::Glob qw( match_glob );
 ###
 
 Readonly::Hash my %Indicator_Files => (	# files that are indicative of a framework
-	# priority files to override regular engine/framework detection
-	'steampuppy-public.jar'		=> 'LWJGL',	# Titan Attacks, Ultratron
-	'delver.jar'			=> 'LibGDX',
-	'tfd.jar'			=> 'LibGDX',	# Crawl Tactics
-
-	# regular engine/framework detection
 	'FNA.dll'			=> 'FNA',
 	'FNA.dll.config'		=> 'FNA',
 	'*.pck'				=> 'Godot',
 	'*.hdll'			=> 'HashLink',
 	'hlboot.dat'			=> 'HashLink',
-	'libhl.so'			=> 'HashLink',
-	'libhl.dll'			=> 'HashLink',
+	'libhl.*'			=> 'HashLink',
 	'detect.hl'			=> 'HashLink',
 	'sdlboot.dat'			=> 'HashLink',
-	'libgdx.so'			=> 'LibGDX',
-	'libgdx64.so'			=> 'LibGDX',
-	'gdx.dll'			=> 'LibGDX',
-	'gdx64.dll'			=> 'LibGDX',
-	'desktop-1.0.jar'		=> 'LibGDX',
-	'liblwjgl.so'			=> 'LWJGL',
-	'liblwjgl64.so'			=> 'LWJGL',
-	'lwjgl.dll'			=> 'LWJGL',
-	'lwjgl64.dll'			=> 'LWJGL',
-	'liblwjgl_opengl.so'		=> 'LWJGL3',
-	'liblwjgl_opengl.dylib'		=> 'LWJGL3',
-	'lwjgl_opengl.dll'		=> 'LWJGL3',
-	'liblwjgl_remotery.so'		=> 'LWJGL3',
-	'liblwjgl_stb.so'		=> 'LWJGL3',
-	'liblwjgl_xxhash.so'		=> 'LWJGL3',
+	'*.jar'				=> 'Java',
+	'jre'				=> 'Java',
+	'*lwjgl*.{so,dll}'		=> 'Java',
+	'*gdx*.{so,dll}'		=> 'Java',
 	'MonoGame.Framework.dll'	=> 'MonoGame',
 	'MonoGame.Framework.dll.config'	=> 'MonoGame',
 	'xnafx40_redist.msi'		=> 'XNA',
