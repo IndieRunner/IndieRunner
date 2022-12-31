@@ -35,7 +35,8 @@ use Readonly;
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 use IndieRunner::Platform qw( get_os );
 
-Readonly::Scalar my $CONFIG_FILE => 'config.json';
+Readonly::Scalar my $CONFIG_FILE	=> 'config.json';
+Readonly::Scalar my $MANIFEST		=> 'META-INF/MANIFEST.MF';
 
 # Java version string examples: '1.8.0_312-b07'
 #                               '1.8.0_181-b02'
@@ -236,14 +237,14 @@ sub setup {
 		say "Library suffix: $Bit_Sufx";
 	}
 
-	unless (-f 'META-INF/MANIFEST.MF') {
+	unless (-f $MANIFEST ) {
 		#extract_jar( glob( '*.jar' ) );
 		confess "no .jar file to extract" unless $game_jar;
 		extract_jar $game_jar; 
 	}
 
 =begin
-	### EXAMPLE for how to list files from a zip/.jar archive  without extracting ###
+	### XXX: EXAMPLE for how to list files from a zip/.jar archive  without extracting ###
 	my $u = new IO::Uncompress::Unzip 'game.jar' or confess "Cannot open 'game.jar': $UnzipError";
 	my $status;
 	for ($status = 1; $status > 0; $status = $u->nextStream()) {
@@ -258,6 +259,13 @@ sub run_cmd {
 	my ($self, $game_file) = @_;
 
 	fix_jvm_args();
+
+	# more effort to figure out $main_class
+	unless ( $main_class ) {
+		my @mlines = path( $MANIFEST )->lines_utf8;
+		map { /^\QMain-Class:\E\s+(\S+)/ and $main_class = $1 } @mlines;
+	}
+	confess "Unable to identify main class for JVM execution" unless $main_class;
 
 	return( 'env', @jvm_env, get_java_home . '/bin/java', @jvm_args, $main_class );
 }

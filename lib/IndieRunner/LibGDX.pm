@@ -121,7 +121,6 @@ sub replace_lib {
 	($lib_glob = $lib) =~ s/(64)?.so$//;
 	$lib_glob = $lib_glob . "{64,}.so*";
 
-	say "DEBUG: lib: $lib, lib_glob: $lib_glob";
 	foreach my $l ( @LIB_LOCATIONS ) {
 		ir_symlink( catfile( $l, $lib_glob ), $lib, 1 ) and last;
 	}
