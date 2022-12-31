@@ -118,9 +118,10 @@ sub replace_lib {
 	my @candidate_syslibs;
 
 	# create glob string 'libxxx{64,}.so*'
-	$lib_glob = substr($lib, 0, -length($So_Sufx));
+	($lib_glob = $lib) =~ s/(64)?.so$//;
 	$lib_glob = $lib_glob . "{64,}.so*";
 
+	say "DEBUG: lib: $lib, lib_glob: $lib_glob";
 	foreach my $l ( @LIB_LOCATIONS ) {
 		ir_symlink( catfile( $l, $lib_glob ), $lib, 1 ) and last;
 	}
@@ -199,11 +200,11 @@ sub setup {
 		}
 	}
 
-	say "Checking which libraries are present...";
+	say "\nChecking which libraries are present...";
 	my @bundled_libs	= glob( '*' . $So_Sufx );
 	my ($f, $l);	# f: regular file test, l: symlink test
 	foreach my $file (@bundled_libs) {
-		print $file . ' ... ';
+		print $file . ' ... ' if ( $verbose or $dryrun );
 		($f, $l) = ( -f $file , -l $file );
 
 		# F L: symlink to existing file => everything ok
@@ -211,13 +212,14 @@ sub setup {
 		# f L: broken symlink => needs fixing
 		# f l: no file found (impossible after glob above)
 		if ($f and $l) {
-			say 'ok';
+			say 'ok' if ( $verbose or $dryrun );
 			next;
 		}
 		else {
 			replace_lib($file) or say "couldn't set up library: $file";
 		}
 	}
+	say '';
 }
 
 sub run_cmd {

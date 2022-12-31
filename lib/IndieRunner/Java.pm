@@ -25,7 +25,7 @@ use Carp;
 use base qw( Exporter );
 our @EXPORT_OK = qw( get_java_home get_java_version match_bin_file );
 
-#use Archive::Extract;	# XXX: Remove in favor of IO::Uncompress::Unzip?
+use Archive::Extract;	# XXX: replace in favor of IO::Uncompress::Unzip?
 use Config;
 #use IO::Uncompress::Unzip qw($UnzipError);	# XXX: remove?
 use JSON;
@@ -80,15 +80,15 @@ sub match_bin_file {
 }
 
 sub fix_jvm_args {
-	say 'JVM Args before fixing:';
-	say join( ' ', @jvm_args ) . "\n";
+	print "JVM Args before fixing:\t";
+	say join( ' ', @jvm_args );
 
 	# replace any '-Djava.library.path=...' with a generic path
 	map { $_ = (split( '=' ))[0] . join( ':', @JAVA_LIB_PATH) . ':' . (split( '=' ))[1] }
 		grep( /^\-Djava\.library\.path=/, @jvm_args );
 
-	say 'JVM Args after fixing:';
-	say join( ' ', @jvm_args );
+	print "JVM Args after fixing:\t";
+	say join( ' ', @jvm_args ) . "\n";
 }
 
 sub set_java_version {
@@ -147,8 +147,7 @@ sub get_java_home {
 	return $java_home;
 }
 
-=begin
-### check if this should be in LibGDX.pm ###
+### XXX: check if this should be in LibGDX.pm ###
 sub extract_jar {
 	my $ae;
 	my @class_path = @_;
@@ -163,7 +162,6 @@ sub extract_jar {
 		$ae->extract or die $ae->error unless cli_dryrun();
 	}
 }
-=cut
 
 sub setup {
 	my ($self) = @_;
@@ -186,7 +184,6 @@ sub setup {
 			or die "Unable to get configuration for classPath: $!";
 		$game_jar		= $$config_data{'jar'} if ( exists($$config_data{'jar'}) );
 		@jvm_args = @{$$config_data{'vmArgs'}} if ( exists($$config_data{'vmArgs'}) );
-		@jvm_env = ( "JAVA_HOME=" . get_java_home, );
 	}
 	else {
 		# e.g. Puppy Games LWJGL game, like Titan Attacks, Ultratron (ultratron.sh)
@@ -218,8 +215,11 @@ sub setup {
 		if ( $java_lines[0] =~ m/\-jar\s+\"?(\S+\.jar)\"?/i ) {
 			$game_jar = $1;
 		}
-		say "game_jar: $game_jar";
+		my @java_components = split( /\s+/, $java_lines[0] );
+		push @jvm_args, grep { /^\-D/ } @java_components;
 	}
+
+	@jvm_env = ( "JAVA_HOME=" . get_java_home, );
 
 	my $bitness;
 	if ( $Config{'use64bitint'} ) {
@@ -236,14 +236,11 @@ sub setup {
 		say "Library suffix: $Bit_Sufx";
 	}
 
-=begin
-	### check if this shoul be handled in LibGDX.pm ###
-	# has main JAR archive (e.g. desktop-1.0.jar) been extracted?
-	# TODO: don't extract all .jar, but the class_path file from config.json
 	unless (-f 'META-INF/MANIFEST.MF') {
-		extract_jar( glob( '*.jar' ) );
+		#extract_jar( glob( '*.jar' ) );
+		confess "no .jar file to extract" unless $game_jar;
+		extract_jar $game_jar; 
 	}
-=cut
 
 =begin
 	### EXAMPLE for how to list files from a zip/.jar archive  without extracting ###
