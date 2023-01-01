@@ -91,6 +91,7 @@ Letters indicate which platform versions have been tested successfully:
 |Penny Arcade's On the Rain-Slick Precipice of Darkness 4|XNA|||||||
 |Planetfriend		|FNA	|	|	|L	|	|	|		|
 |Rex Rocket		|FNA	|L	|	|	|	|	|		|
+|Rise to Ruins		|LWJGL2	|	|	|L	|	|	|		|
 |Rogue Legacy		|FNA	|L	|	|	|	|	|		|
 |Salt & Sanctuary	|FNA	|L	|	|	|	|	|		|
 |SHENZHEN I/O		|Mono	|	|L	|	|	|	|		|

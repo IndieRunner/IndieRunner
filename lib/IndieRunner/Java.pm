@@ -125,7 +125,7 @@ sub get_bundled_java_version {
 			$java_version{ bundled } = '1.8.0';
 		}
 		else {
-			$java_version{ bundled } = $got_version =~ /^\d{2}/;
+			$java_version{ bundled } = substr( $got_version, 0, 2 );
 		}
 	}
 	else {
@@ -291,10 +291,10 @@ sub setup {
 		}
 
 		# extract important stuff from the java invocation
-		if ( $java_lines[0] =~ m/\-jar\s+\"?(\S+\.jar)\"?/i ) {
+		if ( @java_lines and $java_lines[0] =~ m/\-jar\s+\"?(\S+\.jar)\"?/i ) {
 			$game_jar = $1;
 		}
-		my @java_components = split( /\s+/, $java_lines[0] );
+		my @java_components = split( /\s+/, $java_lines[0] ) if @java_lines;
 		push @jvm_args, grep { /^\-D/ } @java_components;
 	}
 
@@ -307,7 +307,8 @@ sub setup {
 			extract_jar @{$class_path}[0];
 		}
 		else {
-			confess "no JAR file to extract";
+			confess "No JAR file to extract" unless glob '*.jar';
+			extract_jar( ( glob '*.jar' )[0] );
 		}
 	}
 
@@ -378,6 +379,9 @@ sub run_cmd {
 	@jvm_env = ( "JAVA_HOME=" . $java_home, );
 	fix_jvm_args();
 	push @jvm_args, '-Dorg.lwjgl.system.allocator=system';	# avoids libjemalloc, e.g. Pathway
+	push @jvm_args, '-Dorg.lwjgl.util.DebugLoader=true';
+	push @jvm_args, '-Dorg.lwjgl.util.Debug=true';
+	#push @jvm_args, '-Dos.name=Linux';	# XXX: keep? could cause weird errors
 
 	# more effort to figure out $main_class if not set
 	unless ( $main_class ) {
