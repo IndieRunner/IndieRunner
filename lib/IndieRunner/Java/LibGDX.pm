@@ -185,7 +185,7 @@ sub setup {
 	# quirk for Gunslugs which doesn't bundle libgdx-controllers-desktop64.so,
 	# but requires it
 	# XXX: make it smarter
-	ir_symlink( '/usr/local/share/libgdx/1.9.11/libgdx-controllers-desktop64.so',
+	ir_symlink( catfile( $native_gdx, 'libgdx-controllers-desktop64.so' ),
 	            'libgdx-controllers-desktop64.so');
 	say '';
 }

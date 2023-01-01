@@ -73,8 +73,8 @@ my @jvm_args;
 my $os;
 
 my %java_version = (
-	bundled	=> undef,
-	lwjgl3	=> undef,
+	bundled	=> 0,
+	lwjgl3	=> 0,
 	);
 
 sub match_bin_file {
