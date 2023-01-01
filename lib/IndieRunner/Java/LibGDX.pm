@@ -109,7 +109,7 @@ sub replace_lib {
 	$lib_glob = $lib_glob . "{64,}.so*";
 
 	foreach my $l ( @LIB_LOCATIONS, $native_gdx ) {
-		ir_symlink( catfile( $l, $lib_glob ), $lib, 1 ) and last;
+		ir_symlink( catfile( $l, $lib_glob ), $lib, 1 ) and return 1;
 	}
 
 	return 0;

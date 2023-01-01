@@ -123,7 +123,7 @@ $game_name = 'unknown' unless $game_name;
 my $steam_appid = steam_appid();
 my $child_steamlog;
 if ( $steam_appid ) {
-	say 'Found steam_appid: ' . $steam_appid if $verbose;
+	say 'Found Steam AppID: ' . $steam_appid if $verbose;
 	$child_steamlog = log_steam_time $steam_appid if cli_log_steam_time();
 }
 
