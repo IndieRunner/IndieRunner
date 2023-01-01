@@ -157,7 +157,7 @@ else {
 # store $merged_out in $tmpdir
 my $now = strftime "%Y-%m-%d-%H:%M:%S", localtime;
 my $logfile = catpath( '', $tmpdir, "${game_name}-${now}.log" );
-say "storing logs in $logfile" if $verbose;
+say "storing logs in $logfile" if ( $merged_out and $verbose );
 write_file( $merged_out, $logfile ) if $merged_out;
 
 # XXX: inspect $merged_out

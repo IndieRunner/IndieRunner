@@ -34,12 +34,6 @@ use IndieRunner::Platform qw( get_os );
 
 Readonly::Scalar my $So_Sufx => '.so';
 
-Readonly::Array my @LIB_LOCATIONS
-        => ( '/usr/X11R6/lib',
-	     '/usr/local/lib',
-	     '/usr/local/share/lwjgl',
-);
-
 Readonly::Scalar my $GDX_BUNDLED_LOC	=> 'com/badlogic/gdx';
 Readonly::Scalar my $GDX_VERSION_FILE	=> 'Version.class';
 Readonly::Scalar my $GDX_VERSION_REGEX	=> '\d+\.\d+\.\d+';
@@ -97,24 +91,6 @@ sub select_most_compatible_version {
 	confess "Unable to find a replacement version";	# this shouldn't be reached
 }
 
-sub replace_lib {
-	my $lib = shift;
-
-	my $lib_glob;		# pattern to search for $syslib
-
-	my @candidate_syslibs;
-
-	# create glob string 'libxxx{64,}.so*'
-	($lib_glob = $lib) =~ s/(64)?.so$//;
-	$lib_glob = $lib_glob . "{64,}.so*";
-
-	foreach my $l ( @LIB_LOCATIONS, $native_gdx ) {
-		ir_symlink( catfile( $l, $lib_glob ), $lib, 1 ) and return 1;
-	}
-
-	return 0;
-}
-
 sub get_bundled_gdx_version {
 	my $gdx_version_file = catfile( $GDX_BUNDLED_LOC, $GDX_VERSION_FILE );
 	return '' unless ( -e $gdx_version_file );
@@ -163,30 +139,11 @@ sub setup {
 		confess "Can't proceed: unable to find native LibGDX implementation";
 	}
 
-	say "\nChecking which libraries are present...";
-	my @bundled_libs	= glob( '*' . $So_Sufx );
-	my ($f, $l);	# f: regular file test, l: symlink test
-	foreach my $file (@bundled_libs) {
-		print $file . ' ... ' if ( $verbose or $dryrun );
-		($f, $l) = ( -f $file , -l $file );
-
-		# F L: symlink to existing file => everything ok
-		# F l: non-symlink file => needs fixing
-		# f L: broken symlink => needs fixing
-		# f l: no file found (impossible after glob above)
-		if ($f and $l) {
-			say 'ok' if ( $verbose or $dryrun );
-			next;
-		}
-		else {
-			replace_lib($file) or say "no match - skipped";
-		}
-	}
 	# quirk for Gunslugs which doesn't bundle libgdx-controllers-desktop64.so,
 	# but requires it
-	# XXX: make it smarter
-	ir_symlink( catfile( $native_gdx, 'libgdx-controllers-desktop64.so' ),
-	            'libgdx-controllers-desktop64.so');
+	foreach my $l ( glob $native_gdx . '/*.so' ) {
+		ir_symlink( $l, ( splitpath( $l ) )[2] );
+	}
 	say '';
 }
 

@@ -27,12 +27,14 @@ our @EXPORT_OK = qw( match_bin_file );
 
 use Config;
 use File::Find::Rule;
+use File::Spec::Functions qw( catfile );
 use JSON;
 use List::Util qw( max );
 use Path::Tiny;
 use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+use IndieRunner::Io qw( ir_symlink );
 use IndieRunner::Java::LibGDX;
 use IndieRunner::Java::LWJGL2;
 use IndieRunner::Java::LWJGL3;
@@ -50,7 +52,8 @@ Readonly::Scalar my $JAVA_VER_REGEX => '\d{1,2}\.\d{1,2}\.\d{1,2}[_\+][\w\-]+';
 Readonly::Scalar my $So_Sufx => '.so';
 my $Bit_Sufx;
 
-Readonly::Array my @JAVA_LIB_PATH => (
+Readonly::Array my @LIB_LOCATIONS => (
+	'/usr/X11R6/lib',
 	'/usr/local/lib',
 	'/usr/local/share/lwjgl',
 	);
@@ -93,8 +96,11 @@ sub fix_jvm_args {
 	my @initial_jvm_args = @jvm_args;
 
 	# replace any '-Djava.library.path=...' with a generic path
-	map { $_ = (split( '=' ))[0] . '=' . join( ':', @JAVA_LIB_PATH) . ':' . (split( '=' ))[1] }
+	map { $_ = (split( '=' ))[0] . '=' . join( ':', @LIB_LOCATIONS) . ':' . (split( '=' ))[1] }
 		grep( /^\-Djava\.library\.path=/, @jvm_args );
+	# remove arguments that contain shell variables
+	# e.g. Blocks that Matter: -Dorg.lwjgl.librarypath=${INSTDIR}
+	@jvm_args = grep { !/\$\{\w+\}/ } @jvm_args;
 
 	if ( ( join( ' ', @jvm_args ) ne join( ' ', @initial_jvm_args ) )
 		and cli_verbose() ) {
@@ -162,6 +168,48 @@ sub extract_jar {
 	}
 }
 
+sub replace_lib {
+	my $lib = shift;
+
+	my $lib_glob;           # pattern to search for $syslib
+	my @candidate_syslibs;
+
+	# create glob string 'libxxx{64,}.so*'
+	($lib_glob = $lib) =~ s/(64)?.so$//;
+	$lib_glob = $lib_glob . "{64,}.so*";
+
+	foreach my $l ( @LIB_LOCATIONS ) {
+		ir_symlink( catfile( $l, $lib_glob ), $lib, 1 ) and return 1;
+	}
+
+	return 0;
+}
+
+sub fix_libraries {
+	my $verbose = cli_verbose();
+	my $dryrun = cli_dryrun();
+
+	say "\nChecking which libraries are present...";
+	my @bundled_libs        = glob( '*' . $So_Sufx );
+	my ($f, $l);    # f: regular file test, l: symlink test
+	foreach my $file (@bundled_libs) {
+		print $file . ' ... ' if ( $verbose or $dryrun );
+		($f, $l) = ( -f $file , -l $file );
+
+		# F L: symlink to existing file => everything ok
+		# F l: non-symlink file => needs fixing
+		# f L: broken symlink => needs fixing
+		# f l: no file found (impossible after glob above)
+		if ($f and $l) {
+			say 'ok' if ( $verbose or $dryrun );
+			next;
+		}
+		else {
+			replace_lib($file) or say "no match - skipped";
+		}
+	}
+}
+
 sub has_libgdx { ( glob '*gdx*.{so,dll}' ) ? return 1 : return 0; }
 sub has_steamworks4j { ( glob '*steamworks4j*.{so,dll}' ) ? return 1 : return 0; }
 
@@ -199,13 +247,10 @@ sub setup {
 
 	# 2. Get data on main JAR file and more
 	# 	a. first check JSON config file
-		# prioritize config.json, e.g. for Airships: Conquer the Skies
-	if ( -f 'config.json' ) {	# commonly config.json, but sometimes e.g. TFD.json
-		$config_file = 'config.json';
-	}
-	else {
-		($config_file) = glob '*.json';
-	}
+		# prioritize *config.json, e.g. for Airships: Conquer the Skies, Lenna's Inception
+		# commonly config.json, but sometimes e.g. TFD.json
+	($config_file) = glob '*config.json';
+	($config_file) = glob '*.json' unless $config_file;
 
 	if ( $config_file and -f $config_file ) {
 		my $config_data		= decode_json(path($config_file)->slurp_utf8)
@@ -280,6 +325,9 @@ sub setup {
 		my $module = "IndieRunner::Java::$f";
 		$module->setup();
 	}
+
+	# 6. Replace bundled libraries
+	fix_libraries();
 }
 
 sub run_cmd {
