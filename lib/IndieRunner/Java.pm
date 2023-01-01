@@ -27,7 +27,7 @@ our @EXPORT_OK = qw( match_bin_file );
 
 use Config;
 use File::Find::Rule;
-use File::Spec::Functions qw( catfile );
+use File::Spec::Functions qw( catfile splitpath );
 use JSON;
 use List::Util qw( max );
 use Path::Tiny;
@@ -175,7 +175,8 @@ sub replace_lib {
 	my @candidate_syslibs;
 
 	# create glob string 'libxxx{64,}.so*'
-	($lib_glob = $lib) =~ s/(64)?.so$//;
+	$lib_glob = (splitpath( $lib ))[2];
+	$lib_glob =~ s/(64)?.so$//;
 	$lib_glob = $lib_glob . "{64,}.so*";
 
 	foreach my $l ( @LIB_LOCATIONS ) {
@@ -190,7 +191,9 @@ sub fix_libraries {
 	my $dryrun = cli_dryrun();
 
 	say "\nChecking which libraries are present...";
-	my @bundled_libs        = glob( '*' . $So_Sufx );
+	my @bundled_libs	= File::Find::Rule->file
+						  ->name( '*' . $So_Sufx )
+						  ->in( '.');
 	my ($f, $l);    # f: regular file test, l: symlink test
 	foreach my $file (@bundled_libs) {
 		print $file . ' ... ' if ( $verbose or $dryrun );
@@ -374,6 +377,7 @@ sub run_cmd {
 	say "Java Home:\t\t\t$java_home" if $verbose;
 	@jvm_env = ( "JAVA_HOME=" . $java_home, );
 	fix_jvm_args();
+	push @jvm_args, '-Dorg.lwjgl.system.allocator=system';	# avoids libjemalloc, e.g. Pathway
 
 	# more effort to figure out $main_class if not set
 	unless ( $main_class ) {
