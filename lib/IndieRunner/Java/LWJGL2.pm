@@ -19,8 +19,16 @@ use strict;
 use warnings;
 use v5.10;
 
+use Readonly;
+
+use IndieRunner::Platform qw( get_os );
+
+Readonly::Hash my %LWJGL2_DIR => (
+	        'openbsd'       => '/usr/local/share/lwjgl',
+                );
+
 sub add_classpath {
-	# empty
+	return glob( $LWJGL2_DIR{ get_os() } . '/*.jar' );
 }
 
 sub setup {

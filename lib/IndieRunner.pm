@@ -127,7 +127,7 @@ if ( $steam_appid ) {
 	$child_steamlog = log_steam_time $steam_appid if cli_log_steam_time();
 }
 
-say "Launching game: $game_name";
+say "\nLaunching game: $game_name";
 
 # print what will be executed; stop here if $dryrun
 say join( ' ', @run_cmd );

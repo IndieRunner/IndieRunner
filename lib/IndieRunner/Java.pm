@@ -93,7 +93,7 @@ sub fix_jvm_args {
 	my @initial_jvm_args = @jvm_args;
 
 	# replace any '-Djava.library.path=...' with a generic path
-	map { $_ = (split( '=' ))[0] . join( ':', @JAVA_LIB_PATH) . ':' . (split( '=' ))[1] }
+	map { $_ = (split( '=' ))[0] . '=' . join( ':', @JAVA_LIB_PATH) . ':' . (split( '=' ))[1] }
 		grep( /^\-Djava\.library\.path=/, @jvm_args );
 
 	if ( ( join( ' ', @jvm_args ) ne join( ' ', @initial_jvm_args ) )
@@ -199,6 +199,7 @@ sub setup {
 
 	# 2. Get data on main JAR file and more
 	# 	a. first check JSON config file
+		# prioritize config.json, e.g. for Airships: Conquer the Skies
 	if ( -f 'config.json' ) {	# commonly config.json, but sometimes e.g. TFD.json
 		$config_file = 'config.json';
 	}
@@ -211,9 +212,8 @@ sub setup {
 			or die "unable to read config data from $config_file: $!";
 		$main_class		= $$config_data{'mainClass'}
 			or die "Unable to get configuration for mainClass: $!";
-		$class_path		= $$config_data{'classPath'}
-			or die "Unable to get configuration for classPath: $!";
-		$game_jar		= $$config_data{'jar'} if ( exists($$config_data{'jar'}) );
+		$class_path = $$config_data{'classPath'} if ( exists($$config_data{'classPath'}) );
+		$game_jar = $$config_data{'jar'} if ( exists($$config_data{'jar'}) );
 		@jvm_args = @{$$config_data{'vmArgs'}} if ( exists($$config_data{'vmArgs'}) );
 	}
 	#	b. check shellscripts for the data
@@ -315,7 +315,8 @@ sub run_cmd {
 	my $os_java_version = max( values %java_version );
 	$os_java_version = '1.8.0' unless $os_java_version;
 	if ( $verbose ) {
-		say "Bundled Java version:\t\t$java_version{ bundled }";
+		say "Bundled Java version:\t\t" . ( $java_version{ bundled } ?
+			$java_version{ bundled } : 'not found' );
 		say "LWJGL3 preferred Java version:\t$java_version{ lwjgl3 }"
 			if $java_version{ lwjgl3 };
 		say "Java version to be used:\t$os_java_version";
@@ -332,6 +333,12 @@ sub run_cmd {
 		map { /^\QMain-Class:\E\s+(\S+)/ and $main_class = $1 } @mlines;
 	}
 	confess "Unable to identify main class for JVM execution" unless $main_class;
+
+	# Quirky run commands: Airships
+	if ( glob 'Airships' and glob 'game.jar' ) {
+		return( 'env', @jvm_env, $java_home . '/bin/java', @jvm_args, '-cp',
+		        join( ':', @jvm_classpath, '.' ), '-Dsteam=false', '-jar', 'game.jar' );
+	}
 
 	return( 'env', @jvm_env, $java_home . '/bin/java', @jvm_args, '-cp',
 	        join( ':', @jvm_classpath, '.' ), $main_class );
