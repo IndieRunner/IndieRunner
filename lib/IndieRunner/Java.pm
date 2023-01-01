@@ -286,8 +286,15 @@ sub run_cmd {
 	my ($self, $game_file) = @_;
 	my $verbose = cli_verbose();
 
-	# set lwjgl3 java version
-	$java_version{ lwjgl3 } = IndieRunner::Java::LWJGL3::get_java_version_preference();
+	# XXX: may need a way to inherit classpath from setup when config is read
+	my @jvm_classpath;
+
+	# adjust JVM invocation for LWJGL3
+	if ( grep { /^\QLWJGL3\E$/ } @java_frameworks ) {
+		$java_version{ lwjgl3 } =
+			IndieRunner::Java::LWJGL3::get_java_version_preference();
+		push @jvm_classpath, IndieRunner::Java::LWJGL3::add_classpath();
+	}
 
 	# validate java versions
 	foreach my $k ( keys %java_version ) {
@@ -312,10 +319,6 @@ sub run_cmd {
 	say "Java Home:\t\t\t$java_home" if $verbose;
 	@jvm_env = ( "JAVA_HOME=" . $java_home, );
 	fix_jvm_args();
-
-	# XXX: may need a way to inherit classpath from setup when config is read
-	my @jvm_classpath;
-	push @jvm_classpath, IndieRunner::Java::LWJGL3::add_classpath();
 
 	# more effort to figure out $main_class if not set
 	unless ( $main_class ) {
