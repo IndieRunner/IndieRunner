@@ -48,10 +48,8 @@ sub add_classpath {
 
 sub setup {
 	my ($self) = @_;
-	my $dryrun = cli_dryrun();
-	my $verbose = cli_verbose();
 
-	cluck "XXX: Not yet implemented";
+	# empty
 }
 
 1;

@@ -24,12 +24,16 @@ use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 
+Readonly::Scalar my $S4J_NATIVE_LOC => '/usr/local/share/steamworks4j';
+
+sub add_classpath {
+	return ( $S4J_NATIVE_LOC );
+}
+
 sub setup {
 	my ($self) = @_;
-	my $dryrun = cli_dryrun();
-	my $verbose = cli_verbose();
 
-	cluck "XXX: not implemented yet";
+	# empty
 }
 
 1;

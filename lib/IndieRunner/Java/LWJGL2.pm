@@ -18,18 +18,15 @@ use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
 use v5.10;
-use Carp qw( cluck );
 
-use Readonly;
-
-use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+sub add_classpath {
+	# empty
+}
 
 sub setup {
 	my ($self) = @_;
-	my $dryrun = cli_dryrun();
-	my $verbose = cli_verbose();
 
-	cluck "XXX: not implemented yet";
+	# empty
 }
 
 1;

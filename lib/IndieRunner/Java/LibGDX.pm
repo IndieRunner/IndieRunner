@@ -24,7 +24,7 @@ use Carp qw( cluck confess );
 use File::Copy::Recursive qw( dircopy );
 use File::Find::Rule;
 use File::Path qw( remove_tree );
-use File::Spec::Functions qw( catfile splitpath );
+use File::Spec::Functions qw( catdir catfile splitdir splitpath );
 use List::Util qw( max );
 use Readonly;
 
@@ -34,30 +34,18 @@ use IndieRunner::Platform qw( get_os );
 
 Readonly::Scalar my $So_Sufx => '.so';
 
-# TODO: fix using hardcoded libgdx/1.9.11 path
 Readonly::Array my @LIB_LOCATIONS
         => ( '/usr/X11R6/lib',
 	     '/usr/local/lib',
 	     '/usr/local/share/lwjgl',
-	     '/usr/local/share/libgdx/1.9.11',
 );
 
-Readonly::Hash my %MANAGED_SUBST => (
-	'libgdx' =>             {
-				'Bundled_Loc'         => 'com/badlogic/gdx',
-				'Replace_Loc'         => '/usr/local/share/libgdx',
-				'Version_File'        => 'Version.class',
-				'Version_Regex'       => '\d+\.\d+\.\d+',
-				'Os_Test_File'        => 'com/badlogic/gdx/utils/SharedLibraryLoader.class',
-				},
-	'steamworks4j' =>       {
-				'Bundled_Loc'         => 'com/codedisaster/steamworks',
-				'Replace_Loc'         => '/usr/local/share/steamworks4j',
-				'Version_File'        => 'Version.class',
-				'Version_Regex'       => '\d+\.\d+\.\d+',
-				'Os_Test_File'        => 'com/codedisaster/steamworks/SteamSharedLibraryLoader.class',
-				},
-);
+Readonly::Scalar my $GDX_BUNDLED_LOC	=> 'com/badlogic/gdx';
+Readonly::Scalar my $GDX_VERSION_FILE	=> 'Version.class';
+Readonly::Scalar my $GDX_VERSION_REGEX	=> '\d+\.\d+\.\d+';
+Readonly::Scalar my $GDX_NATIVE_LOC	=> '/usr/local/share/libgdx';
+
+my $native_gdx;
 
 sub select_most_compatible_version {
 	# takes target version, followed by array of candidate version numbers
@@ -120,64 +108,38 @@ sub replace_lib {
 	($lib_glob = $lib) =~ s/(64)?.so$//;
 	$lib_glob = $lib_glob . "{64,}.so*";
 
-	foreach my $l ( @LIB_LOCATIONS ) {
+	foreach my $l ( @LIB_LOCATIONS, $native_gdx ) {
 		ir_symlink( catfile( $l, $lib_glob ), $lib, 1 ) and last;
 	}
 
 	return 0;
 }
 
-sub replace_managed {
-	my $framework_name = shift(@_);
+sub get_bundled_gdx_version {
+	my $gdx_version_file = catfile( $GDX_BUNDLED_LOC, $GDX_VERSION_FILE );
+	return '' unless ( -e $gdx_version_file );
+	return IndieRunner::Java::match_bin_file( $GDX_VERSION_REGEX,
+		$gdx_version_file );
+}
 
-	my $dryrun = cli_dryrun();
-	my $verbose = cli_verbose();
+sub get_native_gdx {
+	my $bundled_v = shift;
 
-	my $bundled_loc;
-	my $framework_version;
-	my $framework_version_file;
-	my $most_compatible_version;
-	my $replacement_framework;
-	my $version_class_file = $MANAGED_SUBST{ $framework_name }{ 'Version_File' };
-
-	my %candidate_replacements;	# hash of location and version
-
-	# find bundled version
-	$bundled_loc	= $MANAGED_SUBST{ $framework_name }{ 'Bundled_Loc' };
-	unless ( -e $bundled_loc ) {
-		return;	# the framework/managed code doesn't exist
-	}
-	$framework_version_file	= catfile( $bundled_loc,
-					   $version_class_file );
-
-	if ( -f $framework_version_file ) {
-		$framework_version = IndieRunner::Java::match_bin_file( $MANAGED_SUBST{ $framework_name }{ 'Version_Regex'},
-					     $framework_version_file );
-		say "found bundled $framework_name, version $framework_version";
-	}
-	else {
-		say "Missing $version_class_file file for $framework_name. Picking highest available one.";
-		$framework_version = '_MAX_';
-	}
-
-	# find matching replacement
-	%candidate_replacements =
-		map { IndieRunner::Java::match_bin_file( $MANAGED_SUBST{ $framework_name }{ 'Version_Regex' }, $_) =>
+	my %candidate_replacements =	# keys: version, values: location
+		map { IndieRunner::Java::match_bin_file( $GDX_VERSION_REGEX, $_) =>
 			( splitpath($_) )[1]
 		    } File::Find::Rule->file
-				      ->name( $version_class_file )
-				      ->in( $MANAGED_SUBST{ $framework_name }{ 'Replace_Loc' } );
-	$most_compatible_version = select_most_compatible_version( $framework_version,
+				      ->name( $GDX_VERSION_FILE )
+				      ->in( $GDX_NATIVE_LOC );
+	my $most_compatible_version = select_most_compatible_version( $bundled_v,
 				keys( %candidate_replacements ) );
-	$replacement_framework = $candidate_replacements{ $most_compatible_version };
-	unless( $replacement_framework ) {
-		confess "No matching framework found to replace bundled $framework_name";
-	}
+	my @location = splitdir( $candidate_replacements{ $most_compatible_version } );
+	@location = splice @location, 0, (scalar @location - 4);
+	return ( catdir( @location ) );
+}
 
-	# remove and replace bundled version
-	say "replacing bundled $framework_name at '$bundled_loc' with version $most_compatible_version";
-
-	my $r = dircopy( $replacement_framework, $bundled_loc );
+sub add_classpath {
+	return ( $native_gdx );
 }
 
 sub setup {
@@ -185,12 +147,20 @@ sub setup {
 	my $dryrun = cli_dryrun();
 	my $verbose = cli_verbose();
 
-	# if managed code doesn't support this operating system, replace it
-	foreach my $k ( keys( %MANAGED_SUBST ) ) {
-		if ( -e $MANAGED_SUBST{ $k }{ 'Bundled_Loc' }
-			and not IndieRunner::Java::match_bin_file(get_os(), $MANAGED_SUBST{ $k }{ 'Os_Test_File' }, 1) ) {
-				replace_managed($k);
-		}
+	# What version is bundled with the game?
+	my $bundled_v = get_bundled_gdx_version();
+	if ( $bundled_v and $verbose ) {
+		say "Identified bundled LibGDX version: $bundled_v";
+	}
+	elsif ( $verbose ) {
+		say "WARNING: unable to identify bundled LibGDX version";
+	}
+
+	# Choose a native LibGDX implementation based on the bundled version
+	$native_gdx = get_native_gdx( $bundled_v );	# get the location to use
+	say "Will use system LibGDX at: $native_gdx";
+	unless( $native_gdx ) {
+		confess "Can't proceed: unable to find native LibGDX implementation";
 	}
 
 	say "\nChecking which libraries are present...";

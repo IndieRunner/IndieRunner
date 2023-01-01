@@ -293,7 +293,12 @@ sub run_cmd {
 	if ( grep { /^\QLWJGL3\E$/ } @java_frameworks ) {
 		$java_version{ lwjgl3 } =
 			IndieRunner::Java::LWJGL3::get_java_version_preference();
-		push @jvm_classpath, IndieRunner::Java::LWJGL3::add_classpath();
+	}
+
+	# expand classpath based on frameworks that are used
+	foreach my $fw ( @java_frameworks ) {
+		my $module = "IndieRunner::Java::$fw";
+		push( @jvm_classpath, $module->add_classpath() );
 	}
 
 	# validate java versions
