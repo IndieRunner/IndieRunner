@@ -20,7 +20,7 @@ use v5.10;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use base qw( Exporter );
-our @EXPORT_OK = qw( get_magic_descr );
+our @EXPORT_OK = qw( find_file_magic get_magic_descr );
 
 use Carp;
 use File::Find::Rule;
@@ -57,7 +57,6 @@ sub get_magic_descr {
 sub find_file_type {
 	my $directory	= $_[0];
 	my $type	= $_[1];
-	my $file;
 	my @file_list;
 	my @out_list;
 
@@ -67,7 +66,7 @@ sub find_file_type {
 				     ->nonempty
 				     ->name( $filetypes{$type} )
 				     ->in( $directory );
-	foreach $file (@file_list) {
+	foreach my $file (@file_list) {
 		if ( index( get_magic_descr( $file ),
 		     'Mono/.Net assembly' ) > -1 ) {
 			push @out_list, $file;
@@ -78,7 +77,19 @@ sub find_file_type {
 	return @out_list;
 }
 
-# XXX: is this function used?
+sub find_file_magic {
+	my $magic_regex = shift;
+	my @files = @_;
+	my @out;
+
+	foreach my $f ( @files ) {
+		if( grep( /$magic_regex/, get_magic_descr( $f ) ) ) {
+			push @out, $f;
+		}
+	}
+	return @out;
+}
+
 # equivalent to strings(1)
 sub strings {
 	open(FH, '<:raw', $_[0])	or croak("Couldn't open file $_[0]: $!");
