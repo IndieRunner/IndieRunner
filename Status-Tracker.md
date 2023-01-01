@@ -100,6 +100,7 @@ Letters indicate which platform versions have been tested successfully:
 |Snake Core		|LibGDX	|	|	|L	|	|	|		|
 |Space Grunts		|LibGDX	|	|	|L	|	|	|		|
 |Space Grunts 2		|LibGDX	|	|	|L	|	|	|		|
+|Space Haven		|LibGDX	|	|L	|	|	|	|needs LibGDX 1.9.11 with gdx-controller-lwjgl3|
 |Stardash		|LibGDX	|	|	|L	|	|	|		|
 |Super Bernie World	|FNA	|	|	|L	|	|	|		|
 |Sword of the Stars: The Pit|XNA|	|W	|	|	|	|		|

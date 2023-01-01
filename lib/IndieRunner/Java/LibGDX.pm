@@ -124,7 +124,7 @@ sub replace_lib {
 		ir_symlink( catfile( $l, $lib_glob ), $lib, 1 ) and last;
 	}
 
-	return 1;
+	return 0;
 }
 
 sub replace_managed {
@@ -185,8 +185,6 @@ sub setup {
 	my $dryrun = cli_dryrun();
 	my $verbose = cli_verbose();
 
-	cluck "XXX: preliminary implementation";
-
 	# if managed code doesn't support this operating system, replace it
 	foreach my $k ( keys( %MANAGED_SUBST ) ) {
 		if ( -e $MANAGED_SUBST{ $k }{ 'Bundled_Loc' }
@@ -211,7 +209,7 @@ sub setup {
 			next;
 		}
 		else {
-			replace_lib($file) or say "couldn't set up library: $file";
+			replace_lib($file) or say "no match - skipped";
 		}
 	}
 	# quirk for Gunslugs which doesn't bundle libgdx-controllers-desktop64.so,

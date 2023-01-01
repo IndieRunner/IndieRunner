@@ -20,9 +20,31 @@ use warnings;
 use v5.10;
 use Carp qw( cluck );
 
+use base qw( Exporter );
+our @EXPORT_OK = qw( get_java_version_preference );
+
 use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+use IndieRunner::Platform qw( get_os );
+
+# if LWJGL3 libs are built with Java 11, they fail to run with 1.8:
+# java.lang.NoSuchMethodError: java.nio.ByteBuffer.position(I)Ljava/nio/ByteBuffer;
+Readonly::Hash my %LWJGL3_JAVA_VERSION => (
+	'openbsd'	=> '11',
+	);
+
+Readonly::Hash my %LWJGL3_DIR => (
+	'openbsd'	=> '/usr/local/share/lwjgl3',
+	);
+
+sub get_java_version_preference {
+	return $LWJGL3_JAVA_VERSION{ get_os() };
+}
+
+sub add_classpath {
+	return glob( $LWJGL3_DIR{ get_os() } . '/*.jar' );
+}
 
 sub setup {
 	my ($self) = @_;

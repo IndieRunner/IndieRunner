@@ -23,11 +23,12 @@ use Carp;
 
 # XXX: are all of these exports really needed?
 use base qw( Exporter );
-our @EXPORT_OK = qw( get_java_home get_java_version match_bin_file );
+our @EXPORT_OK = qw( match_bin_file );
 
 use Config;
 use File::Find::Rule;
 use JSON;
+use List::Util qw( max );
 use Path::Tiny;
 use Readonly;
 
@@ -69,7 +70,12 @@ my @java_frameworks;
 my $java_home;
 my @jvm_env;
 my @jvm_args;
-my $os_java_version;
+my $os;
+
+my %java_version = (
+	bundled	=> undef,
+	lwjgl3	=> undef,
+	);
 
 sub match_bin_file {
 	my $regex               = shift;
@@ -84,71 +90,55 @@ sub match_bin_file {
 }
 
 sub fix_jvm_args {
-	print "JVM Args before fixing:\t";
-	say join( ' ', @jvm_args );
+	my @initial_jvm_args = @jvm_args;
 
 	# replace any '-Djava.library.path=...' with a generic path
 	map { $_ = (split( '=' ))[0] . join( ':', @JAVA_LIB_PATH) . ':' . (split( '=' ))[1] }
 		grep( /^\-Djava\.library\.path=/, @jvm_args );
 
-	print "JVM Args after fixing:\t";
-	say join( ' ', @jvm_args ) . "\n";
+	if ( ( join( ' ', @jvm_args ) ne join( ' ', @initial_jvm_args ) )
+		and cli_verbose() ) {
+			print "\nJVM arguments have been modified: ";
+			say join( ' ', @initial_jvm_args ) . " => " .
+				join ( ' ', @jvm_args );
+	}
 }
 
-sub set_java_version {
+sub get_bundled_java_version {
 	my $bundled_java_bin;
 
-	# find bundled java binary, alternatively libjava.so or libjvm.so
-	# TODO: make smarter, e.g. File::Find::Rule for filename 'java'
-	# Delver: 'jre-linux/linux64/bin/java'; is also 1.8.0
-	$bundled_java_bin = 'jre/bin/java';
-	unless ( -f $bundled_java_bin ) {
-		$os_java_version = '1.8.0';	# no file to get version from; default to 1.8.0
-		return;
-	}
+	# find bundled java binary (alternatively libjava.so or libjvm.so)
+	($bundled_java_bin) = File::Find::Rule->file->name('java')->in('.');
+	return undef unless $bundled_java_bin;
 
-	# fetch version string from the $bundled_java_bin
+	# fetch version string and trim to format for JAVA_HOME
 	my $got_version = match_bin_file($JAVA_VER_REGEX, $bundled_java_bin);
-
-	# trim $version_str string to OS JAVA_HOME
-	if ( get_os() eq 'openbsd' ) {
+	if ( $os eq 'openbsd' ) {
 		# OpenBSD: '1.8.0', '11', '17'
 		if (substr($got_version, 0, 2) eq '1.') {
-			$os_java_version = '1.8.0';
+			$java_version{ bundled } = '1.8.0';
 		}
 		else {
-			$os_java_version = $got_version =~ /^\d{2}/;
+			$java_version{ bundled } = $got_version =~ /^\d{2}/;
 		}
 	}
 	else {
-		confess "Unsupported OS: " . get_os();
+		confess "Unsupported OS: " . $os;
 	}
-
-	# validate $os_java_version
-	unless (grep( /^$os_java_version$/, @{$Valid_Java_Versions{get_os()}} )) {
-		die ( "No valid Java version found in '$bundled_java_bin': ",
-			"$os_java_version"
-		    );
-	}
-}
-
-sub get_java_version {
-	return $os_java_version;
 }
 
 sub set_java_home {
-	if ( get_os() eq 'openbsd' ) {
-		$java_home = '/usr/local/jdk-' . get_java_version();
+	my $v = shift;
+
+	if ( $os eq 'openbsd' ) {
+		$java_home = '/usr/local/jdk-' . $v;
 	}
 	else {
-		die "Unsupported OS: " . get_os();
+		die "Unsupported OS: " . $os;
 	}
 
-	confess "Couldn't locate desired JAVA_HOME directory at $java_home: $!" unless ( -d $java_home );
-}
-
-sub get_java_home {
-	return $java_home;
+	confess "Couldn't locate desired JAVA_HOME directory at $java_home: $!"
+		unless ( -d $java_home );
 }
 
 sub extract_jar {
@@ -159,13 +149,15 @@ sub extract_jar {
 	# - Archive::Extract fails to fix directory permissions +x (Stardash, INC: The Beginning)
 	# - jar(1) (JDK 1.8) also fails to fix directory permissions
 	# - unzip(1) from packages: use -qq to silence and -o to overwrite existing files
+	#   ... but unzip exits with error about overlapping, possible zip bomb (Space Haven)
+	# - 7z x -y: verbose output, seems like it can't be quited much (-bd maybe)
 	foreach my $cp (@class_path) {
 		unless ( -f $cp ) {
 			croak "No classpath $cp to extract.";
 		}
 		say "Extracting $cp ...";
 		return if cli_dryrun();
-		system( 'unzip', '-qqo', $cp ) and
+		system( '7z', 'x', '-y', $cp ) and
 			confess "Error while attempting to extract $cp";
 	}
 }
@@ -192,23 +184,18 @@ sub lwjgl_2_or_3 {
 sub setup {
 	my ($self) = @_;
 
-	my $dryrun = cli_dryrun;
-	my $verbose = cli_verbose;
+	my $dryrun = cli_dryrun();
+	my $verbose = cli_verbose();
 
 	my $config_file;
 
 	# 1. Check OS and initialize basic variables
-	die "OS not recognized: " . get_os() unless ( exists $Valid_Java_Versions{get_os()} );
-	set_java_version();
-	set_java_home();
-	@jvm_env = ( "JAVA_HOME=" . get_java_home(), );
-	$Bit_Sufx = ( $Config{'use64bitint'} ? '64' : '' ) . $So_Sufx;
-	if ( $verbose ) {
-		say "Bundled Java Version: " . get_java_version();
-		say "Will use Java Home " . get_java_home() . " for execution";
-		say "Library suffix: $Bit_Sufx";
-	}
+	$os = get_os();
+	die "OS not recognized: " . $os unless ( exists $Valid_Java_Versions{$os} );
+	get_bundled_java_version();
 
+	$Bit_Sufx = ( $Config{'use64bitint'} ? '64' : '' ) . $So_Sufx;
+	say "Library suffix:\t$Bit_Sufx" if $verbose;
 
 	# 2. Get data on main JAR file and more
 	# 	a. first check JSON config file
@@ -297,17 +284,48 @@ sub setup {
 
 sub run_cmd {
 	my ($self, $game_file) = @_;
+	my $verbose = cli_verbose();
 
+	# set lwjgl3 java version
+	$java_version{ lwjgl3 } = IndieRunner::Java::LWJGL3::get_java_version_preference();
+
+	# validate java versions
+	foreach my $k ( keys %java_version ) {
+		if ( grep( /^\Q$java_version{ $k }\E$/, @{$Valid_Java_Versions{$os}} ) ) {
+			$java_version{ $k } = version->declare( $java_version{ $k } );
+		}
+		else {
+			$java_version{ $k } = undef
+		}
+	}
+
+	# pick best java version
+	my $os_java_version = max( values %java_version );
+	$os_java_version = '1.8.0' unless $os_java_version;
+	if ( $verbose ) {
+		say "Bundled Java version:\t\t$java_version{ bundled }";
+		say "LWJGL3 preferred Java version:\t$java_version{ lwjgl3 }";
+		say "Java version to be used:\t$os_java_version";
+	}
+
+	set_java_home( $os_java_version );
+	say "Java Home:\t\t\t$java_home" if $verbose;
+	@jvm_env = ( "JAVA_HOME=" . $java_home, );
 	fix_jvm_args();
 
-	# more effort to figure out $main_class
+	# XXX: may need a way to inherit classpath from setup when config is read
+	my @jvm_classpath;
+	push @jvm_classpath, IndieRunner::Java::LWJGL3::add_classpath();
+
+	# more effort to figure out $main_class if not set
 	unless ( $main_class ) {
 		my @mlines = path( $MANIFEST )->lines_utf8;
 		map { /^\QMain-Class:\E\s+(\S+)/ and $main_class = $1 } @mlines;
 	}
 	confess "Unable to identify main class for JVM execution" unless $main_class;
 
-	return( 'env', @jvm_env, get_java_home . '/bin/java', @jvm_args, $main_class );
+	return( 'env', @jvm_env, $java_home . '/bin/java', @jvm_args, '-cp',
+	        join( ':', @jvm_classpath, '.' ), $main_class );
 }
 
 1;
