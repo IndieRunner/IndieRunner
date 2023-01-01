@@ -13,6 +13,7 @@ Letters indicate which platform versions have been tested successfully:
 |Game			|Module	|Steam	|GOG	|itch.io|Epic	|Other	|Comments	|
 |-----------------------|-------|-------|-------|-------|-------|-------|---------------|
 |The Adventures of Shuggy|FNA	|	|	|	|	|Humble:L|		|
+|Airships: Conquer the Skies|LibGDX|	|	|L	|	|	|		|
 |Akane the Kunoichi	|XNA	|W	|	|	|	|	|		|
 |Amazing Princess Sarah	|XNA	|	|	|	|	|	|iomap error when loading level	|
 |Apotheon		|FNA	|L	|	|	|	|	|		|

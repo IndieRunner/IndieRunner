@@ -207,7 +207,7 @@ sub setup {
 		($config_file) = glob '*.json';
 	}
 
-	if ( -f $config_file ) {
+	if ( $config_file and -f $config_file ) {
 		my $config_data		= decode_json(path($config_file)->slurp_utf8)
 			or die "unable to read config data from $config_file: $!";
 		$main_class		= $$config_data{'mainClass'}
@@ -335,7 +335,7 @@ sub run_cmd {
 	confess "Unable to identify main class for JVM execution" unless $main_class;
 
 	# Quirky run commands: Airships
-	if ( glob 'Airships' and glob 'game.jar' ) {
+	if ( -f 'Airships' and -f 'game.jar' ) {
 		return( 'env', @jvm_env, $java_home . '/bin/java', @jvm_args, '-cp',
 		        join( ':', @jvm_classpath, '.' ), '-Dsteam=false', '-jar', 'game.jar' );
 	}
