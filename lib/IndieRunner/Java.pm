@@ -307,7 +307,7 @@ sub run_cmd {
 			$java_version{ $k } = version->declare( $java_version{ $k } );
 		}
 		else {
-			$java_version{ $k } = undef
+			$java_version{ $k } = 0;
 		}
 	}
 
@@ -316,7 +316,8 @@ sub run_cmd {
 	$os_java_version = '1.8.0' unless $os_java_version;
 	if ( $verbose ) {
 		say "Bundled Java version:\t\t$java_version{ bundled }";
-		say "LWJGL3 preferred Java version:\t$java_version{ lwjgl3 }";
+		say "LWJGL3 preferred Java version:\t$java_version{ lwjgl3 }"
+			if $java_version{ lwjgl3 };
 		say "Java version to be used:\t$os_java_version";
 	}
 
