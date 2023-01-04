@@ -93,8 +93,17 @@ Dependencies
 
 Install Perl dependencies on OpenBSD:
 ```
-# pkg_add p5-Archive-Extract p5-Capture-Tiny p5-File-Copy-Recursive p5-File-Find-Rule p5-File-LibMagic p5-JSON p5-Path-Tiny p5-Readonly p5-Text-Glob
+# pkg_add p5-Capture-Tiny p5-File-Copy-Recursive p5-File-Find-Rule p5-File-LibMagic p5-JSON p5-Path-Tiny p5-Readonly p5-Text-Glob
 ```
+
+External (non-Perl) programs and libraries used:
+* 7z from p7zip (modules Java, LibGDX, LWJGL2, LWJGL3)
+* ffmpeg (module XNA)
+* godot (module Godot)
+* hashlink (module HashLink)
+* mono (modules Mono, FNA, XNA, MonoGame)
+* steamctl (`--log-steam-time`)
+* steamworks4j (some Java modules)
 
 Platform Requirements
 =====================
