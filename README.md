@@ -98,12 +98,28 @@ Install Perl dependencies on OpenBSD:
 
 External (non-Perl) programs and libraries used:
 * 7z from p7zip (modules Java, LibGDX, LWJGL2, LWJGL3)
-* ffmpeg (module XNA)
-* godot (module Godot)
-* hashlink (module HashLink)
-* mono (modules Mono, FNA, XNA, MonoGame)
-* steamctl (`--log-steam-time`)
-* steamworks4j (some Java modules)
+* FAudio (modules FNA, XNA)
+* Ffmpeg (module XNA)
+* FNA (modules FNA, XNA)
+* Godot (module Godot)
+* Hashlink (module HashLink)
+* Hlsteam (module HashLink)
+* Java JDK 1.8, 11 (modules Java, LibGDX, LWJGL2, LWJGL3)
+* LibGDX - different versions, depending on the game
+* Libstubborn (modules FNA, XNA)
+* Libtheora, Libtheorafile, Libtheoraplay (modules FNA, XNA)
+* LWJGL, LWJGL3
+* Mono (modules Mono, FNA, XNA, MonoGame)
+* OpenAL (module LibGDX)
+* SDL2 (modules FNA, XNA, HashLink)
+* Steamctl (`--log-steam-time`)
+* Steamworks4j (some Java modules)
+* Steamworks-nosteam (modules FNA, XNA)
+
+Install them all with:
+```
+# pkg_add faudio ffmpeg fna godot hashlink hlsteam jdk libgdx libstubborn libtheora{,file,play} lwjgl{,3} mono openal p7zip sdl2-image steamctl
+```
 
 Platform Requirements
 =====================
