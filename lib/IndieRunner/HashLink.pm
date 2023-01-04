@@ -34,7 +34,7 @@ sub run_cmd {
 	my ($self, $engine_id_file, $game_file) = @_;
 
         my @env = (
-		'LD_LIBRARY_PATH=/usr/local/lib/',
+		# 'LD_LIBRARY_PATH=/usr/local/lib/',	# XXX: rm if not needed
 		);
 
 	foreach my $d ( @DAT ) {
