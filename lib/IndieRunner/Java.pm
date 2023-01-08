@@ -74,6 +74,10 @@ Readonly::Array my @INVALID_CONFIG_FILES => (
 	'uiskin.json',
 	);
 
+Readonly::Array my @JAR_MODE_FILES => (
+	'Airships',
+	);
+
 my %Valid_Java_Versions = (
 	'openbsd'       => [
 				'1.8.0',
@@ -246,6 +250,13 @@ sub skip_framework_setup {
 	return 0;
 }
 
+sub test_jar_mode {
+	foreach my $j ( @JAR_MODE_FILES ) {
+		return 1 if -e $j;
+	}
+	return 0;
+}
+
 sub setup {
 	my ($self) = @_;
 
@@ -269,11 +280,11 @@ sub setup {
 		# commonly config.json, but sometimes e.g. TFD.json
 	($config_file) = glob '*config.json';
 	($config_file) = glob '*.json' unless $config_file;
-	if ( grep { /^\Q$config_file\E$/ } @INVALID_CONFIG_FILES ) {
+	if ( grep { /^\Q$config_file\E$/ } @INVALID_CONFIG_FILES or ! -e $config_file ) {
 		undef $config_file;
 	}
 
-	if ( $config_file and -f $config_file ) {
+	if ( $config_file ) {
 		my $config_data		= decode_json(path($config_file)->slurp_utf8)
 			or die "unable to read config data from $config_file: $!";
 		$main_class		= $$config_data{'mainClass'}
@@ -334,7 +345,7 @@ sub setup {
 	}
 
 	# 3. Extract JAR file if not done previously
-	unless (-f $MANIFEST ) {
+	unless ( -f $MANIFEST or test_jar_mode ) {
 		if ( $game_jar ) {
 			extract_jar $game_jar;
 		}
@@ -375,7 +386,7 @@ sub run_cmd {
 	my ($self, $game_file) = @_;
 	my $verbose = cli_verbose();
 
-	my $jar_mode;	# if set, run with a game .jar file rather than from extracted files
+	my $jar_mode = test_jar_mode();	# if set, run with a game .jar file rather than from extracted files
 
 	# adjust JVM invocation for LWJGL3
 	if ( grep { /^\QLWJGL3\E$/ } @java_frameworks ) {
@@ -427,18 +438,12 @@ sub run_cmd {
 		map { /^\QMain-Class:\E\s+(\S+)/ and $main_class = $1 } @mlines;
 	}
 
-	# TODO: identify when to use jar mode - e.g. Airships
 	if ( $jar_mode ) {
-		# figure out the main jar
-		my $main_jar;
-		confess "XXX: not yet implemented";
-		# XXX: Airships needs '-Dsteam=false'
+		# quirks
+		push @jvm_args, '-Dsteam=false' if -f 'Airships';
 
-		# Quirky run commands: Airships
-		if ( -f 'Airships' and -f 'game.jar' ) {
-			return( 'env', @jvm_env, $java_home . '/bin/java', @jvm_args, '-cp',
-			        join( ':', @jvm_classpath, '.' ), '-Dsteam=false', '-jar', 'game.jar' );
-		}
+		return( 'env', @jvm_env, $java_home . '/bin/java', @jvm_args, '-cp',
+		        join( ':', @jvm_classpath, '.' ), '-jar', $game_jar );
 	}
 	else {
 		confess "Unable to identify main class for JVM execution" unless $main_class;
