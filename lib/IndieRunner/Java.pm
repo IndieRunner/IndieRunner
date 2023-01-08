@@ -58,6 +58,18 @@ Readonly::Array my @LIB_LOCATIONS => (
 	'/usr/local/share/lwjgl',
 	);
 
+Readonly::Array my @SKIP_FRAMEWORKS => (
+	'TitanAttacks.jar',
+	'Airships_sysjava.sh',
+	);
+
+Readonly::Array my @JAVA_LINE_PATTERNS => (
+	'^java\s',
+	'\-Xbootclasspath',
+	'\-Djava\.',
+	'\s\-cp\s',
+	);
+
 my %Valid_Java_Versions = (
 	'openbsd'       => [
 				'1.8.0',
@@ -68,11 +80,11 @@ my %Valid_Java_Versions = (
 
 my $game_jar;
 my $main_class;
-my $class_path;
 my @java_frameworks;
 my $java_home;
-my @jvm_env;
 my @jvm_args;
+my @jvm_classpath;
+my @jvm_env;
 my $os;
 
 my %java_version = (
@@ -96,18 +108,8 @@ sub fix_jvm_args {
 	my @initial_jvm_args = @jvm_args;
 
 	# replace any '-Djava.library.path=...' with a generic path
-	map { $_ = (split( '=' ))[0] . '=' . join( ':', @LIB_LOCATIONS) . ':' . (split( '=' ))[1] }
-		grep( /^\-Djava\.library\.path=/, @jvm_args );
-	# remove arguments that contain shell variables
-	# e.g. Blocks that Matter: -Dorg.lwjgl.librarypath=${INSTDIR}
-	@jvm_args = grep { !/\$\{\w+\}/ } @jvm_args;
-
-	if ( ( join( ' ', @jvm_args ) ne join( ' ', @initial_jvm_args ) )
-		and cli_verbose() ) {
-			print "\nJVM arguments have been modified: ";
-			say join( ' ', @initial_jvm_args ) . " => " .
-				join ( ' ', @jvm_args );
-	}
+	@jvm_args = grep { !/^\-Djava\.library\.path=/ } @initial_jvm_args;
+	push @jvm_args, '-Djava.library.path=' . join( ':', @LIB_LOCATIONS );
 }
 
 sub get_bundled_java_version {
@@ -232,6 +234,13 @@ sub lwjgl_2_or_3 {
 	return 2;
 }
 
+sub skip_framework_setup {
+	foreach my $g ( @SKIP_FRAMEWORKS ) {
+		return 1 if ( glob $g );
+	}
+	return 0;
+}
+
 sub setup {
 	my ($self) = @_;
 
@@ -239,6 +248,7 @@ sub setup {
 	my $verbose = cli_verbose();
 
 	my $config_file;
+	my $class_path_ptr;
 
 	# 1. Check OS and initialize basic variables
 	$os = get_os();
@@ -260,7 +270,7 @@ sub setup {
 			or die "unable to read config data from $config_file: $!";
 		$main_class		= $$config_data{'mainClass'}
 			or die "Unable to get configuration for mainClass: $!";
-		$class_path = $$config_data{'classPath'} if ( exists($$config_data{'classPath'}) );
+		$class_path_ptr = $$config_data{'classPath'} if ( exists($$config_data{'classPath'}) );
 		$game_jar = $$config_data{'jar'} if ( exists($$config_data{'jar'}) );
 		@jvm_args = @{$$config_data{'vmArgs'}} if ( exists($$config_data{'vmArgs'}) );
 	}
@@ -281,9 +291,12 @@ sub setup {
 
 			@lines = split( /\n/, $content );
 			@lines = grep { !/^#/ } @lines;	# rm comments
-			@java_lines = grep { /^java\s/ } @lines;	# find java invocation
 
-			last if scalar @java_lines == 1;
+			# find java invocation
+			foreach my $r ( @JAVA_LINE_PATTERNS ) {
+				@java_lines = grep { /$r/ } @lines;
+				last if scalar @java_lines == 1;
+			}
 
 			if ( scalar @java_lines > 1 ) {
 				confess "XXX: Not implemented";
@@ -291,11 +304,25 @@ sub setup {
 		}
 
 		# extract important stuff from the java invocation
-		if ( @java_lines and $java_lines[0] =~ m/\-jar\s+\"?(\S+\.jar)\"?/i ) {
-			$game_jar = $1;
+		if ( @java_lines ) {
+			# first remove anything with variable invocations that we can't resolve
+			$java_lines[0] =~ s/\s?[^\s]*\$\{\S+\}[^\s]*\s?/ /g;
+			if ( $java_lines[0] =~ s/\-jar\s+\"?(\S+\.jar)\"?//i ) {
+				$game_jar = $1;
+			}
+			if ( $java_lines[0] =~ s/-cp\s+\"?(\S+)\"?// ) {
+				@jvm_classpath = split /:/, $1;
+			}
+			while ( $java_lines[0] =~ s/\s?(\-[DX]\S+)/ / ) {
+				push @jvm_args, $1;
+			}
+			if ( $java_lines[0] =~ s/\s(([[:alnum:]]+\.){2,}[[:alnum:]]+)\s/ / ) {
+				$main_class = $1 unless $main_class;
+			}
+			say 'Found JVM classpath in file: ' . join( ':', @jvm_classpath)
+				if (@jvm_classpath and $verbose);
+			#say "java_line: $java_lines[0]";	# leftover line parts; uncomment to inspect
 		}
-		my @java_components = split( /\s+/, $java_lines[0] ) if @java_lines;
-		push @jvm_args, grep { /^\-D/ } @java_components;
 	}
 
 	# 3. Extract JAR file if not done previously
@@ -303,8 +330,8 @@ sub setup {
 		if ( $game_jar ) {
 			extract_jar $game_jar;
 		}
-		elsif ( $class_path ) {
-			extract_jar @{$class_path}[0];
+		elsif ( $class_path_ptr ) {
+			extract_jar @{$class_path_ptr}[0];
 		}
 		else {
 			confess "No JAR file to extract" unless glob '*.jar';
@@ -325,9 +352,11 @@ sub setup {
 	say 'Bundled Java Frameworks: ' . join( ' ', @java_frameworks) if $verbose;
 
 	# 5. Call specific setup for each framework
-	foreach my $f ( @java_frameworks ) {
-		my $module = "IndieRunner::Java::$f";
-		$module->setup();
+	unless ( skip_framework_setup() ) {
+		foreach my $f ( @java_frameworks ) {
+			my $module = "IndieRunner::Java::$f";
+			$module->setup();
+		}
 	}
 
 	# 6. Replace bundled libraries
@@ -338,8 +367,7 @@ sub run_cmd {
 	my ($self, $game_file) = @_;
 	my $verbose = cli_verbose();
 
-	# XXX: may need a way to inherit classpath from setup when config is read
-	my @jvm_classpath;
+	my $jar_mode;	# if set, run with a game .jar file rather than from extracted files
 
 	# adjust JVM invocation for LWJGL3
 	if ( grep { /^\QLWJGL3\E$/ } @java_frameworks ) {
@@ -348,9 +376,11 @@ sub run_cmd {
 	}
 
 	# expand classpath based on frameworks that are used
-	foreach my $fw ( @java_frameworks ) {
-		my $module = "IndieRunner::Java::$fw";
-		push( @jvm_classpath, $module->add_classpath() );
+	unless ( skip_framework_setup() ) {
+		foreach my $fw ( @java_frameworks ) {
+			my $module = "IndieRunner::Java::$fw";
+			push( @jvm_classpath, $module->add_classpath() );
+		}
 	}
 
 	# validate java versions
@@ -385,19 +415,31 @@ sub run_cmd {
 
 	# more effort to figure out $main_class if not set
 	unless ( $main_class ) {
-		my @mlines = path( $MANIFEST )->lines_utf8;
+		my @mlines = path( $MANIFEST )->lines_utf8 if -f $MANIFEST;
 		map { /^\QMain-Class:\E\s+(\S+)/ and $main_class = $1 } @mlines;
 	}
-	confess "Unable to identify main class for JVM execution" unless $main_class;
 
-	# Quirky run commands: Airships
-	if ( -f 'Airships' and -f 'game.jar' ) {
+	# TODO: identify when to use jar mode - e.g. Airships
+	if ( $jar_mode ) {
+		# figure out the main jar
+		my $main_jar;
+		confess "XXX: not yet implemented";
+		# XXX: Airships needs '-Dsteam=false'
+
+		# Quirky run commands: Airships
+		if ( -f 'Airships' and -f 'game.jar' ) {
+			return( 'env', @jvm_env, $java_home . '/bin/java', @jvm_args, '-cp',
+			        join( ':', @jvm_classpath, '.' ), '-Dsteam=false', '-jar', 'game.jar' );
+		}
+	}
+	else {
+		confess "Unable to identify main class for JVM execution" unless $main_class;
+
 		return( 'env', @jvm_env, $java_home . '/bin/java', @jvm_args, '-cp',
-		        join( ':', @jvm_classpath, '.' ), '-Dsteam=false', '-jar', 'game.jar' );
+		        join( ':', @jvm_classpath, '.' ), $main_class );
 	}
 
-	return( 'env', @jvm_env, $java_home . '/bin/java', @jvm_args, '-cp',
-	        join( ':', @jvm_classpath, '.' ), $main_class );
+
 }
 
 1;

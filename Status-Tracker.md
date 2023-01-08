@@ -106,6 +106,7 @@ Letters indicate which platform versions have been tested successfully:
 |Stardash		|LibGDX	|	|	|L	|	|	|		|
 |Super Bernie World	|FNA	|	|	|L	|	|	|		|
 |Sword of the Stars: The Pit|XNA|	|W	|	|	|	|		|
+|Titan Attacks!		|LibGDX	|	|	|	|	|Humble:L|		|
 |TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
 |Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|steamworks4j	|
 |The Zachtronics Solitaire Collection|Mono	|L	|	|	|	|	|		|
