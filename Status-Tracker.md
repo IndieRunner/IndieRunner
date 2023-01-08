@@ -55,6 +55,7 @@ Letters indicate which platform versions have been tested successfully:
 |Fist Puncher		|FNA	|	|L	|	|	|	|		|
 |Flinthook		|FNA	|L	|	|	|	|	|		|
 |Flotilla		|FNA	|	|	|L	|	|	|		|
+|Forest's Secret	|LibGDX	|	|	|L	|	|	|		|
 |Gateways		|MonoGame|	|	|	|	|Humble:L|Humble version works. Steam version needs more API in steamwrapper stub.|
 |Glitchangels		|FNA	|L	|	|	|	|	|		|
 |Groundskeeper 2	|LibGDX	|	|	|L	|	|	|		|

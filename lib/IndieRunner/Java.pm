@@ -70,6 +70,10 @@ Readonly::Array my @JAVA_LINE_PATTERNS => (
 	'\s\-cp\s',
 	);
 
+Readonly::Array my @INVALID_CONFIG_FILES => (
+	'uiskin.json',
+	);
+
 my %Valid_Java_Versions = (
 	'openbsd'       => [
 				'1.8.0',
@@ -237,7 +241,7 @@ sub lwjgl_2_or_3 {
 
 sub skip_framework_setup {
 	foreach my $g ( @SKIP_FRAMEWORKS ) {
-		return 1 if ( glob $g );
+		return 1 if -e $g;
 	}
 	return 0;
 }
@@ -265,6 +269,9 @@ sub setup {
 		# commonly config.json, but sometimes e.g. TFD.json
 	($config_file) = glob '*config.json';
 	($config_file) = glob '*.json' unless $config_file;
+	if ( grep { /^\Q$config_file\E$/ } @INVALID_CONFIG_FILES ) {
+		undef $config_file;
+	}
 
 	if ( $config_file and -f $config_file ) {
 		my $config_data		= decode_json(path($config_file)->slurp_utf8)
