@@ -109,7 +109,8 @@ sub fix_jvm_args {
 
 	# replace any '-Djava.library.path=...' with a generic path
 	@jvm_args = grep { !/^\-Djava\.library\.path=/ } @initial_jvm_args;
-	push @jvm_args, '-Djava.library.path=' . join( ':', @LIB_LOCATIONS );
+	# have to keep '.' separate from @LIB_LOCATIONS to avoid creating symlink loops
+	push @jvm_args, '-Djava.library.path=' . join( ':', @LIB_LOCATIONS, '.' );
 }
 
 sub get_bundled_java_version {

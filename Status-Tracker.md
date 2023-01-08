@@ -44,6 +44,7 @@ Letters indicate which platform versions have been tested successfully:
 |Dice Tribes: Ambitions	|HashLink|L	|	|	|	|	|		|
 |Dome Keeper		|Godot	|L	|	|	|	|	|		|
 |Draw a Stickman: EPIC	|XNA	|	|	|	|	|	|crashes early without Steamworks.NET.dll stub|
+|Droid Assault		|LWJGL2	|	|	|	|	|Humble:L|		|
 |Dust: An Elysian Tail	|FNA	|	|L	|	|	|	|		|
 |Eliza			|Mono	|	|L	|	|	|	|		|
 |Escape Goat		|MonoGame|	|	|	|	|Humble:L|		|
@@ -90,6 +91,7 @@ Letters indicate which platform versions have been tested successfully:
 |Penny Arcade's On the Rain-Slick Precipice of Darkness 3|XNA|||||||
 |Penny Arcade's On the Rain-Slick Precipice of Darkness 4|XNA|||||||
 |Planetfriend		|FNA	|	|	|L	|	|	|		|
+|Revenge of the Titans	|LWJGL2	|	|	|	|	|Humble:L|		|
 |Rex Rocket		|FNA	|L	|	|	|	|	|		|
 |Rise to Ruins		|LWJGL2	|	|	|L	|	|	|		|
 |Rogue Legacy		|FNA	|L	|	|	|	|	|		|
@@ -106,7 +108,8 @@ Letters indicate which platform versions have been tested successfully:
 |Stardash		|LibGDX	|	|	|L	|	|	|		|
 |Super Bernie World	|FNA	|	|	|L	|	|	|		|
 |Sword of the Stars: The Pit|XNA|	|W	|	|	|	|		|
-|Titan Attacks!		|LibGDX	|	|	|	|	|Humble:L|		|
+|Titan Attacks!		|LWJGL2	|	|	|	|	|Humble:L|		|
 |TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
+|Ultratron		|LWJGL2	|	|	|	|	|Humble:L|		|
 |Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|steamworks4j	|
 |The Zachtronics Solitaire Collection|Mono	|L	|	|	|	|	|		|
