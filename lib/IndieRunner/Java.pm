@@ -219,7 +219,7 @@ sub fix_libraries {
 			next;
 		}
 		else {
-			replace_lib($file) or say "no match - skipped";
+			replace_lib($file) or ( ($verbose) ? say "no match - skipped" : ());
 		}
 	}
 }
