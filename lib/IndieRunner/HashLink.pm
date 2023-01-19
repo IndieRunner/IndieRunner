@@ -27,6 +27,7 @@ use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 Readonly::Scalar	my $BIN => 'hl';
 Readonly::Array		my @DAT => (
 					'sdlboot.dat',
+					'hlboot-sdl.dat',
 					'hlboot.dat',
 					);
 
