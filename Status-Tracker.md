@@ -108,6 +108,7 @@ Letters indicate which platform versions have been tested successfully:
 |Space Haven		|LibGDX	|	|L	|	|	|	|needs LibGDX 1.9.11 with gdx-controller-lwjgl3|
 |Spaceport Hope		|LibGDX	|L	|	|	|	|	|		|
 |Stardash		|LibGDX	|	|	|L	|	|	|		|
+|Stardew Valley		|MonoGame|	|M	|	|	|	|use MAC 32bit Build|
 |Super Bernie World	|FNA	|	|	|L	|	|	|		|
 |Sword of the Stars: The Pit|XNA|	|W	|	|	|	|		|
 |Titan Attacks!		|LWJGL2	|	|	|	|	|Humble:L|		|
