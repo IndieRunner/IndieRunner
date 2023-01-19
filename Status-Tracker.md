@@ -37,7 +37,7 @@ Letters indicate which platform versions have been tested successfully:
 |Crystal Project	|FNA	|L	|	|	|	|	|		|
 |Cthulhu Saves the World|XNA	|W	|	|	|	|	|		|
 |Curse of the Crescent Isle DX|FNA	|	|	|	|	|Humble:L|	|
-|Dad Quest		|MonoGame|W	|	|	|	|	|no gamecontroller support|
+|Dad Quest		|MonoGame|W	|	|	|	|	|		|
 |Dead Cells		|HashLink|	|L	|	|	|	|		|
 |Dead Pixels II		|FNA	|L	|	|	|	|	|Early Access (2022-08-27)|
 |Delver			|LibGDX	|L	|	|	|	|	|		|
@@ -46,6 +46,7 @@ Letters indicate which platform versions have been tested successfully:
 |Draw a Stickman: EPIC	|XNA	|	|	|	|	|	|crashes early without Steamworks.NET.dll stub|
 |Droid Assault		|LWJGL2	|	|	|	|	|Humble:L|		|
 |Dust: An Elysian Tail	|FNA	|	|L	|	|	|	|		|
+|Eagle Island		|MonoGame|	|L	|	|	|	|run in subdirectory 'Linux'|
 |Eliza			|Mono	|	|L	|	|	|	|		|
 |Escape Goat		|MonoGame|	|	|	|	|Humble:L|		|
 |Escape Goat 2		|MonoGame|	|	|	|	|Humble:L|		|

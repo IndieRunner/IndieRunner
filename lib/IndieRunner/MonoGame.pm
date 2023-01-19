@@ -19,8 +19,20 @@ use strict;
 use warnings;
 use v5.10;
 use Carp;
+use Readonly;
+use File::Find::Rule;
+use List::Util qw( maxstr );
+use autodie;
 
+use IndieRunner::Io qw( ir_symlink );
 use IndieRunner::Mono;
+
+Readonly::Hash my %MG_LIBS => (
+	'libSDL2-2.0.so.0'	=> '/usr/local/lib/libSDL2.so.*',
+	'libdl.so.2'		=> '/usr/lib/libc.so.*',
+	'liblua53.so'		=> '/usr/local/lib/liblua5.3.so.*',
+	'libopenal.so.1'	=> '/usr/local/lib/libopenal.so.*',
+	);
 
 sub run_cmd {
 	my ($self, $engine_id_file, $game_file) = @_;
@@ -30,8 +42,35 @@ sub run_cmd {
 sub setup {
 	my ($self) = @_;
 	IndieRunner::Mono->setup();
-	# XXX: fix detection of libraries (sdl2, openal, dl)
-	# use IndieRunner::Io::ir_symlink
+
+	# TODO: combine with IndieRunner::Java::fix_libraries sub
+
+	# create an empty libdl file which will be replaced
+	unless ( -e 'libdl.so.2' ) {
+		open my $fh, '>', 'libdl.so.2';
+		close $fh;
+	}
+
+	foreach my $file ( keys %MG_LIBS ) {
+		my @found_files = File::Find::Rule->file
+						->name( $file )
+						->maxdepth( 2 )
+						->in( '.' );
+		foreach my $found ( @found_files ) {
+			# f: regular file test, l: symlink test
+			# F L: symlink to existing file => everything ok
+			# F l: non-symlink file => needs fixing
+			# f L: broken symlink => needs fixing
+			# f l: no file found
+			my ($f, $l) = ( -f $found , -l $found );
+			if ($f and $l) {
+				next;
+			}
+			else {
+				ir_symlink( maxstr( glob( $MG_LIBS{$file} ) ), $found, 1 );
+			}
+		}
+	}
 }
 
 1;
