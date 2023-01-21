@@ -34,12 +34,13 @@ Readonly::Array		my @DAT => (
 sub run_cmd {
 	my ($self, $engine_id_file, $game_file) = @_;
 
-        my @env = (
+        #my @env = (
 		# 'LD_LIBRARY_PATH=/usr/local/lib/',	# XXX: rm if not needed
-		);
+		#);
 
 	foreach my $d ( @DAT ) {
-		return ( 'env', @env, $BIN, $d ) if ( -f $d );
+		#return ( 'env', @env, $BIN, $d ) if ( -f $d );
+		return ( $BIN, $d ) if ( -f $d );
 	}
 	croak "Failed to find .dat file for hashlink";
 }

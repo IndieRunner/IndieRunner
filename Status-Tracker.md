@@ -107,7 +107,7 @@ Letters indicate which platform versions have been tested successfully:
 |Snake Core		|LibGDX	|	|	|L	|	|	|		|
 |Space Grunts		|LibGDX	|	|	|L	|	|	|		|
 |Space Grunts 2		|LibGDX	|	|	|L	|	|	|		|
-|Space Haven		|LibGDX	|	|L	|	|	|	|needs LibGDX 1.9.11 with gdx-controller-lwjgl3|
+|Space Haven		|LibGDX	|	|L	|	|	|	|buggy - crashes; sometimes white noise music|
 |Spaceport Hope		|LibGDX	|L	|	|	|	|	|		|
 |Stardash		|LibGDX	|	|	|L	|	|	|		|
 |Stardew Valley		|MonoGame|	|M	|	|	|	|use MAC 32bit Build|
