@@ -22,6 +22,7 @@ Letters indicate which platform versions have been tested successfully:
 |Atom Zombie Smasher	|Mono	|L	|	|	|	|	|		|
 |Axiom Verge		|FNA	|L(1.56)|	|	|1.51	|	|		|
 |Battlevoid Harbinger	|LibGDX	|	|	|	|	|	|no audio	|
+|Beyond Sunset (demo)	|gzdoom	|L	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
 |Bleed			|FNA	|	|	|	|	|Humble:L|		|
 |Bleed 2		|FNA	|L	|	|	|	|	|		|
 |Blossom Tales II: The Minotaur Prince	|FNA	|L	|	|	|	|	|		|
@@ -68,6 +69,7 @@ Letters indicate which platform versions have been tested successfully:
 |Heroes of Loot		|LibGDX	|	|	|L	|	|	|		|
 |Hive			|FNA	|L	|	|	|	|	|		|
 |Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
+|I Am Sakuya		|gzdoom	|W	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
 |INC: The Beginning	|LibGDX	|	|	|L	|	|	|		|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
 |Kitsune Zero		|FNA	|	|	|L	|	|	|		|
@@ -117,4 +119,5 @@ Letters indicate which platform versions have been tested successfully:
 |TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
 |Ultratron		|LWJGL2	|	|	|	|	|Humble:L|		|
 |Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|steamworks4j	|
+|Vomitoreum		|gzdoom	|L	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
 |The Zachtronics Solitaire Collection|Mono	|L	|	|	|	|	|		|
