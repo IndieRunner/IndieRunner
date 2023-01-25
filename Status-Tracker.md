@@ -59,6 +59,7 @@ Letters indicate which platform versions have been tested successfully:
 |Flotilla		|FNA	|	|	|L	|	|	|		|
 |Forest's Secret	|LibGDX	|	|	|L	|	|	|		|
 |Fraymakers		|HashLink|L	|	|	|	|	|early access	|
+|Fury's Sky		|gzdoom	|W	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
 |Gateways		|MonoGame|	|	|	|	|Humble:L|Humble version works. Steam version needs more API in steamwrapper stub.|
 |Glitchangels		|FNA	|L	|	|	|	|	|		|
 |Groundskeeper 2	|LibGDX	|	|	|L	|	|	|		|
