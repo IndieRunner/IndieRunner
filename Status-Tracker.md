@@ -102,6 +102,8 @@ Letters indicate which platform versions have been tested successfully:
 |Rogue Legacy		|FNA	|L	|	|	|	|	|		|
 |Salt & Sanctuary	|FNA	|L	|	|	|	|	|		|
 |SHENZHEN I/O		|Mono	|	|L	|	|	|	|		|
+|Shrine			|gzdoom	|L	|	|	|	|	|free! handling gzdoom.pk3 not yet implemented|
+|Shrine II		|gzdoom	|L	|	|	|	|	|free! handling gzdoom.pk3 not yet implemented|
 |Simona's Requiem	|Godot	|L	|	|	|	|	|		|
 |Sir Questionnaire	|LibGDX	|	|	|L	|	|	|		|
 |Skulls of the Shogun	|MonoGame|	|L	|	|	|	|		|
