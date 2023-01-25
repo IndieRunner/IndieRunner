@@ -2,6 +2,9 @@ use strict;
 use warnings;
 use ExtUtils::MakeMaker;
 
+# TODO:
+# - use File::Share +/- File::ShareDir::Install to manage data files in share/ dir
+
 WriteMakefile(
     NAME                => 'IndieRunner',
     AUTHOR              => q{Thomas Frohwein <tfrohwein@openbsd.org>},

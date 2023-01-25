@@ -55,6 +55,7 @@ my $Bit_Sufx;
 Readonly::Array my @LIB_LOCATIONS => (
 	'/usr/X11R6/lib',
 	'/usr/local/lib',
+	# XXX: make lwjgl location conditional; it interferes with e.g. Songs of Syx
 	'/usr/local/share/lwjgl',
 	);
 

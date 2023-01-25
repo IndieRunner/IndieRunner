@@ -50,6 +50,11 @@ my $tmpdir	= cli_tmpdir;
 my $dryrun	= cli_dryrun;
 my $verbose	= cli_verbose;
 
+# TODO:
+# - change output drom dryrun mode to be able to create a script
+# - then store the scripts in share/ directory
+# - manage the share/ dir with File::Share +/- File::ShareDir::Install
+
 # if $cli_file contains directory, switch to that directory
 if ( $cli_file ) {
 	die "No such file or directory: $cli_file" unless ( -e $cli_file );
