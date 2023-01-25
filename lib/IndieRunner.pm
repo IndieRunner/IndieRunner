@@ -30,6 +30,7 @@ use IndieRunner::Cmdline qw( cli_dryrun cli_file cli_log_steam_time cli_tmpdir
 use IndieRunner::FNA;
 use IndieRunner::Godot;
 use IndieRunner::GrandCentral;
+use IndieRunner::Gzdoom;
 use IndieRunner::HashLink;
 use IndieRunner::IdentifyFiles qw( find_file_magic );
 use IndieRunner::Info qw( goggame_name steam_appid );
