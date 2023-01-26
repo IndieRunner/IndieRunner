@@ -99,6 +99,7 @@ Letters indicate which platform versions have been tested successfully:
 |Penny Arcade's On the Rain-Slick Precipice of Darkness 3|XNA|||||||
 |Penny Arcade's On the Rain-Slick Precipice of Darkness 4|XNA|||||||
 |Planetfriend		|FNA	|	|	|L	|	|	|		|
+|Project Crypt		|gzdoom	|W	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
 |Revenge of the Titans	|LWJGL2	|	|	|	|	|Humble:L|		|
 |Rex Rocket		|FNA	|L	|	|	|	|	|		|
 |Rise to Ruins		|LWJGL2	|	|	|L	|	|	|		|
