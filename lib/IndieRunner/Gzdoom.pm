@@ -37,6 +37,9 @@ sub setup {
 	# - Beyond Sunset (demo)
 	# - Vomitoreum
 	# - I Am Sakuya: Touhou FPS Game
+
+	# XXX: then symlink /usr/local/share/games/doom/gzdoom.pk3. Needed for:
+	# - The Forestale
 }
 
 1;

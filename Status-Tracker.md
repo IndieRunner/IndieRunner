@@ -58,6 +58,7 @@ Letters indicate which platform versions have been tested successfully:
 |Flinthook		|FNA	|L	|	|	|	|	|		|
 |Flotilla		|FNA	|	|	|L	|	|	|		|
 |Forest's Secret	|LibGDX	|	|	|L	|	|	|		|
+|The Forestale		|gzdoom	|W	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
 |Fraymakers		|HashLink|L	|	|	|	|	|early access	|
 |Fury's Sky		|gzdoom	|W	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
 |Gateways		|MonoGame|	|	|	|	|Humble:L|Humble version works. Steam version needs more API in steamwrapper stub.|
@@ -76,6 +77,7 @@ Letters indicate which platform versions have been tested successfully:
 |Kitsune Zero		|FNA	|	|	|L	|	|	|		|
 |LaserCat		|XNA	|	|	|L	|	|	|		|
 |Little Racers STREET	|FNA	|L	|	|	|	|	|		|
+|Lycanthorn II		|gzdoom	|L	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
 |Meganoid		|LibGDX	|	|	|L	|	|	|		|
 |Meganoid: Grandpa's Chronicles|LibGDX|	|	|L	|	|	|		|
 |Mercenary Kings	|FNA	|	|	|	|	|	|NLog.NLogConfigurationException|
