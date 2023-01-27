@@ -34,7 +34,7 @@ use Path::Tiny;
 use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
-use IndieRunner::Io qw( _symlink );
+use IndieRunner::Io qw( ir_symlink );
 use IndieRunner::Java::LibGDX;
 use IndieRunner::Java::LWJGL2;
 use IndieRunner::Java::LWJGL3;
@@ -192,7 +192,7 @@ sub replace_lib {
 	$lib_glob = $lib_glob . "{64,}.so*";
 
 	foreach my $l ( @LIB_LOCATIONS ) {
-		_symlink( catfile( $l, $lib_glob ), $lib, 1 ) and return 1;
+		ir_symlink( catfile( $l, $lib_glob ), $lib, 1 ) and return 1;
 	}
 
 	return 0;

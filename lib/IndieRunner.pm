@@ -34,7 +34,7 @@ use IndieRunner::Gzdoom;
 use IndieRunner::HashLink;
 use IndieRunner::IdentifyFiles qw( find_file_magic );
 use IndieRunner::Info qw( goggame_name steam_appid );
-use IndieRunner::Io qw( write_file );
+use IndieRunner::Io qw( script_head write_file );
 use IndieRunner::Java;
 use IndieRunner::Misc qw( log_steam_time );
 use IndieRunner::Mono qw( get_mono_files );
@@ -51,6 +51,8 @@ my $tmpdir	= cli_tmpdir();
 my $dryrun	= cli_dryrun();
 my $verbose	= cli_verbose();
 my $mode	= cli_mode();
+
+script_head() if $mode eq 'script';
 
 # TODO:
 # - change output drom dryrun mode to be able to create a script
