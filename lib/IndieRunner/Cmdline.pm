@@ -32,7 +32,7 @@ my $log_steam_time;
 my $tmpdir	= '/tmp/IndieRunner/';
 my $userdir	= $ENV{HOME} . '.IndieRunner';
 my $verbose	= 0;
-my $mode	= 'normal';	# normal, dryrun, or script
+my $mode	= 'run';	# run, dryrun, or script
 
 sub init_cli {
 	Getopt::Long::Configure ("bundling");

@@ -92,7 +92,7 @@ sub _symlink {
 # print OS-specific rename command
 sub os_rename( $oldfile, $newfile ) {
 	my $os = get_os();
-	if ( $os == 'openbsd' ) {
+	if ( $os eq 'openbsd' ) {
 		say "mv $oldfile $newfile";
 	}
 	else {
@@ -103,12 +103,12 @@ sub os_rename( $oldfile, $newfile ) {
 # mode-specific rename subroutine
 sub _rename( $oldfile, $newfile ) {
 	my $mode = cli_mode();
-	if ( $mode eq 'normal' ) {
+	if ( $mode eq 'run' ) {
 		say "Rename: $oldfile => $newfile" if cli_verbose();
 		rename $oldfile, $newfile;
 	}
 	elsif ( $mode eq 'script' ) {
-		say os_rename( $oldfile, $newfile );
+		os_rename( $oldfile, $newfile );
 	}
 	else {	# mode == 'dryrun'
 		say "Rename: $oldfile => $newfile";

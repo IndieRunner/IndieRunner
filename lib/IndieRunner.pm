@@ -25,8 +25,8 @@ use File::Spec::Functions qw( catpath splitpath );
 use List::Util qw( first );
 use POSIX qw( strftime );
 
-use IndieRunner::Cmdline qw( cli_dryrun cli_file cli_log_steam_time cli_tmpdir
-                             cli_verbose init_cli );
+use IndieRunner::Cmdline qw( cli_dryrun cli_file cli_log_steam_time cli_mode
+			     cli_tmpdir cli_verbose init_cli );
 use IndieRunner::FNA;
 use IndieRunner::Godot;
 use IndieRunner::GrandCentral;
@@ -46,10 +46,11 @@ sub set_game_name { $game_name = join( ' ', @_); }
 
 # process config & options
 init_cli;
-my $cli_file	= cli_file;
-my $tmpdir	= cli_tmpdir;
-my $dryrun	= cli_dryrun;
-my $verbose	= cli_verbose;
+my $cli_file	= cli_file();
+my $tmpdir	= cli_tmpdir();
+my $dryrun	= cli_dryrun();
+my $verbose	= cli_verbose();
+my $mode	= cli_mode();
 
 # TODO:
 # - change output drom dryrun mode to be able to create a script
@@ -134,11 +135,11 @@ if ( $steam_appid ) {
 	$child_steamlog = log_steam_time $steam_appid if cli_log_steam_time();
 }
 
-say "\nLaunching game: $game_name";
+say "\nLaunching game: $game_name" unless $mode eq 'script';
 
 # print what will be executed; stop here if $dryrun
 say join( ' ', @run_cmd );
-$dryrun ? exit 0 : say '';
+$mode eq 'run' ? say '' : exit 0;
 
 # Execute @run_cmd and log output
 my $merged_out = tee_merged {	# $merged_out combines stdout and stderr
