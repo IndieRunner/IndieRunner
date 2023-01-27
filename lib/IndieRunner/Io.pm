@@ -16,11 +16,12 @@ package IndieRunner::Io;
 
 use strict;
 use warnings;
-use v5.10;
+use v5.32;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
+use feature 'signatures';
 
 use base qw( Exporter );
-our @EXPORT_OK = qw( ir_symlink write_file );
+our @EXPORT_OK = qw( neuter ir_symlink write_file );
 
 use autodie;
 use Carp;
@@ -83,6 +84,15 @@ sub ir_symlink {
 	}
 
 	return 1;
+}
+
+# helper function to neuter included files by appending '_'
+# Syntax: ir_neuter( string filename )
+sub neuter( $filename ) {
+	my $dryrun = cli_dryrun();
+	my $verbose = cli_verbose();
+	say "Rename: ${filename} => ${filename}_" if ( $dryrun || $verbose );
+	rename $filename, $filename . '_' unless $dryrun;
 }
 
 1;
