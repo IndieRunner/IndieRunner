@@ -22,6 +22,8 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use Carp;
 use Readonly;
 
+use IndieRunner::Io qw( neuter ir_symlink );
+
 Readonly::Scalar my $BIN => 'gzdoom';
 
 sub run_cmd {
@@ -33,13 +35,13 @@ sub run_cmd {
 sub setup {
 	my ($self) = @_;
 
-	# XXX: if gzdoom.pk3 is present, remove (rename) it. Needed for:
+	# neuter gzdoom.pk3 if present and replace with symlinked
+	# /usr/local/share/games/doom/gzdoom.pk3. Needed for:
 	# - Beyond Sunset (demo)
 	# - Vomitoreum
 	# - I Am Sakuya: Touhou FPS Game
-
-	# XXX: then symlink /usr/local/share/games/doom/gzdoom.pk3. Needed for:
-	# - The Forestale
+	neuter( 'gzdoom.pk3' ) if -f 'gzdoom.pk3';
+	ir_symlink( '/usr/local/share/games/doom/gzdoom.pk3', 'gzdoom.pk3' );
 }
 
 1;

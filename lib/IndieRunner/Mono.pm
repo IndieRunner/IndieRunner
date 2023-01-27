@@ -28,6 +28,7 @@ use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 use IndieRunner::IdentifyFiles qw( get_magic_descr );
+use IndieRunner::Io qw( neuter );
 use IndieRunner::Mono::Dllmap qw( get_dllmap_target );
 use IndieRunner::Mono::Iomap qw( iomap_symlink );
 
@@ -158,8 +159,7 @@ sub setup {
 
 	# remove system Mono assemblies
 	foreach my $f ( get_mono_files ) {
-		say "Rename: ${f} => ${f}_" if ( $dryrun || $verbose );
-		rename $f, $f . '_' unless $dryrun;
+		neuter( $f );
 	}
 
 	# to make up for mono's lost MONO_IOMAP, call iomap_symlink

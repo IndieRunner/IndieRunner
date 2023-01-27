@@ -18,7 +18,8 @@ use strict;
 use warnings;
 use v5.32;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
-use feature 'signatures';
+use feature qw( signatures );
+no warnings qw( experimental::signatures );
 
 use base qw( Exporter );
 our @EXPORT_OK = qw( neuter ir_symlink write_file );

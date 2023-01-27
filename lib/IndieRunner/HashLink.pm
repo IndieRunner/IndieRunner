@@ -23,6 +23,7 @@ use Carp;
 use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+use IndieRunner::Io qw( neuter );
 
 Readonly::Scalar	my $BIN => 'hl';
 Readonly::Array		my @DAT => (
@@ -50,8 +51,7 @@ sub setup {
         my $dryrun = cli_dryrun;
 
         foreach my $f ( glob( '*.hdll' ) ) {
-                say "Rename: ${f} => ${f}_" if ( $dryrun || cli_verbose );
-                rename $f, $f . '_' unless $dryrun;
+		neuter( $f );
         }
 }
 

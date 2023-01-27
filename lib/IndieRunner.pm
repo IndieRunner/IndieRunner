@@ -124,6 +124,7 @@ my @run_cmd = $module->run_cmd( $engine_id_file, $cli_file );
 # heuristic for game name
 $game_name = goggame_name() unless $game_name;
 ($game_name) = find_file_magic( '^ELF.*executable', glob '*' ) unless $game_name;
+($game_name) = find_file_magic( '^PE32 executable \(console\)', glob '*' ) unless $game_name;
 $game_name = 'unknown' unless $game_name;
 
 my $steam_appid = steam_appid();

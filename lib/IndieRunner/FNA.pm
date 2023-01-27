@@ -24,6 +24,7 @@ use File::Copy qw( copy );
 use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+use IndieRunner::Io qw( neuter );
 use IndieRunner::Mono qw( get_assembly_version );
 
 # $FNA_MIN_VERSION depends on the version of the native support libraries
@@ -76,11 +77,8 @@ sub setup {
 				exit 1;
 			}
 			else {
-				say "Replace: $fna_file v$fna_bundled_version " .
-					"=> $fna_file v$fna_replacement_version"
-					if ( $dryrun || $verbose );
+				neuter( $fna_file );
 				unless ( $dryrun ) {
-					rename $fna_file, $fna_file . '_' or croak;
 					copy( $FNA_REPLACEMENT, $fna_file )
 						or croak "Copy failed: $!";
 				}
@@ -92,14 +90,7 @@ sub setup {
 	}
 
 	# neuter bundled .config file
-	if ( -f $fna_config_file ) {
-		say "Rename: ${fna_config_file} => ${fna_config_file}_"
-			if ( $dryrun || $verbose );
-		unless ( $dryrun ) {
-			rename $fna_config_file, $fna_config_file . '_'
-				or croak;
-		}
-	}
+	neuter( $fna_config_file ) if ( -f $fna_config_file );
 }
 
 1;
