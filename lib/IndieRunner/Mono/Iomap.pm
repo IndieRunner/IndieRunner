@@ -25,7 +25,7 @@ use base qw( Exporter );
 our @EXPORT_OK =qw( iomap_symlink );
 
 use IndieRunner::Cmdline qw( cli_verbose );
-use IndieRunner::Io qw( ir_symlink );
+use IndieRunner::Io qw( _symlink );
 
 Readonly::Hash my %iomap => {
 	'AJ1.exe' => [
@@ -386,7 +386,7 @@ sub iomap_symlink {
 	foreach my $symlink_pair ( @{ $iomap{ $index_file } } ) {
 		my ($oldfile, $newfile) = @{ $symlink_pair };
 		next if ( -e $newfile );
-		ir_symlink( $oldfile, $newfile );
+		_symlink( $oldfile, $newfile );
 	}
 
 	return 1;

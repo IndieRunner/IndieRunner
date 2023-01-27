@@ -29,7 +29,7 @@ use List::Util qw( max );
 use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
-use IndieRunner::Io qw( ir_symlink );
+use IndieRunner::Io qw( _symlink );
 use IndieRunner::Platform qw( get_os );
 
 Readonly::Scalar my $So_Sufx => '.so';
@@ -142,7 +142,7 @@ sub setup {
 	# quirk for Gunslugs which doesn't bundle libgdx-controllers-desktop64.so,
 	# but requires it
 	foreach my $l ( glob $native_gdx . '/*.so' ) {
-		ir_symlink( $l, ( splitpath( $l ) )[2] );
+		_symlink( $l, ( splitpath( $l ) )[2] );
 	}
 	say '';
 }

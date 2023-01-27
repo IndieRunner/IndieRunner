@@ -22,14 +22,16 @@ use feature qw( signatures );
 no warnings qw( experimental::signatures );
 
 use base qw( Exporter );
-our @EXPORT_OK = qw( neuter ir_symlink write_file );
+our @EXPORT_OK = qw( neuter _symlink write_file );
 
 use autodie;
 use Carp;
 use File::Path qw( make_path );
 use File::Spec::Functions qw( catpath splitpath );
 
-use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+# XXX: is cli_dryrun needed?
+use IndieRunner::Cmdline qw( cli_dryrun cli_mode cli_verbose );
+use IndieRunner::Platform qw( get_os );
 
 sub write_file {
 	my ($data, $filename) = @_;
@@ -44,8 +46,8 @@ sub write_file {
 }
 
 # helper function for symlink in IndieRunner
-# Syntax: ir_symlink( string glob_of_oldfile, string newfile, bool overwrite )
-sub ir_symlink {
+# Syntax: _symlink( string glob_of_oldfile, string newfile, bool overwrite )
+sub _symlink {
 	my ($oldfile_glob, $newfile, $overwrite) = @_;
 
 	my $dryrun = cli_dryrun();
@@ -87,13 +89,35 @@ sub ir_symlink {
 	return 1;
 }
 
+# print OS-specific rename command
+sub os_rename( $oldfile, $newfile ) {
+	my $os = get_os();
+	if ( $os == 'openbsd' ) {
+		say "mv $oldfile $newfile";
+	}
+	else {
+		confess 'Non-OpenBSD OS not implemented';
+	}
+}
+
+# mode-specific rename subroutine
+sub _rename( $oldfile, $newfile ) {
+	my $mode = cli_mode();
+	if ( $mode eq 'normal' ) {
+		say "Rename: $oldfile => $newfile" if cli_verbose();
+		rename $oldfile, $newfile;
+	}
+	elsif ( $mode eq 'script' ) {
+		say os_rename( $oldfile, $newfile );
+	}
+	else {	# mode == 'dryrun'
+		say "Rename: $oldfile => $newfile";
+	}
+}
+
 # helper function to neuter included files by appending '_'
-# Syntax: ir_neuter( string filename )
 sub neuter( $filename ) {
-	my $dryrun = cli_dryrun();
-	my $verbose = cli_verbose();
-	say "Rename: ${filename} => ${filename}_" if ( $dryrun || $verbose );
-	rename $filename, $filename . '_' unless $dryrun;
+	_rename( $filename, $filename . '_' ) unless -l $filename;
 }
 
 1;

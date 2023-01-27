@@ -24,7 +24,7 @@ use File::Find::Rule;
 use List::Util qw( maxstr );
 use autodie;
 
-use IndieRunner::Io qw( ir_symlink );
+use IndieRunner::Io qw( _symlink );
 use IndieRunner::Mono;
 
 Readonly::Hash my %MG_LIBS => (
@@ -67,7 +67,7 @@ sub setup {
 				next;
 			}
 			else {
-				ir_symlink( maxstr( glob( $MG_LIBS{$file} ) ), $found, 1 );
+				_symlink( maxstr( glob( $MG_LIBS{$file} ) ), $found, 1 );
 			}
 		}
 	}

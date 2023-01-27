@@ -22,7 +22,7 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use Carp;
 use Readonly;
 
-use IndieRunner::Io qw( neuter ir_symlink );
+use IndieRunner::Io qw( neuter _symlink );
 
 Readonly::Scalar my $BIN => 'gzdoom';
 
@@ -41,7 +41,7 @@ sub setup {
 	# - Vomitoreum
 	# - I Am Sakuya: Touhou FPS Game
 	neuter( 'gzdoom.pk3' ) if -f 'gzdoom.pk3';
-	ir_symlink( '/usr/local/share/games/doom/gzdoom.pk3', 'gzdoom.pk3' );
+	_symlink( '/usr/local/share/games/doom/gzdoom.pk3', 'gzdoom.pk3' );
 }
 
 1;
