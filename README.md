@@ -34,6 +34,7 @@ Showcase
 * Dead Cells
 * Urtuk the Desolation
 * Nuclear Blaze
+* Stardew Valley
 
 "Indie"?
 ========
@@ -57,7 +58,7 @@ Opensource your Engine Code; Sell the Assets
 
 Examples:
 * Barony
-* idTech
+* idTech (gzdoom)
 * Wolfire Games (Lugaru, Overgrowth)
 
 Use a ByteCode Framework that Relies on Opensource Native Libraries
@@ -98,27 +99,29 @@ Install Perl dependencies on OpenBSD:
 
 External (non-Perl) programs and libraries used:
 * 7z from p7zip (modules Java, LibGDX, LWJGL2, LWJGL3)
+* CSteamworks (module FNA)
 * FAudio (modules FNA, XNA)
-* Ffmpeg (module XNA)
+* ffmpeg (module XNA)
 * FNA (modules FNA, XNA)
-* Godot (module Godot)
-* Hashlink (module HashLink)
-* Hlsteam (module HashLink)
+* godot (module Godot)
+* gzdoom (module Gzdoom)
+* hashlink (module HashLink)
+* hlsteam (module HashLink)
 * Java JDK 1.8, 11 (modules Java, LibGDX, LWJGL2, LWJGL3)
 * LibGDX - different versions, depending on the game
-* Libstubborn (modules FNA, XNA)
-* Libtheora, Libtheorafile, Libtheoraplay (modules FNA, XNA)
+* libstubborn (modules FNA, XNA)
+* libtheora, libtheorafile, libtheoraplay (modules FNA, XNA)
 * LWJGL, LWJGL3
-* Mono (modules Mono, FNA, XNA, MonoGame)
+* mono (modules Mono, FNA, XNA, MonoGame)
 * OpenAL (module LibGDX)
 * SDL2 (modules FNA, XNA, HashLink)
-* Steamctl (`--log-steam-time`)
-* Steamworks4j (some Java modules)
-* Steamworks-nosteam (modules FNA, XNA)
+* steamctl (`--log-steam-time`)
+* steamworks4j (some Java modules)
+* steamworks-nosteam (modules FNA, XNA)
 
 Install them all with:
 ```
-# pkg_add faudio ffmpeg fna godot hashlink hlsteam jdk libgdx libstubborn libtheora{,file,play} lwjgl{,3} mono openal p7zip sdl2-image steamctl
+# pkg_add faudio ffmpeg fna godot gzdoom hashlink hlsteam jdk libgdx libstubborn libtheora{,file,play} lwjgl{,3} mono openal p7zip sdl2-image steamctl
 ```
 
 Platform Requirements
@@ -144,16 +147,24 @@ But What About ...?
 Opensource Unity Projects
 -------------------------
 
+* published source code that requires a proprietary, closed-source engine to run isn't really opensource
+
 Wine
 ----
+
+* not available on OpenBSD
 
 Virtual Machines
 ----------------
 
+* hassle
+* performance
+* no performant option on OpenBSD
+
 Dual-booting
 ------------
 
-... you seriously have to ask?
+* hassle
 
 Known (General) Problems
 ========================
@@ -161,13 +172,15 @@ Known (General) Problems
 Runtime Changes
 ---------------
 
-* mono ...
+* mono abandoned MONO_IOMAP with version 6, which has rendered games using Windows pathnames with '\' largely unplayable.
 
 Steam
 -----
 
+* no Steam client on OpenBSD
+* other platforms requiring wine to run Steam client
+
 Library Changes
 ---------------
 
-* jpeg ...
-* mojoshader ...
+* libjpeg has had breaking API changes that break the game MidBoss which is expecting old API.
