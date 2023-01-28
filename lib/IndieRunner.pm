@@ -100,7 +100,7 @@ unless ( $engine ) {
 
 # 2nd Pass: Byte Sequences
 unless ( $engine ) {
-	say "Failed to identify game engine on first pass; performing second pass.";
+	say STDERR "Failed to identify game engine on first pass; performing second pass.";
 	foreach my $f ( @files ) {
 		$engine = IndieRunner::GrandCentral::identify_engine_thorough($f);
 		if ( $engine ) {
@@ -113,7 +113,7 @@ unless ( $engine ) {
 }
 
 unless ( $engine ) {
-	say "No game engine identified. Aborting.";
+	say STDERR "No game engine identified. Aborting.";
 	exit 1;
 }
 
