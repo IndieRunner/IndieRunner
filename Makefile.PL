@@ -1,13 +1,13 @@
 use strict;
 use warnings;
 use ExtUtils::MakeMaker;
+use File::ShareDir::Install;
 
-# TODO:
-# - use File::Share +/- File::ShareDir::Install to manage data files in share/ dir
+install_share dist => 'share';
 
 WriteMakefile(
     NAME                => 'IndieRunner',
-    AUTHOR              => q{Thomas Frohwein <tfrohwein@openbsd.org>},
+    AUTHOR              => q{Thomas Frohwein <thfr@openbsd.org>},
     VERSION_FROM        => 'lib/IndieRunner.pm',
     ABSTRACT_FROM       => 'lib/IndieRunner.pm',
     ($ExtUtils::MakeMaker::VERSION >= 6.3002
@@ -20,3 +20,6 @@ WriteMakefile(
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'IndieRunner-*' },
 );
+
+package MY;
+use File::ShareDir::Install 'postamble';

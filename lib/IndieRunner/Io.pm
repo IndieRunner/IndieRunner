@@ -22,10 +22,11 @@ use feature qw( signatures );
 no warnings qw( experimental::signatures );
 
 use base qw( Exporter );
-our @EXPORT_OK = qw( ir_symlink neuter script_head write_file );
+our @EXPORT_OK = qw( ir_copy ir_symlink neuter script_head write_file );
 
 use autodie;
 use Carp;
+use File::Copy qw( copy );
 use File::Path qw( make_path );
 use File::Spec::Functions qw( catpath splitpath );
 
@@ -78,6 +79,17 @@ sub os_symlink( $oldfile, $newfile ) {
 	}
 }
 
+# print OS-specific symlink command
+sub os_copy( $oldfile, $newfile ) {
+	my $os = get_os();
+	if ( $os eq 'openbsd' ) {
+		say "cp $oldfile $newfile";
+	}
+	else {
+		confess 'Non-OpenBSD OS not implemented';
+	}
+}
+
 # mode-specific rename subroutine
 sub _rename( $oldfile, $newfile ) {
 	my $mode = cli_mode();
@@ -97,14 +109,29 @@ sub _rename( $oldfile, $newfile ) {
 sub _symlink( $oldfile, $newfile ) {
 	my $mode = cli_mode();
 	if ( $mode eq 'run' ) {
-		say "Symlink: $newfile => $oldfile" if cli_verbose();
+		say "Symlink: $newfile -> $oldfile" if cli_verbose();
 		symlink $oldfile, $newfile;
 	}
 	elsif ( $mode eq 'script' ) {
 		os_symlink( $oldfile, $newfile );
 	}
 	else {	# mode == 'dryrun'
-		say "Symlink: $newfile => $oldfile";
+		say "Symlink: $newfile -> $oldfile";
+	}
+}
+
+# mode-specific symlink subroutine
+sub _copy( $oldfile, $newfile ) {
+	my $mode = cli_mode();
+	if ( $mode eq 'run' ) {
+		say "Copy: $oldfile => $newfile" if cli_verbose();
+		copy $oldfile, $newfile;
+	}
+	elsif ( $mode eq 'script' ) {
+		os_copy( $oldfile, $newfile );
+	}
+	else {	# mode == 'dryrun'
+		say "Copy: $oldfile => $newfile";
 	}
 }
 
@@ -151,6 +178,10 @@ sub ir_symlink {
 # helper function to neuter included files by appending '_'
 sub neuter( $filename ) {
 	_rename( $filename, $filename . '_' ) unless -l $filename;
+}
+
+sub ir_copy( $oldfile, $newfile ) {
+	_copy( $oldfile, $newfile );
 }
 
 1;

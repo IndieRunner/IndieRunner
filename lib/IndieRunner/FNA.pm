@@ -20,11 +20,10 @@ use warnings;
 use v5.10;
 use Carp;
 
-use File::Copy qw( copy );
 use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
-use IndieRunner::Io qw( neuter );
+use IndieRunner::Io qw( ir_copy neuter );
 use IndieRunner::Mono qw( get_assembly_version );
 
 # $FNA_MIN_VERSION depends on the version of the native support libraries
@@ -78,10 +77,7 @@ sub setup {
 			}
 			else {
 				neuter( $fna_file );
-				unless ( $dryrun ) {
-					copy( $FNA_REPLACEMENT, $fna_file )
-						or croak "Copy failed: $!";
-				}
+				ir_copy( $FNA_REPLACEMENT, $fna_file );
 			}
 		}
 		else {
