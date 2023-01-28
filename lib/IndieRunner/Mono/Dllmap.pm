@@ -19,26 +19,26 @@ use warnings;
 use v5.10;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use Carp;
-use Readonly;
-
-use autodie;	# XXX: remove?
 
 use base qw( Exporter );
 our @EXPORT_OK = qw( get_dllmap_target );
 
 use File::Share qw( :all );
 use File::Spec::Functions qw( catpath splitpath );	# XXX: remove?
-
-use IndieRunner::Cmdline qw( cli_dllmap_file cli_dryrun cli_tmpdir cli_userdir
-                             cli_verbose );
+use IndieRunner::Cmdline qw( cli_dllmap_file cli_dryrun cli_mode cli_tmpdir
+			     cli_userdir cli_verbose );
 use IndieRunner::Io qw( write_file );
 
 sub get_dllmap_target {
 	my $dryrun =		cli_dryrun();
+	my $mode =		cli_mode();
 	my $verbose =		cli_verbose();
 	my $cli_map =		cli_dllmap_file();
-	my $tmpdir_map =	catpath( '', cli_tmpdir(), 'dllmap.config' );
 	my $userdir_map =	catpath( '', cli_userdir(), 'dllmap.config' );
+
+	# XXX: in 'script' mode, return a suitable location for dllmap.config TBD!
+	confess "no standard location for dllmap.config in --script mode at the moment"
+		if $mode eq 'script';
 
 	# 1. return the user-supplied dllmap file if available
 	return $cli_map if $cli_map;
@@ -49,6 +49,7 @@ sub get_dllmap_target {
 
 	# 3. use the one from ShareDir
 	return dist_file( 'IndieRunner', 'config/dllmap.config' );
+
 }
 
 1;
