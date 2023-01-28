@@ -28,7 +28,8 @@ use autodie;
 use Carp;
 use File::Copy qw( copy );
 use File::Path qw( make_path );
-use File::Spec::Functions qw( catpath splitpath );
+use File::Spec::Functions qw( catfile catpath splitpath );
+use FindBin;
 
 # XXX: is cli_dryrun needed?
 use IndieRunner::Cmdline qw( cli_dryrun cli_mode cli_verbose );
@@ -38,16 +39,18 @@ use IndieRunner::Platform qw( get_os );
 sub script_head {
 	my $os = get_os();
 	if ( $os eq 'openbsd' ) {
-		say '#!/bin/ksh';
+		say "#!/bin/ksh\n";
+		my $license = read_file( catfile( $FindBin::Bin, '..', 'LICENSE' ) );
+		$license =~ s/\n/\n\# /g;
+		$license =~ s/\n\# $//;
+		say "# $license\n";
 	}
 	else {
 		confess 'Non-OpenBSD OS not implemented';
 	}
 }
 
-sub write_file {
-	my ($data, $filename) = @_;
-
+sub write_file( $data, $filename ) {
 	croak "File $filename already exists!" if ( -e $filename );
 	my ($vol, $dir, $fil) = splitpath( $filename );
 	make_path( catpath( $vol, $dir ) );
@@ -55,6 +58,17 @@ sub write_file {
 	open( my $fh, '>', $filename );
 	print $fh $data;
 	close $fh;
+}
+
+sub read_file( $filename ) {
+	my $out;
+	croak "No such file: $filename" unless ( -f $filename );
+	open( my $fh, '<', $filename );
+	while( my $line = <$fh> ) {
+		$out .= $line;
+	}
+	close $fh;
+	return $out;
 }
 
 # print OS-specific rename command
