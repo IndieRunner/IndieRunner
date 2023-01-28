@@ -23,6 +23,7 @@ use base qw( Exporter );
 our @EXPORT_OK = qw( cli_dllmap_file cli_dryrun cli_file cli_log_steam_time
                      cli_mode cli_tmpdir cli_verbose cli_userdir init_cli );
 
+use File::Spec::Functions qw( catdir );
 use Getopt::Long;
 use Pod::Usage;
 
@@ -30,7 +31,7 @@ my $cli_file;
 my $dllmap_file;
 my $log_steam_time;
 my $tmpdir	= '/tmp/IndieRunner/';
-my $userdir	= $ENV{HOME} . '.IndieRunner';
+my $userdir	= catdir( $ENV{HOME}, '.IndieRunner' );
 my $verbose	= 0;
 my $mode	= 'run';	# run, dryrun, or script
 

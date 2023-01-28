@@ -36,16 +36,12 @@ sub get_dllmap_target {
 	my $cli_map =		cli_dllmap_file();
 	my $userdir_map =	catpath( '', cli_userdir(), 'dllmap.config' );
 
-	# XXX: in 'script' mode, return a suitable location for dllmap.config TBD!
-	confess "no standard location for dllmap.config in --script mode at the moment"
-		if $mode eq 'script';
-
 	# 1. return the user-supplied dllmap file if available
 	return $cli_map if $cli_map;
 
 	# 2. return IndieRunner.dllmap.config in userdir if exists
-	# XXX: create/install this file by default?
-	return $userdir_map if -f $userdir_map;
+	#    - also forced if using --script mode as this is most likely location then
+	return $userdir_map if ( -f $userdir_map or $mode eq 'script' );
 
 	# 3. use the one from ShareDir
 	return dist_file( 'IndieRunner', 'config/dllmap.config' );
