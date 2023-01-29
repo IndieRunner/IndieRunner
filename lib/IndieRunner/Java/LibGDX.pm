@@ -139,10 +139,8 @@ sub setup {
 		confess "Can't proceed: unable to find native LibGDX implementation";
 	}
 
-	# quirk for Gunslugs which doesn't bundle libgdx-controllers-desktop64.so,
-	# but requires it
 	foreach my $l ( glob $native_gdx . '/*.so' ) {
-		ir_symlink( $l, ( splitpath( $l ) )[2] );
+		ir_symlink( $l, ( splitpath( $l ) )[2], 1 ) unless -l $l;
 	}
 	say '';
 }
