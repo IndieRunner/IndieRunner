@@ -28,7 +28,7 @@ use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 
 sub log_steam_time {	# requires steamctl in path
 	my $appid = shift or confess
-		'Function called without AppId - this shouldn\'t happen!';
+		'Option `--log-steam-time without AppId';
 	my $verbose = cli_verbose();
 
 	my $p = fork();

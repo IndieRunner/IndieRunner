@@ -25,8 +25,8 @@ use File::Spec::Functions qw( catpath splitpath );
 use List::Util qw( first );
 use POSIX qw( strftime );
 
-use IndieRunner::Cmdline qw( cli_dryrun cli_file cli_log_steam_time cli_mode
-			     cli_tmpdir cli_verbose init_cli );
+use IndieRunner::Cmdline qw( cli_appid cli_dryrun cli_file cli_log_steam_time
+				cli_mode cli_tmpdir cli_verbose init_cli );
 use IndieRunner::FNA;
 use IndieRunner::Godot;
 use IndieRunner::GrandCentral;
@@ -130,12 +130,12 @@ $game_name = goggame_name() unless $game_name;
 ($game_name) = find_file_magic( '^PE32 executable \(console\)', glob '*' ) unless $game_name;
 $game_name = 'unknown' unless $game_name;
 
-my $steam_appid = steam_appid();
+my $steam_appid = cli_appid() or steam_appid();
 my $child_steamlog;
 if ( $steam_appid ) {
 	say 'Found Steam AppID: ' . $steam_appid if $verbose;
-	$child_steamlog = log_steam_time $steam_appid if cli_log_steam_time();
 }
+$child_steamlog = log_steam_time $steam_appid if cli_log_steam_time();
 
 say "\nLaunching game: $game_name" unless $mode eq 'script';
 
