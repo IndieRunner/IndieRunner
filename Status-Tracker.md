@@ -113,6 +113,7 @@ Letters indicate which platform versions have been tested successfully:
 |Skulls of the Shogun	|MonoGame|	|L	|	|	|	|		|
 |Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j	|
 |Snake Core		|LibGDX	|	|	|L	|	|	|		|
+|SokoChess White	|Godot	|L	|	|	|	|	|		|
 |Space Grunts		|LibGDX	|	|	|L	|	|	|		|
 |Space Grunts 2		|LibGDX	|	|	|L	|	|	|		|
 |Space Haven		|LibGDX	|	|L	|	|	|	|buggy - crashes; sometimes white noise music|
