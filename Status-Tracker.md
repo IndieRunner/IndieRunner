@@ -16,6 +16,7 @@ Letters indicate which platform versions have been tested successfully:
 |Airships: Conquer the Skies|LibGDX|	|	|L	|	|	|		|
 |Akane the Kunoichi	|XNA	|W	|	|	|	|	|		|
 |Amazing Princess Sarah	|XNA	|	|	|	|	|	|iomap error when loading level	|
+|Apocalyptic Vibes	|gzdoom	|W	|	|	|	|	|		|
 |Apotheon		|FNA	|L	|	|	|	|	|		|
 |Apple Jack 1&2		|XNA	|W	|	|	|	|	|		|
 |Ashworld		|LibGDX	|	|	|L	|	|	|		|
