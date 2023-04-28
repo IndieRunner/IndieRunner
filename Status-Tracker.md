@@ -124,6 +124,7 @@ Letters indicate which platform versions have been tested successfully:
 |Stardew Valley		|MonoGame|	|M	|	|	|	|use MAC 32bit Build|
 |Super Bernie World	|FNA	|	|	|L	|	|	|		|
 |Sword of the Stars: The Pit|XNA|	|W	|	|	|	|		|
+|Takara Cards		|Godot	|L	|	|	|	|	|		|
 |Titan Attacks!		|LWJGL2	|	|	|	|	|Humble:L|		|
 |TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
 |Ultratron		|LWJGL2	|	|	|	|	|Humble:L|		|
