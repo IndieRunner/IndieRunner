@@ -120,6 +120,7 @@ Letters indicate which platform versions have been tested successfully:
 |Space Grunts 2		|LibGDX	|	|	|L	|	|	|		|
 |Space Haven		|LibGDX	|	|L	|	|	|	|buggy - crashes; sometimes white noise music|
 |Spaceport Hope		|LibGDX	|L	|	|	|	|	|		|
+|SpeedRunners		|FNA	|L	|	|	|	|	|FNA used since 2023-03-25 update|
 |Stardash		|LibGDX	|	|	|L	|	|	|		|
 |Stardew Valley		|MonoGame|	|M	|	|	|	|use MAC 32bit Build|
 |Super Bernie World	|FNA	|	|	|L	|	|	|		|
