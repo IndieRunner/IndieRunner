@@ -117,6 +117,7 @@ Letters indicate which platform versions have been tested successfully:
 |Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j	|
 |Snake Core		|LibGDX	|	|	|L	|	|	|		|
 |SokoChess White	|Godot	|L	|	|	|	|	|		|
+|SoulCaster I & II	|FNA	|	|	|	|	|Humble:L|		|
 |SpaceChem		|Mono	|	|	|L	|	|	|needs fix to not remove/rename System.Data.SQLite.dll|
 |Space Grunts		|LibGDX	|	|	|L	|	|	|		|
 |Space Grunts 2		|LibGDX	|	|	|L	|	|	|		|
