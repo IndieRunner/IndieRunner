@@ -66,6 +66,7 @@ sub get_mono_files {
 	my @mono_files;
 	my @match;
 
+	# TODO: fix that SpaceChem's bundled System.Data.SQLite.dll is erroneously included
 	foreach my $g ( @MONO_GLOBS ) {
 		@match = glob( $g . $custom_suffix );
 		next unless @match;
