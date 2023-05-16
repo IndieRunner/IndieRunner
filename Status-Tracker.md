@@ -134,4 +134,5 @@ Letters indicate which platform versions have been tested successfully:
 |Ultratron		|LWJGL2	|	|	|	|	|Humble:L|		|
 |Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|steamworks4j	|
 |Vomitoreum		|gzdoom	|L	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
+|V-Hunter Puzzler Dx	|Godot	|W	|	|	|	|	|		|
 |The Zachtronics Solitaire Collection|Mono	|L	|	|	|	|	|		|
