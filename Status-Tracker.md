@@ -75,6 +75,7 @@ Letters indicate which platform versions have been tested successfully:
 |Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
 |I Am Sakuya		|gzdoom	|W	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
 |INC: The Beginning	|LibGDX	|	|	|L	|	|	|		|
+|The Isolated Town	|Godot	|	|	|L	|	|	|		|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
 |Kitsune Zero		|FNA	|	|	|L	|	|	|		|
 |LaserCat		|XNA	|	|	|L	|	|	|		|
