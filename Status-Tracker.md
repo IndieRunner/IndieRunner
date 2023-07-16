@@ -132,6 +132,7 @@ Letters indicate which platform versions have been tested successfully:
 |Takara Cards		|Godot	|L	|	|	|	|	|		|
 |Titan Attacks!		|LWJGL2	|	|	|	|	|Humble:L|		|
 |TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
+|Transmogrify		|Godot	|L	|	|	|	|	|		|
 |Ultratron		|LWJGL2	|	|	|	|	|Humble:L|		|
 |Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|steamworks4j	|
 |Vomitoreum		|gzdoom	|L	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
