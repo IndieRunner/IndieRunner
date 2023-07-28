@@ -104,7 +104,7 @@ External (non-Perl) programs and libraries used:
 * ffmpeg (module XNA)
 * FNA (modules FNA, XNA)
 * godot (module Godot)
-* gzdoom (module Gzdoom)
+* gzdoom (module GZDoom)
 * hashlink (module HashLink)
 * hlsteam (module HashLink)
 * Java JDK 1.8, 11 (modules Java, LibGDX, LWJGL2, LWJGL3)

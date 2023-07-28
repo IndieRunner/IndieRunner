@@ -24,6 +24,7 @@ use FindBin; use lib "$FindBin::Bin/../lib";
 use IndieRunner;
 __END__
 
+=pod
 =head1 NAME
 
 IndieRunner - Launch your indie games on more platforms
@@ -78,11 +79,17 @@ B<IndieRunner> provides a convenient way to launch indie games with supported en
 
 =item Godot (under construction)
 
+=item GZDoom (under construction)
+
 =item HashLink (under construction)
 
 =item LibGDX (under construction)
 
-=item LWJGL (under construction)
+=item LWJGL2 (under construction)
+
+=item LWJGL3 (under construction)
+
+=item MonoGame
 
 =item XNA (under construction)
 

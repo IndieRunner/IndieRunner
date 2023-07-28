@@ -1,4 +1,4 @@
-package IndieRunner::Gzdoom;
+package IndieRunner::GZDoom;
 
 # Copyright (c) 2022 Thomas Frohwein
 #
