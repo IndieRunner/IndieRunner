@@ -36,6 +36,7 @@ use IndieRunner::IdentifyFiles qw( find_file_magic );
 use IndieRunner::Info qw( goggame_name steam_appid );
 use IndieRunner::Io qw( script_head write_file );
 use IndieRunner::Java;
+use IndieRunner::Love2D;
 use IndieRunner::Misc qw( log_steam_time );
 use IndieRunner::Mono qw( get_mono_files );
 use IndieRunner::MonoGame;

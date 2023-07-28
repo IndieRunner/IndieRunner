@@ -45,6 +45,7 @@ Readonly::Hash my %Indicator_Files => (	# files that are indicative of a framewo
 	'jre'				=> 'Java',
 	'*lwjgl*.{so,dll}'		=> 'Java',
 	'*gdx*.{so,dll}'		=> 'Java',
+	'*.love'			=> 'Love2D',
 	'MonoGame.Framework.dll'	=> 'MonoGame',
 	'MonoGame.Framework.dll.config'	=> 'MonoGame',
 	'xnafx40_redist.msi'		=> 'XNA',
@@ -122,10 +123,3 @@ sub identify_engine_thorough {
 }
 
 1;
-__END__
-
-=head1 NAME
-
-=head1 VERSION
-
-=head1 SYNOPSIS

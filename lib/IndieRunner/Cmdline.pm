@@ -45,7 +45,7 @@ sub init_cli {
 			'dryrun|d'      => sub { $mode = 'dryrun'; },
 			# XXX: "logdir|L=s"	=> \$logdir,?? equals tmpdir?
 			'log-steam-time'=> \$log_steam_time,
-			'man'           => sub { pod2usage(-exitval => 0, -verbose => 2); },
+			'man|m'           => sub { pod2usage(-exitval => 0, -verbose => 2); },
 			'script'	=> sub { $mode = 'script' },
 			'usage'         => sub { pod2usage(-exitval => 0, -verbose => 0); },
 			# XXX: "userdir" ??
