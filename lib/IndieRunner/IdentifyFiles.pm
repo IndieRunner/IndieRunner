@@ -103,10 +103,3 @@ sub strings {
 }
 
 1;
-__END__
-
-=head1 NAME
-
-=head1 VERSION
-
-=head1 SYNOPSIS
