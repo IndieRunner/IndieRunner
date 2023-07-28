@@ -35,6 +35,7 @@ Showcase
 * Urtuk the Desolation
 * Nuclear Blaze
 * Stardew Valley
+* Gravity Circuit
 
 "Indie"?
 ========
@@ -67,8 +68,9 @@ Use a ByteCode Framework that Relies on Opensource Native Libraries
 Examples:
 * FNA
 * MonoGame
-* Java, lwjgl, libGDX
+* Java, LWJGL, libGDX
 * Godot (ideally GDScript)
+* Love2D
 
 Caveats
 -------
@@ -107,10 +109,12 @@ External (non-Perl) programs and libraries used:
 * gzdoom (module GZDoom)
 * hashlink (module HashLink)
 * hlsteam (module HashLink)
-* Java JDK 1.8, 11 (modules Java, LibGDX, LWJGL2, LWJGL3)
+* Java JDK 1.8, 11, 17 (modules Java, LibGDX, LWJGL2, LWJGL3)
 * LibGDX - different versions, depending on the game
 * libstubborn (modules FNA, XNA)
 * libtheora, libtheorafile, libtheoraplay (modules FNA, XNA)
+* love (module Love2D)
+* luasteam (some Love2D games)
 * LWJGL, LWJGL3
 * mono (modules Mono, FNA, XNA, MonoGame)
 * OpenAL (module LibGDX)
@@ -121,14 +125,14 @@ External (non-Perl) programs and libraries used:
 
 Install them all with:
 ```
-# pkg_add faudio ffmpeg fna godot gzdoom hashlink hlsteam jdk libgdx libstubborn libtheora{,file,play} lwjgl{,3} mono openal p7zip sdl2-image steamctl
+# pkg_add faudio ffmpeg fna godot gzdoom hashlink hlsteam jdk libgdx libstubborn libtheora{,file,play} love lwjgl{,3} mono openal p7zip sdl2-image steamctl
 ```
 
 Platform Requirements
 =====================
 
 * interpreter for IndieRunner
-* runtimes (mono, hashlink, java)
+* runtimes (mono, hashlink, java, love)
 * libraries (SDL, freetype, libstubborn, ...)
 * tools: ffmpeg (for conversion of XNA media files)
 
@@ -140,6 +144,7 @@ Similar Projects
 ================
 
 * fnaify
+* Luxtorpeda
 
 But What About ...?
 ===================
