@@ -18,9 +18,31 @@ use strict;
 use warnings;
 use v5.10;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
-
+use autodie;
 use Carp;
+
 use Readonly;
+
+use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+
+Readonly::Array my @LOVE2D_ENV => (
+	'LUA_CPATH=/usr/local/lib/luasteam.so',
+	);
+
+Readonly::Hash my %LOVE2D_VERSION_STRINGS => {
+	'0.9.x'		=> '0\.9\.[0-9]',
+	'0.10.x'	=> '0\.10\.[0-9]',
+	'11.x'		=> '11\.[0-9]',
+	};
+
+Readonly::Hash my %LOVE2D_VERSION_BIN => {
+	'0.8.x'		=> 'love-0.8',
+	'0.9.x'		=> 'love-0.9',		# not in ports July 2023
+	'0.10.x'	=> 'love-0.10',
+	'11.x'		=> 'love-11',
+	};
+
+my $bin;
 
 sub run_cmd {
 	my ($self, $engine_id_file) = @_;
@@ -31,6 +53,10 @@ sub run_cmd {
 
 sub setup {
 	my ($self) = @_;
+
+	my $dryrun = cli_dryrun();
+	my $verbose = cli_verbose();
+
 	# TODO: complete
 }
 

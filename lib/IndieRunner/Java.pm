@@ -85,7 +85,7 @@ my %Valid_Java_Versions = (
 				'11',
 				'17',
 			   ],
-);
+	);
 
 my $game_jar;
 my $main_class;
@@ -101,6 +101,7 @@ my %java_version = (
 	lwjgl3	=> 0,
 	);
 
+# TODO: move this into a different module; possibly IdentifyFiles.pm, Misc.pm, or Helpers.pm
 sub match_bin_file {
 	my $regex               = shift;
 	my $file                = shift;

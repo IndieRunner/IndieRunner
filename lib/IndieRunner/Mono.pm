@@ -48,7 +48,7 @@ Readonly::Array my @MONO_GLOBS => (
 Readonly::Hash my %QUIRKS_ARGS => {
 	'-disableweb'	=> [ 'Hacknet.exe', ],
 	'-noSound'	=> [ 'ScourgeBringer.exe', ],
-};
+	};
 
 Readonly::Hash my %QUIRKS_ENV => {
 	'MONO_FORCE_COMPAT=1'	=> [
@@ -56,7 +56,7 @@ Readonly::Hash my %QUIRKS_ENV => {
 		'Shenzhen.exe',
 		'ThePit.exe',
 		],
-};
+	};
 
 my @cil_args;
 my @env;
