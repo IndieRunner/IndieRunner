@@ -86,6 +86,8 @@ sub run_cmd {
 	#       env LUA_CPATH=/usr/local/lib/luasteam.so:
 	#       Error: error loading module 'hump.vector' from file '/usr/local/lib/luasteam.so':
 	#               Unable to resolve symbol
+	#       This is resolved by using '/usr/local/lib/luasteam.so?', but
+	#       I'm not sure about the implications of this.
 
 	return ( 'env', @LOVE2D_ENV, $bin, $engine_id_file );
 }
