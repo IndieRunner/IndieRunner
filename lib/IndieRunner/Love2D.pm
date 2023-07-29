@@ -23,12 +23,13 @@ use Carp;
 
 use Readonly;
 
-use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+use IndieRunner::Cmdline qw( cli_verbose );
 
 Readonly::Array my @LOVE2D_ENV => (
 	'LUA_CPATH=/usr/local/lib/luasteam.so',
 	);
 
+# TODO: will this hash be used?
 Readonly::Hash my %LOVE2D_VERSION_STRINGS => {
 	'0.9.x'		=> '0\.9\.[0-9]',
 	'0.10.x'	=> '0\.10\.[0-9]',
@@ -42,20 +43,44 @@ Readonly::Hash my %LOVE2D_VERSION_BIN => {
 	'11.x'		=> 'love-11',
 	};
 
+Readonly::Hash my %LOVE2D_GAME_VERSION => {
+	'bluerevolver'		=> '0.10.x',
+	'cityglitch'		=> '0.10.x',
+	'CurseOfTheArrow'	=> '11.x',
+	'GravityCircuit'	=> '11.x',
+	'Marvellous_Inc'	=> '0.10.x',
+	'SNKRX'			=> '11.x',
+	'StoneKingdoms'		=> '11.x',
+	'TerraformingEarth'	=> '11.x',
+	};
+
 my $bin;
+
+sub get_love_version {
+	my $engine_id_file = shift;
+
+	foreach my $k ( keys %LOVE2D_GAME_VERSION ) {
+		if ( $engine_id_file =~ /\Q$k\E/ ) {
+			IndieRunner::set_game_name( $k );
+			return $LOVE2D_GAME_VERSION{ $k };
+		}
+	}
+	confess "failed to identify Love2D game";
+}
 
 sub run_cmd {
 	my ($self, $engine_id_file) = @_;
-	IndieRunner::set_game_name( (split /\./, $engine_id_file)[0] );
-	confess "not implemented";
-	#return ( $BIN, '--main-pack', $engine_id_file );
+
+	my $verbose = cli_verbose();
+
+	$bin = $LOVE2D_VERSION_BIN{ get_love_version( $engine_id_file ) };
+	say "Love2D binary: $bin" if $verbose;
+
+	return ( 'env', @LOVE2D_ENV, $bin, $engine_id_file );
 }
 
 sub setup {
 	my ($self) = @_;
-
-	my $dryrun = cli_dryrun();
-	my $verbose = cli_verbose();
 
 	# TODO: complete
 }
