@@ -29,6 +29,11 @@ Readonly::Array my @LOVE2D_ENV => (
 	'LUA_CPATH=/usr/local/lib/luasteam.so',
 	);
 
+# this here can't launch with env set (LUA_CPATH...)
+Readonly::Array my @LOVE2D_NOENV => (
+	'TerraformingEarth',
+	);
+
 # TODO: will this hash be used?
 Readonly::Hash my %LOVE2D_VERSION_STRINGS => {
 	'0.9.x'		=> '0\.9\.[0-9]',
@@ -47,6 +52,7 @@ Readonly::Hash my %LOVE2D_GAME_VERSION => {
 	'bluerevolver'		=> '0.10.x',
 	'cityglitch'		=> '0.10.x',
 	'CurseOfTheArrow'	=> '11.x',
+	'DepthsOfLimbo'		=> '11.x',
 	'GravityCircuit'	=> '11.x',
 	'Marvellous_Inc'	=> '0.10.x',
 	'SNKRX'			=> '11.x',
@@ -75,6 +81,11 @@ sub run_cmd {
 
 	$bin = $LOVE2D_VERSION_BIN{ get_love_version( $engine_id_file ) };
 	say "Love2D binary: $bin" if $verbose;
+
+	# TODO: fix running Terraforming Earth which fails to run with
+	#       env LUA_CPATH=/usr/local/lib/luasteam.so:
+	#       Error: error loading module 'hump.vector' from file '/usr/local/lib/luasteam.so':
+	#               Unable to resolve symbol
 
 	return ( 'env', @LOVE2D_ENV, $bin, $engine_id_file );
 }

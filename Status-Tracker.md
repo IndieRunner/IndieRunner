@@ -37,10 +37,12 @@ Letters indicate which platform versions have been tested successfully:
 |Celeste		|FNA	|	|	|L	|	|	|no audio	|
 |Charlie Murder		|FNA	|L	|	|	|	|	|no online multiplayer|
 |Chasm			|FNA	|	|L	|	|	|	|		|
+|cityglitch		|Love2D	|	|	|L	|	|	|		|
 |CometStriker		|FNA	|L	|	|	|	|	|		|
 |CRYPTARK		|FNA	|	|L	|	|	|	|		|
 |Crystal Project	|FNA	|L	|	|	|	|	|		|
 |Cthulhu Saves the World|XNA	|W	|	|	|	|	|		|
+|Curse of the Arrow	|Love2D	|	|	|L	|	|	|		|
 |Curse of the Crescent Isle DX|FNA	|	|	|	|	|Humble:L|	|
 |Dad Quest		|MonoGame|W	|	|	|	|	|		|
 |Dead Cells		|HashLink|	|L	|	|	|	|		|
@@ -67,6 +69,7 @@ Letters indicate which platform versions have been tested successfully:
 |Fury's Sky		|GZDoom	|W	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
 |Gateways		|MonoGame|	|	|	|	|Humble:L|Humble version works. Steam version needs more API in steamwrapper stub.|
 |Glitchangels		|FNA	|L	|	|	|	|	|		|
+|Gravity Circuit	|Love2D	|L	|	|	|	|	|needs luasteam	|
 |Groundskeeper 2	|LibGDX	|	|	|L	|	|	|		|
 |Growing Pains		|FNA	|L	|	|	|	|	|		|
 |Gunslugs		|LibGDX	|	|	|L	|	|	|		|
@@ -83,6 +86,7 @@ Letters indicate which platform versions have been tested successfully:
 |LaserCat		|XNA	|	|	|L	|	|	|		|
 |Little Racers STREET	|FNA	|L	|	|	|	|	|		|
 |Lycanthorn II		|GZDoom	|L	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
+|Marvellous Inc.	|Love2D	|	|	|L	|	|	|		|
 |Meganoid		|LibGDX	|	|	|L	|	|	|		|
 |Meganoid: Grandpa's Chronicles|LibGDX|	|	|L	|	|	|		|
 |Mercenary Kings	|FNA	|	|	|	|	|	|NLog.NLogConfigurationException|
@@ -119,6 +123,7 @@ Letters indicate which platform versions have been tested successfully:
 |Skulls of the Shogun	|MonoGame|	|L	|	|	|	|		|
 |Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j	|
 |Snake Core		|LibGDX	|	|	|L	|	|	|		|
+|SNKRX			|Love2D	|W	|	|	|	|	|needs luasteam	|
 |SokoChess White	|Godot	|L	|	|	|	|	|		|
 |SoulCaster I & II	|FNA	|	|	|	|	|Humble:L|		|
 |SpaceChem		|Mono	|	|	|L	|	|	|needs fix to not remove/rename System.Data.SQLite.dll|
@@ -129,6 +134,7 @@ Letters indicate which platform versions have been tested successfully:
 |SpeedRunners		|FNA	|L	|	|	|	|	|FNA used since 2023-03-25 update|
 |Stardash		|LibGDX	|	|	|L	|	|	|		|
 |Stardew Valley		|MonoGame|	|M	|	|	|	|use MAC 32bit Build|
+|Stone Kingdoms		|Love2D	|	|	|L	|	|	|		|
 |Super Bernie World	|FNA	|	|	|L	|	|	|		|
 |Sword of the Stars: The Pit|XNA|	|W	|	|	|	|		|
 |Takara Cards		|Godot	|L	|	|	|	|	|		|
