@@ -138,6 +138,7 @@ Letters indicate which platform versions have been tested successfully:
 |Super Bernie World	|FNA	|	|	|L	|	|	|		|
 |Sword of the Stars: The Pit|XNA|	|W	|	|	|	|		|
 |Takara Cards		|Godot	|L	|	|	|	|	|		|
+|Terraria		|FNA	|L	|L	|	|	|	|Version 1.4.4.9|
 |Titan Attacks!		|LWJGL2	|	|	|	|	|Humble:L|		|
 |TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
 |Transmogrify		|Godot	|L	|	|	|	|	|		|
