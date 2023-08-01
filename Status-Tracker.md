@@ -144,6 +144,7 @@ Letters indicate which platform versions have been tested successfully:
 |Transmogrify		|Godot	|L	|	|	|	|	|		|
 |Ultratron		|LWJGL2	|	|	|	|	|Humble:L|		|
 |Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|steamworks4j	|
+|Verses of Enchantment	|Godot	|L	|	|	|	|	|		|
 |Vomitoreum		|GZDoom	|L	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
 |V-Hunter Puzzler Dx	|Godot	|W	|	|	|	|	|		|
 |The Zachtronics Solitaire Collection|Mono	|L	|	|	|	|	|		|
