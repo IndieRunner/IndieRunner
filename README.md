@@ -27,15 +27,21 @@ Advantages
 * preservation - as your project doesn't depend on the good will of a company to maintain a proprietary library, your application can be run far into the future, as long as there is someone willing and able to maintain the libraries and runtime that drive it
 * You don't have to choose between going all-out opensource, losing control over the proliferation of your software, and the closed-source proprietary way that loses portability and longevity. Look at some examples and explanations below to see what may suit your project to leverage both.
 
-Showcase
-========
+Highlights
+==========
 
-* Northgard
+The following selection of high profile games have been working with IndieRunner (and still are to the best of my knowledge);
+
+* Brotato
 * Dead Cells
-* Urtuk the Desolation
-* Nuclear Blaze
-* Stardew Valley
 * Gravity Circuit
+* Northgard
+* Nuclear Blaze
+* Owlboy
+* Salt and Sanctuary
+* Slay the Spire
+* Stardew Valley
+* Terraria
 
 "Indie"?
 ========
