@@ -137,6 +137,7 @@ Letters indicate which platform versions have been tested successfully:
 |Stardew Valley		|MonoGame|	|M	|	|	|	|use MAC 32bit Build|
 |Stone Kingdoms		|Love2D	|	|	|L	|	|	|		|
 |Super Bernie World	|FNA	|	|	|L	|	|	|		|
+|Supplice		|GZDoom	|W	|	|	|	|	|gzdoom 4.10	|
 |Sword of the Stars: The Pit|XNA|	|W	|	|	|	|		|
 |Takara Cards		|Godot	|L	|	|	|	|	|		|
 |Terraria		|FNA	|L	|L	|	|	|	|Version 1.4.4.9|
