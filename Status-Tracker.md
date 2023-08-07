@@ -30,10 +30,10 @@ Letters indicate which platform versions have been tested successfully:
 |Blossom Tales II: The Minotaur Prince	|FNA	|L	|	|	|	|	|		|
 |BLUE REVOLVER		|Love2D	|	|	|L	|	|	|		|
 |Breath of Death VII	|XNA	|W	|	|	|	|	|		|
-|Brotato		|Godot	|W	|	|	|	|	|		|
+|Brotato		|Godot3	|W	|	|	|	|	|		|
 |Brushwood Buddies	|FNA	|	|	|L	|	|	|		|
 |Capsized		|MonoGame|	|L	|	|	|	|		|
-|Cassette Beasts	|Godot	|L	|	|	|	|	|		|
+|Cassette Beasts	|Godot3	|L	|	|	|	|	|		|
 |Celeste		|FNA	|	|	|L	|	|	|no audio	|
 |Charlie Murder		|FNA	|L	|	|	|	|	|no online multiplayer|
 |Chasm			|FNA	|	|L	|	|	|	|		|
@@ -49,7 +49,7 @@ Letters indicate which platform versions have been tested successfully:
 |Dead Pixels II		|FNA	|L	|	|	|	|	|Early Access (2022-08-27)|
 |Delver			|LibGDX	|L	|	|	|	|	|		|
 |Dice Tribes: Ambitions	|HashLink|L	|	|	|	|	|		|
-|Dome Keeper		|Godot	|L	|	|	|	|	|		|
+|Dome Keeper		|Godot3	|L	|	|	|	|	|		|
 |Draw a Stickman: EPIC	|XNA	|	|	|	|	|	|crashes early without Steamworks.NET.dll stub|
 |Droid Assault		|LWJGL2	|	|	|	|	|Humble:L|		|
 |Dust: An Elysian Tail	|FNA	|	|L	|	|	|	|		|
@@ -80,10 +80,10 @@ Letters indicate which platform versions have been tested successfully:
 |Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
 |I Am Sakuya		|GZDoom	|W	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
 |INC: The Beginning	|LibGDX	|	|	|L	|	|	|		|
-|The Isolated Town	|Godot	|	|	|L	|	|	|		|
+|The Isolated Town	|Godot3	|	|	|L	|	|	|		|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
 |Kitsune Zero		|FNA	|	|	|L	|	|	|		|
-|Landnama		|Godot	|L	|	|	|	|	|		|
+|Landnama		|Godot3	|L	|	|	|	|	|		|
 |LaserCat		|XNA	|	|	|L	|	|	|		|
 |Little Racers STREET	|FNA	|L	|	|	|	|	|		|
 |Lycanthorn II		|GZDoom	|L	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
@@ -106,7 +106,7 @@ Letters indicate which platform versions have been tested successfully:
 |Overdriven Reloaded	|FNA	|L	|	|	|	|	|		|
 |Owlboy			|FNA	|L	|L	|	|	|	|		|
 |Paladin		|FNA	|	|	|	|	|Humble:L|		|
-|Path of Achra		|Godot	|W	|	|	|	|	|		|
+|Path of Achra		|Godot3	|W	|	|	|	|	|		|
 |Penny Arcade's On the Rain-Slick Precipice of Darkness 3|XNA|||||||
 |Penny Arcade's On the Rain-Slick Precipice of Darkness 4|XNA|||||||
 |Planetfriend		|FNA	|	|	|L	|	|	|		|
@@ -114,18 +114,20 @@ Letters indicate which platform versions have been tested successfully:
 |Revenge of the Titans	|LWJGL2	|	|	|	|	|Humble:L|		|
 |Rex Rocket		|FNA	|L	|	|	|	|	|		|
 |Rise to Ruins		|LWJGL2	|	|	|L	|	|	|		|
+|Robotherapy		|Godot3	|L	|	|	|	|	|		|
 |Rogue Legacy		|FNA	|L	|	|	|	|	|		|
 |Salt & Sanctuary	|FNA	|L	|	|	|	|	|		|
 |SHENZHEN I/O		|Mono	|	|L	|	|	|	|		|
 |Shrine			|GZDoom	|L	|	|	|	|	|free! handling gzdoom.pk3 not yet implemented|
 |Shrine II		|GZDoom	|L	|	|	|	|	|free! handling gzdoom.pk3 not yet implemented|
-|Simona's Requiem	|Godot	|L	|	|	|	|	|		|
+|Simona's Requiem	|Godot3	|L	|	|	|	|	|		|
 |Sir Questionnaire	|LibGDX	|	|	|L	|	|	|		|
 |Skulls of the Shogun	|MonoGame|	|L	|	|	|	|		|
 |Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j	|
 |Snake Core		|LibGDX	|	|	|L	|	|	|		|
 |SNKRX			|Love2D	|W	|	|	|	|	|needs luasteam	|
-|SokoChess White	|Godot	|L	|	|	|	|	|		|
+|SokoChess White	|Godot3	|L	|	|	|	|	|		|
+|Sole Saga		|Godot3	|L	|	|	|	|	|		|
 |SoulCaster I & II	|FNA	|	|	|	|	|Humble:L|		|
 |SpaceChem		|Mono	|	|	|L	|	|	|needs fix to not remove/rename System.Data.SQLite.dll|
 |Space Grunts		|LibGDX	|	|	|L	|	|	|		|
@@ -139,14 +141,14 @@ Letters indicate which platform versions have been tested successfully:
 |Super Bernie World	|FNA	|	|	|L	|	|	|		|
 |Supplice		|GZDoom	|W	|	|	|	|	|gzdoom 4.10	|
 |Sword of the Stars: The Pit|XNA|	|W	|	|	|	|		|
-|Takara Cards		|Godot	|L	|	|	|	|	|		|
+|Takara Cards		|Godot3	|L	|	|	|	|	|		|
 |Terraria		|FNA	|L	|L	|	|	|	|Version 1.4.4.9|
 |Titan Attacks!		|LWJGL2	|	|	|	|	|Humble:L|		|
 |TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
-|Transmogrify		|Godot	|L	|	|	|	|	|		|
+|Transmogrify		|Godot3	|L	|	|	|	|	|		|
 |Ultratron		|LWJGL2	|	|	|	|	|Humble:L|		|
 |Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|steamworks4j	|
-|Verses of Enchantment	|Godot	|L	|	|	|	|	|		|
+|Verses of Enchantment	|Godot3	|L	|	|	|	|	|		|
 |Vomitoreum		|GZDoom	|L	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
-|V-Hunter Puzzler Dx	|Godot	|W	|	|	|	|	|		|
+|V-Hunter Puzzler Dx	|Godot3	|W	|	|	|	|	|		|
 |The Zachtronics Solitaire Collection|Mono	|L	|	|	|	|	|		|
