@@ -25,9 +25,11 @@ use Readonly;
 Readonly::Scalar my $BIN => 'godot';
 
 sub run_cmd {
-	my ($self, $engine_id_file) = @_;
-	IndieRunner::set_game_name( (split /\./, $engine_id_file)[0] );
-	return ( $BIN, '--main-pack', $engine_id_file );
+	my ($self, $engine_id_file, $cli_file) = @_;
+
+	my $run_file = $cli_file || $engine_id_file;
+	IndieRunner::set_game_name( (split /\./, $run_file)[0] );
+	return ( $BIN, '--main-pack', $run_file );
 }
 
 sub setup {
