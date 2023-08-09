@@ -129,7 +129,7 @@ Letters indicate which platform versions have been tested successfully:
 |SokoChess White	|Godot3	|L	|	|	|	|	|		|
 |Sole Saga		|Godot3	|L	|	|	|	|	|		|
 |SoulCaster I & II	|FNA	|	|	|	|	|Humble:L|		|
-|SpaceChem		|Mono	|	|	|L	|	|	|needs fix to not remove/rename System.Data.SQLite.dll|
+|SpaceChem		|Mono	|	|	|L	|	|	|		|
 |Space Grunts		|LibGDX	|	|	|L	|	|	|		|
 |Space Grunts 2		|LibGDX	|	|	|L	|	|	|		|
 |Space Haven		|LibGDX	|	|L	|	|	|	|buggy - crashes; sometimes white noise music|

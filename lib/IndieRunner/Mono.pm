@@ -45,6 +45,10 @@ Readonly::Array my @MONO_GLOBS => (
 	'mscorlib.dll',
 	);
 
+Readonly::Array my @MONO_GLOB_EXCLUDE => (	# regexes
+	'^System\.Data\.SQLite\.dll$',	# SpaceChem
+	);
+
 Readonly::Hash my %QUIRKS_ARGS => {
 	'-disableweb'	=> [ 'Hacknet.exe', ],
 	'-noSound'	=> [ 'ScourgeBringer.exe', ],
@@ -66,10 +70,15 @@ sub get_mono_files {
 	my @mono_files;
 	my @match;
 
-	# TODO: fix that SpaceChem's bundled System.Data.SQLite.dll is erroneously included
 	foreach my $g ( @MONO_GLOBS ) {
 		@match = glob( $g . $custom_suffix );
 		next unless @match;
+
+		# remove files from @match that are in @MONO_GLOB_EXCLUDE
+		foreach my $e ( @MONO_GLOB_EXCLUDE ) {
+			@match = grep { !/$e/ } @match;
+		}
+
 		if ( -f $match[0] ) {		# check that globbed files exist
 			push( @mono_files, @match );
 		}
