@@ -22,7 +22,11 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use Carp;
 use Readonly;
 
+# XXX: will need to disambiguate into Godot3BIN and Godot4BIN eventually
 Readonly::Scalar my $BIN => 'godot';
+
+# XXX: Quirks needed:
+# - SokoSolitaire => '--video-driver GLES2' # shader issues with default GLES3
 
 sub run_cmd {
 	my ($self, $engine_id_file, $cli_file) = @_;

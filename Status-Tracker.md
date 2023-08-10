@@ -102,6 +102,7 @@ Letters indicate which platform versions have been tested successfully:
 |Ninja Warrior		|XNA	|	|	|	|	|	|engine detection fails|
 |Nuclear Blaze		|HashLink|	|	|	|	|	|steam.hdll stub: Steam is not running!|
 |One Finger Death Punch	|XNA	|W	|	|	|	|	|		|
+|Operation STEEL	|Godot3	|L	|	|	|	|	|		|
 |Opus Magnum		|Mono	|	|L	|	|	|	|		|
 |Overdriven Reloaded	|FNA	|L	|	|	|	|	|		|
 |Owlboy			|FNA	|L	|L	|	|	|	|		|
@@ -116,6 +117,7 @@ Letters indicate which platform versions have been tested successfully:
 |Rise to Ruins		|LWJGL2	|	|	|L	|	|	|		|
 |Robotherapy		|Godot3	|L	|	|	|	|	|		|
 |Rogue Legacy		|FNA	|L	|	|	|	|	|		|
+|Roma Invicta		|Godot3	|L	|	|	|	|	|		|
 |Salt & Sanctuary	|FNA	|L	|	|	|	|	|		|
 |SHENZHEN I/O		|Mono	|	|L	|	|	|	|		|
 |Shrine			|GZDoom	|L	|	|	|	|	|free! handling gzdoom.pk3 not yet implemented|
