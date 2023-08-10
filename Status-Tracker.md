@@ -127,6 +127,7 @@ Letters indicate which platform versions have been tested successfully:
 |Snake Core		|LibGDX	|	|	|L	|	|	|		|
 |SNKRX			|Love2D	|W	|	|	|	|	|needs luasteam	|
 |SokoChess White	|Godot3	|L	|	|	|	|	|		|
+|SokoSolitaire		|Godot3	|L	|	|	|	|	|needs to run with --video-driver GLES2 to avoid graphics bugs|
 |Sole Saga		|Godot3	|L	|	|	|	|	|		|
 |SoulCaster I & II	|FNA	|	|	|	|	|Humble:L|		|
 |SpaceChem		|Mono	|	|	|L	|	|	|		|
