@@ -76,6 +76,7 @@ Letters indicate which platform versions have been tested successfully:
 |Gunslugs 3: Rogue Tactics|LibGDX|	|	|L	|	|	|		|
 |Hacknet		|FNA	|	|L	|	|	|	|		|
 |Heroes of Loot		|LibGDX	|	|	|L	|	|	|		|
+|Hexes			|Godot3	|L	|	|	|	|	|		|
 |Hive			|FNA	|L	|	|	|	|	|		|
 |Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
 |I Am Sakuya		|GZDoom	|W	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
