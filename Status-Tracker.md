@@ -155,4 +155,5 @@ Letters indicate which platform versions have been tested successfully:
 |Verses of Enchantment	|Godot3	|L	|	|	|	|	|		|
 |Vomitoreum		|GZDoom	|L	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
 |V-Hunter Puzzler Dx	|Godot3	|W	|	|	|	|	|		|
+|Wrought Flesh		|Godot3	|L	|	|	|	|	|		|
 |The Zachtronics Solitaire Collection|Mono	|L	|	|	|	|	|		|
