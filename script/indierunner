@@ -32,7 +32,7 @@ IndieRunner - Launch your indie games on more platforms
 
 =head1 SYNOPSIS
 
-indierunner [options] [file] [-- [game_arguments...]]
+indierunner [options] [-- <game_arguments> [...]]
 
 =head1 OPTIONS
 
@@ -41,6 +41,10 @@ indierunner [options] [file] [-- [game_arguments...]]
 =item B<--dryrun/-d>
 
 Show actions that would be taken, without changing or executing anything.
+
+=item B<--file=E<lt>fileE<gt>/-f E<lt>fileE<gt>>
+
+Specify the main game file and bypass autodetection. Optional.
 
 =item B<--help/-h>
 
@@ -62,13 +66,9 @@ Enable verbose output.
 
 Print version.
 
-=item B<file>
+=item B<-- E<lt>game_argumentsE<gt>>
 
-Specify the main game file and bypass autodetection. Optional.
-
-=item B<-- [game_arguments]>
-
-Arguments to pass to the invocation of the game itself, like: '-windowed -skipintro'
+Arguments to pass to the invocation of the game itself, like: C<-windowed -skipintro>
 
 =back
 
