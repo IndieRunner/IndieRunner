@@ -31,7 +31,7 @@ IndieRunner - Launch your indie games on more platforms
 
 =head1 SYNOPSIS
 
-IndieRunner [options] [file]
+indierunner [options] [file] [[argument] [argument] ...]
 
 =head1 OPTIONS
 
