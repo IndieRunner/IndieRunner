@@ -23,17 +23,7 @@ use Carp;
 
 use Readonly;
 
-use IndieRunner::Cmdline qw( cli_verbose );
-
-# TODO: remove this; not needed if installing in lib/lua/5.1!
-Readonly::Array my @LOVE2D_ENV => (
-	'LUA_CPATH=/usr/local/lib/luasteam.so',
-	);
-
-# this here can't launch with env set (LUA_CPATH...)
-Readonly::Array my @LOVE2D_NOENV => (
-	'TerraformingEarth',
-	);
+use IndieRunner::Cmdline qw( cli_gameargs cli_verbose );
 
 # TODO: will this hash be used?
 Readonly::Hash my %LOVE2D_VERSION_STRINGS => {
@@ -90,6 +80,8 @@ sub run_cmd {
 	#               Unable to resolve symbol
 	#       This is resolved by using '/usr/local/lib/luasteam.so?', but
 	#       I'm not sure about the implications of this.
+
+	# XXX: add arguments from cli_gameargs()
 
 	return ( $bin, $engine_id_file );
 }

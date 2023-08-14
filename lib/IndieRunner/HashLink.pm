@@ -22,7 +22,7 @@ use v5.10;
 use Carp;
 use Readonly;
 
-use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+use IndieRunner::Cmdline qw( cli_dryrun cli_gameargs cli_verbose );
 use IndieRunner::Io qw( neuter );
 
 Readonly::Scalar	my $BIN => 'hl';
@@ -38,6 +38,8 @@ sub run_cmd {
         #my @env = (
 		# 'LD_LIBRARY_PATH=/usr/local/lib/',	# XXX: rm if not needed
 		#);
+
+	# XXX: add in arguments from cli_gameargs()
 
 	foreach my $d ( @DAT ) {
 		#return ( 'env', @env, $BIN, $d ) if ( -f $d );

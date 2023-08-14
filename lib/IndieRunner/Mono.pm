@@ -26,7 +26,7 @@ use Carp;
 use File::Path qw( make_path );
 use Readonly;
 
-use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+use IndieRunner::Cmdline qw( cli_dryrun cli_gameargs cli_verbose );
 use IndieRunner::IdentifyFiles qw( get_magic_descr );
 use IndieRunner::Io qw( neuter );
 use IndieRunner::Mono::Dllmap qw( get_dllmap_target );
@@ -135,7 +135,7 @@ sub run_cmd {
 			say "\nMore than one CIL .exe file found:";
 			say "\n\t" . join( "\n\t", @cil ) . "\n";
 			say "In this case, you must specify the main mono assembly.\n";
-			say "Example:\n$0 \"$cil[0]\"\n";
+			say "Example:\n$0 -f \"$cil[0]\"\n";
 			exit 1;
 		}
 		$game_file = $cil[0];
@@ -158,6 +158,8 @@ sub run_cmd {
 		'SDL_PLATFORM=Linux',
 		);
 	quirks $game_file;
+
+	# XXX: add arguments from cli_gameargs()
 
 	return ( 'env', @env, $BIN, $game_file, @cil_args );
 }

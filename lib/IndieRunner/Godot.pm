@@ -22,6 +22,8 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use Carp;
 use Readonly;
 
+use IndieRunner::Cmdline qw( cli_gameargs );
+
 # XXX: will need to disambiguate into Godot3BIN and Godot4BIN eventually
 Readonly::Scalar my $BIN => 'godot';
 
@@ -33,6 +35,9 @@ sub run_cmd {
 
 	my $run_file = $cli_file || $engine_id_file;
 	IndieRunner::set_game_name( (split /\./, $run_file)[0] );
+
+	# XXX: add arguments from cli_gameargs()
+
 	return ( $BIN, '--main-pack', $run_file );
 }
 

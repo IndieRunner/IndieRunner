@@ -25,13 +25,14 @@ use IndieRunner;
 __END__
 
 =pod
+
 =head1 NAME
 
 IndieRunner - Launch your indie games on more platforms
 
 =head1 SYNOPSIS
 
-indierunner [options] [file] [[argument] [argument] ...]
+indierunner [options] [file] [-- [game_arguments...]]
 
 =head1 OPTIONS
 
@@ -64,6 +65,10 @@ Print version.
 =item B<file>
 
 Specify the main game file and bypass autodetection. Optional.
+
+=item B<-- [game_arguments]>
+
+Arguments to pass to the invocation of the game itself, like: '-windowed -skipintro'
 
 =back
 

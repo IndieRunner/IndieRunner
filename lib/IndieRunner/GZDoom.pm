@@ -22,6 +22,7 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use Carp;
 use Readonly;
 
+use IndieRunner::Cmdline qw( cli_gameargs );
 use IndieRunner::Io qw( neuter ir_symlink );
 
 Readonly::Scalar my $BIN => 'gzdoom';
@@ -29,6 +30,9 @@ Readonly::Scalar my $BIN => 'gzdoom';
 sub run_cmd {
 	my ($self, $engine_id_file) = @_;
 	IndieRunner::set_game_name( (split /\./, $engine_id_file)[0] );
+
+	# XXX: add arguments from cli_gameargs()
+
 	return ( $BIN );
 }
 

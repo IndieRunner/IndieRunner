@@ -150,7 +150,7 @@ my $merged_out = tee_merged {	# $merged_out combines stdout and stderr
 };
 say '' if $merged_out;
 
-# report if error occurred
+# report if error occurred; see example in perldoc -f system
 if ( $? == 0 ) {
 	say 'Application exited without errors' if $verbose;
 }

@@ -33,7 +33,7 @@ use List::Util qw( max );
 use Path::Tiny;
 use Readonly;
 
-use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+use IndieRunner::Cmdline qw( cli_dryrun cli_gameargs cli_verbose );
 use IndieRunner::Io qw( ir_symlink );
 use IndieRunner::Java::LibGDX;
 use IndieRunner::Java::LWJGL2;
@@ -439,6 +439,8 @@ sub run_cmd {
 		my @mlines = path( $MANIFEST )->lines_utf8 if -f $MANIFEST;
 		map { /^\QMain-Class:\E\s+(\S+)/ and $main_class = $1 } @mlines;
 	}
+
+	# XXX: add arguments from cli_gameargs()
 
 	if ( $jar_mode ) {
 		# quirks
