@@ -19,6 +19,9 @@ use strict;
 use warnings;
 use v5.36;
 use autodie;
+
+use parent 'IndieRunner::BaseModule';
+
 use Carp qw( cluck confess );
 
 use File::Copy::Recursive qw( dircopy );

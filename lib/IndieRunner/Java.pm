@@ -19,6 +19,9 @@ use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use autodie;
+
+use parent 'IndieRunner::BaseModule';
+
 use Carp;
 
 # XXX: are all of these exports really needed?

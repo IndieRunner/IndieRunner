@@ -18,8 +18,10 @@ use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
 use v5.36;
-use Carp;
 
+use parent 'IndieRunner::BaseModule';
+
+use Carp;
 use Readonly;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );

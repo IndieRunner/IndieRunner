@@ -19,6 +19,8 @@ use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
+use parent 'IndieRunner::BaseModule';
+
 use base qw( Exporter );
 our @EXPORT_OK = qw( get_assembly_version get_mono_files );
 

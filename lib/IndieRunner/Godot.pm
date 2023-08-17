@@ -19,6 +19,8 @@ use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
+use parent 'IndieRunner::BaseModule';
+
 use Carp;
 use Readonly;
 
@@ -38,10 +40,6 @@ sub run_cmd ( $, $engine_id_file, $cli_file ) {
 	# XXX: add arguments from cli_gameargs()
 
 	return ( $BIN, '--quiet', '--main-pack', $run_file );
-}
-
-sub setup ( $ ) {
-	# No setup needed.
 }
 
 1;

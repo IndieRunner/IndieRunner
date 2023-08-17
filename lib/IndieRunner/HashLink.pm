@@ -19,6 +19,8 @@ use strict;
 use warnings;
 use v5.36;
 
+use parent 'IndieRunner::BaseModule';
+
 use Carp;
 use Readonly;
 

@@ -198,47 +198,9 @@ sub ir_copy( $oldfile, $newfile ) {
 	_copy( $oldfile, $newfile );
 }
 
-# simpler version of pty_cmd without fork; less flexible.
-# XXX: garbage collect if not used
-sub pty_cmd_simple ( @cmd ) {
-	my $ret;
-	my $ret_msg;
-	my $pty = new IO::Pty;
-	my $slave = $pty->slave;
-
-	open(CPOUT, ">&STDOUT");
-	STDOUT->fdopen($slave, '>');
-
-	# Execute @cmd
-	system( @cmd ) or die "$!";
-	$ret = $?;
-	$ret_msg = $!;
-
-	close($pty);
-	close($slave);
-	open(STDOUT, ">&CPOUT");
-
-	# report if error occurred; see example in perldoc -f system
-	if ( $ret == 0 ) {
-		say 'Application exited without errors' if cli_verbose();
-	}
-	elsif ( $ret == -1 ) {
-		say "failed to execute: $ret_msg";
-	}
-	elsif ( $ret & 127 ) {
-		printf "child process died with signal %d, %s coredump\n",
-			( $ret & 127 ),  ( $ret & 128 ) ? 'with' : 'without';
-	}
-	else {
-		printf "child process exited with value %d\n", $ret >> 8;
-	}
-
-	return '';
-}
-
 # run in pseudoterminal in forked process
 sub pty_cmd ( @cmd ) {
-	my $pty = new IO::Pty;
+	my $pty = IO::Pty->new();
 	my $pid = fork;
 	my @cmd_out;
 	my $cmd_ret = '';
@@ -289,28 +251,6 @@ sub pty_cmd ( @cmd ) {
 	}
 
 	return $cmd_ret;
-}
-
-# XXX: not used, superseded by pty_cmd. Garbage collect
-sub log_cmd ( @cmd ) {
-	my $merged_out = tee_merged {	# $merged_out combines stdout and stderr
-		system( @cmd );
-	};
-
-	# report if error occurred; see example in perldoc -f system
-	if ( $? == 0 ) {
-		say 'Application exited without errors' if cli_verbose();
-	}
-	elsif ( $? == -1 ) {
-		say "failed to execute: $!";
-	}
-	elsif ( $? & 127 ) {
-		printf "child process died with signal %d, %s coredump\n",
-			( $? & 127 ),  ( $? & 128 ) ? 'with' : 'without';
-	}
-	else {
-		printf "child process exited with value %d\n", $? >> 8;
-	}
 }
 
 1;

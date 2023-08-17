@@ -1,4 +1,4 @@
-package IndieRunner::Java::LWJGL2;
+package IndieRunner::BaseModule;
 
 # Copyright (c) 2022 Thomas Frohwein
 #
@@ -14,23 +14,33 @@ package IndieRunner::Java::LWJGL2;
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
 use v5.36;
+use version 0.77; our $VERSION = version->declare('v0.0.1');
 
-use parent 'IndieRunner::BaseModule';
+=pod
+my $verbose;
+my $debug;
 
-use Readonly;
+my $bin;
+my $env;
+my $args;
 
-use IndieRunner::Platform qw( get_os );
+my $cli_file;
+my $engine_id_file;
 
-Readonly::Hash my %LWJGL2_DIR => (
-	        'openbsd'       => '/usr/local/share/lwjgl',
-                );
+sub init { };
 
-sub add_classpath () {
-	return glob( $LWJGL2_DIR{ get_os() } . '/*.jar' );
+sub configure { };
+
+sub run_cmd ( $, $engine_id_file, $cli_file ) {
+	#return ( $BIN, '--quiet', '--main-pack', $run_file );
+}
+=cut
+
+sub setup ( $ ) {
+	# No setup needed.
 }
 
 1;

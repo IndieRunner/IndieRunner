@@ -18,6 +18,9 @@ use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
 use v5.36;
+
+use parent 'IndieRunner::BaseModule';
+
 use Carp qw( cluck );
 
 use base qw( Exporter );
@@ -44,10 +47,6 @@ sub get_java_version_preference () {
 
 sub add_classpath () {
 	return glob( $LWJGL3_DIR{ get_os() } . '/*.jar' );
-}
-
-sub setup ( $ ) {
-	# empty
 }
 
 1;
