@@ -16,7 +16,7 @@
 
 use strict;
 use warnings;
-use v5.10;
+use v5.32;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use FindBin; use lib "$FindBin::Bin/../lib";

@@ -16,7 +16,7 @@ package IndieRunner::GrandCentral;
 
 use strict;
 use warnings;
-use v5.10;
+use v5.36;
 use version; our $VERSION = qv('0.0.1');
 use Carp;
 use autodie;
@@ -78,8 +78,7 @@ Readonly::Hash my %Indicators => (	# byte sequences that are indicative of a fra
 	},
 );
 
-sub find_bytes {
-	my ($file, $bytes) = @_;
+sub find_bytes ( $file, $bytes ) {
 	my $chunksize = 4096;
 	my $string;
 
@@ -96,10 +95,7 @@ sub find_bytes {
 	return 0;
 }
 
-sub identify_engine {
-	my $file = shift;
-
-	# standard detection by globbing for keys of %Indicator_Files
+sub identify_engine ( $file ) { # detect by globbing for keys of %Indicator_Files
 	foreach my $engine_pattern ( keys %Indicator_Files ) {
 		# account for possible '_' add the end after previous run
 		if ( match_glob( $engine_pattern, $file )
@@ -107,21 +103,16 @@ sub identify_engine {
 			return $Indicator_Files{ $engine_pattern };
 		}
 	}
-
 	return '';
 }
 
-sub identify_engine_thorough {
-	my $file = shift;
-
-	# thorough detection via "magic bytes"
+sub identify_engine_thorough ( $file ) { # detect via "magic bytes"
 	foreach my $engine ( keys %Indicators ) {
 		if ( match_glob( $Indicators{$engine}{'glob'}, $file ) and
 		     find_bytes( $file, $Indicators{$engine}{'magic_bytes'} )	) {
 			return $engine;
 		}
 	}
-
 	return '';
 }
 

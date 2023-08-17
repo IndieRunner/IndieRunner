@@ -17,7 +17,7 @@ package IndieRunner::FNA;
 use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
-use v5.10;
+use v5.36;
 use Carp;
 
 use Readonly;
@@ -35,13 +35,11 @@ Readonly::Array  my @ALLOW_BUNDLED_FNA => (
 	'SuperBernieWorld.exe',	# 1.2.0 (Kitsune Zero),	19.3
 	);
 
-sub run_cmd {
-	my ($self, $engine_id_file, $game_file) = @_;
-	return IndieRunner::Mono->run_cmd( $game_file );
+sub run_cmd ( $, $engine_id_file, $cli_file ) {
+	return IndieRunner::Mono->run_cmd( $cli_file );
 }
 
-sub setup {
-	my ($self) = @_;
+sub setup ( $ ) {
 	my $dryrun = cli_dryrun();
 	my $verbose = cli_verbose();
 	my $fna_file = 'FNA.dll';

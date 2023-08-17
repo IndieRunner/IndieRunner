@@ -17,7 +17,7 @@ package IndieRunner::MonoGame;
 use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
-use v5.10;
+use v5.36;
 use Carp;
 use Readonly;
 use File::Find::Rule;
@@ -34,13 +34,11 @@ Readonly::Hash my %MG_LIBS => (
 	'libopenal.so.1'	=> '/usr/local/lib/libopenal.so.*',
 	);
 
-sub run_cmd {
-	my ($self, $engine_id_file, $game_file) = @_;
+sub run_cmd ( $, $engine_id_file, $game_file ) {
 	return IndieRunner::Mono->run_cmd( $game_file );
 }
 
-sub setup {
-	my ($self) = @_;
+sub setup ( $ ) {
 	IndieRunner::Mono->setup();
 
 	# TODO: combine with IndieRunner::Java::fix_libraries sub

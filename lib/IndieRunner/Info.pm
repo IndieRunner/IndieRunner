@@ -16,7 +16,7 @@ package IndieRunner::Info;
 
 use strict;
 use warnings;
-use v5.10;
+use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use base qw( Exporter );
@@ -29,7 +29,7 @@ use Readonly;
 
 Readonly::Scalar my $STEAM_FILE => 'steam_appid.txt';
 
-sub goggame_name {
+sub goggame_name () {
 	my ($info_file) = glob 'goggame-*.info';
 	return '' unless $info_file;
 
@@ -37,7 +37,7 @@ sub goggame_name {
 	( exists $$dat{'name'} ) ? return $$dat{'name'} : return '';
 }
 
-sub steam_appid {
+sub steam_appid () {
 	return '' unless -f $STEAM_FILE;
 	return path( $STEAM_FILE )->slurp_utf8;
 }

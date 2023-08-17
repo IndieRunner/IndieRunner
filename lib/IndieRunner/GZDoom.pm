@@ -16,7 +16,7 @@ package IndieRunner::GZDoom;
 
 use strict;
 use warnings;
-use v5.10;
+use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use Carp;
@@ -27,18 +27,13 @@ use IndieRunner::Io qw( neuter ir_symlink );
 
 Readonly::Scalar my $BIN => 'gzdoom';
 
-sub run_cmd {
-	my ($self, $engine_id_file) = @_;
+sub run_cmd ( $, $engine_id_file, $cli_file ) {
 	IndieRunner::set_game_name( (split /\./, $engine_id_file)[0] );
-
 	# XXX: add arguments from cli_gameargs()
-
 	return ( $BIN );
 }
 
-sub setup {
-	my ($self) = @_;
-
+sub setup ( $ ) {
 	# neuter gzdoom.pk3 if present and replace with symlinked
 	# /usr/local/share/games/doom/gzdoom.pk3. Needed for:
 	# - Beyond Sunset (demo)

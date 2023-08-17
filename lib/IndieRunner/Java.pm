@@ -16,7 +16,7 @@ package IndieRunner::Java;
 
 use strict;
 use warnings;
-use v5.10;
+use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use autodie;
 use Carp;
@@ -102,19 +102,14 @@ my %java_version = (
 	);
 
 # TODO: move this into a different module; possibly IdentifyFiles.pm, Misc.pm, or Helpers.pm
-sub match_bin_file {
-	my $regex               = shift;
-	my $file                = shift;
-	my $case_insensitive    = defined($_[0]);
-
+sub match_bin_file ( $regex, $file, $case_insensitive = 0 ) {
 	my $out = $1 if ( $case_insensitive ?
 		path($file)->slurp_raw =~ /($regex)/i :
 		path($file)->slurp_raw =~ /($regex)/ );
-
 	return $out;
 }
 
-sub fix_jvm_args {
+sub fix_jvm_args () {
 	my @initial_jvm_args = @jvm_args;
 
 	# replace any '-Djava.library.path=...' with a generic path
@@ -123,7 +118,7 @@ sub fix_jvm_args {
 	push @jvm_args, '-Djava.library.path=' . join( ':', @LIB_LOCATIONS, '.' );
 }
 
-sub get_bundled_java_version {
+sub get_bundled_java_version () {
 	my $bundled_java_bin;
 
 	# find bundled java binary (alternatively libjava.so or libjvm.so)
@@ -146,23 +141,19 @@ sub get_bundled_java_version {
 	}
 }
 
-sub set_java_home {
-	my $v = shift;
-
+sub set_java_home ( $v ) {
 	if ( $os eq 'openbsd' ) {
 		$java_home = '/usr/local/jdk-' . $v;
 	}
 	else {
 		die "Unsupported OS: " . $os;
 	}
-
 	confess "Couldn't locate desired JAVA_HOME directory at $java_home: $!"
 		unless ( -d $java_home );
 }
 
-sub extract_jar {
+sub extract_jar ( @class_path ) {
 	my $ae;
-	my @class_path = @_;
 
 	# Notes on options for extracting:
 	# - Archive::Extract fails to fix directory permissions +x (Stardash, INC: The Beginning)
@@ -181,9 +172,7 @@ sub extract_jar {
 	}
 }
 
-sub replace_lib {
-	my $lib = shift;
-
+sub replace_lib ( $lib ) {
 	my $lib_glob;           # pattern to search for $syslib
 	my @candidate_syslibs;
 
@@ -199,7 +188,7 @@ sub replace_lib {
 	return 0;
 }
 
-sub fix_libraries {
+sub fix_libraries () {
 	my $verbose = cli_verbose();
 	my $dryrun = cli_dryrun();
 
@@ -226,10 +215,15 @@ sub fix_libraries {
 	}
 }
 
-sub has_libgdx { ( glob '*gdx*.{so,dll}' ) ? return 1 : return 0; }
-sub has_steamworks4j { ( glob '*steamworks4j*.{so,dll}' ) ? return 1 : return 0; }
+sub has_libgdx () {
+	( glob '*gdx*.{so,dll}' ) ? return 1 : return 0;
+}
 
-sub has_lwjgl_any {
+sub has_steamworks4j () {
+	( glob '*steamworks4j*.{so,dll}' ) ? return 1 : return 0;
+}
+
+sub has_lwjgl_any () {
 	if ( File::Find::Rule->file
 			     ->name( '*lwjgl*.{so,dll}' )
 			     ->in( '.' )
@@ -237,7 +231,7 @@ sub has_lwjgl_any {
 	return 0;
 }
 
-sub lwjgl_2_or_3 {
+sub lwjgl_2_or_3 () {
 	if ( File::Find::Rule->file
 			     ->name( '*lwjgl_{opengl,remotery,stb,xxhash}.{so,dll}' )
 			     ->in( '.' )
@@ -245,23 +239,21 @@ sub lwjgl_2_or_3 {
 	return 2;
 }
 
-sub skip_framework_setup {
+sub skip_framework_setup () {
 	foreach my $g ( @SKIP_FRAMEWORKS ) {
 		return 1 if -e $g;
 	}
 	return 0;
 }
 
-sub test_jar_mode {
+sub test_jar_mode () {
 	foreach my $j ( @JAR_MODE_FILES ) {
 		return 1 if -e $j;
 	}
 	return 0;
 }
 
-sub setup {
-	my ($self) = @_;
-
+sub setup ( $ ) {
 	my $dryrun = cli_dryrun();
 	my $verbose = cli_verbose();
 
@@ -384,8 +376,7 @@ sub setup {
 	fix_libraries();
 }
 
-sub run_cmd {
-	my ($self, $game_file) = @_;
+sub run_cmd ( $, $game_file, $cli_file ) {
 	my $verbose = cli_verbose();
 
 	my $jar_mode = test_jar_mode();	# if set, run with a game .jar file rather than from extracted files

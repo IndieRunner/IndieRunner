@@ -16,7 +16,7 @@ package IndieRunner::Mono::Iomap;
 
 use strict;
 use warnings;
-use v5.10;
+use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use Carp;
 use Readonly;
@@ -376,9 +376,7 @@ Readonly::Hash my %iomap => {
 		],
 	};
 
-sub iomap_symlink {
-	my ($index_file) = @_;
-
+sub iomap_symlink ( $index_file ) {
 	return 0 unless ( grep( /^\Q$index_file\E$/, keys %iomap ) );
 	say "Found $index_file; create symlinks to simulate (abandoned) MONO_IOMAP"
 		if cli_verbose;

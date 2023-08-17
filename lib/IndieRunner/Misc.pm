@@ -16,7 +16,7 @@ package IndieRunner::Misc;
 
 use strict;
 use warnings;
-use v5.10;
+use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use base qw( Exporter );
@@ -26,9 +26,8 @@ use Carp;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 
-sub log_steam_time {	# requires steamctl in path
-	my $appid = shift or confess
-		'Option `--log-steam-time without AppId';
+sub log_steam_time ( $appid = '' ) {	# requires steamctl in path
+	confess 'Option `--log-steam-time without AppId' unless $appid;
 	my $verbose = cli_verbose();
 
 	my $p = fork();

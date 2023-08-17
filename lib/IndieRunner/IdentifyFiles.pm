@@ -16,7 +16,7 @@ package IndieRunner::IdentifyFiles;
 
 use strict;
 use warnings;
-use v5.10;
+use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use base qw( Exporter );
@@ -46,17 +46,14 @@ our %filetypes = (
 );
 
 # get LibMagic description of a file
-sub get_magic_descr {
-	my $file = shift;
+sub get_magic_descr ( $file ) {
 	return File::LibMagic	->new
 				->info_from_filename( $file )
 				->{description};
 }
 
 # go through all files and check for a match
-sub find_file_type {
-	my $directory	= $_[0];
-	my $type	= $_[1];
+sub find_file_type ( $directory, $type ) {
 	my @file_list;
 	my @out_list;
 
@@ -77,11 +74,8 @@ sub find_file_type {
 	return @out_list;
 }
 
-sub find_file_magic {
-	my $magic_regex = shift;
-	my @files = @_;
+sub find_file_magic ( $magic_regex, @files ) {
 	my @out;
-
 	foreach my $f ( @files ) {
 		if( grep( /$magic_regex/, get_magic_descr( $f ) ) ) {
 			push @out, $f;
@@ -91,8 +85,8 @@ sub find_file_magic {
 }
 
 # equivalent to strings(1)
-sub strings {
-	open(FH, '<:raw', $_[0])	or croak("Couldn't open file $_[0]: $!");
+sub strings ( $file ) {
+	open( FH, '<:raw', $file )	or croak("Couldn't open file $file: $!");
 	local $/ = "\0";
 	while (<FH>) {
 		while (/([\040-\176\s]{4,})/g) {

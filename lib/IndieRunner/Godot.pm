@@ -16,7 +16,7 @@ package IndieRunner::Godot;
 
 use strict;
 use warnings;
-use v5.10;
+use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use Carp;
@@ -30,9 +30,7 @@ Readonly::Scalar my $BIN => 'godot';
 # XXX: Quirks needed:
 # - SokoSolitaire => '--video-driver GLES2' # shader issues with default GLES3
 
-sub run_cmd {
-	my ($self, $engine_id_file, $cli_file) = @_;
-
+sub run_cmd ( $, $engine_id_file, $cli_file ) {
 	my $run_file = $cli_file || $engine_id_file;
 	IndieRunner::set_game_name( (split /\./, $run_file)[0] );
 
@@ -42,8 +40,7 @@ sub run_cmd {
 	return ( $BIN, '--quiet', '--main-pack', $run_file );
 }
 
-sub setup {
-	my ($self) = @_;
+sub setup ( $ ) {
 	# No setup needed.
 }
 

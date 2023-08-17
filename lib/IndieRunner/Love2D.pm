@@ -16,7 +16,7 @@ package IndieRunner::Love2D;
 
 use strict;
 use warnings;
-use v5.10;
+use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use autodie;
 use Carp;
@@ -53,9 +53,7 @@ Readonly::Hash my %LOVE2D_GAME_VERSION => {
 
 my $bin;
 
-sub get_love_version {
-	my $engine_id_file = shift;
-
+sub get_love_version ( $engine_id_file ) {
 	foreach my $k ( keys %LOVE2D_GAME_VERSION ) {
 		if ( $engine_id_file =~ /\Q$k\E/ ) {
 			IndieRunner::set_game_name( $k );
@@ -65,9 +63,7 @@ sub get_love_version {
 	confess "failed to identify Love2D game";
 }
 
-sub run_cmd {
-	my ($self, $engine_id_file) = @_;
-
+sub run_cmd ( $, $engine_id_file, $cli_file ) {
 	my $verbose = cli_verbose();
 
 	$bin = $LOVE2D_VERSION_BIN{ get_love_version( $engine_id_file ) };
@@ -86,10 +82,8 @@ sub run_cmd {
 	return ( $bin, $engine_id_file );
 }
 
-sub setup {
-	my ($self) = @_;
-
-	# TODO: complete
+sub setup ( $ ) {
+	# nothing to do
 }
 
 1;

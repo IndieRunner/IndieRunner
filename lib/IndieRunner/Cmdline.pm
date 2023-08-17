@@ -16,7 +16,7 @@ package IndieRunner::Cmdline;
 
 use strict;
 use warnings;
-use v5.10;
+use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use base qw( Exporter );
@@ -38,7 +38,7 @@ my $userdir	= catdir( $ENV{HOME}, '.IndieRunner' );
 my $verbose	= 0;
 my $mode	= 'run';	# run, dryrun, or script
 
-sub init_cli {
+sub init_cli () {
 	Getopt::Long::Configure ("bundling");
 	GetOptions (    'help|h'	=> sub { pod2usage(-exitval => 0, -verbose => 1); },
 	                'appid|a=s'	=> \$appid,
@@ -58,11 +58,11 @@ sub init_cli {
 	$gamearg_string = $ARGV[0] || '';
 }
 
-sub cli_appid		{ return $appid; }
-sub cli_dllmap_file	{ return $dllmap_file; }
-sub cli_dryrun		{ return $mode eq 'dryrun'; }
-sub cli_file		{ return $cli_file; }
-sub cli_gameargs	{
+sub cli_appid ()	{ return $appid; }
+sub cli_dllmap_file ()	{ return $dllmap_file; }
+sub cli_dryrun ()	{ return $mode eq 'dryrun'; }
+sub cli_file ()		{ return $cli_file; }
+sub cli_gameargs ()	{
 	return '' unless $gamearg_string;	# skip remainder if nothing to report
 
 	# parse gamearg_string into @game_args
@@ -70,10 +70,10 @@ sub cli_gameargs	{
 
 	return "XXX: not implemented";
 }
-sub cli_log_steam_time	{ return $log_steam_time; }
-sub cli_mode		{ return $mode; }
-sub cli_tmpdir		{ return $tmpdir; }
-sub cli_userdir		{ return $userdir; }
-sub cli_verbose		{ return $verbose; }
+sub cli_log_steam_time ()	{ return $log_steam_time; }
+sub cli_mode ()			{ return $mode; }
+sub cli_tmpdir ()		{ return $tmpdir; }
+sub cli_userdir ()		{ return $userdir; }
+sub cli_verbose ()		{ return $verbose; }
 
 1;

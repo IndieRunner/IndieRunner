@@ -38,7 +38,7 @@ use IndieRunner::Cmdline qw( cli_dryrun cli_mode cli_verbose );
 use IndieRunner::Platform qw( get_os );
 
 # beginning of scripts for 'script' mode; e.g. shebang
-sub script_head {
+sub script_head () {
 	my $os = get_os();
 	if ( $os eq 'openbsd' ) {
 		say "#!/bin/ksh\n";
@@ -153,9 +153,7 @@ sub _copy( $oldfile, $newfile ) {
 
 # helper function for symlink in IndieRunner
 # Syntax: _symlink( string glob_of_oldfile, string newfile, bool overwrite )
-sub ir_symlink {
-	my ($oldfile_glob, $newfile, $overwrite) = @_;
-
+sub ir_symlink ( $oldfile_glob, $newfile, $overwrite = 0 ) {
 	my $dryrun = cli_dryrun();
 	my $verbose = cli_verbose();
 	my @oldfile_array = glob( $oldfile_glob );
@@ -202,8 +200,7 @@ sub ir_copy( $oldfile, $newfile ) {
 
 # simpler version of pty_cmd without fork; less flexible.
 # XXX: garbage collect if not used
-sub pty_cmd_simple {
-	my @cmd = @_;
+sub pty_cmd_simple ( @cmd ) {
 	my $ret;
 	my $ret_msg;
 	my $pty = new IO::Pty;
@@ -240,8 +237,7 @@ sub pty_cmd_simple {
 }
 
 # run in pseudoterminal in forked process
-sub pty_cmd {
-	my @cmd = @_;
+sub pty_cmd ( @cmd ) {
 	my $pty = new IO::Pty;
 	my $pid = fork;
 	my @cmd_out;
@@ -296,9 +292,7 @@ sub pty_cmd {
 }
 
 # XXX: not used, superseded by pty_cmd. Garbage collect
-sub log_cmd {
-	my @cmd = @_;
-
+sub log_cmd ( @cmd ) {
 	my $merged_out = tee_merged {	# $merged_out combines stdout and stderr
 		system( @cmd );
 	};

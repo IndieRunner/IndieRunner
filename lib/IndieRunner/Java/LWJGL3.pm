@@ -17,7 +17,7 @@ package IndieRunner::Java::LWJGL3;
 use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
-use v5.10;
+use v5.36;
 use Carp qw( cluck );
 
 use base qw( Exporter );
@@ -38,17 +38,15 @@ Readonly::Hash my %LWJGL3_DIR => (
 	'openbsd'	=> '/usr/local/share/lwjgl3',
 	);
 
-sub get_java_version_preference {
+sub get_java_version_preference () {
 	return $LWJGL3_JAVA_VERSION{ get_os() };
 }
 
-sub add_classpath {
+sub add_classpath () {
 	return glob( $LWJGL3_DIR{ get_os() } . '/*.jar' );
 }
 
-sub setup {
-	my ($self) = @_;
-
+sub setup ( $ ) {
 	# empty
 }
 

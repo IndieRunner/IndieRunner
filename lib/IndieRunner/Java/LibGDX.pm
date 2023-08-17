@@ -17,7 +17,7 @@ package IndieRunner::Java::LibGDX;
 use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
-use v5.10;
+use v5.36;
 use autodie;
 use Carp qw( cluck confess );
 
@@ -41,7 +41,7 @@ Readonly::Scalar my $GDX_NATIVE_LOC	=> '/usr/local/share/libgdx';
 
 my $native_gdx;
 
-sub select_most_compatible_version {
+sub select_most_compatible_version ( $target_v, @other_v ) {
 	# takes target version, followed by array of candidate version numbers
 	# as argument (@_)
 	# 1. if target version is '_MAX_', then select the highest version
@@ -49,13 +49,9 @@ sub select_most_compatible_version {
 	# 3. returns the lowest of version numbers higher than target, or
 	# 4. returns the highest candidate version among lower numbers
 
-	die "too few arguments to subroutine" unless scalar( @_ ) > 1;
-
-	my $target_v = shift(@_);
-
 	# convert all arguments with version->declare
 	# are all supplied arguments valid version strings? (or '_MAX_'?)
-	foreach ( @_ ) {
+	foreach ( @other_v ) {
 		$_ = version->declare($_);
 		unless ( $_->is_lax() ) {
 			die "invalid version string argument to subroutine";
@@ -64,25 +60,25 @@ sub select_most_compatible_version {
 
 	# 1. if target_v is '_MAX_', return highest version
 	if ( $target_v eq '_MAX_' ) {
-		return max(@_);
+		return max(@other_v);
 	}
 
 	# 2. if match exists, return the first one
-	foreach my $candidate_v (@_) {
+	foreach my $candidate_v (@other_v) {
 		if ( $candidate_v == $target_v ) {
 			return $candidate_v;
 		}
 	}
 
 	# 3. returns the lowest of version numbers higher than target, or
-	foreach my $candidate_v ( sort(@_) ) {
+	foreach my $candidate_v ( sort(@other_v) ) {
 		if ( $candidate_v > $target_v ) {
 			return $candidate_v;
 		}
 	}
 
 	# 4. returns the highest candidate version among lower numbers
-	foreach my $candidate_v ( sort {$b cmp $a} @_ ) {
+	foreach my $candidate_v ( sort {$b cmp $a} @other_v ) {
 		if ( $candidate_v < $target_v ) {
 			return $candidate_v;
 		}
@@ -91,16 +87,14 @@ sub select_most_compatible_version {
 	confess "Unable to find a replacement version";	# this shouldn't be reached
 }
 
-sub get_bundled_gdx_version {
+sub get_bundled_gdx_version () {
 	my $gdx_version_file = catfile( $GDX_BUNDLED_LOC, $GDX_VERSION_FILE );
 	return '' unless ( -e $gdx_version_file );
 	return IndieRunner::Java::match_bin_file( $GDX_VERSION_REGEX,
 		$gdx_version_file );
 }
 
-sub get_native_gdx {
-	my $bundled_v = shift;
-
+sub get_native_gdx ( $bundled_v ) {
 	my %candidate_replacements =	# keys: version, values: location
 		map { IndieRunner::Java::match_bin_file( $GDX_VERSION_REGEX, $_) =>
 			( splitpath($_) )[1]
@@ -114,14 +108,12 @@ sub get_native_gdx {
 	return ( catdir( @location ) );
 }
 
-sub add_classpath {
+sub add_classpath () {
 	return ( $native_gdx );
 }
 
-sub setup {
-	my ($self) = @_;
-	my $dryrun = cli_dryrun();
-	my $verbose = cli_verbose();
+sub setup ( $ ) {
+	my ( $dryrun, $verbose ) = ( cli_dryrun(), cli_verbose() );
 
 	# What version is bundled with the game?
 	my $bundled_v = get_bundled_gdx_version();

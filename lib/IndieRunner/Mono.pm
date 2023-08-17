@@ -16,7 +16,7 @@ package IndieRunner::Mono;
 
 use strict;
 use warnings;
-use v5.10;
+use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use base qw( Exporter );
@@ -65,13 +65,12 @@ Readonly::Hash my %QUIRKS_ENV => {
 my @cil_args;
 my @env;
 
-sub get_mono_files {
-	my $custom_suffix = shift || '';	# e.g. '_'
+sub get_mono_files ( $custom_suffix = '' ) {
 	my @mono_files;
 	my @match;
 
 	foreach my $g ( @MONO_GLOBS ) {
-		@match = glob( $g . $custom_suffix );
+		@match = glob( $g . $custom_suffix );	# $custom_suffix: e.g. '_'
 		next unless @match;
 
 		# remove files from @match that are in @MONO_GLOB_EXCLUDE
@@ -87,9 +86,7 @@ sub get_mono_files {
 	return @mono_files;
 }
 
-sub get_assembly_version {
-        my ($assembly_file) = @_;
-
+sub get_assembly_version ( $assembly_file ) {
         my $monodis_info = qx( monodis --assembly $assembly_file );
         if ( $monodis_info =~ /\nVersion:\s+([0-9\.]+)/ ) {
 	        return $1;
@@ -99,8 +96,7 @@ sub get_assembly_version {
         }
 }
 
-sub quirks {
-	my $game_file = shift;
+sub quirks ( $game_file ) {
 	foreach my $k ( keys %QUIRKS_ARGS ) {
 		if ( grep { $_ eq $game_file } @{ $QUIRKS_ARGS{ $k } } ) {
 			push @cil_args, $k;
@@ -114,9 +110,7 @@ sub quirks {
 	# XXX: for 'SSGame.exe': mkdir -p ~/.local/share/SSDD
 }
 
-sub run_cmd {
-	my ($self, $game_file) = @_;
-
+sub run_cmd ( $, $game_file ) {
 	# TODO: check for quirks: eagle island, MONO_FORCE_COMPAT
 	# TODO: setup custom config for MidBoss
 
@@ -164,8 +158,7 @@ sub run_cmd {
 	return ( 'env', @env, $BIN, $game_file, @cil_args );
 }
 
-sub setup {
-	my ($self) = @_;
+sub setup ( $ ) {
 	my $dryrun = cli_dryrun;
 	my $verbose = cli_verbose;
 

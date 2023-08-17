@@ -17,7 +17,7 @@ package IndieRunner::HashLink;
 use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
-use v5.10;
+use v5.36;
 
 use Carp;
 use Readonly;
@@ -32,26 +32,17 @@ Readonly::Array		my @DAT => (
 					'hlboot.dat',
 					);
 
-sub run_cmd {
-	my ($self, $engine_id_file, $game_file) = @_;
-
-        #my @env = (
-		# 'LD_LIBRARY_PATH=/usr/local/lib/',	# XXX: rm if not needed
-		#);
-
+sub run_cmd ( $, $engine_id_file, $game_file ) {
 	# XXX: add in arguments from cli_gameargs()
 
 	foreach my $d ( @DAT ) {
-		#return ( 'env', @env, $BIN, $d ) if ( -f $d );
 		return ( $BIN, $d ) if ( -f $d );
 	}
 	croak "Failed to find .dat file for hashlink";
 }
 
-sub setup {
-	my ($self) = @_;
+sub setup ( $ ) {
         my $dryrun = cli_dryrun;
-
         foreach my $f ( glob( '*.hdll' ) ) {
 		neuter( $f );
         }

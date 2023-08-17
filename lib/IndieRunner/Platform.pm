@@ -16,7 +16,7 @@ package IndieRunner::Platform;
 
 use strict;
 use warnings;
-use v5.036;
+use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use autodie;
 

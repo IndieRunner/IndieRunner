@@ -17,7 +17,7 @@ package IndieRunner::Java::LWJGL2;
 use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
-use v5.10;
+use v5.36;
 
 use Readonly;
 
@@ -27,13 +27,11 @@ Readonly::Hash my %LWJGL2_DIR => (
 	        'openbsd'       => '/usr/local/share/lwjgl',
                 );
 
-sub add_classpath {
+sub add_classpath () {
 	return glob( $LWJGL2_DIR{ get_os() } . '/*.jar' );
 }
 
-sub setup {
-	my ($self) = @_;
-
+sub setup ( $ ) {
 	# empty
 }
 

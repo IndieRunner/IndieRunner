@@ -16,7 +16,7 @@ package IndieRunner::Mono::Dllmap;
 
 use strict;
 use warnings;
-use v5.10;
+use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use Carp;
 
@@ -29,7 +29,7 @@ use IndieRunner::Cmdline qw( cli_dllmap_file cli_dryrun cli_mode cli_tmpdir
 			     cli_userdir cli_verbose );
 use IndieRunner::Io qw( write_file );
 
-sub get_dllmap_target {
+sub get_dllmap_target () {
 	my $dryrun =		cli_dryrun();
 	my $mode =		cli_mode();
 	my $verbose =		cli_verbose();

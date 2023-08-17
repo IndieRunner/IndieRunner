@@ -17,7 +17,7 @@ package IndieRunner::Java::Steamworks4j;
 use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
-use v5.10;
+use v5.36;
 use Carp qw( cluck );
 
 use Readonly;
@@ -26,13 +26,11 @@ use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 
 Readonly::Scalar my $S4J_NATIVE_LOC => '/usr/local/share/steamworks4j';
 
-sub add_classpath {
+sub add_classpath () {
 	return ( $S4J_NATIVE_LOC );
 }
 
-sub setup {
-	my ($self) = @_;
-
+sub setup ( $ ) {
 	# empty
 }
 

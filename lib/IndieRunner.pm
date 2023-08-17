@@ -16,10 +16,9 @@ package IndieRunner;
 
 use strict;
 use warnings;
-use v5.10;
+use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
-use Capture::Tiny ':all';
 use File::Find::Rule;
 use File::Spec::Functions qw( catpath splitpath );
 use List::Util qw( first );
@@ -43,7 +42,7 @@ use IndieRunner::MonoGame;
 use IndieRunner::XNA;
 
 my $game_name = '';
-sub set_game_name { $game_name = join( ' ', @_); }
+sub set_game_name ( @name_components ) { $game_name = join( ' ', @name_components ); }
 
 # process config & options
 init_cli;
