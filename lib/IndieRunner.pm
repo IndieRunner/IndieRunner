@@ -120,7 +120,9 @@ unless ( $engine ) {
 # XXX: detect bundled dependencies
 
 # setup and build launch command
-my $module = "IndieRunner::$engine";
+my $modulebase = "IndieRunner::$engine";
+my $module = $modulebase->new( dryrun => $dryrun, verbose => $verbose );
+
 $module->setup();
 my @run_cmd = $module->run_cmd( $engine_id_file, $cli_file );
 

@@ -20,9 +20,6 @@ use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 =pod
-my $dryrun;
-my $verbose;
-
 my $bin;
 my $env;
 my $args;
@@ -37,14 +34,22 @@ sub run_cmd ( $, $engine_id_file, $cli_file ) {
 }
 =cut
 
-sub _initialize ( $cli_dryrun, $cli_verbose ) {
-	# XXX: implement
+sub dryrun ( $self, @val ) {
+	if ( @val ) {
+		$self->{dryrun} = shift @val;
+	}
+	return $self->{dryrun};
 }
 
-sub new ( $class, $cli_dryrun = 0, $cli_verbose = 0 ) {
-	my $self = {};
-	bless $self, $class;
-	$self->_initialize( $cli_dryrun, $cli_verbose );
+sub verbose ( $self, @val ) {
+	if ( @val ) {
+		$self->{verbose} = shift @val;
+	}
+	return $self->{verbose};
+}
+
+sub new ( $class, %args ) {
+	my $self = bless { %args }, $class;
 	return $self;
 }
 
