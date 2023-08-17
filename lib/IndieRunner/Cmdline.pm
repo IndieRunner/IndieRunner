@@ -56,7 +56,6 @@ sub init_cli {
 		   )
 	or pod2usage(2);
 	$gamearg_string = $ARGV[0] || '';
-	say "cli_file: $cli_file";
 }
 
 sub cli_appid		{ return $appid; }

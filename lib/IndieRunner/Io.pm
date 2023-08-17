@@ -22,7 +22,7 @@ use feature qw( signatures );
 no warnings qw( experimental::signatures );
 
 use base qw( Exporter );
-our @EXPORT_OK = qw( ir_copy ir_symlink neuter script_head write_file );
+our @EXPORT_OK = qw( ir_copy ir_symlink neuter pty_cmd script_head write_file );
 
 use autodie;
 use Carp;
@@ -30,6 +30,10 @@ use File::Copy qw( copy );
 use File::Path qw( make_path );
 use File::Spec::Functions qw( catfile catpath splitpath );
 use FindBin;
+
+# for pty_cmd()
+use IO::Handle;
+use IO::Pty;
 
 # XXX: is cli_dryrun needed?
 use IndieRunner::Cmdline qw( cli_dryrun cli_mode cli_verbose );
@@ -196,6 +200,125 @@ sub neuter( $filename ) {
 
 sub ir_copy( $oldfile, $newfile ) {
 	_copy( $oldfile, $newfile );
+}
+
+# simpler version of pty_cmd without fork; less flexible.
+# XXX: garbage collect if not used
+sub pty_cmd_simple {
+	my @cmd = @_;
+	my $ret;
+	my $ret_msg;
+	my $pty = new IO::Pty;
+	my $slave = $pty->slave;
+
+	open(CPOUT, ">&STDOUT");
+	STDOUT->fdopen($slave, '>');
+
+	# Execute @cmd
+	system( @cmd ) or die "$!";
+	$ret = $?;
+	$ret_msg = $!;
+
+	close($pty);
+	close($slave);
+	open(STDOUT, ">&CPOUT");
+
+	# report if error occurred; see example in perldoc -f system
+	if ( $ret == 0 ) {
+		say 'Application exited without errors' if cli_verbose();
+	}
+	elsif ( $ret == -1 ) {
+		say "failed to execute: $ret_msg";
+	}
+	elsif ( $ret & 127 ) {
+		printf "child process died with signal %d, %s coredump\n",
+			( $ret & 127 ),  ( $ret & 128 ) ? 'with' : 'without';
+	}
+	else {
+		printf "child process exited with value %d\n", $ret >> 8;
+	}
+
+	return '';
+}
+
+# run in pseudoterminal in forked process
+sub pty_cmd {
+	my @cmd = @_;
+	my $pty = new IO::Pty;
+	my $pid = fork;
+	my @cmd_out;
+	my $cmd_ret = '';
+	my $self_marker = '[IndieRunner]';	# used to filter out from cmd_out later
+
+	if ( $pid == 0 ) {
+		my $slave = $pty->slave;
+		close $pty;
+		STDOUT->fdopen($slave, '>');
+		STDIN->fdopen($slave, '<');
+		STDERR->fdopen(\*STDOUT,'>');
+		close($slave);
+
+		system( @cmd );
+		my $ret = $?;
+		my $ret_msg = $!;
+
+		# report if error occurred; see example in perldoc -f system
+		if ( $ret == 0 ) {
+			say "${self_marker} Application exited without errors" if cli_verbose();
+		}
+		elsif ( $ret == -1 ) {
+			say "${self_marker} failed to execute: $ret_msg";
+		}
+		elsif ( $ret & 127 ) {
+			printf "%s child process died with signal %d, %s coredump\n",
+				$self_marker, ( $ret & 127 ),  ( $ret & 128 ) ? 'with' : 'without';
+		}
+		else {
+			printf "%s child process exited with value %d\n",
+				$self_marker, $ret >> 8;
+		}
+
+		exit;
+	}
+
+	$pty->close_slave();
+	while (<$pty>) {
+		print;
+		push @cmd_out, $_;
+	}
+	close $pty;
+
+	foreach my $line ( @cmd_out ) {
+		next if $line =~ m{\Q$self_marker\E};
+		$line =~ s/\e\[[0-9;]*m(?:\e\[K)?//g;	# remove escape sequences
+		$cmd_ret .= $line;
+	}
+
+	return $cmd_ret;
+}
+
+# XXX: not used, superseded by pty_cmd. Garbage collect
+sub log_cmd {
+	my @cmd = @_;
+
+	my $merged_out = tee_merged {	# $merged_out combines stdout and stderr
+		system( @cmd );
+	};
+
+	# report if error occurred; see example in perldoc -f system
+	if ( $? == 0 ) {
+		say 'Application exited without errors' if cli_verbose();
+	}
+	elsif ( $? == -1 ) {
+		say "failed to execute: $!";
+	}
+	elsif ( $? & 127 ) {
+		printf "child process died with signal %d, %s coredump\n",
+			( $? & 127 ),  ( $? & 128 ) ? 'with' : 'without';
+	}
+	else {
+		printf "child process exited with value %d\n", $? >> 8;
+	}
 }
 
 1;

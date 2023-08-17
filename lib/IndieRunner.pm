@@ -34,7 +34,7 @@ use IndieRunner::GZDoom;
 use IndieRunner::HashLink;
 use IndieRunner::IdentifyFiles qw( find_file_magic );
 use IndieRunner::Info qw( goggame_name steam_appid );
-use IndieRunner::Io qw( script_head write_file );
+use IndieRunner::Io qw( script_head pty_cmd write_file );
 use IndieRunner::Java;
 use IndieRunner::Love2D;
 use IndieRunner::Misc qw( log_steam_time );
@@ -56,7 +56,7 @@ my $mode	= cli_mode();
 script_head() if $mode eq 'script';
 
 # TODO:
-# - change output drom dryrun mode to be able to create a script
+# - change output from dryrun mode to be able to create a script
 # - then store the scripts in share/ directory
 # - manage the share/ dir with File::Share +/- File::ShareDir::Install
 
@@ -145,33 +145,19 @@ say join( ' ', @run_cmd );
 $mode eq 'run' ? say '' : exit 0;
 
 # Execute @run_cmd and log output
-my $merged_out = tee_merged {	# $merged_out combines stdout and stderr
-	system( @run_cmd );
-};
-say '' if $merged_out;
+my $cmd_out = pty_cmd( @run_cmd );
 
-# report if error occurred; see example in perldoc -f system
-if ( $? == 0 ) {
-	say 'Application exited without errors' if $verbose;
-}
-elsif ( $? == -1 ) {
-	say "failed to execute: $!";
-}
-elsif ( $? & 127 ) {
-	printf "child process died with signal %d, %s coredump\n",
-		( $? & 127 ),  ( $? & 128 ) ? 'with' : 'without';
-}
-else {
-	printf "child process exited with value %d\n", $? >> 8;
-}
+if ($cmd_out) {
+	say '';
 
-# store $merged_out in $tmpdir
-my $now = strftime "%Y-%m-%d-%H:%M:%S", localtime;
-my $logfile = catpath( '', $tmpdir, "${game_name}-${now}.log" );
-say "storing logs in $logfile" if ( $merged_out and $verbose );
-write_file( $merged_out, $logfile ) if $merged_out;
+	# store $cmd_out in $tmpdir
+	my $now = strftime "%Y-%m-%d-%H:%M:%S", localtime;
+	my $logfile = catpath( '', $tmpdir, "${game_name}-${now}.log" );
+	say "storing logs in $logfile" if $verbose;
+	write_file( $cmd_out, $logfile );
 
-# XXX: inspect $merged_out
+	# XXX: inspect $cmd_out and process for automatic advice on errors
+}
 
 # clean up and exit
 kill 'KILL', $child_steamlog if $child_steamlog;
