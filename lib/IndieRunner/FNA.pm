@@ -42,14 +42,14 @@ sub run_cmd ( $self, $engine_id_file, $cli_file ) {
 	return $self->SUPER::run_cmd( $cli_file );
 }
 
-sub setup ( $ ) {
+sub setup ( $self ) {
 	my $dryrun = cli_dryrun();
 	my $verbose = cli_verbose();
 	my $fna_file = 'FNA.dll';
 	my $fna_config_file = 'FNA.dll.config';
 	my $skip_fna_version;
 
-	IndieRunner::Mono->setup();
+	$self->SUPER::setup();
 
 	# check if this is a game where we allow FNA version lower than FNA_MIN_VERSION
 	foreach my $f ( glob '*' ) {

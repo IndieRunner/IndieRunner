@@ -19,7 +19,7 @@ use strict;
 use warnings;
 use v5.36;
 
-use parent 'IndieRunner::BaseModule';
+use parent 'IndieRunner::Mono';
 
 use Carp;
 
@@ -28,17 +28,16 @@ use File::Find::Rule;
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 use IndieRunner::Mono;
 
-sub run_cmd ( $, $engine_id_file, $cli_file ) {
-	# ignoring $engine_id_file for XNA
-	return IndieRunner::Mono->run_cmd( $cli_file );
+sub run_cmd ( $self, $engine_id_file, $cli_file ) {
+	return $self->SUPER::run_cmd( $cli_file );
 }
-sub setup ( $ ) {
+sub setup ( $self ) {
 	my $dryrun = cli_dryrun();
 	my $verbose = cli_verbose();
 	my @wmafiles;
 	my @wmvfiles;
 
-	IndieRunner::Mono->setup();
+	$self->SUPER::setup();
 
 	# convert .wma to .ogg, and .wmv to .ogv
 

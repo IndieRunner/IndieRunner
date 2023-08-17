@@ -19,7 +19,7 @@ use strict;
 use warnings;
 use v5.36;
 
-use parent 'IndieRunner::BaseModule';
+use parent 'IndieRunner::Mono';
 
 use Carp;
 use Readonly;
@@ -37,12 +37,12 @@ Readonly::Hash my %MG_LIBS => (
 	'libopenal.so.1'	=> '/usr/local/lib/libopenal.so.*',
 	);
 
-sub run_cmd ( $, $engine_id_file, $game_file ) {
-	return IndieRunner::Mono->run_cmd( $game_file );
+sub run_cmd ( $self, $engine_id_file, $cli_file ) {
+	return $self->SUPER::run_cmd( $cli_file );
 }
 
-sub setup ( $ ) {
-	IndieRunner::Mono->setup();
+sub setup ( $self ) {
+	$self->SUPER::setup();
 
 	# TODO: combine with IndieRunner::Java::fix_libraries sub
 

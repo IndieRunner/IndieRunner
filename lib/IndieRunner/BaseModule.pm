@@ -20,8 +20,8 @@ use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 =pod
+my $dryrun;
 my $verbose;
-my $debug;
 
 my $bin;
 my $env;
@@ -30,8 +30,6 @@ my $args;
 my $cli_file;
 my $engine_id_file;
 
-sub init { };
-
 sub configure { };
 
 sub run_cmd ( $, $engine_id_file, $cli_file ) {
@@ -39,14 +37,14 @@ sub run_cmd ( $, $engine_id_file, $cli_file ) {
 }
 =cut
 
-sub _initialize ( $cli_verbose, $cli_debug ) {
+sub _initialize ( $cli_dryrun, $cli_verbose ) {
 	# XXX: implement
 }
 
-sub new ( $class, $cli_verbose = 0, $cli_debug = 0 ) {
+sub new ( $class, $cli_dryrun = 0, $cli_verbose = 0 ) {
 	my $self = {};
 	bless $self, $class;
-	$self->_initialize( $cli_verbose, $cli_debug );
+	$self->_initialize( $cli_dryrun, $cli_verbose );
 	return $self;
 }
 
