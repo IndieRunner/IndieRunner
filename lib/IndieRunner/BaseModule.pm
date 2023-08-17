@@ -39,6 +39,17 @@ sub run_cmd ( $, $engine_id_file, $cli_file ) {
 }
 =cut
 
+sub _initialize ( $cli_verbose, $cli_debug ) {
+	# XXX: implement
+}
+
+sub new ( $class, $cli_verbose = 0, $cli_debug = 0 ) {
+	my $self = {};
+	bless $self, $class;
+	$self->_initialize( $cli_verbose, $cli_debug );
+	return $self;
+}
+
 sub setup ( $ ) {
 	# No setup needed.
 }

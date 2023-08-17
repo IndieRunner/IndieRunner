@@ -19,7 +19,7 @@ use strict;
 use warnings;
 use v5.36;
 
-use parent 'IndieRunner::BaseModule';
+use parent 'IndieRunner::Mono';
 
 use Carp;
 use Readonly;
@@ -37,8 +37,9 @@ Readonly::Array  my @ALLOW_BUNDLED_FNA => (
 	'SuperBernieWorld.exe',	# 1.2.0 (Kitsune Zero),	19.3
 	);
 
-sub run_cmd ( $, $engine_id_file, $cli_file ) {
-	return IndieRunner::Mono->run_cmd( $cli_file );
+sub run_cmd ( $self, $engine_id_file, $cli_file ) {
+	#return IndieRunner::Mono->run_cmd( $cli_file );
+	return $self->SUPER::run_cmd( $cli_file );
 }
 
 sub setup ( $ ) {
