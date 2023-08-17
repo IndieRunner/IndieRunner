@@ -16,14 +16,34 @@ package IndieRunner::Platform;
 
 use strict;
 use warnings;
+use v5.036;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
+use autodie;
 
 use base qw( Exporter );
-our @EXPORT_OK = qw( get_os );
+our @EXPORT_OK = qw( bin_pathcomplete get_os );
 
 use Config;
 
-sub get_os {
+# return array (or first match) of files in $ENV{'PATH'} that start
+# with $fragment. Returns empty array or '' if no match.
+# Can also be used as a test if a binary is in path.
+sub bin_pathcomplete ( $fragment ) {
+	my @matchedfiles;
+	my @path = split( /:/, $ENV{'PATH'} );
+	while (@path) {
+		my $pathdir = shift @path;
+		if (-d $pathdir) {
+			opendir( my $dh, $pathdir);
+			my @candidate_bins = grep { /^\Q$fragment\E/ } readdir( $dh );
+			push @matchedfiles, @candidate_bins;
+			closedir $dh;
+		}
+	}
+	return wantarray ? @matchedfiles : ( $matchedfiles[0] || '' );
+}
+
+sub get_os () {
 	return $Config{qw(osname)};
 }
 

@@ -16,10 +16,8 @@ package IndieRunner::Io;
 
 use strict;
 use warnings;
-use v5.32;
+use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
-use feature qw( signatures );
-no warnings qw( experimental::signatures );
 
 use base qw( Exporter );
 our @EXPORT_OK = qw( ir_copy ir_symlink neuter pty_cmd script_head write_file );
