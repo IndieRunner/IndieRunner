@@ -25,15 +25,12 @@ use Carp;
 
 use File::Find::Rule;
 
-use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 use IndieRunner::Mono;
 
 sub run_cmd ( $self, $engine_id_file, $cli_file ) {
 	return $self->SUPER::run_cmd( $cli_file );
 }
 sub setup ( $self ) {
-	my $dryrun = cli_dryrun();
-	my $verbose = cli_verbose();
 	my @wmafiles;
 	my @wmvfiles;
 
@@ -62,7 +59,7 @@ sub setup ( $self ) {
 	}
 
 	if ( scalar( @wmafiles ) + scalar( @wmvfiles ) > 0
-		&& ! $dryrun ) {
+		&& ! $self->dryrun() ) {
 			say "Converting WMA and WMV media files. "
 				. "This may take a few minutes...";
 	}
@@ -71,8 +68,8 @@ sub setup ( $self ) {
 	foreach my $wma ( @wmafiles ) {
 		my $ogg = substr( $wma, 0, -3 ) . 'ogg';
 		last if ( -f $ogg );
-		say "Convert: $wma => $ogg" if ( $dryrun || $verbose );
-		unless ( $dryrun ) {
+		say "Convert: $wma => $ogg" if ( $self->dryrun() || $self->verbose() );
+		unless ( $self->dryrun() ) {
 			my @ffmpeg_cmd = ( 'ffmpeg', '-loglevel', 'fatal',
 					   '-i', $wma, '-c:a', 'libvorbis',
 					   '-q:a', '10', $ogg );
@@ -82,8 +79,8 @@ sub setup ( $self ) {
 	}
 	foreach my $wmv ( @wmvfiles ) {
 		my $ogv = substr( $wmv, 0, -3 ) . 'ogv';
-		say "Convert: $wmv => $ogv" if ( $dryrun || $verbose );
-		unless ( $dryrun ) {
+		say "Convert: $wmv => $ogv" if ( $self->dryrun() || $self->verbose() );
+		unless ( $self->dryrun() ) {
 			my @ffmpeg_cmd = ( 'ffmpeg', '-loglevel', 'fatal',
 					   '-i', $wmv, '-c:v', 'libtheora',
 					   '-q:v', '10', '-c:a', 'libvorbis',

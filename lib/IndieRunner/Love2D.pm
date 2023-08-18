@@ -26,7 +26,7 @@ use Carp;
 
 use Readonly;
 
-use IndieRunner::Cmdline qw( cli_gameargs cli_verbose );
+use IndieRunner::Cmdline qw( cli_gameargs );
 
 # TODO: will this hash be used?
 Readonly::Hash my %LOVE2D_VERSION_STRINGS => {
@@ -66,11 +66,9 @@ sub get_love_version ( $engine_id_file ) {
 	confess "failed to identify Love2D game";
 }
 
-sub run_cmd ( $, $engine_id_file, $cli_file ) {
-	my $verbose = cli_verbose();
-
+sub run_cmd ( $self, $engine_id_file, $cli_file ) {
 	$bin = $LOVE2D_VERSION_BIN{ get_love_version( $engine_id_file ) };
-	say "Love2D binary: $bin" if $verbose;
+	say "Love2D binary: $bin" if $self->verbose();
 
 	# NOTE: this is fixed if just installing luasteam.so in lib/lua/5.1/
 	# TODO: fix running Terraforming Earth which fails to run with

@@ -24,7 +24,7 @@ use parent 'IndieRunner::BaseModule';
 use Carp;
 use Readonly;
 
-use IndieRunner::Cmdline qw( cli_dryrun cli_gameargs cli_verbose );
+use IndieRunner::Cmdline qw( cli_gameargs );
 use IndieRunner::Io qw( neuter );
 
 Readonly::Scalar	my $BIN => 'hl';
@@ -43,11 +43,11 @@ sub run_cmd ( $, $engine_id_file, $game_file ) {
 	croak "Failed to find .dat file for hashlink";
 }
 
-sub setup ( $ ) {
-        my $dryrun = cli_dryrun;
+sub setup ( $self ) {
         foreach my $f ( glob( '*.hdll' ) ) {
 		neuter( $f );
         }
+        self->SUPER::setup();
 }
 
 1;

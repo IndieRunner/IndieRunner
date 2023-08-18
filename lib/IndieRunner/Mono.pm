@@ -28,7 +28,7 @@ use Carp;
 use File::Path qw( make_path );
 use Readonly;
 
-use IndieRunner::Cmdline qw( cli_dryrun cli_gameargs cli_verbose );
+use IndieRunner::Cmdline qw( cli_gameargs );
 use IndieRunner::IdentifyFiles qw( get_magic_descr );
 use IndieRunner::Io qw( neuter );
 use IndieRunner::Mono::Dllmap qw( get_dllmap_target );
@@ -112,7 +112,7 @@ sub quirks ( $game_file ) {
 	# XXX: for 'SSGame.exe': mkdir -p ~/.local/share/SSDD
 }
 
-sub run_cmd ( $, $game_file ) {
+sub run_cmd ( $self, $game_file ) {
 	# TODO: check for quirks: eagle island, MONO_FORCE_COMPAT
 	# TODO: setup custom config for MidBoss
 
@@ -160,10 +160,7 @@ sub run_cmd ( $, $game_file ) {
 	return ( 'env', @env, $BIN, $game_file, @cil_args );
 }
 
-sub setup ( $ ) {
-	my $dryrun = cli_dryrun;
-	my $verbose = cli_verbose;
-
+sub setup ( $self ) {
 	# remove system Mono assemblies
 	foreach my $f ( get_mono_files ) {
 		neuter( $f );

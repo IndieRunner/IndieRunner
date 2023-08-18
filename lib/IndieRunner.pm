@@ -120,11 +120,11 @@ unless ( $engine ) {
 # XXX: detect bundled dependencies
 
 # setup and build launch command
-my $modulebase = "IndieRunner::$engine";
-my $module = $modulebase->new( dryrun => $dryrun, verbose => $verbose );
+my $instancebase = "IndieRunner::$engine";
+my $launch_inst = $instancebase->new( dryrun => $dryrun, verbose => $verbose );
 
-$module->setup();
-my @run_cmd = $module->run_cmd( $engine_id_file, $cli_file );
+$launch_inst->setup();
+my @run_cmd = $launch_inst->run_cmd( $engine_id_file, $cli_file );
 
 # heuristic for game name
 $game_name = goggame_name() unless $game_name;

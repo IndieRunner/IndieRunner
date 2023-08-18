@@ -24,7 +24,6 @@ use parent 'IndieRunner::Mono';
 use Carp;
 use Readonly;
 
-use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 use IndieRunner::Io qw( ir_copy neuter );
 use IndieRunner::Mono qw( get_assembly_version );
 
@@ -38,13 +37,10 @@ Readonly::Array  my @ALLOW_BUNDLED_FNA => (
 	);
 
 sub run_cmd ( $self, $engine_id_file, $cli_file ) {
-	#return IndieRunner::Mono->run_cmd( $cli_file );
 	return $self->SUPER::run_cmd( $cli_file );
 }
 
 sub setup ( $self ) {
-	my $dryrun = cli_dryrun();
-	my $verbose = cli_verbose();
 	my $fna_file = 'FNA.dll';
 	my $fna_config_file = 'FNA.dll.config';
 	my $skip_fna_version;
@@ -82,7 +78,7 @@ sub setup ( $self ) {
 			}
 		}
 		else {
-			say "FNA.dll version ok: $fna_bundled_version" if $verbose;
+			say "FNA.dll version ok: $fna_bundled_version" if $self->verbose();
 		}
 	}
 

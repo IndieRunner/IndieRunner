@@ -256,10 +256,7 @@ sub test_jar_mode () {
 	return 0;
 }
 
-sub setup ( $ ) {
-	my $dryrun = cli_dryrun();
-	my $verbose = cli_verbose();
-
+sub setup ( $self ) {
 	my $config_file;
 	my $class_path_ptr;
 
@@ -269,7 +266,7 @@ sub setup ( $ ) {
 	get_bundled_java_version();
 
 	$Bit_Sufx = ( $Config{'use64bitint'} ? '64' : '' ) . $So_Sufx;
-	say "Library suffix:\t$Bit_Sufx" if $verbose;
+	say "Library suffix:\t$Bit_Sufx" if $self->verbose();
 
 	# 2. Get data on main JAR file and more
 	# 	a. first check JSON config file
@@ -336,7 +333,7 @@ sub setup ( $ ) {
 				$main_class = $1 unless $main_class;
 			}
 			say 'Found JVM classpath in file: ' . join( ':', @jvm_classpath)
-				if (@jvm_classpath and $verbose);
+				if ( @jvm_classpath and $self->verbose() );
 			#say "java_line: $java_lines[0]";	# leftover line parts; uncomment to inspect
 		}
 	}
@@ -365,7 +362,8 @@ sub setup ( $ ) {
 		push( @java_frameworks, 'LWJGL' . lwjgl_2_or_3() );
 	}
 	push @java_frameworks, 'Steamworks4j' if has_steamworks4j();
-	say 'Bundled Java Frameworks: ' . join( ' ', @java_frameworks) if $verbose;
+	say 'Bundled Java Frameworks: ' . join( ' ', @java_frameworks)
+		if $self->verbose();
 
 	# 5. Call specific setup for each framework
 	unless ( skip_framework_setup() ) {
@@ -379,9 +377,7 @@ sub setup ( $ ) {
 	fix_libraries();
 }
 
-sub run_cmd ( $, $game_file, $cli_file ) {
-	my $verbose = cli_verbose();
-
+sub run_cmd ( $self, $game_file, $cli_file ) {
 	my $jar_mode = test_jar_mode();	# if set, run with a game .jar file rather than from extracted files
 
 	# adjust JVM invocation for LWJGL3
@@ -411,7 +407,7 @@ sub run_cmd ( $, $game_file, $cli_file ) {
 	# pick best java version
 	my $os_java_version = max( values %java_version );
 	$os_java_version = '1.8.0' unless $os_java_version;
-	if ( $verbose ) {
+	if ( $self->verbose() ) {
 		say "Bundled Java version:\t\t" . ( $java_version{ bundled } ?
 			$java_version{ bundled } : 'not found' );
 		say "LWJGL3 preferred Java version:\t$java_version{ lwjgl3 }"
@@ -420,7 +416,7 @@ sub run_cmd ( $, $game_file, $cli_file ) {
 	}
 
 	set_java_home( $os_java_version );
-	say "Java Home:\t\t\t$java_home" if $verbose;
+	say "Java Home:\t\t\t$java_home" if $self->verbose();
 	@jvm_env = ( "JAVA_HOME=" . $java_home, );
 	fix_jvm_args();
 	push @jvm_args, '-Dorg.lwjgl.system.allocator=system';	# avoids libjemalloc, e.g. Pathway
