@@ -22,14 +22,12 @@ use v5.36;
 use parent 'IndieRunner::Mono';
 
 use Carp;
-
 use File::Find::Rule;
 
-use IndieRunner::Mono;
-
-sub run_cmd ( $self, $engine_id_file, $cli_file ) {
-	return $self->SUPER::run_cmd( $cli_file );
+sub run_cmd ( $self ) {
+	return $self->SUPER::run_cmd( );
 }
+
 sub setup ( $self ) {
 	my @wmafiles;
 	my @wmvfiles;

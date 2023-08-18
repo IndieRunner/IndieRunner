@@ -24,29 +24,12 @@ my $bin;
 my $env;
 my $args;
 
-my $cli_file;
-my $engine_id_file;
-
 sub configure { };
 
 sub run_cmd ( $, $engine_id_file, $cli_file ) {
 	#return ( $BIN, '--quiet', '--main-pack', $run_file );
 }
 =cut
-
-sub dryrun ( $self, @val ) {
-	if ( @val ) {
-		$self->{dryrun} = shift @val;
-	}
-	return $self->{dryrun};
-}
-
-sub verbose ( $self, @val ) {
-	if ( @val ) {
-		$self->{verbose} = shift @val;
-	}
-	return $self->{verbose};
-}
 
 sub new ( $class, %args ) {
 	my $self = bless { %args }, $class;
@@ -55,6 +38,50 @@ sub new ( $class, %args ) {
 
 sub setup ( $ ) {
 	# No setup needed.
+}
+
+# getters/setters
+
+sub cli_file ( $self, @val ) {
+	if ( @val ) {
+		$self->{cli_file} = shift @val;
+	}
+	return $self->{cli_file};
+}
+
+sub dryrun ( $self, @val ) {
+	if ( @val ) {
+		$self->{dryrun} = shift @val;
+	}
+	return $self->{dryrun};
+}
+
+sub engine_id_file ( $self, @val ) {
+	if ( @val ) {
+		$self->{engine_id_file} = shift @val;
+	}
+	return $self->{engine_id_file};
+}
+
+sub gameargs ( $self, @val ) {
+	if ( @val ) {
+		$self->{gameargs} = shift @val;
+	}
+	return $self->{gameargs};
+}
+
+sub game_name ( $self, @val ) {
+	if ( @val ) {
+		$self->{game_name} = shift @val;
+	}
+	return $self->{game_name};
+}
+
+sub verbose ( $self, @val ) {
+	if ( @val ) {
+		$self->{verbose} = shift @val;
+	}
+	return $self->{verbose};
 }
 
 1;

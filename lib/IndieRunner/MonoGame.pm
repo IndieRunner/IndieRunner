@@ -37,8 +37,8 @@ Readonly::Hash my %MG_LIBS => (
 	'libopenal.so.1'	=> '/usr/local/lib/libopenal.so.*',
 	);
 
-sub run_cmd ( $self, $engine_id_file, $cli_file ) {
-	return $self->SUPER::run_cmd( $cli_file );
+sub run_cmd ( $self ) {
+	return $self->SUPER::run_cmd();
 }
 
 sub setup ( $self ) {

@@ -24,7 +24,6 @@ use parent 'IndieRunner::BaseModule';
 use Carp;
 use Readonly;
 
-use IndieRunner::Cmdline qw( cli_gameargs );
 use IndieRunner::Io qw( neuter );
 
 Readonly::Scalar	my $BIN => 'hl';
@@ -34,9 +33,7 @@ Readonly::Array		my @DAT => (
 					'hlboot.dat',
 					);
 
-sub run_cmd ( $, $engine_id_file, $game_file ) {
-	# XXX: add in arguments from cli_gameargs()
-
+sub run_cmd ( $self ) {
 	foreach my $d ( @DAT ) {
 		return ( $BIN, $d ) if ( -f $d );
 	}

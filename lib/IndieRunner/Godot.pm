@@ -24,8 +24,6 @@ use parent 'IndieRunner::BaseModule';
 use Carp;
 use Readonly;
 
-use IndieRunner::Cmdline qw( cli_gameargs );
-
 # XXX: will need to disambiguate into Godot3BIN and Godot4BIN eventually
 Readonly::Scalar my $BIN => 'godot';
 
@@ -37,7 +35,6 @@ sub run_cmd ( $self, $engine_id_file, $cli_file ) {
 	IndieRunner::set_game_name( (split /\./, $run_file)[0] );
 
 	# XXX: add --disable-crash-handler?
-	# XXX: add arguments from cli_gameargs()
 
 	return ( $BIN, '--quiet', '--main-pack', $run_file );
 }

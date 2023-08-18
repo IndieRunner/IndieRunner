@@ -36,8 +36,8 @@ Readonly::Array  my @ALLOW_BUNDLED_FNA => (
 	'SuperBernieWorld.exe',	# 1.2.0 (Kitsune Zero),	19.3
 	);
 
-sub run_cmd ( $self, $engine_id_file, $cli_file ) {
-	return $self->SUPER::run_cmd( $cli_file );
+sub run_cmd ( $self ) {
+	return $self->SUPER::run_cmd();
 }
 
 sub setup ( $self ) {

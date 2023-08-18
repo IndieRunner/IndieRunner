@@ -28,7 +28,6 @@ use Carp;
 use File::Path qw( make_path );
 use Readonly;
 
-use IndieRunner::Cmdline qw( cli_gameargs );
 use IndieRunner::IdentifyFiles qw( get_magic_descr );
 use IndieRunner::Io qw( neuter );
 use IndieRunner::Mono::Dllmap qw( get_dllmap_target );
@@ -112,11 +111,12 @@ sub quirks ( $game_file ) {
 	# XXX: for 'SSGame.exe': mkdir -p ~/.local/share/SSDD
 }
 
-sub run_cmd ( $self, $game_file ) {
+sub run_cmd ( $self ) {
 	# TODO: check for quirks: eagle island, MONO_FORCE_COMPAT
 	# TODO: setup custom config for MidBoss
 
 	# determine which file is the main assembly for mono
+	my $game_file = $self->cli_file();
 	unless ( $game_file ) {
 		my @exe = glob "*.exe";
 		my @cil;
@@ -154,8 +154,6 @@ sub run_cmd ( $self, $game_file ) {
 		'SDL_PLATFORM=Linux',
 		);
 	quirks $game_file;
-
-	# XXX: add arguments from cli_gameargs()
 
 	return ( 'env', @env, $BIN, $game_file, @cil_args );
 }

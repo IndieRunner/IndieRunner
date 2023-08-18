@@ -24,8 +24,9 @@ use File::Spec::Functions qw( catpath splitpath );
 use List::Util qw( first );
 use POSIX qw( strftime );
 
-use IndieRunner::Cmdline qw( cli_appid cli_dryrun cli_file cli_log_steam_time
-				cli_mode cli_tmpdir cli_verbose init_cli );
+use IndieRunner::Cmdline qw( cli_appid cli_dryrun cli_file cli_gameargs
+                             cli_log_steam_time cli_mode cli_tmpdir cli_verbose
+                             init_cli );
 use IndieRunner::FNA;
 use IndieRunner::Godot;
 use IndieRunner::GrandCentral;
@@ -121,10 +122,16 @@ unless ( $engine ) {
 
 # setup and build launch command
 my $instancebase = "IndieRunner::$engine";
-my $launch_inst = $instancebase->new( dryrun => $dryrun, verbose => $verbose );
+my $launch_inst = $instancebase->new(
+	dryrun		=> $dryrun,
+	verbose		=> $verbose,
+	engine_id_file	=> $engine_id_file,
+	cli_file	=> $cli_file,
+	gameargs	=> cli_gameargs(),
+);
 
 $launch_inst->setup();
-my @run_cmd = $launch_inst->run_cmd( $engine_id_file, $cli_file );
+my @run_cmd = $launch_inst->run_cmd();
 
 # heuristic for game name
 $game_name = goggame_name() unless $game_name;

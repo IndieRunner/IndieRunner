@@ -24,14 +24,13 @@ use parent 'IndieRunner::BaseModule';
 use Carp;
 use Readonly;
 
-use IndieRunner::Cmdline qw( cli_gameargs );
 use IndieRunner::Io qw( neuter ir_symlink );
 
 Readonly::Scalar my $BIN => 'gzdoom';
 
-sub run_cmd ( $, $engine_id_file, $cli_file ) {
-	IndieRunner::set_game_name( (split /\./, $engine_id_file)[0] );
-	# XXX: add arguments from cli_gameargs()
+sub run_cmd ( $self ) {
+	#IndieRunner::set_game_name( ( split /\./, $self->engine_id_file() )[0] );
+	$self->game_name( ( split /\./, $self->engine_id_file() )[0] );
 	return ( $BIN );
 }
 
