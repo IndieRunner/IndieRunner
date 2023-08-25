@@ -102,6 +102,7 @@ Letters indicate which platform versions have been tested successfully:
 |NeuroVoider		|MonoGame|	|L	|	|	|	|SQL error on launch|
 |Ninja Warrior		|XNA	|	|	|	|	|	|engine detection fails|
 |Nuclear Blaze		|HashLink|	|	|	|	|	|steam.hdll stub: Steam is not running!|
+|Of Blades & Tails	|Godot3	|L	|	|	|	|	|Godot with mono support|
 |One Finger Death Punch	|XNA	|W	|	|	|	|	|		|
 |Operation STEEL	|Godot3	|L	|	|	|	|	|		|
 |Opus Magnum		|Mono	|	|L	|	|	|	|		|
