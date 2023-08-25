@@ -111,7 +111,7 @@ sub get_native_gdx ( $bundled_v ) {
 	return ( catdir( @location ) );
 }
 
-sub add_classpath () {
+sub add_classpath ( $self ) {
 	return ( $native_gdx );
 }
 

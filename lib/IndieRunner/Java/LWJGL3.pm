@@ -45,7 +45,7 @@ sub get_java_version_preference () {
 	return $LWJGL3_JAVA_VERSION{ get_os() };
 }
 
-sub add_classpath () {
+sub add_classpath ( $self ) {
 	return glob( $LWJGL3_DIR{ get_os() } . '/*.jar' );
 }
 

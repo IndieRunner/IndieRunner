@@ -29,7 +29,7 @@ Readonly::Hash my %LWJGL2_DIR => (
 	        'openbsd'       => '/usr/local/share/lwjgl',
                 );
 
-sub add_classpath () {
+sub add_classpath ( $self ) {
 	return glob( $LWJGL2_DIR{ get_os() } . '/*.jar' );
 }
 

@@ -29,7 +29,7 @@ use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 
 Readonly::Scalar my $S4J_NATIVE_LOC => '/usr/local/share/steamworks4j';
 
-sub add_classpath () {
+sub add_classpath ( $self ) {
 	return ( $S4J_NATIVE_LOC );
 }
 
