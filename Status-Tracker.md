@@ -55,6 +55,7 @@ Letters indicate which platform versions have been tested successfully:
 |Dust: An Elysian Tail	|FNA	|	|L	|	|	|	|		|
 |Eagle Island		|MonoGame|	|L	|	|	|	|run in subdirectory 'Linux'|
 |Eliza			|Mono	|	|L	|	|	|	|		|
+|Endoparasitic		|Godot3	|L	|	|	|	|	|Godot with mono support|
 |Escape Goat		|MonoGame|	|	|	|	|Humble:L|		|
 |Escape Goat 2		|MonoGame|	|	|	|	|Humble:L|		|
 |Evoland Legendary Edition|HashLink|	|	|	|	|	|steam.hdll stub: Steam failed to activate|
