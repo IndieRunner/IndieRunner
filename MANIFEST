@@ -1,4 +1,3 @@
-bin/indierunner
 Changes
 lib/IndieRunner.pm
 lib/IndieRunner.pod
@@ -31,6 +30,7 @@ MANIFEST
 MANIFEST.SKIP
 README
 README.md
+script/indierunner
 share/config/dllmap.config
 t/00-load.t
 t/01-IdentifyFiles.t
