@@ -9,7 +9,7 @@ WriteMakefile(
     NAME                => 'IndieRunner',
     AUTHOR              => q{Thomas Frohwein <thfr@cpan.org>},
     VERSION_FROM        => 'bin/indierunner',
-    ABSTRACT_FROM       => 'bin/indierunner',
+    ABSTRACT_FROM       => 'lib/IndieRunner.pod',
     ($ExtUtils::MakeMaker::VERSION >= 6.3002
       ? ('LICENSE'=> 'perl')
       : ()),

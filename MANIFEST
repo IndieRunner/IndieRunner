@@ -1,6 +1,7 @@
 bin/indierunner
 Changes
 lib/IndieRunner.pm
+lib/IndieRunner.pod
 lib/IndieRunner/BaseModule.pm
 lib/IndieRunner/Cmdline.pm
 lib/IndieRunner/FNA.pm

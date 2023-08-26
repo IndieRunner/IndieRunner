@@ -3,3 +3,6 @@ ignore.txt$
 ^.git
 .bak$
 Makefile$
+Makefile.old$
+MYMETA.json$
+MYMETA.yml$

@@ -3,3 +3,5 @@
 /Makefile
 /Makefile.old
 /*.tar.gz
+/MYMETA.json
+/MYMETA.yml
