@@ -29,8 +29,6 @@ LICENSE
 Makefile.PL
 MANIFEST
 MANIFEST.SKIP
-MYMETA.json
-MYMETA.yml
 README
 README.md
 share/config/dllmap.config
