@@ -1,0 +1,77 @@
+=pod
+
+=head1 NAME
+
+IndieRunner - Launch your indie games on more platforms
+
+=head1 SYNOPSIS
+
+indierunner [options] [-- <game_arguments> [...]]
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<--dryrun/-d>
+
+Show actions that would be taken, without changing or executing anything.
+
+=item B<--file=E<lt>fileE<gt>/-f E<lt>fileE<gt>>
+
+Specify the main game file and bypass autodetection. Optional.
+
+=item B<--help/-h>
+
+Print a brief help message.
+
+=item B<--man/-m>
+
+Print the manual page and exits.
+
+=item B<--usage>
+
+Print short usage information.
+
+=item B<--verbose/-v>
+
+Enable verbose output.
+
+=item B<--version>
+
+Print version.
+
+=item B<-- E<lt>game_argumentsE<gt>>
+
+Arguments to pass to the invocation of the game itself, like: C<-windowed -skipintro>
+
+=back
+
+=head1 DESCRIPTION
+
+B<IndieRunner> provides a convenient way to launch indie games with supported engines.
+
+=head2 Supported Engines
+
+=over 8
+
+=item FNA (under construction)
+
+=item Godot (under construction)
+
+=item GZDoom (under construction)
+
+=item HashLink (under construction)
+
+=item LibGDX (under construction)
+
+=item LWJGL2 (under construction)
+
+=item LWJGL3 (under construction)
+
+=item MonoGame
+
+=item XNA (under construction)
+
+=back
+
+=cut

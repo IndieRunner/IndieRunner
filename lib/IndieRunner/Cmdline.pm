@@ -25,6 +25,7 @@ our @EXPORT_OK = qw( cli_appid cli_dllmap_file cli_dryrun cli_file cli_gameargs
                      cli_userdir init_cli );
 
 use File::Spec::Functions qw( catdir );
+use FindBin;
 use Getopt::Long;
 use Pod::Usage;
 
@@ -47,9 +48,13 @@ sub init_cli () {
 			'file|f=s'	=> \$gamearg_string,
 			# XXX: "logdir|L=s"	=> \$logdir,?? equals tmpdir?
 			'log-steam-time'=> \$log_steam_time,
-			'man|m'           => sub { pod2usage(-exitval => 0, -verbose => 2); },
+			'man|m'           => sub { pod2usage(-exitval => 0,
+			                                     -verbose => 2,
+							     -input => "$FindBin::Bin/../lib/IndieRunner.pod"); },
 			'script'	=> sub { $mode = 'script' },
-			'usage'         => sub { pod2usage(-exitval => 0, -verbose => 0); },
+			'usage'         => sub { pod2usage(-exitval => 0,
+			                                   -verbose => 0,
+							   -input => "$FindBin::Bin/../lib/IndieRunner.pod"); },
 			# XXX: "userdir" ??
 			'verbose|v'     => \$verbose,
 			'version'       => sub { say $VERSION; exit; },
