@@ -7,9 +7,9 @@ install_share dist => 'share';
 
 WriteMakefile(
     NAME                => 'IndieRunner',
-    AUTHOR              => q{Thomas Frohwein <thfr@openbsd.org>},
-    VERSION_FROM        => 'lib/IndieRunner.pm',
-    ABSTRACT_FROM       => 'lib/IndieRunner.pm',
+    AUTHOR              => q{Thomas Frohwein <thfr@cpan.org>},
+    VERSION_FROM        => 'bin/indierunner',
+    ABSTRACT_FROM       => 'bin/indierunner',
     ($ExtUtils::MakeMaker::VERSION >= 6.3002
       ? ('LICENSE'=> 'perl')
       : ()),
