@@ -23,15 +23,17 @@ use autodie;
 use base qw( Exporter );
 our @EXPORT_OK = qw( init );
 
+use Cwd;
 use OpenBSD::Unveil;
 
-use IndieRunner::Cmdline qw( cli_dllmap_file cli_tmpdir cli_verbose cli_userdir );
+use IndieRunner::Cmdline qw( cli_dllmap_file cli_tmpdir cli_verbose );
 
 my %unveil_paths = (
 	'/usr/libdata/perl5/'			=> 'r',
 	'/usr/local/lib/'			=> 'r',
 	'/usr/local/libdata/perl5/site_perl/'	=> 'r',
 	'/usr/local/share/misc/magic.mgc'	=> 'r',
+	'/dev/'					=> 'rw', # for IO::Tty
 	);
 
 #sub _pledge () {
@@ -40,18 +42,26 @@ my %unveil_paths = (
 sub _unveil () {
 	my $verbose = cli_verbose();
 
-	# XXX: add work directory to %unveil_paths rwc: cli_userdir
+	# add work directory to %unveil_paths rwc (ref. cli_userdir)
+	$unveil_paths{ getcwd() } = 'rwc';
 
-	# XXX: add logfile directory to %unveil_paths wc: cli_tmpdir
+	# add logfile directory to %unveil_paths wc (ref. cli_tmpdir)
+	$unveil_paths{ '/tmp/' } = 'rwc';		# XXX: this is overly broad
 
-	# XXX: add unveil x for the runtime binary
+	# add unveil x for the runtime binary
+	$unveil_paths{ '/usr/local/bin' } = 'x';	# XXX: bin/ is overly broad
 
 	# XXX: add unveil r for configuration files: cli_dllmap_file
-
-	say 'unveil the following directories:' if $verbose;
-	foreach my $k ( keys %unveil_paths ) {
-		say "$k -- $unveil_paths{ $k }" if $verbose;
+	if ( cli_dllmap_file() ) {
+		$unveil_paths{ cli_dllmap_file() } = 'r';
 	}
+
+	#foreach  my ( $k, $v ) ( %unveil_paths ) {	# for my (...) is experimental
+	while ( my ( $k, $v ) = each %unveil_paths ) {
+		say "$k: unveil \'$v\'" if $verbose;
+		unveil( $k, $v ) || die "$!";
+	}
+	unveil() || die "$!";
 }
 
 sub init ( $self ) {
