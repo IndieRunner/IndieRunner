@@ -1,3 +1,4 @@
-Status-Tracker.md
-ignore.txt
-.git
+Status-Tracker.md$
+ignore.txt$
+^.git
+.bak$
