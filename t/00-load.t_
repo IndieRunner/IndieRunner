@@ -1,9 +1,9 @@
-#!perl -T
+#!/usr/bin/perl
 
 use Test::More tests => 1;
 
 BEGIN {
-    use_ok( 'IndieRunner' ) || print "Bail out!
+    require_ok( 'IndieRunner' ) || print "Bail out!
 ";
 }
 
