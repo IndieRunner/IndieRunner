@@ -25,7 +25,6 @@ lib/IndieRunner/MonoGame.pm
 lib/IndieRunner/Platform.pm
 lib/IndieRunner/XNA.pm
 LICENSE
-Makefile
 Makefile.PL
 MANIFEST
 MANIFEST.SKIP

@@ -2,3 +2,4 @@ Status-Tracker.md$
 ignore.txt$
 ^.git
 .bak$
+Makefile$
