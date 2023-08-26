@@ -19,17 +19,15 @@ use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
-=pod
-my $bin;
-my $env;
-my $args;
+#my $bin;
+#my $env;
+#my $args;
 
-sub configure { };
+#sub configure { };
 
-sub run_cmd ( $, $engine_id_file, $cli_file ) {
-	#return ( $BIN, '--quiet', '--main-pack', $run_file );
-}
-=cut
+#sub run_cmd ( $, $engine_id_file, $cli_file ) {
+	##return ( $BIN, '--quiet', '--main-pack', $run_file );
+#}
 
 sub new ( $class, %args ) {
 	my $self = bless { %args }, $class;
