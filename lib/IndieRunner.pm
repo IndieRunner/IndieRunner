@@ -40,6 +40,7 @@ use IndieRunner::Love2D;
 use IndieRunner::Misc qw( log_steam_time );
 use IndieRunner::Mono qw( get_mono_files );
 use IndieRunner::MonoGame;
+use IndieRunner::Platform qw( init_platform );
 use IndieRunner::XNA;
 
 my $game_name = '';

@@ -19,11 +19,15 @@ use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use autodie;
+use experimental 'try';
 
 use base qw( Exporter );
-our @EXPORT_OK = qw( bin_pathcomplete get_os );
+our @EXPORT_OK = qw( bin_pathcomplete get_os init_platform );
 
 use Config;
+
+use IndieRunner::Platform::openbsd;
+use IndieRunner::Cmdline qw( cli_verbose );
 
 # return array (or first match) of files in $ENV{'PATH'} that start
 # with $fragment. Returns empty array or '' if no match.
@@ -45,6 +49,19 @@ sub bin_pathcomplete ( $fragment ) {
 
 sub get_os () {
 	return $Config{qw(osname)};
+}
+
+sub init_platform () {
+	my $os_platform_module = join( '', __PACKAGE__, '::', get_os() );
+	my $verbose = cli_verbose();
+
+	try {
+		say "platform init for: $os_platform_module" if $verbose;
+		$os_platform_module->init();
+	}
+	catch ($e) {
+		say "no init function for platform module $os_platform_module" if $verbose;
+	}
 }
 
 1;
