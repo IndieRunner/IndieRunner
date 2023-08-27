@@ -56,7 +56,7 @@ my $mode	= cli_mode();
 
 script_head() if $mode eq 'script';
 
-init_platform();	# unveil, pledge etc.
+init_platform();	# unveil
 
 # TODO:
 # - change output from dryrun mode to be able to create a script

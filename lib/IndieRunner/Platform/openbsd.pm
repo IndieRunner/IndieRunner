@@ -46,9 +46,6 @@ my %unveil_paths = (
 	'/home/' => 'rwx', # XXX: narrow! needed currently for File::Share - try File::ShareDir instead maybe?
 	);
 
-#sub _pledge () {
-#}
-
 sub _unveil () {
 	my $verbose = cli_verbose();
 
@@ -78,7 +75,6 @@ sub _unveil () {
 
 sub init ( $self ) {
 	_unveil();
-	#XXX: _pledge();
 	return 1;
 }
 
