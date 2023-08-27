@@ -29,7 +29,7 @@ use IndieRunner;
 
 ### 1. Get Initial Data ###
 
-# CLI args, esp. dryrun & verbose & engine & main_game_file
+# CLI args, esp. dryrun & verbose & engine & main_game_file & mode
 # Engine Name
 # Game Name
 # set OS-specific commands (for dryrun output)
@@ -44,7 +44,12 @@ use IndieRunner;
 # elements: environment, binary, arguments, potentially symlinks
 # get unveil paths
 # get engine-specific pledge promises
+# get typical log file location
 
 ### 4. Fork + Exec Runtime (unless dryrun) ###
 
 # with unveil + pledge as appropriate
+
+### 5. Cleanup ###
+
+# hint to typical log file location
