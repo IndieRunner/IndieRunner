@@ -27,15 +27,40 @@ use IndieRunner;
 ### Outline for future structure ###
 ####################################
 
+### 0. Create IndieRunner object ###
+
+my $ir = IndieRunner->new();
+
 ### 1. Get Initial Data ###
 
 # CLI args, esp. dryrun & verbose & engine & main_game_file & mode
+$ir->init_cli();
+
+# XXX: remove, this is for development only
+foreach my $k ( keys %$ir ) {
+	say "$k => $$ir{ $k }";
+}
+say 'Game Args: ' . join( ' ', @{ $$ir{ 'game_args' } } );
+
 # Engine Name
+unless ( $$ir{ 'engine' } ) {
+	say 'need to figure out engine';
+	$ir->detect_engine();
+}
+say "Game Engine: $$ir{ 'engine' }";
+
 # Game Name
-# set OS-specific commands (for dryrun output)
+unless ( $$ir{ 'game' } ) {
+	say 'need to figure out game name';
+	$ir->detect_game();
+}
+say "Game: $$ir{ 'game' }";
+
+# XXX: set OS-specific commands (for script mode output)
 
 ### 2. Setup of Files (incl. Symlinks) ###
 
+# chdir to the game directory
 # fork & exec; pledge & unveil
 
 ### 3. Assemble Configuration of Runtime ###
@@ -53,3 +78,5 @@ use IndieRunner;
 ### 5. Cleanup ###
 
 # hint to typical log file location
+
+exit;

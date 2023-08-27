@@ -28,22 +28,23 @@ use FindBin;
 use Getopt::Long;
 use Pod::Usage;
 
+my $game_dir = '';
 my $cli_file = '';
 my $dllmap_file = '';
 my $engine = '';
-my $gamearg_string = '';
 my $game_name = '';
-my $verbose	= 0;
 my $mode	= 'run';	# run, dryrun, or script
+my $verbose	= 0;
 
-sub init_cli () {
+sub get_cli () {
 	Getopt::Long::Configure ("bundling");
 	GetOptions (    'help|h'	=> sub { pod2usage(-exitval => 0, -verbose => 1); },
+	                'dir|g=s'	=> \$game_dir,
 	                'dllmap|D=s'	=> \$dllmap_file,
 			'dryrun|d'      => sub { $mode = 'dryrun'; },
 			'engine|e=s'	=> \$engine,
-			'file|f=s'	=> \$gamearg_string,
-			'game|g=s'	=> \$game_name,
+			'file|f=s'	=> \$cli_file,
+			'name|n=s'	=> \$game_name,
 			'man|m'           => sub { pod2usage(-exitval => 0,
 			                                     -verbose => 2,
 							     -input => "$FindBin::Bin/../lib/IndieRunner.pod"); },
@@ -55,19 +56,24 @@ sub init_cli () {
 			'version'       => sub { say $VERSION; exit; },
 		   )
 	or pod2usage(2);
-	$gamearg_string = $ARGV[0] || '';
+
+	return {
+		game_dir	=> $game_dir,
+		cli_file	=> $cli_file,
+		dllmap_file	=> $dllmap_file,
+		engine 		=> $engine,
+		game_args	=> \@ARGV,
+		game		=> $game_name,
+		mode		=> $mode,
+		verbose		=> $verbose,
+	};
 }
 
 sub cli_dllmap_file ()	{ return $dllmap_file; }
 sub cli_dryrun ()	{ return $mode eq 'dryrun'; }
 sub cli_file ()		{ return $cli_file; }
 sub cli_gameargs ()	{
-	return '' unless $gamearg_string;	# skip remainder if nothing to report
-
-	# parse gamearg_string into @game_args
-	say "Error: parsing of game args not yet implemented";
-
-	return "XXX: not implemented";
+	return '';
 }
 sub cli_mode ()			{ return $mode; }
 sub cli_verbose ()		{ return $verbose; }

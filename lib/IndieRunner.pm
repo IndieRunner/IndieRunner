@@ -24,8 +24,7 @@ use File::Spec::Functions qw( catpath splitpath );
 use List::Util qw( first );
 use POSIX qw( strftime );
 
-use IndieRunner::Cmdline qw( cli_dryrun cli_file cli_gameargs
-                             cli_mode cli_verbose init_cli );
+use IndieRunner::Cmdline;
 use IndieRunner::FNA;
 use IndieRunner::Godot;
 use IndieRunner::GrandCentral;
@@ -36,66 +35,40 @@ use IndieRunner::Info qw( goggame_name );
 use IndieRunner::Io qw( script_head pty_cmd write_file );
 use IndieRunner::Java;
 use IndieRunner::Love2D;
-use IndieRunner::Mono qw( get_mono_files );
+use IndieRunner::Mono;
 use IndieRunner::MonoGame;
 use IndieRunner::Platform qw( init_platform );
 use IndieRunner::XNA;
 
-my $game_name = '';
-sub set_game_name ( @name_components ) { $game_name = join( ' ', @name_components ); }
+sub new( $class ) {
+	my $self = { };
+	return bless $self, $class;
+}
 
-# process config & options
-init_cli;
-my $cli_file	= cli_file();
-my $tmpdir	= cli_tmpdir();
-my $dryrun	= cli_dryrun();
-my $verbose	= cli_verbose();
-my $mode	= cli_mode();
+sub init_cli( $self ) {
+	%$self = ( %$self, %{IndieRunner::Cmdline::get_cli()} );
+}
+
+=pod
 
 script_head() if $mode eq 'script';
 
-# if $cli_file contains directory, switch to that directory
-if ( $cli_file ) {
-	die "No such file or directory: $cli_file" unless ( -e $cli_file );
-	if ( -d $cli_file ) {
-		chdir $cli_file;
-		undef $cli_file;
-	}
-	else {
-		my ($gf_volume, $gf_directories, $gf_file) = splitpath( $cli_file );
-		chdir $gf_volume . $gf_directories if ( $gf_directories );
-	}
-}
+my $game_name = '';
+sub set_game_name ( @name_components ) { $game_name = join( ' ', @name_components ); }
+=cut
 
-# detect game engine
-my $engine;
-my $engine_id_file;
-my @files = File::Find::Rule->file()->maxdepth( 3 )->in( '.' );	# XXX: is maxdepth 3 enough?
+sub detect_engine ( $self ) {
+	my $engine;
+	my $engine_id_file;
+	my $verbose = $$self{ 'verbose' };
+	my @files = File::Find::Rule->file()->maxdepth( 3 )->in( '.' );
 
-# 1st Pass: File Names
-foreach my $f ( @files ) {
-	# use just basename of file, as different games put those files
-	# in different directories
-	my $basename = (splitpath( $f ))[2];
-	$engine = IndieRunner::GrandCentral::identify_engine($basename);
-	if ( $engine ) {
-		$engine_id_file = $f;
-		say "Engine heuristic via file: $engine_id_file" if $verbose;
-		say "Engine heuristic result: $engine" if $verbose;
-		last;
-	}
-}
-
-# not FNA, XNA, or MonoGame on 1st pass; check if it could still be Mono
-unless ( $engine ) {
-	$engine = 'Mono' if get_mono_files or get_mono_files '_';
-}
-
-# 2nd Pass: Byte Sequences
-unless ( $engine ) {
-	say STDERR "Failed to identify game engine on first pass; performing second pass.";
+	# 1st Pass: File Names
 	foreach my $f ( @files ) {
-		$engine = IndieRunner::GrandCentral::identify_engine_thorough($f);
+		# use just basename of file, as different games put those files
+		# in different directories
+		my $basename = (splitpath( $f ))[2];
+		$engine = IndieRunner::GrandCentral::identify_engine($basename);
 		if ( $engine ) {
 			$engine_id_file = $f;
 			say "Engine heuristic via file: $engine_id_file" if $verbose;
@@ -103,14 +76,60 @@ unless ( $engine ) {
 			last;
 		}
 	}
+
+	# not FNA, XNA, or MonoGame on 1st pass; check if it could still be Mono
+	if ( $engine ) {
+		$$self{ 'engine' } = $engine;
+		return;
+	}
+	else {
+		$engine = 'Mono' if IndieRunner::Mono::get_mono_files() or
+			IndieRunner::Mono::get_mono_files('_');
+	}
+
+	# 2nd Pass: Byte Sequences
+	if ( $engine ) {
+		$$self{ 'engine' } = $engine;
+		return;
+	}
+	else {
+		say STDERR "Failed to identify game engine on first pass; performing second pass.";
+		foreach my $f ( @files ) {
+			$engine = IndieRunner::GrandCentral::identify_engine_thorough($f);
+			if ( $engine ) {
+				$engine_id_file = $f;
+				say "Engine heuristic via file: $engine_id_file" if $verbose;
+				say "Engine heuristic result: $engine" if $verbose;
+				last;
+			}
+		}
+	}
+
+	if ( $engine ) {
+		$$self{ 'engine' } = $engine;
+		return;
+	}
+	else {
+		say STDERR "No game engine identified. Aborting.";
+		exit 1;
+	}
 }
 
-unless ( $engine ) {
-	say STDERR "No game engine identified. Aborting.";
-	exit 1;
+sub detect_game ( $self ) {
+	my $game_name = '';
+
+	# XXX: Godot -> name.pck, GZDoom -> name.ipk3
+	# HashLink: deadcells.sh, Northgard
+	# Mono*: name.exe
+
+	$game_name = goggame_name();
+	($game_name) = find_file_magic( '^ELF.*executable', glob '*' ) unless $game_name;
+	($game_name) = find_file_magic( '^PE32 executable \(console\)', glob '*' ) unless $game_name;
+	$game_name = 'unknown' unless $game_name;
+	$$self{ 'game' } = $game_name;
 }
 
-# XXX: detect bundled dependencies
+=pod
 
 # setup and build launch command
 my $instancebase = "IndieRunner::$engine";
@@ -125,11 +144,7 @@ my $launch_inst = $instancebase->new(
 $launch_inst->setup();
 my @run_cmd = $launch_inst->run_cmd();
 
-# heuristic for game name
-$game_name = goggame_name() unless $game_name;
-($game_name) = find_file_magic( '^ELF.*executable', glob '*' ) unless $game_name;
-($game_name) = find_file_magic( '^PE32 executable \(console\)', glob '*' ) unless $game_name;
-$game_name = 'unknown' unless $game_name;
+
 
 say "\nLaunching game: $game_name" unless $mode eq 'script';
 
@@ -152,4 +167,5 @@ if ($cmd_out) {
 	#write_file( $cmd_out, $logfile );
 }
 
+=cut
 1;
