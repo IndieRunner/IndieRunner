@@ -31,7 +31,7 @@ Readonly::Scalar my $BIN => 'gzdoom';
 sub run_cmd ( $self ) {
 	#IndieRunner::set_game_name( ( split /\./, $self->engine_id_file() )[0] );
 	$self->game_name( ( split /\./, $self->engine_id_file() )[0] );
-	return ( $BIN );
+	return ( $BIN, '-iwad', $self->engine_id_file );
 }
 
 sub setup ( $ ) {

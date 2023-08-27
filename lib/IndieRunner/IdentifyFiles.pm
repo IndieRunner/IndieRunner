@@ -46,6 +46,7 @@ our %filetypes = (
 );
 
 # get LibMagic description of a file
+# XXX: fails if there is a broken symlink - add way to handle that or sweep symlinks before this is called
 sub get_magic_descr ( $file ) {
 	return File::LibMagic	->new
 				->info_from_filename( $file )

@@ -33,7 +33,17 @@ my %unveil_paths = (
 	'/usr/local/lib/'			=> 'r',
 	'/usr/local/libdata/perl5/site_perl/'	=> 'r',
 	'/usr/local/share/misc/magic.mgc'	=> 'r',
+	'/usr/local/share/FNA/'			=> 'r', # for FNA
+	'/usr/local/share/games/doom/gzdoom.pk3'=> 'r', # for GZDoom
+	'/usr/local/share/libgdx/'		=> 'r', # for LibGDX
+	'/usr/local/share/lwjgl/'		=> 'r', # for LWJGL2
+	'/usr/local/share/lwjgl3/'		=> 'r', # for LWJGL3
+	'/usr/local/jdk-1.8.0/'			=> 'rx', # for Java
+	'/usr/local/jdk-11/'			=> 'rx', # for Java
+	'/usr/local/jdk-17/'			=> 'rx', # for Java
 	'/dev/'					=> 'rw', # for IO::Tty
+	'/usr/bin/env'				=> 'x', # for File::Share
+	'/home/' => 'rwx', # XXX: narrow! needed currently for File::Share - try File::ShareDir instead maybe?
 	);
 
 #sub _pledge () {
@@ -55,6 +65,8 @@ sub _unveil () {
 	if ( cli_dllmap_file() ) {
 		$unveil_paths{ cli_dllmap_file() } = 'r';
 	}
+
+	$unveil_paths{ '/home/thfr/cvs/projects/IndieRunner/' } = 'rwcx'; # XXX: remove
 
 	#foreach  my ( $k, $v ) ( %unveil_paths ) {	# for my (...) is experimental
 	while ( my ( $k, $v ) = each %unveil_paths ) {
