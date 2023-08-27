@@ -21,20 +21,18 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use base qw( Exporter );
 our @EXPORT_OK = qw( cli_dllmap_file cli_dryrun cli_file cli_gameargs
-                     cli_mode cli_tmpdir cli_verbose cli_userdir init_cli );
+                     cli_mode cli_verbose init_cli );
 
 use File::Spec::Functions qw( catdir );
 use FindBin;
 use Getopt::Long;
 use Pod::Usage;
 
-my $cli_file;
-my $dllmap_file;
-my $engine;
-my $gamearg_string;
-my $game_name;
-my $tmpdir	= '/tmp/IndieRunner/';
-my $userdir	= catdir( $ENV{HOME}, '.IndieRunner' );
+my $cli_file = '';
+my $dllmap_file = '';
+my $engine = '';
+my $gamearg_string = '';
+my $game_name = '';
 my $verbose	= 0;
 my $mode	= 'run';	# run, dryrun, or script
 
@@ -53,7 +51,6 @@ sub init_cli () {
 			'usage'         => sub { pod2usage(-exitval => 0,
 			                                   -verbose => 0,
 							   -input => "$FindBin::Bin/../lib/IndieRunner.pod"); },
-			# XXX: "userdir" ??
 			'verbose|v'     => \$verbose,
 			'version'       => sub { say $VERSION; exit; },
 		   )
@@ -73,8 +70,6 @@ sub cli_gameargs ()	{
 	return "XXX: not implemented";
 }
 sub cli_mode ()			{ return $mode; }
-sub cli_tmpdir ()		{ return $tmpdir; }
-sub cli_userdir ()		{ return $userdir; }
 sub cli_verbose ()		{ return $verbose; }
 
 1;

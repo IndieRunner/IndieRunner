@@ -25,8 +25,7 @@ use List::Util qw( first );
 use POSIX qw( strftime );
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_file cli_gameargs
-                             cli_mode cli_tmpdir cli_verbose
-                             init_cli );
+                             cli_mode cli_verbose init_cli );
 use IndieRunner::FNA;
 use IndieRunner::Godot;
 use IndieRunner::GrandCentral;
@@ -141,14 +140,16 @@ $mode eq 'run' ? say '' : exit 0;
 # Execute @run_cmd and log output
 my $cmd_out = pty_cmd( @run_cmd );
 
+# XXX: remove all of $cmd_out managing if we really abandon this; can probably
+#      also purge write_file() then and some submodules for strftime, catpath
 if ($cmd_out) {
-	say '';
+	#say '';
 
 	# store $cmd_out in $tmpdir
-	my $now = strftime "%Y-%m-%d-%H:%M:%S", localtime;
-	my $logfile = catpath( '', $tmpdir, "${game_name}-${now}.log" );
-	say "storing logs in $logfile" if $verbose;
-	write_file( $cmd_out, $logfile );
+	#my $now = strftime "%Y-%m-%d-%H:%M:%S", localtime;
+	#my $logfile = catpath( '', $tmpdir, "${game_name}-${now}.log" );
+	#say "storing logs in $logfile" if $verbose;
+	#write_file( $cmd_out, $logfile );
 }
 
 1;

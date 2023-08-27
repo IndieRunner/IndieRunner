@@ -26,7 +26,7 @@ our @EXPORT_OK = qw( init );
 use Cwd;
 use OpenBSD::Unveil;
 
-use IndieRunner::Cmdline qw( cli_dllmap_file cli_tmpdir cli_verbose );
+use IndieRunner::Cmdline qw( cli_dllmap_file cli_verbose );
 
 my %unveil_paths = (
 	'/usr/libdata/perl5/'			=> 'r',
@@ -49,10 +49,10 @@ my %unveil_paths = (
 sub _unveil () {
 	my $verbose = cli_verbose();
 
-	# add work directory to %unveil_paths rwc (ref. cli_userdir)
+	# add work directory to %unveil_paths rwc
 	$unveil_paths{ getcwd() } = 'rwc';
 
-	# add logfile directory to %unveil_paths wc (ref. cli_tmpdir)
+	# some write in /tmp, like libgdx
 	$unveil_paths{ '/tmp/' } = 'rwc';		# XXX: this is overly broad
 
 	# add unveil x for the runtime binary
