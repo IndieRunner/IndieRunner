@@ -26,6 +26,7 @@ use Carp;
 
 use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
 
+# XXX: not used anymore; remove? or resurrect?
 sub log_steam_time ( $appid = '' ) {	# requires steamctl in path
 	confess 'Option `--log-steam-time without AppId' unless $appid;
 	my $verbose = cli_verbose();

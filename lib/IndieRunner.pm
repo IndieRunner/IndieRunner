@@ -24,8 +24,8 @@ use File::Spec::Functions qw( catpath splitpath );
 use List::Util qw( first );
 use POSIX qw( strftime );
 
-use IndieRunner::Cmdline qw( cli_appid cli_dryrun cli_file cli_gameargs
-                             cli_log_steam_time cli_mode cli_tmpdir cli_verbose
+use IndieRunner::Cmdline qw( cli_dryrun cli_file cli_gameargs
+                             cli_mode cli_tmpdir cli_verbose
                              init_cli );
 use IndieRunner::FNA;
 use IndieRunner::Godot;
@@ -33,11 +33,10 @@ use IndieRunner::GrandCentral;
 use IndieRunner::GZDoom;
 use IndieRunner::HashLink;
 use IndieRunner::IdentifyFiles qw( find_file_magic );
-use IndieRunner::Info qw( goggame_name steam_appid );
+use IndieRunner::Info qw( goggame_name );
 use IndieRunner::Io qw( script_head pty_cmd write_file );
 use IndieRunner::Java;
 use IndieRunner::Love2D;
-use IndieRunner::Misc qw( log_steam_time );
 use IndieRunner::Mono qw( get_mono_files );
 use IndieRunner::MonoGame;
 use IndieRunner::Platform qw( init_platform );
@@ -56,12 +55,7 @@ my $mode	= cli_mode();
 
 script_head() if $mode eq 'script';
 
-init_platform();	# unveil
-
-# TODO:
-# - change output from dryrun mode to be able to create a script
-# - then store the scripts in share/ directory
-# - manage the share/ dir with File::Share +/- File::ShareDir::Install
+#init_platform();	# unveil
 
 # if $cli_file contains directory, switch to that directory
 if ( $cli_file ) {
@@ -75,8 +69,6 @@ if ( $cli_file ) {
 		chdir $gf_volume . $gf_directories if ( $gf_directories );
 	}
 }
-
-# XXX: process config file
 
 # detect game engine
 my $engine;
@@ -142,13 +134,6 @@ $game_name = goggame_name() unless $game_name;
 ($game_name) = find_file_magic( '^PE32 executable \(console\)', glob '*' ) unless $game_name;
 $game_name = 'unknown' unless $game_name;
 
-my $steam_appid = cli_appid() or steam_appid();
-my $child_steamlog;
-if ( $steam_appid ) {
-	say 'Found Steam AppID: ' . $steam_appid if $verbose;
-}
-$child_steamlog = log_steam_time $steam_appid if cli_log_steam_time();
-
 say "\nLaunching game: $game_name" unless $mode eq 'script';
 
 # print what will be executed; stop here if $dryrun
@@ -171,7 +156,6 @@ if ($cmd_out) {
 }
 
 # clean up and exit
-kill 'KILL', $child_steamlog if $child_steamlog;
 exit;
 
 1;

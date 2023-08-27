@@ -37,6 +37,7 @@ sub goggame_name () {
 	( exists $$dat{'name'} ) ? return $$dat{'name'} : return '';
 }
 
+# XXX: not used without steamlog/log_steam_time. Remove or resurrect?
 sub steam_appid () {
 	return '' unless -f $STEAM_FILE;
 	return path( $STEAM_FILE )->slurp_utf8;

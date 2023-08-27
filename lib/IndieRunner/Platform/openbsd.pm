@@ -63,6 +63,8 @@ sub _unveil () {
 		$unveil_paths{ cli_dllmap_file() } = 'r';
 	}
 
+	# XXX: unveil ~/.config and/or ~/.local/share or XDG paths
+
 	$unveil_paths{ '/home/thfr/cvs/projects/IndieRunner/' } = 'rwcx'; # XXX: remove
 
 	#foreach  my ( $k, $v ) ( %unveil_paths ) {	# for my (...) is experimental

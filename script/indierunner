@@ -22,3 +22,29 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use FindBin; use lib "$FindBin::Bin/../lib";
 
 use IndieRunner;
+
+####################################
+### Outline for future structure ###
+####################################
+
+### 1. Get Initial Data ###
+
+# CLI args, esp. dryrun & verbose & engine & main_game_file
+# Engine Name
+# Game Name
+# set OS-specific commands (for dryrun output)
+
+### 2. Setup of Files (incl. Symlinks) ###
+
+# fork & exec; pledge & unveil
+
+### 3. Assemble Configuration of Runtime ###
+
+# by general engine configuration, game-specific config, and user-provided
+# elements: environment, binary, arguments, potentially symlinks
+# get unveil paths
+# get engine-specific pledge promises
+
+### 4. Fork + Exec Runtime (unless dryrun) ###
+
+# with unveil + pledge as appropriate

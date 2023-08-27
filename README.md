@@ -125,7 +125,6 @@ External (non-Perl) programs and libraries used:
 * mono (modules Mono, FNA, XNA, MonoGame)
 * OpenAL (module LibGDX)
 * SDL2 (modules FNA, XNA, HashLink)
-* steamctl (`--log-steam-time`)
 * steamworks4j (some Java modules)
 * steamworks-nosteam (modules FNA, XNA)
 
