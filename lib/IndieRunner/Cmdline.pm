@@ -30,7 +30,9 @@ use Pod::Usage;
 
 my $cli_file;
 my $dllmap_file;
+my $engine;
 my $gamearg_string;
+my $game_name;
 my $tmpdir	= '/tmp/IndieRunner/';
 my $userdir	= catdir( $ENV{HOME}, '.IndieRunner' );
 my $verbose	= 0;
@@ -41,8 +43,9 @@ sub init_cli () {
 	GetOptions (    'help|h'	=> sub { pod2usage(-exitval => 0, -verbose => 1); },
 	                'dllmap|D=s'	=> \$dllmap_file,
 			'dryrun|d'      => sub { $mode = 'dryrun'; },
+			'engine|e=s'	=> \$engine,
 			'file|f=s'	=> \$gamearg_string,
-			# XXX: "logdir|L=s"	=> \$logdir,?? equals tmpdir?
+			'game|g=s'	=> \$game_name,
 			'man|m'           => sub { pod2usage(-exitval => 0,
 			                                     -verbose => 2,
 							     -input => "$FindBin::Bin/../lib/IndieRunner.pod"); },

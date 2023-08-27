@@ -55,8 +55,6 @@ my $mode	= cli_mode();
 
 script_head() if $mode eq 'script';
 
-#init_platform();	# unveil
-
 # if $cli_file contains directory, switch to that directory
 if ( $cli_file ) {
 	die "No such file or directory: $cli_file" unless ( -e $cli_file );
@@ -151,11 +149,6 @@ if ($cmd_out) {
 	my $logfile = catpath( '', $tmpdir, "${game_name}-${now}.log" );
 	say "storing logs in $logfile" if $verbose;
 	write_file( $cmd_out, $logfile );
-
-	# XXX: inspect $cmd_out and process for automatic advice on errors
 }
-
-# clean up and exit
-exit;
 
 1;
