@@ -118,11 +118,8 @@ sub detect_game ( $engine_module ) {
 
 
 	# 2. use engine-specific heuristic from the engine module
-	if ( my $engine_name_heuristic = $engine_module->can( 'detect_game' ) ) {
-		say "class $engine_module has method 'detect_game'";
-	}
-	else {
-		say "class $engine_module does NOT have method 'detect_game'";
+	if ( $engine_module->can( 'detect_game' ) ) {
+		return $engine_module->detect_game();
 	}
 
 	# XXX: Godot -> name.pck, GZDoom -> name.ipk3

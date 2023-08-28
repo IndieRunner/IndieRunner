@@ -52,4 +52,10 @@ sub new ( $class ) {
 	}, $class;
 }
 
+sub detect_game ( $self ) {
+	my @ipk3_files = glob '*.ipk3';
+	return undef unless @ipk3_files;
+	return $ipk3_files[0] =~ s/\.ipk3$//r;
+}
+
 1;

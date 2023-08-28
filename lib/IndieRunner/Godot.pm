@@ -43,4 +43,10 @@ sub new ( $class ) {
 	return bless {}, $class;
 }
 
+sub detect_game ( $self ) {
+	my @pck_files =	glob '*.pck';
+	return undef unless @pck_files;
+	return $pck_files[0] =~ s/\.pck$//r;
+}
+
 1;
