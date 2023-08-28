@@ -21,6 +21,7 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use Carp;
 use File::Find::Rule;
+use File::Share qw( :all );
 use File::Spec::Functions qw( catpath splitpath );
 use List::Util qw( first );
 use POSIX qw( strftime );
@@ -45,8 +46,11 @@ sub new ( $class ) {
 	my $self = { };
 	%$self = ( %$self, %{ IndieRunner::Cmdline::init_cli() } );
 	my ( $engine, $engine_id_file ) = ( detect_engine() );
-	$$self{ engine } = $engine;
-	$$self{ engine_id_file } = $engine_id_file;
+
+	$$self{ engine }		= $engine;
+	$$self{ engine_id_file }	= $engine_id_file;
+	$$self{ engine_module }		= 'IndieRunner::' . $$self{ engine };
+	$$self{ game }			= detect_game( $$self{ engine_module } );
 	return bless $self, $class;
 }
 
@@ -88,13 +92,27 @@ sub detect_engine () {
 }
 
 # heuristic to determine game name
-sub detect_game ( $self ) {
+sub detect_game ( $engine_module ) {
 	my $game_name;
 
-	# 1. check if can identify known game from Status-Tracker.md
-	#my $games = IndieRunner::Io::read_file( ... );
+	# 1. try to identify known game from Status-Tracker.md
+	my @known_games = split( "\n", IndieRunner::Io::read_file( dist_file( 'IndieRunner', 'Status-Tracker.md' ) ) );
+	@known_games = grep { /^[[:blank:]]*\|/ } @known_games;
+	@known_games = grep { !/^[[:blank:]]*\|[[:blank:]]*Game[[:blank:]]*\|/ } @known_games;
+	@known_games = grep { !/^[[:blank:]]*\|[\-[:blank:]]*\|/ } @known_games;
+	foreach ( @known_games ) {
+		s/^[[:blank:]]*\|[[:blank:]]*([^\|]+)\|.*/$1/g;
+		s/[[:blank:]]*$//g;
+	}
+	# XXX: look for file names matching anything in @known_games
 
 	# 2. use engine-specific heuristic from the engine module
+	if ( my $engine_name_heuristic = $engine_module->can( 'detect_game' ) ) {
+		say "class $engine_module has method 'detect_game'";
+	}
+	else {
+		say "class $engine_module does NOT have method 'detect_game'";
+	}
 
 	# XXX: Godot -> name.pck, GZDoom -> name.ipk3
 	# HashLink: deadcells.sh, Northgard

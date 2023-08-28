@@ -57,6 +57,7 @@ sub init_cli () {
 		   )
 	or pod2usage(2);
 
+	chdir $game_dir if $game_dir;
 	return {
 		game_dir	=> $game_dir,
 		cli_file	=> $cli_file,
