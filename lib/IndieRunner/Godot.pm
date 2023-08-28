@@ -39,4 +39,8 @@ sub run_cmd ( $self ) {
 	return ( $BIN, '--quiet', '--main-pack', $run_file );
 }
 
+sub new ( $class ) {
+	return bless {}, $class;
+}
+
 1;

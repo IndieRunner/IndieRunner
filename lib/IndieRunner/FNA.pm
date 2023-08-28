@@ -36,16 +36,14 @@ Readonly::Array  my @ALLOW_BUNDLED_FNA => (
 	'SuperBernieWorld.exe',	# 1.2.0 (Kitsune Zero),	19.3
 	);
 
-my @neuter_files;
-my %symlink_files;
-
 sub run_cmd ( $self ) {
 	return $self->SUPER::run_cmd();
 }
 
 sub new ( $class ) {
 	# XXX: make this class less verbose (say)
-	say "making new object: $class";
+	my @neuter_files;
+	my %symlink_files;
 	my $fna_file = 'FNA.dll';
 	my $fna_config_file = 'FNA.dll.config';
 	my $skip_fna_version;

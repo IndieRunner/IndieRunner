@@ -125,23 +125,17 @@ sub detect_game ( $self ) {
 }
 
 sub setup ( $self, $eobj ) {	# eobj: engine object
-	# execute the renames and symlinks, unless mode is 'dryrun' or 'script'
-	# get files to neuter(rename to end in '_') from $eobj
-	#if ( $eobj->can( 'neuter_list' ) ) {
-		#say 'neuter_list: ' . join( ' ', $eobj->neuter_list() );
-		# XXX
-	#}
-
-	# get files to symlink from $eobj
-	#if ( $eobj->can( 'symlink_list' ) ) {
-		#say 'symlink_list: ' . join( ' ', $eobj->symlink_list() );
-		# XXX
-	#}
-	say 'neuter_files: ' . join( ' ', @{ $$eobj{ neuter_files } } );
-	say 'symlink_files: ';
-	while ( my ( $k, $v ) = each %{ $$eobj{ symlink_files } } ) {
-		say "$k => $v";
+	say 'neuter_files: ' . join( ' ', @{ $$eobj{ neuter_files } } )
+		if ( @$eobj{ neuter_files } );
+	if ( %$eobj{ symlink_files } ) {
+		say 'symlink_files: ';
+		while ( my ( $k, $v ) = each %{ $$eobj{ symlink_files } } ) {
+			say "$k => $v";
+		}
 	}
+
+	# execute the renames and symlinks, unless mode is 'dryrun' or 'script'
+	# XXX
 }
 
 =pod
