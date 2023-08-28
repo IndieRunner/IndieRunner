@@ -24,8 +24,7 @@ use parent 'IndieRunner::Mono';
 use Carp;
 use Readonly;
 
-use IndieRunner::Io qw( ir_copy neuter );
-use IndieRunner::Mono qw( get_assembly_version );
+use IndieRunner::Mono;
 
 # $FNA_MIN_VERSION depends on the version of the native support libraries
 Readonly::Scalar my $FNA_MIN_VERSION => version->declare( '21.1' );
@@ -59,14 +58,14 @@ sub new ( $class ) {
 	# check if FNA version needs to be replaced
 	unless ( $skip_fna_version ) {
 		my $fna_bundled_version = version->declare(
-			get_assembly_version( $fna_file ) )
+			IndieRunner::Mono::get_assembly_version( $fna_file ) )
 			or croak "Failed to get version of $fna_file";
 		my $fna_replacement_version = '';
 		if ( $fna_bundled_version < $FNA_MIN_VERSION ) {
 			# check if replacement FNA can be used
 			if ( -f $FNA_REPLACEMENT ) {
 				$fna_replacement_version =
-					version->declare( get_assembly_version( $FNA_REPLACEMENT ) );
+					version->declare( IndieRunner::Mono::get_assembly_version( $FNA_REPLACEMENT ) );
 			}
 			unless ( $fna_replacement_version &&
 				$fna_replacement_version >= $FNA_MIN_VERSION ) {

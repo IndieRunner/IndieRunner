@@ -21,12 +21,6 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use Carp;
 use Readonly;
 
-use base qw( Exporter );
-our @EXPORT_OK =qw( iomap_symlink );
-
-use IndieRunner::Cmdline qw( cli_verbose );
-use IndieRunner::Io qw( ir_symlink );
-
 Readonly::Hash my %iomap => {
 	'AJ1.exe' => [
 		[ 'j_rip.xnb', 'Content/AJ1/j_Rip.xnb' ],
@@ -376,18 +370,22 @@ Readonly::Hash my %iomap => {
 		],
 	};
 
-sub iomap_symlink ( $index_file ) {
-	return 0 unless ( grep( /^\Q$index_file\E$/, keys %iomap ) );
-	say "Found $index_file; create symlinks to simulate (abandoned) MONO_IOMAP"
-		if cli_verbose;
+sub iomap_symlink () {
+	my %symlink_hash;
+	my $index_file;
+
+	foreach my $k ( keys %iomap ) {
+		$index_file = $k if -e $k;
+		last if $index_file;
+	}
+	return undef unless $index_file;
 
 	foreach my $symlink_pair ( @{ $iomap{ $index_file } } ) {
 		my ($oldfile, $newfile) = @{ $symlink_pair };
 		next if ( -e $newfile );
-		ir_symlink( $oldfile, $newfile );
+		$symlink_hash{ $newfile } = $oldfile;
 	}
-
-	return 1;
+	return %symlink_hash;
 }
 
 1;

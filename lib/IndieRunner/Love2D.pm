@@ -69,4 +69,8 @@ sub run_cmd ( $self ) {
 	return ( $bin, $self->engine_id_file() );
 }
 
+sub new ( $class ) {
+	return bless {}, $class;
+}
+
 1;

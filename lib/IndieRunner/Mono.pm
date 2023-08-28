@@ -21,17 +21,13 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use parent 'IndieRunner::BaseModule';
 
-use base qw( Exporter );
-our @EXPORT_OK = qw( get_assembly_version get_mono_files );
-
 use Carp;
 use File::Path qw( make_path );
 use Readonly;
 
 use IndieRunner::IdentifyFiles qw( get_magic_descr );
-use IndieRunner::Io qw( neuter );
 use IndieRunner::Mono::Dllmap qw( get_dllmap_target );
-use IndieRunner::Mono::Iomap qw( iomap_symlink );
+use IndieRunner::Mono::Iomap;
 
 Readonly::Scalar my $BIN => 'mono';
 
@@ -73,11 +69,6 @@ sub get_mono_files ( $custom_suffix = '' ) {
 	foreach my $g ( @MONO_GLOBS ) {
 		@match = glob( $g . $custom_suffix );	# $custom_suffix: e.g. '_'
 		next unless @match;
-
-		# remove files from @match that are in @MONO_GLOB_EXCLUDE
-		foreach my $e ( @MONO_GLOB_EXCLUDE ) {
-			@match = grep { !/$e/ } @match;
-		}
 
 		if ( -f $match[0] ) {		# check that globbed files exist
 			push( @mono_files, @match );
@@ -158,16 +149,22 @@ sub run_cmd ( $self ) {
 	return ( 'env', @env, $BIN, $game_file, @cil_args );
 }
 
-sub setup ( $self ) {
-	# remove system Mono assemblies
-	foreach my $f ( get_mono_files ) {
-		neuter( $f );
+sub new ( $class ) {
+	my @neuter_files;
+
+	# neuter system Mono assemblies, except @MONO_GLOB_EXCLUDE
+	push @neuter_files, get_mono_files();
+	foreach my $e ( @MONO_GLOB_EXCLUDE ) {
+		@neuter_files = grep { !/$e/ } @neuter_files;
 	}
 
-	# to make up for mono's lost MONO_IOMAP, call iomap_symlink
-	foreach my $f ( glob '*' ) {
-		last if iomap_symlink( $f );
-	}
+	# replacement for mono's lost MONO_IOMAP
+	my %symlink_files = IndieRunner::Mono::Iomap::iomap_symlink();
+
+	return bless {
+		neuter_files	=> \@neuter_files,
+		symlink_files	=> \%symlink_files,
+	}, $class;
 }
 
 1;

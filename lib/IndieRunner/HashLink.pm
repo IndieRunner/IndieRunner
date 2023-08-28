@@ -40,11 +40,13 @@ sub run_cmd ( $self ) {
 	croak "Failed to find .dat file for hashlink";
 }
 
-sub setup ( $self ) {
-        foreach my $f ( glob( '*.hdll' ) ) {
-		neuter( $f );
-        }
-        self->SUPER::setup();
+sub new ( $class ) {
+	my @neuter_files;
+	push @neuter_files, glob( '*.hdll' );
+
+	return bless {
+		neuter_files	=> \@neuter_files,
+	}, $class;
 }
 
 1;
