@@ -96,6 +96,7 @@ sub detect_game ( $engine_module ) {
 	my $game_name;
 
 	# 1. try to identify known game from Status-Tracker.md
+	#    (XXX: may need quirks before this)
 	my @known_games = split( "\n", IndieRunner::Io::read_file( dist_file( 'IndieRunner', 'Status-Tracker.md' ) ) );
 	@known_games = grep { /^[[:blank:]]*\|/ } @known_games;
 	@known_games = grep { !/^[[:blank:]]*\|[[:blank:]]*Game[[:blank:]]*\|/ } @known_games;
@@ -104,7 +105,17 @@ sub detect_game ( $engine_module ) {
 		s/^[[:blank:]]*\|[[:blank:]]*([^\|]+)\|.*/$1/g;
 		s/[[:blank:]]*$//g;
 	}
-	# XXX: look for file names matching anything in @known_games
+
+	# look for file names matching anything in @known_games
+	foreach my $g ( @known_games ) {
+		my @tokenized = split( /[^[:alnum:]]+/, $g );
+		my $game_glob = '*' . join( '*', @tokenized ) . '*';
+		if ( defined ( glob( $game_glob ) ) ) {
+			return $g;
+			last;
+		}
+	}
+
 
 	# 2. use engine-specific heuristic from the engine module
 	if ( my $engine_name_heuristic = $engine_module->can( 'detect_game' ) ) {
