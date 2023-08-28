@@ -1,3 +1,4 @@
+<!-- CAUTION: this is parsed by IndieRunner for game entries in the table -->
 # Status Tracker
 
 This will be updated as best as possible, but with the ever-shifting tectonic plates of runtime and libraries, breakage of some games may go undetected for a while.
