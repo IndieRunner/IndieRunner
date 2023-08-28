@@ -44,9 +44,6 @@ say "Game: $$ir{ game }";
 
 ### 2. Setup of Files (incl. Symlinks) ###
 
-# chdir to the game directory
-chdir $$ir{ game_dir } if $$ir{ game_dir };
-
 my $engine_module = 'IndieRunner::' . $$ir{ engine };
 say "engine_module: $engine_module";
 my $eobj = $engine_module->new();	# engine object
