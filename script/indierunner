@@ -23,19 +23,13 @@ use FindBin; use lib "$FindBin::Bin/../lib";
 
 use IndieRunner;
 
-####################################
-### Outline for future structure ###
-####################################
-
 ### 1. Init by creating IndieRunner object ###
 
 my $ir = IndieRunner->new();
 
-### 2. Setup of Files (incl. Symlinks) ###
+### 2. Setup ###
 
-my $eobj = $engine_module->new();	# engine object
-$ir->setup( $eobj );
-say "Setup completed.";
+$ir->setup();
 
 ### 3. Assemble Configuration of Runtime ###
 

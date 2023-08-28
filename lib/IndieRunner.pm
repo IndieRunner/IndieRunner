@@ -47,10 +47,9 @@ sub new ( $class ) {
 	%$self = ( %$self, %{ IndieRunner::Cmdline::init_cli() } );
 	my ( $engine, $engine_id_file ) = ( detect_engine() );
 
-	$$self{ engine }		= $engine;
-	$$self{ engine_id_file }	= $engine_id_file;
-	$$self{ engine_module }		= 'IndieRunner::' . $$self{ engine };
-	$$self{ game }			= detect_game( $$self{ engine_module } );
+	my $engine_class		= 'IndieRunner::' . $engine;
+	$$self{ engine }		= $engine_class->new();
+	$$self{ game }			= detect_game( $$self{ engine } );
 	return bless $self, $class;
 }
 
@@ -133,7 +132,8 @@ sub detect_game ( $engine_module ) {
 	return $game_name;
 }
 
-sub setup ( $self, $eobj ) {	# eobj: engine object
+sub setup ( $self ) {
+	my $eobj = $$self{ engine };
 	say 'neuter_files: ' . join( ' ', @{ $$eobj{ neuter_files } } )
 		if ( @$eobj{ neuter_files } );
 
@@ -160,6 +160,8 @@ sub setup ( $self, $eobj ) {	# eobj: engine object
 
 	# execute the neuters, symlinks, and ffmpeg_converts, unless
 	#	mode is 'dryrun' or 'script'
+	# fork + pledge + unveil for this into a separate process; use waitpid
+	# 	to continue once completed
 	#
 	# XXX: Extract archives first, then
 	#      after extracting archives, need to check for libraries with

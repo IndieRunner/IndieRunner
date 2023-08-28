@@ -34,8 +34,6 @@ sub run_cmd ( $self ) {
 	my $run_file = $self->cli_file() || $self->engine_id_file();
 	IndieRunner::set_game_name( (split /\./, $run_file)[0] );
 
-	# XXX: add --disable-crash-handler?
-
 	return ( $BIN, '--quiet', '--main-pack', $run_file );
 }
 
