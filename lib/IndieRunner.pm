@@ -49,14 +49,6 @@ sub init_cli( $self ) {
 	%$self = ( %$self, %{IndieRunner::Cmdline::get_cli()} );
 }
 
-=pod
-
-script_head() if $mode eq 'script';
-
-my $game_name = '';
-sub set_game_name ( @name_components ) { $game_name = join( ' ', @name_components ); }
-=cut
-
 sub detect_engine ( $self ) {
 	my $engine;
 	my $engine_id_file;
@@ -80,6 +72,7 @@ sub detect_engine ( $self ) {
 	# not FNA, XNA, or MonoGame on 1st pass; check if it could still be Mono
 	if ( $engine ) {
 		$$self{ 'engine' } = $engine;
+		$$self{ 'engine_id_file' } = $engine_id_file;
 		return;
 	}
 	else {
@@ -90,6 +83,7 @@ sub detect_engine ( $self ) {
 	# 2nd Pass: Byte Sequences
 	if ( $engine ) {
 		$$self{ 'engine' } = $engine;
+		$$self{ 'engine_id_file' } = '';
 		return;
 	}
 	else {
@@ -107,6 +101,7 @@ sub detect_engine ( $self ) {
 
 	if ( $engine ) {
 		$$self{ 'engine' } = $engine;
+		$$self{ 'engine_id_file' } = $engine_id_file;
 		return;
 	}
 	else {

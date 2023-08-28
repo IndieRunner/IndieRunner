@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 # Copyright (c) 2022 Thomas Frohwein
 #
@@ -56,12 +56,13 @@ unless ( $$ir{ 'game' } ) {
 }
 say "Game: $$ir{ 'game' }";
 
-# XXX: set OS-specific commands (for script mode output)
-
 ### 2. Setup of Files (incl. Symlinks) ###
 
 # chdir to the game directory
-# fork & exec; pledge & unveil
+chdir $$ir{ 'game_dir' } if $$ir{ 'game_dir' };
+
+$$ir->setup();
+say "Setup completed.";
 
 ### 3. Assemble Configuration of Runtime ###
 
