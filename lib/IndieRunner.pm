@@ -127,14 +127,22 @@ sub detect_game ( $self ) {
 sub setup ( $self, $eobj ) {	# eobj: engine object
 	say 'neuter_files: ' . join( ' ', @{ $$eobj{ neuter_files } } )
 		if ( @$eobj{ neuter_files } );
+
 	if ( %$eobj{ symlink_files } ) {
-		say 'symlink_files: ';
+		say 'symlink_files:';
 		while ( my ( $k, $v ) = each %{ $$eobj{ symlink_files } } ) {
 			say "$k => $v";
 		}
 	}
 
-	# execute the renames and symlinks, unless mode is 'dryrun' or 'script'
+	if ( %$eobj{ ffmpeg_convert } ) {
+		say 'ffmpeg_convert:';
+		while ( my ( $k, $v ) = each %{ $$eobj{ ffmpeg_convert } } ) {
+			say "$k => $v";
+		}
+	}
+
+	# execute the neuters, symlinks, and ffmpeg_converts, unless mode is 'dryrun' or 'script'
 	# XXX
 }
 

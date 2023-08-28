@@ -28,33 +28,33 @@ sub run_cmd ( $self ) {
 	return $self->SUPER::run_cmd( );
 }
 
-sub setup ( $self ) {
-	my @wmafiles;
-	my @wmvfiles;
+sub new ( $class ) {
+	my %ffmpeg_convert;
 
-	$self->SUPER::setup();
-
-	# convert .wma to .ogg, and .wmv to .ogv
+	# TODO: include from IndieRunner::Mono::new()
 
 	# enumerate all WMA and WMV files
-	my @wmafiles_found = File::Find::Rule->file()
+	my @wmafiles = File::Find::Rule->file()
 					->name( '*.wma' )
 					->in( '.' );
-	my @wmvfiles_found = File::Find::Rule->file()
+	my @wmvfiles = File::Find::Rule->file()
 					->name( '*.wmv' )
 					->in( '.' );
 
-	# see which WMA and WMV files have OGG/OGV match
-	foreach my $w ( @wmafiles_found ) {
-		if ( not -f substr( $w, 0, -3 ) . 'ogg' ) {
-			push( @wmafiles, $w );
+	foreach my $w ( @wmafiles ) {
+		my $ogg = substr( $w, 0, -3 ) . 'ogg';
+		if ( not -f $ogg ) {
+			$ffmpeg_convert{ $w } = $ogg;
 		}
 	}
-	foreach my $w ( @wmvfiles_found ) {
-		if ( not -f substr( $w, 0, -3 ) . 'ogv' ) {
-			push( @wmvfiles, $w );
+	foreach my $w ( @wmvfiles ) {
+		my $ogv = substr( $w, 0, -3 ) . 'ogv';
+		if ( not -f $ogv ) {
+			$ffmpeg_convert{ $w } = $ogv;
 		}
 	}
+
+=pod
 
 	if ( scalar( @wmafiles ) + scalar( @wmvfiles ) > 0
 		&& ! $self->dryrun() ) {
@@ -87,6 +87,12 @@ sub setup ( $self ) {
 				croak "system @ffmpeg_cmd failed: $?";
 		}
 	}
+
+=cut
+
+	return bless {
+		ffmpeg_convert	=> \%ffmpeg_convert,
+	}, $class;
 }
 
 1;

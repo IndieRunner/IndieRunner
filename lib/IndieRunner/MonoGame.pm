@@ -27,12 +27,8 @@ use File::Find::Rule;
 use List::Util qw( maxstr );
 use autodie;
 
-use IndieRunner::Io qw( ir_symlink );
-use IndieRunner::Mono;
-
 Readonly::Hash my %MG_LIBS => (
 	'libSDL2-2.0.so.0'	=> '/usr/local/lib/libSDL2.so.*',
-	'libdl.so.2'		=> '/usr/lib/libc.so.*',
 	'liblua53.so'		=> '/usr/local/lib/liblua5.3.so.*',
 	'libopenal.so.1'	=> '/usr/local/lib/libopenal.so.*',
 	);
@@ -41,16 +37,12 @@ sub run_cmd ( $self ) {
 	return $self->SUPER::run_cmd();
 }
 
-sub setup ( $self ) {
-	$self->SUPER::setup();
+sub new ( $class ) {
+	my %symlink_files;
 
-	# TODO: combine with IndieRunner::Java::fix_libraries sub
+	# TODO: also run IndieRunner::Mono::new parts
 
-	# create an empty libdl file which will be replaced
-	unless ( -e 'libdl.so.2' ) {
-		open my $fh, '>', 'libdl.so.2';
-		close $fh;
-	}
+	$symlink_files{ 'libdl.so.2' } = '/usr/lib/libc.so.*'; 
 
 	foreach my $file ( keys %MG_LIBS ) {
 		my @found_files = File::Find::Rule->file
@@ -68,10 +60,14 @@ sub setup ( $self ) {
 				next;
 			}
 			else {
-				ir_symlink( maxstr( glob( $MG_LIBS{$file} ) ), $found, 1 );
+				$symlink_files{ $found } = $MG_LIBS{ $file };
 			}
 		}
 	}
+
+	return bless {
+		symlink_files	=> \%symlink_files,
+	}, $class;
 }
 
 1;
