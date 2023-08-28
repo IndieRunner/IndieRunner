@@ -19,6 +19,7 @@ use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
+use Carp;
 use File::Find::Rule;
 use File::Spec::Functions qw( catpath splitpath );
 use List::Util qw( first );
@@ -40,19 +41,18 @@ use IndieRunner::MonoGame;
 use IndieRunner::Platform qw( init_platform );
 use IndieRunner::XNA;
 
-sub new( $class ) {
+sub new ( $class ) {
 	my $self = { };
+	%$self = ( %$self, %{ IndieRunner::Cmdline::init_cli() } );
+	my ( $engine, $engine_id_file ) = ( detect_engine() );
+	$$self{ engine } = $engine;
+	$$self{ engine_id_file } = $engine_id_file;
 	return bless $self, $class;
 }
 
-sub init_cli( $self ) {
-	%$self = ( %$self, %{IndieRunner::Cmdline::get_cli()} );
-}
-
-sub detect_engine ( $self ) {
+sub detect_engine () {
 	my $engine;
 	my $engine_id_file;
-	my $verbose = $$self{ 'verbose' };
 	my @files = File::Find::Rule->file()->maxdepth( 3 )->in( '.' );
 
 	# 1st Pass: File Names
@@ -63,55 +63,38 @@ sub detect_engine ( $self ) {
 		$engine = IndieRunner::GrandCentral::identify_engine($basename);
 		if ( $engine ) {
 			$engine_id_file = $f;
-			say "Engine heuristic via file: $engine_id_file" if $verbose;
-			say "Engine heuristic result: $engine" if $verbose;
 			last;
 		}
 	}
+	return ( $engine, $engine_id_file || '' ) if $engine;
 
 	# not FNA, XNA, or MonoGame on 1st pass; check if it could still be Mono
-	if ( $engine ) {
-		$$self{ 'engine' } = $engine;
-		$$self{ 'engine_id_file' } = $engine_id_file;
-		return;
-	}
-	else {
-		$engine = 'Mono' if IndieRunner::Mono::get_mono_files() or
-			IndieRunner::Mono::get_mono_files('_');
-	}
+	$engine = 'Mono' if IndieRunner::Mono::get_mono_files() or
+		IndieRunner::Mono::get_mono_files('_');
+	return ( $engine, $engine_id_file || '' ) if $engine;
 
 	# 2nd Pass: Byte Sequences
-	if ( $engine ) {
-		$$self{ 'engine' } = $engine;
-		$$self{ 'engine_id_file' } = '';
-		return;
-	}
-	else {
-		say STDERR "Failed to identify game engine on first pass; performing second pass.";
-		foreach my $f ( @files ) {
-			$engine = IndieRunner::GrandCentral::identify_engine_thorough($f);
-			if ( $engine ) {
-				$engine_id_file = $f;
-				say "Engine heuristic via file: $engine_id_file" if $verbose;
-				say "Engine heuristic result: $engine" if $verbose;
-				last;
-			}
+	say STDERR "Failed to identify game engine on first pass; performing second pass.";
+	foreach my $f ( @files ) {
+		$engine = IndieRunner::GrandCentral::identify_engine_thorough($f);
+		if ( $engine ) {
+			$engine_id_file = $f;
+			last;
 		}
 	}
+	return ( $engine, $engine_id_file || '' ) if $engine;
 
-	if ( $engine ) {
-		$$self{ 'engine' } = $engine;
-		$$self{ 'engine_id_file' } = $engine_id_file;
-		return;
-	}
-	else {
-		say STDERR "No game engine identified. Aborting.";
-		exit 1;
-	}
+	confess "No game engine identified. Aborting.";
 }
 
+# heuristic to determine game name
 sub detect_game ( $self ) {
-	my $game_name = '';
+	my $game_name;
+
+	# 1. check if can identify known game from Status-Tracker.md
+	#my $games = IndieRunner::Io::read_file( ... );
+
+	# 2. use engine-specific heuristic from the engine module
 
 	# XXX: Godot -> name.pck, GZDoom -> name.ipk3
 	# HashLink: deadcells.sh, Northgard
@@ -120,8 +103,8 @@ sub detect_game ( $self ) {
 	$game_name = goggame_name();
 	($game_name) = find_file_magic( '^ELF.*executable', glob '*' ) unless $game_name;
 	($game_name) = find_file_magic( '^PE32 executable \(console\)', glob '*' ) unless $game_name;
-	$game_name = 'unknown' unless $game_name;
-	$$self{ 'game' } = $game_name;
+	$game_name = 'unknown' unless $game_name;	# bail
+	return $game_name;
 }
 
 sub setup ( $self, $eobj ) {	# eobj: engine object

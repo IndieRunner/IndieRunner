@@ -36,7 +36,7 @@ my $game_name = '';
 my $mode	= 'run';	# run, dryrun, or script
 my $verbose	= 0;
 
-sub get_cli () {
+sub init_cli () {
 	Getopt::Long::Configure ("bundling");
 	GetOptions (    'help|h'	=> sub { pod2usage(-exitval => 0, -verbose => 1); },
 	                'dir|d=s'	=> \$game_dir,

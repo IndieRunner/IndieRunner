@@ -33,25 +33,11 @@ my $ir = IndieRunner->new();
 
 ### 1. Get Initial Data ###
 
-# CLI args, esp. dryrun & verbose & engine & main_game_file & mode
-$ir->init_cli();
-
-# XXX: remove, this is for development only
-foreach my $k ( keys %$ir ) {
-	say "$k => $$ir{ $k }";
-}
-say 'Game Args: ' . join( ' ', @{ $$ir{ game_args } } );
-
-# Engine Name
-unless ( $$ir{ engine } ) {
-	say 'need to figure out engine';
-	$ir->detect_engine();
-}
-say "Game Engine: $$ir{ engine }";
+say "engine: $$ir{ engine }";
+say "engine_id_file: $$ir{ engine_id_file }";
 
 # Game Name
 unless ( $$ir{ game } ) {
-	say 'need to figure out game name';
 	$ir->detect_game();
 }
 say "Game: $$ir{ game }";
