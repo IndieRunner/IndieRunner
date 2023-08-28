@@ -177,7 +177,6 @@ sub extract_jar ( @class_path ) {
 
 sub replace_lib ( $lib ) {
 	my $lib_glob;           # pattern to search for $syslib
-	my @candidate_syslibs;
 
 	# create glob string 'libxxx{64,}.so*'
 	$lib_glob = (splitpath( $lib ))[2];
@@ -185,23 +184,31 @@ sub replace_lib ( $lib ) {
 	$lib_glob = $lib_glob . "{64,}.so*";
 
 	foreach my $l ( @LIB_LOCATIONS ) {
-		ir_symlink( catfile( $l, $lib_glob ), $lib, 1 ) and return 1;
+		my $candidate_file = glob( catfile( $l, $lib_glob ) );
+		if ( $candidate_file and -e $candidate_file ) {
+			return $candidate_file;
+		}
 	}
 
-	return 0;
+	return '';
 }
 
-sub fix_libraries () {
-	my $verbose = cli_verbose();
-	my $dryrun = cli_dryrun();
+sub bundled_libraries () {
+	my %symlink_libs;
+	#my $verbose = cli_verbose();
+	#my $dryrun = cli_dryrun();
 
-	say "\nChecking which libraries are present...";
+	#say "\nChecking which libraries are present...";
 	my @bundled_libs	= File::Find::Rule->file
 						  ->name( '*' . $So_Sufx )
 						  ->in( '.');
+
+	# ignore anything in jre/
+	@bundled_libs	= grep { !/\Qjre\/\E/ } @bundled_libs;
+
 	my ($f, $l);    # f: regular file test, l: symlink test
 	foreach my $file (@bundled_libs) {
-		print $file . ' ... ' if ( $verbose or $dryrun );
+		#print $file . ' ... ' if ( $verbose or $dryrun );
 		($f, $l) = ( -f $file , -l $file );
 
 		# F L: symlink to existing file => everything ok
@@ -209,13 +216,15 @@ sub fix_libraries () {
 		# f L: broken symlink => needs fixing
 		# f l: no file found (impossible after glob above)
 		if ($f and $l) {
-			say 'ok' if ( $verbose or $dryrun );
+			#say 'ok' if ( $verbose or $dryrun );
 			next;
 		}
-		else {
-			replace_lib($file) or ( ($verbose) ? say "no match - skipped" : ());
+		elsif ( my $replacement = replace_lib( $file ) ) {
+			$symlink_libs{ $file } = $replacement;
 		}
 	}
+
+	return %symlink_libs;
 }
 
 sub has_libgdx () {
@@ -256,7 +265,10 @@ sub test_jar_mode () {
 	return 0;
 }
 
-sub setup ( $self ) {
+sub new ( $class ) {
+	my %extract_archives;
+	my %symlink_files;
+
 	my $config_file;
 	my $class_path_ptr;
 
@@ -266,7 +278,7 @@ sub setup ( $self ) {
 	get_bundled_java_version();
 
 	$Bit_Sufx = ( $Config{'use64bitint'} ? '64' : '' ) . $So_Sufx;
-	say "Library suffix:\t$Bit_Sufx" if $self->verbose();
+	#say "Library suffix:\t$Bit_Sufx" if $self->verbose();
 
 	# 2. Get data on main JAR file and more
 	# 	a. first check JSON config file
@@ -332,8 +344,8 @@ sub setup ( $self ) {
 			if ( $java_lines[0] =~ s/\s(([[:alnum:]]+\.){2,}[[:alnum:]]+)\s/ / ) {
 				$main_class = $1 unless $main_class;
 			}
-			say 'Found JVM classpath in file: ' . join( ':', @jvm_classpath)
-				if ( @jvm_classpath and $self->verbose() );
+			#say 'Found JVM classpath in file: ' . join( ':', @jvm_classpath)
+				#if ( @jvm_classpath and $self->verbose() );
 			#say "java_line: $java_lines[0]";	# leftover line parts; uncomment to inspect
 		}
 	}
@@ -341,14 +353,16 @@ sub setup ( $self ) {
 	# 3. Extract JAR file if not done previously
 	unless ( -f $MANIFEST or test_jar_mode ) {
 		if ( $game_jar ) {
-			extract_jar $game_jar;
+			$extract_archives{ $game_jar } =
+				__PACKAGE__ . '::extract_jar';
 		}
 		elsif ( $class_path_ptr ) {
-			extract_jar @{$class_path_ptr}[0];
+			$extract_archives{ @{$class_path_ptr}[0] } =
+				__PACKAGE__ . '::extract_jar';
 		}
 		else {
 			confess "No JAR file to extract" unless glob '*.jar';
-			extract_jar( ( glob '*.jar' )[0] );
+			$extract_archives{ ( glob '*.jar' )[0] } = __PACKAGE__ . '::extract_jar';
 		}
 	}
 
@@ -362,19 +376,20 @@ sub setup ( $self ) {
 		push( @java_frameworks, 'LWJGL' . lwjgl_2_or_3() );
 	}
 	push @java_frameworks, 'Steamworks4j' if has_steamworks4j();
-	say 'Bundled Java Frameworks: ' . join( ' ', @java_frameworks)
-		if $self->verbose();
+	#say 'Bundled Java Frameworks: ' . join( ' ', @java_frameworks)
+		#if $self->verbose();
 
 	# 5. Call specific setup for each framework
-	unless ( skip_framework_setup() ) {
-		foreach my $f ( @java_frameworks ) {
-			my $module = "IndieRunner::Java::$f";
-			$module->setup();
-		}
-	}
+	#unless ( skip_framework_setup() ) {
+		#foreach my $f ( @java_frameworks ) {
+			#my $module = "IndieRunner::Java::$f";
+			#$module->setup();
+		#}
+	#}
 
-	# 6. Replace bundled libraries
-	fix_libraries();
+	return bless {
+		extract_archives	=> \%extract_archives,
+	}, $class;
 }
 
 sub run_cmd ( $self ) {

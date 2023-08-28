@@ -142,8 +142,19 @@ sub setup ( $self, $eobj ) {	# eobj: engine object
 		}
 	}
 
-	# execute the neuters, symlinks, and ffmpeg_converts, unless mode is 'dryrun' or 'script'
-	# XXX
+	if ( %$eobj{ extract_archives } ) {
+		say 'extract_archives:';
+		while ( my ( $k, $v ) = each %{ $$eobj{ extract_archives } } ) {
+			say "Extract $k with $v";
+		}
+	}
+
+	# execute the neuters, symlinks, and ffmpeg_converts, unless
+	#	mode is 'dryrun' or 'script'
+	#
+	# XXX: Extract archives first, then
+	#      after extracting archives, need to check for libraries with
+	#      IndieRunner::Java::bundled_libraries()
 }
 
 =pod
