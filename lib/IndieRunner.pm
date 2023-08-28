@@ -124,19 +124,28 @@ sub detect_game ( $self ) {
 	$$self{ 'game' } = $game_name;
 }
 
+sub setup ( $self, $eobj ) {	# eobj: engine object
+	# execute the renames and symlinks, unless mode is 'dryrun' or 'script'
+	# get files to neuter(rename to end in '_') from $eobj
+	#if ( $eobj->can( 'neuter_list' ) ) {
+		#say 'neuter_list: ' . join( ' ', $eobj->neuter_list() );
+		# XXX
+	#}
+
+	# get files to symlink from $eobj
+	#if ( $eobj->can( 'symlink_list' ) ) {
+		#say 'symlink_list: ' . join( ' ', $eobj->symlink_list() );
+		# XXX
+	#}
+	say 'neuter_files: ' . join( ' ', @{ $$eobj{ neuter_files } } );
+	say 'symlink_files: ';
+	while ( my ( $k, $v ) = each %{ $$eobj{ symlink_files } } ) {
+		say "$k => $v";
+	}
+}
+
 =pod
 
-# setup and build launch command
-my $instancebase = "IndieRunner::$engine";
-my $launch_inst = $instancebase->new(
-	dryrun		=> $dryrun,
-	verbose		=> $verbose,
-	engine_id_file	=> $engine_id_file,
-	cli_file	=> $cli_file,
-	gameargs	=> cli_gameargs(),
-);
-
-$launch_inst->setup();
 my @run_cmd = $launch_inst->run_cmd();
 
 

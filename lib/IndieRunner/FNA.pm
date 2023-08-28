@@ -36,16 +36,19 @@ Readonly::Array  my @ALLOW_BUNDLED_FNA => (
 	'SuperBernieWorld.exe',	# 1.2.0 (Kitsune Zero),	19.3
 	);
 
+my @neuter_files;
+my %symlink_files;
+
 sub run_cmd ( $self ) {
 	return $self->SUPER::run_cmd();
 }
 
-sub setup ( $self ) {
+sub new ( $class ) {
+	# XXX: make this class less verbose (say)
+	say "making new object: $class";
 	my $fna_file = 'FNA.dll';
 	my $fna_config_file = 'FNA.dll.config';
 	my $skip_fna_version;
-
-	$self->SUPER::setup();
 
 	# check if this is a game where we allow FNA version lower than FNA_MIN_VERSION
 	foreach my $f ( glob '*' ) {
@@ -73,17 +76,19 @@ sub setup ( $self ) {
 				exit 1;
 			}
 			else {
-				neuter( $fna_file );
-				ir_copy( $FNA_REPLACEMENT, $fna_file );
+				$symlink_files{ $fna_file } = $FNA_REPLACEMENT;
 			}
 		}
 		else {
-			say "FNA.dll version ok: $fna_bundled_version" if $self->verbose();
+			say "FNA.dll version ok: $fna_bundled_version";
 		}
 	}
+	push( @neuter_files, $fna_config_file ) if ( -f $fna_config_file );
 
-	# neuter bundled .config file
-	neuter( $fna_config_file ) if ( -f $fna_config_file );
+	return bless {
+		neuter_files => \@neuter_files,
+		symlink_files	=> \%symlink_files,
+	}, $class;
 }
 
 1;

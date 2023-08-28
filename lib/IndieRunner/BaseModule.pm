@@ -34,6 +34,7 @@ sub new ( $class, %args ) {
 	return $self;
 }
 
+# XXX: needed? remove?
 sub setup ( $ ) {
 	# No setup needed.
 }

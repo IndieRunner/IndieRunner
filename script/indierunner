@@ -40,28 +40,31 @@ $ir->init_cli();
 foreach my $k ( keys %$ir ) {
 	say "$k => $$ir{ $k }";
 }
-say 'Game Args: ' . join( ' ', @{ $$ir{ 'game_args' } } );
+say 'Game Args: ' . join( ' ', @{ $$ir{ game_args } } );
 
 # Engine Name
-unless ( $$ir{ 'engine' } ) {
+unless ( $$ir{ engine } ) {
 	say 'need to figure out engine';
 	$ir->detect_engine();
 }
-say "Game Engine: $$ir{ 'engine' }";
+say "Game Engine: $$ir{ engine }";
 
 # Game Name
-unless ( $$ir{ 'game' } ) {
+unless ( $$ir{ game } ) {
 	say 'need to figure out game name';
 	$ir->detect_game();
 }
-say "Game: $$ir{ 'game' }";
+say "Game: $$ir{ game }";
 
 ### 2. Setup of Files (incl. Symlinks) ###
 
 # chdir to the game directory
-chdir $$ir{ 'game_dir' } if $$ir{ 'game_dir' };
+chdir $$ir{ game_dir } if $$ir{ game_dir };
 
-$$ir->setup();
+my $engine_module = 'IndieRunner::' . $$ir{ engine };
+say "engine_module: $engine_module";
+my $eobj = $engine_module->new();	# engine object
+$ir->setup( $eobj );
 say "Setup completed.";
 
 ### 3. Assemble Configuration of Runtime ###

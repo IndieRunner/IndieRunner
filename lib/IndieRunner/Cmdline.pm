@@ -39,12 +39,12 @@ my $verbose	= 0;
 sub get_cli () {
 	Getopt::Long::Configure ("bundling");
 	GetOptions (    'help|h'	=> sub { pod2usage(-exitval => 0, -verbose => 1); },
-	                'dir|g=s'	=> \$game_dir,
+	                'dir|d=s'	=> \$game_dir,
 	                'dllmap|D=s'	=> \$dllmap_file,
-			'dryrun|d'      => sub { $mode = 'dryrun'; },
+			'dryrun|n'      => sub { $mode = 'dryrun'; },
 			'engine|e=s'	=> \$engine,
 			'file|f=s'	=> \$cli_file,
-			'name|n=s'	=> \$game_name,
+			'game|g=s'	=> \$game_name,
 			'man|m'           => sub { pod2usage(-exitval => 0,
 			                                     -verbose => 2,
 							     -input => "$FindBin::Bin/../lib/IndieRunner.pod"); },
