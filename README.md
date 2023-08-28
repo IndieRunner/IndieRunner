@@ -12,6 +12,8 @@ For Users
 
 Free your games from these artificial restraints and preserve your games across many different platforms.
 
+[Status Tracker](share/Status-Tracker.md)
+
 For Developers
 --------------
 
