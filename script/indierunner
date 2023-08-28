@@ -27,25 +27,12 @@ use IndieRunner;
 ### Outline for future structure ###
 ####################################
 
-### 0. Create IndieRunner object ###
+### 1. Init by creating IndieRunner object ###
 
 my $ir = IndieRunner->new();
 
-### 1. Get Initial Data ###
-
-say "engine: $$ir{ engine }";
-say "engine_id_file: $$ir{ engine_id_file }";
-
-# Game Name
-unless ( $$ir{ game } ) {
-	$ir->detect_game();
-}
-say "Game: $$ir{ game }";
-
 ### 2. Setup of Files (incl. Symlinks) ###
 
-my $engine_module = 'IndieRunner::' . $$ir{ engine };
-say "engine_module: $engine_module";
 my $eobj = $engine_module->new();	# engine object
 $ir->setup( $eobj );
 say "Setup completed.";
