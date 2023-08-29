@@ -266,8 +266,7 @@ sub test_jar_mode () {
 }
 
 sub new ( $class, %init ) {
-	my %extract_archives;
-	my %symlink_files;
+	my %need_to_extract;
 
 	my $config_file;
 	my $class_path_ptr;
@@ -356,16 +355,16 @@ sub new ( $class, %init ) {
 	# 3. Extract JAR file if not done previously
 	unless ( -f $MANIFEST or test_jar_mode ) {
 		if ( $game_jar ) {
-			$extract_archives{ $game_jar } =
+			$need_to_extract{ $game_jar } =
 				__PACKAGE__ . '::extract_jar';
 		}
 		elsif ( $class_path_ptr ) {
-			$extract_archives{ @{$class_path_ptr}[0] } =
+			$need_to_extract{ @{$class_path_ptr}[0] } =
 				__PACKAGE__ . '::extract_jar';
 		}
 		else {
 			confess "No JAR file to extract" unless glob '*.jar';
-			$extract_archives{ ( glob '*.jar' )[0] } = __PACKAGE__ . '::extract_jar';
+			$need_to_extract{ ( glob '*.jar' )[0] } = __PACKAGE__ . '::extract_jar';
 		}
 	}
 
@@ -390,7 +389,7 @@ sub new ( $class, %init ) {
 		#}
 	#}
 
-	$$self{ extract_archives }	= \%extract_archives;
+	$$self{ need_to_extract }	= \%need_to_extract;
 
 	return $self;
 }

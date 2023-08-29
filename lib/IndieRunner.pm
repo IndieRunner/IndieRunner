@@ -60,10 +60,10 @@ sub new ( $class ) {
 
 	# XXX: remove, only for development
 	say 'engine id_file: ' . $$self{ engine }{ id_file };
-	say 'engine neuter_files ' . join( ' ', @{ $$self{ engine }{ neuter_files } } )
-		if $$self{ engine }{ neuter_files };
-	say 'engine symlink_files ' . join( ' ', keys %{ $$self{ engine }{ symlink_files } } )
-		if $$self{ engine }{ symlink_files };
+	say 'engine need_to_remove ' . join( ' ', @{ $$self{ engine }{ need_to_remove } } )
+		if $$self{ engine }{ need_to_remove };
+	say 'engine need_to_replace ' . join( ' ', keys %{ $$self{ engine }{ need_to_replace } } )
+		if $$self{ engine }{ need_to_replace };
 	say 'game name ' . $$self{ game }{ name };
 
 	return bless $self, $class;
@@ -152,31 +152,31 @@ sub detect_game_name ( $engine_module ) {
 
 sub setup ( $self ) {
 	my $eobj = $$self{ engine };
-	say 'neuter_files: ' . join( ' ', @{ $$eobj{ neuter_files } } )
-		if ( @$eobj{ neuter_files } );
+	say 'need_to_remove: ' . join( ' ', @{ $$eobj{ need_to_remove } } )
+		if ( @$eobj{ need_to_remove } );
 
-	if ( %$eobj{ symlink_files } ) {
-		say 'symlink_files:';
-		while ( my ( $k, $v ) = each %{ $$eobj{ symlink_files } } ) {
+	if ( %$eobj{ need_to_replace } ) {
+		say 'need_to_replace:';
+		while ( my ( $k, $v ) = each %{ $$eobj{ need_to_replace } } ) {
 			say "$k => $v";
 		}
 	}
 
-	if ( %$eobj{ ffmpeg_convert } ) {
-		say 'ffmpeg_convert:';
-		while ( my ( $k, $v ) = each %{ $$eobj{ ffmpeg_convert } } ) {
+	if ( %$eobj{ need_to_convert } ) {
+		say 'need_to_convert:';
+		while ( my ( $k, $v ) = each %{ $$eobj{ need_to_convert } } ) {
 			say "$k => $v";
 		}
 	}
 
-	if ( %$eobj{ extract_archives } ) {
-		say 'extract_archives:';
-		while ( my ( $k, $v ) = each %{ $$eobj{ extract_archives } } ) {
+	if ( %$eobj{ need_to_extract } ) {
+		say 'need_to_extract:';
+		while ( my ( $k, $v ) = each %{ $$eobj{ need_to_extract } } ) {
 			say "Extract $k with $v";
 		}
 	}
 
-	# execute the neuters, symlinks, and ffmpeg_converts, unless
+	# execute the neuters, symlinks, and need_to_convert, unless
 	#	mode is 'dryrun' or 'script'
 	# fork + pledge + unveil for this into a separate process; use waitpid
 	# 	to continue once completed

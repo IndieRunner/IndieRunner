@@ -29,7 +29,7 @@ sub run_cmd ( $self ) {
 }
 
 sub new ( $class, %init ) {
-	my %ffmpeg_convert;
+	my %need_to_convert;
 
 	my $self = bless {}, $class;
 	%$self = ( %$self, %init );
@@ -47,13 +47,13 @@ sub new ( $class, %init ) {
 	foreach my $w ( @wmafiles ) {
 		my $ogg = substr( $w, 0, -3 ) . 'ogg';
 		if ( not -f $ogg ) {
-			$ffmpeg_convert{ $w } = $ogg;
+			$need_to_convert{ $w } = $ogg;
 		}
 	}
 	foreach my $w ( @wmvfiles ) {
 		my $ogv = substr( $w, 0, -3 ) . 'ogv';
 		if ( not -f $ogv ) {
-			$ffmpeg_convert{ $w } = $ogv;
+			$need_to_convert{ $w } = $ogv;
 		}
 	}
 
@@ -93,7 +93,7 @@ sub new ( $class, %init ) {
 
 =cut
 
-	$$self{ ffmpeg_convert }	= \%ffmpeg_convert;
+	$$self{ need_to_convert }	= \%need_to_convert;
 
 	return $self;
 }

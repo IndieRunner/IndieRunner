@@ -150,22 +150,22 @@ sub run_cmd ( $self ) {
 }
 
 sub new ( $class, %init ) {
-	my @neuter_files;
+	my @need_to_remove;
 
 	my $self = bless {}, $class;
 	%$self = ( %$self, %init );
 
 	# neuter system Mono assemblies, except @MONO_GLOB_EXCLUDE
-	push @neuter_files, get_mono_files();
+	push @need_to_remove, get_mono_files();
 	foreach my $e ( @MONO_GLOB_EXCLUDE ) {
-		@neuter_files = grep { !/$e/ } @neuter_files;
+		@need_to_remove = grep { !/$e/ } @need_to_remove;
 	}
 
 	# replacement for mono's lost MONO_IOMAP
-	my %symlink_files = IndieRunner::Mono::Iomap::iomap_symlink();
+	my %need_to_replace = IndieRunner::Mono::Iomap::iomap_symlink();
 
-	$$self{ neuter_files }	= \@neuter_files;
-	$$self{ symlink_files }	= \%symlink_files;
+	$$self{ need_to_remove }	= \@need_to_remove;
+	$$self{ need_to_replace }	= \%need_to_replace;
 
 	return $self;
 }

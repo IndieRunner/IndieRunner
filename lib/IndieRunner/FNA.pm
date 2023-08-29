@@ -41,8 +41,8 @@ sub run_cmd ( $self ) {
 
 sub new ( $class, %init ) {
 	# XXX: make this class less verbose (say)
-	my @neuter_files;
-	my %symlink_files;
+	my @need_to_remove;
+	my %need_to_replace;
 	my $fna_file = 'FNA.dll';
 	my $fna_config_file = 'FNA.dll.config';
 	my $skip_fna_version;
@@ -76,17 +76,17 @@ sub new ( $class, %init ) {
 				exit 1;
 			}
 			else {
-				$symlink_files{ $fna_file } = $FNA_REPLACEMENT;
+				$need_to_replace{ $fna_file } = $FNA_REPLACEMENT;
 			}
 		}
 		else {
 			say "FNA.dll version ok: $fna_bundled_version";
 		}
 	}
-	push( @neuter_files, $fna_config_file ) if ( -f $fna_config_file );
+	push( @need_to_remove, $fna_config_file ) if ( -f $fna_config_file );
 
-	$$self{ neuter_files }	= \@neuter_files;
-	$$self{ symlink_files }	= \%symlink_files;
+	$$self{ need_to_remove }	= \@need_to_remove;
+	$$self{ need_to_replace }	= \%need_to_replace;
 
 	return $self;
 }

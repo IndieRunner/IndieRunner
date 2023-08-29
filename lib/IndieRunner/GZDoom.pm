@@ -24,8 +24,6 @@ use parent 'IndieRunner::BaseModule';
 use Carp;
 use Readonly;
 
-use IndieRunner::Io qw( neuter ir_symlink );
-
 Readonly::Scalar my $BIN => 'gzdoom';
 
 sub run_cmd ( $self ) {
@@ -40,19 +38,19 @@ sub new ( $class, %init ) {
 	# - Beyond Sunset (demo)
 	# - Vomitoreum
 	# - I Am Sakuya: Touhou FPS Game
-	my @neuter_files = ();
-	my %symlink_files;
+	my @need_to_remove = ();
+	my %need_to_replace;
 
 	my $self = bless {}, $class;
 	%$self = ( %$self, %init );
 
 	if ( -f 'gzdoom.pk3' ) {
-		$symlink_files{ 'gzdoom.pk3' } =
+		$need_to_replace{ 'gzdoom.pk3' } =
 			'/usr/local/share/games/doom/gzdoom.pk3';
 	}
 
-	$$self{ neuter_files }	= \@neuter_files;
-	$$self{ symlink_files }	= \%symlink_files;
+	$$self{ need_to_remove }	= \@need_to_remove;
+	$$self{ need_to_replace }	= \%need_to_replace;
 
 	return $self;
 }

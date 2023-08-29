@@ -38,14 +38,14 @@ sub run_cmd ( $self ) {
 }
 
 sub new ( $class, %init ) {
-	my %symlink_files;
+	my %need_to_replace;
 
 	my $self = bless {}, $class;
 	%$self = ( %$self, %init );
 
 	# TODO: also run IndieRunner::Mono::new parts
 
-	$symlink_files{ 'libdl.so.2' } = '/usr/lib/libc.so.*'; 
+	$need_to_replace{ 'libdl.so.2' } = '/usr/lib/libc.so.*'; 
 
 	foreach my $file ( keys %MG_LIBS ) {
 		my @found_files = File::Find::Rule->file
@@ -63,12 +63,12 @@ sub new ( $class, %init ) {
 				next;
 			}
 			else {
-				$symlink_files{ $found } = $MG_LIBS{ $file };
+				$need_to_replace{ $found } = $MG_LIBS{ $file };
 			}
 		}
 	}
 
-	$$self{ symlink_files }	= \%symlink_files;
+	$$self{ need_to_replace }	= \%need_to_replace;
 
 	return $self;
 }

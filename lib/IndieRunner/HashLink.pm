@@ -24,8 +24,6 @@ use parent 'IndieRunner::BaseModule';
 use Carp;
 use Readonly;
 
-use IndieRunner::Io qw( neuter );
-
 Readonly::Scalar	my $BIN => 'hl';
 Readonly::Array		my @DAT => (
 					'sdlboot.dat',
@@ -41,12 +39,12 @@ sub run_cmd ( $self ) {
 }
 
 sub new ( $class, %init ) {
-	my @neuter_files;
+	my @need_to_remove;
 	my $self = bless {}, $class;
 
 	%$self = ( %$self, %init );
-	push @neuter_files, glob( '*.hdll' );
-	$$self{ neuter_files }	= \@neuter_files;
+	push @need_to_remove, glob( '*.hdll' );
+	$$self{ need_to_remove }	= \@need_to_remove;
 
 	return $self;
 }
