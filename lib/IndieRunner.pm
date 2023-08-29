@@ -33,7 +33,7 @@ use IndieRunner::GrandCentral;
 use IndieRunner::GZDoom;
 use IndieRunner::HashLink;
 use IndieRunner::IdentifyFiles qw( find_file_magic );
-use IndieRunner::Info qw( goggame_name );
+use IndieRunner::Info;
 use IndieRunner::Io qw( script_head pty_cmd write_file );
 use IndieRunner::Java;
 use IndieRunner::Love2D;
@@ -47,8 +47,7 @@ sub new ( $class ) {
 	%$self = ( %$self, %{ IndieRunner::Cmdline::init_cli() } );
 	my ( $engine, $engine_id_file ) = ( detect_engine() );
 
-	my $engine_class		= 'IndieRunner::' . $engine;
-	$$self{ engine }		= $engine_class->new(
+	$$self{ engine }		= ( __PACKAGE__ . '::' . $engine )->new(
 						id_file => $engine_id_file);
 	$$self{ game }			= detect_game( $$self{ engine } );
 
@@ -132,7 +131,7 @@ sub detect_game ( $engine_module ) {
 	# HashLink: deadcells.sh, Northgard
 	# Mono*: name.exe
 
-	$game_name = goggame_name();
+	$game_name = IndieRunner::Info::goggame_name();
 	($game_name) = find_file_magic( '^ELF.*executable', glob '*' ) unless $game_name;
 	($game_name) = find_file_magic( '^PE32 executable \(console\)', glob '*' ) unless $game_name;
 	$game_name = 'unknown' unless $game_name;	# bail
@@ -176,16 +175,6 @@ sub setup ( $self ) {
 }
 
 =pod
-
-my @run_cmd = $launch_inst->run_cmd();
-
-
-
-say "\nLaunching game: $game_name" unless $mode eq 'script';
-
-# print what will be executed; stop here if $dryrun
-say join( ' ', @run_cmd );
-$mode eq 'run' ? say '' : exit 0;
 
 # Execute @run_cmd and log output
 my $cmd_out = pty_cmd( @run_cmd );
