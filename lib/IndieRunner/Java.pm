@@ -265,12 +265,15 @@ sub test_jar_mode () {
 	return 0;
 }
 
-sub new ( $class ) {
+sub new ( $class, %init ) {
 	my %extract_archives;
 	my %symlink_files;
 
 	my $config_file;
 	my $class_path_ptr;
+
+	my $self = bless {}, $class;
+	%$self = ( %$self, %init );
 
 	# 1. Check OS and initialize basic variables
 	$os = get_os();
@@ -387,9 +390,9 @@ sub new ( $class ) {
 		#}
 	#}
 
-	return bless {
-		extract_archives	=> \%extract_archives,
-	}, $class;
+	$$self{ extract_archives }	= \%extract_archives;
+
+	return $self;
 }
 
 sub run_cmd ( $self ) {

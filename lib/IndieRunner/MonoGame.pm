@@ -37,8 +37,11 @@ sub run_cmd ( $self ) {
 	return $self->SUPER::run_cmd();
 }
 
-sub new ( $class ) {
+sub new ( $class, %init ) {
 	my %symlink_files;
+
+	my $self = bless {}, $class;
+	%$self = ( %$self, %init );
 
 	# TODO: also run IndieRunner::Mono::new parts
 
@@ -65,9 +68,9 @@ sub new ( $class ) {
 		}
 	}
 
-	return bless {
-		symlink_files	=> \%symlink_files,
-	}, $class;
+	$$self{ symlink_files }	= \%symlink_files;
+
+	return $self;
 }
 
 1;

@@ -43,11 +43,11 @@ use IndieRunner::Platform qw( init_platform );
 use IndieRunner::XNA;
 
 sub new ( $class ) {
-	my $self = { };
+	my $self = {};
 	%$self = ( %$self, %{ IndieRunner::Cmdline::init_cli() } );
 	my ( $engine, $engine_id_file ) = ( detect_engine() );
 
-	$$self{ engine }		= ( __PACKAGE__ . '::' . $engine )->new(
+	$$self{ engine }		= ( __PACKAGE__ . '::' . $engine )->new( # XXX: use this whenever doing this
 						id_file => $engine_id_file);
 	$$self{ game }			= detect_game( $$self{ engine } );
 

@@ -28,8 +28,11 @@ sub run_cmd ( $self ) {
 	return $self->SUPER::run_cmd( );
 }
 
-sub new ( $class ) {
+sub new ( $class, %init ) {
 	my %ffmpeg_convert;
+
+	my $self = bless {}, $class;
+	%$self = ( %$self, %init );
 
 	# TODO: include from IndieRunner::Mono::new()
 
@@ -90,9 +93,9 @@ sub new ( $class ) {
 
 =cut
 
-	return bless {
-		ffmpeg_convert	=> \%ffmpeg_convert,
-	}, $class;
+	$$self{ ffmpeg_convert }	= \%ffmpeg_convert;
+
+	return $self;
 }
 
 1;

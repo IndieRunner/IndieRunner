@@ -40,13 +40,15 @@ sub run_cmd ( $self ) {
 	croak "Failed to find .dat file for hashlink";
 }
 
-sub new ( $class ) {
+sub new ( $class, %init ) {
 	my @neuter_files;
-	push @neuter_files, glob( '*.hdll' );
+	my $self = bless {}, $class;
 
-	return bless {
-		neuter_files	=> \@neuter_files,
-	}, $class;
+	%$self = ( %$self, %init );
+	push @neuter_files, glob( '*.hdll' );
+	$$self{ neuter_files }	= \@neuter_files;
+
+	return $self;
 }
 
 1;

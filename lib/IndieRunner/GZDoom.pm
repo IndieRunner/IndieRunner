@@ -34,7 +34,7 @@ sub run_cmd ( $self ) {
 	return ( $BIN, '-iwad', $self->engine_id_file );
 }
 
-sub new ( $class ) {
+sub new ( $class, %init ) {
 	# neuter gzdoom.pk3 if present and replace with symlinked
 	# /usr/local/share/games/doom/gzdoom.pk3. Needed for:
 	# - Beyond Sunset (demo)
@@ -42,14 +42,19 @@ sub new ( $class ) {
 	# - I Am Sakuya: Touhou FPS Game
 	my @neuter_files = ();
 	my %symlink_files;
+
+	my $self = bless {}, $class;
+	%$self = ( %$self, %init );
+
 	if ( -f 'gzdoom.pk3' ) {
 		$symlink_files{ 'gzdoom.pk3' } =
 			'/usr/local/share/games/doom/gzdoom.pk3';
 	}
-	return bless {
-		neuter_files	=> \@neuter_files,
-		symlink_files	=> \%symlink_files,
-	}, $class;
+
+	$$self{ neuter_files }	= \@neuter_files;
+	$$self{ symlink_files }	= \%symlink_files;
+
+	return $self;
 }
 
 sub detect_game ( $self ) {

@@ -149,8 +149,11 @@ sub run_cmd ( $self ) {
 	return ( 'env', @env, $BIN, $game_file, @cil_args );
 }
 
-sub new ( $class ) {
+sub new ( $class, %init ) {
 	my @neuter_files;
+
+	my $self = bless {}, $class;
+	%$self = ( %$self, %init );
 
 	# neuter system Mono assemblies, except @MONO_GLOB_EXCLUDE
 	push @neuter_files, get_mono_files();
@@ -161,10 +164,10 @@ sub new ( $class ) {
 	# replacement for mono's lost MONO_IOMAP
 	my %symlink_files = IndieRunner::Mono::Iomap::iomap_symlink();
 
-	return bless {
-		neuter_files	=> \@neuter_files,
-		symlink_files	=> \%symlink_files,
-	}, $class;
+	$$self{ neuter_files }	= \@neuter_files;
+	$$self{ symlink_files }	= \%symlink_files;
+
+	return $self;
 }
 
 1;
