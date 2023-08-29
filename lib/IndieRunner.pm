@@ -28,6 +28,7 @@ use POSIX qw( strftime );
 
 use IndieRunner::Cmdline;
 use IndieRunner::FNA;
+use IndieRunner::Game;
 use IndieRunner::Godot;
 use IndieRunner::GrandCentral;
 use IndieRunner::GZDoom;
@@ -45,16 +46,25 @@ use IndieRunner::XNA;
 sub new ( $class ) {
 	my $self = {};
 	%$self = ( %$self, %{ IndieRunner::Cmdline::init_cli() } );
+
+	# XXX: set engine from cli argument if present
 	my ( $engine, $engine_id_file ) = ( detect_engine() );
 
 	$$self{ engine }		= ( __PACKAGE__ . '::' . $engine )->new( # XXX: use this whenever doing this
 						id_file => $engine_id_file);
-	$$self{ game }			= detect_game( $$self{ engine } );
+
+	# XXX: set game from cli argument if present
+	$$self{ game }			= ( __PACKAGE__ . '::Game' )->new(
+						name => detect_game_name( $$self{ engine } ),
+	);
 
 	# XXX: remove, only for development
 	say 'engine id_file: ' . $$self{ engine }{ id_file };
-	say 'engine neuter_files ' . join( ' ', @{ $$self{ engine }{ neuter_files } } );
-	say 'engine symlink_files ' . join( ' ', keys %{ $$self{ engine }{ symlink_files } } );
+	say 'engine neuter_files ' . join( ' ', @{ $$self{ engine }{ neuter_files } } )
+		if $$self{ engine }{ neuter_files };
+	say 'engine symlink_files ' . join( ' ', keys %{ $$self{ engine }{ symlink_files } } )
+		if $$self{ engine }{ symlink_files };
+	say 'game name ' . $$self{ game }{ name };
 
 	return bless $self, $class;
 }
@@ -62,6 +72,7 @@ sub new ( $class ) {
 sub detect_engine () {
 	my $engine;
 	my $engine_id_file;
+
 	my @files = File::Find::Rule->file()->maxdepth( 3 )->in( '.' );
 
 	# 1st Pass: File Names
@@ -97,7 +108,7 @@ sub detect_engine () {
 }
 
 # heuristic to determine game name
-sub detect_game ( $engine_module ) {
+sub detect_game_name ( $engine_module ) {
 	my $game_name;
 
 	# 1. try to identify known game from Status-Tracker.md
@@ -135,6 +146,7 @@ sub detect_game ( $engine_module ) {
 	($game_name) = find_file_magic( '^ELF.*executable', glob '*' ) unless $game_name;
 	($game_name) = find_file_magic( '^PE32 executable \(console\)', glob '*' ) unless $game_name;
 	$game_name = 'unknown' unless $game_name;	# bail
+
 	return $game_name;
 }
 

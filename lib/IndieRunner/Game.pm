@@ -1,4 +1,4 @@
-#!/usr/bin/env perl
+package IndieRunner::Game;
 
 # Copyright (c) 2022 Thomas Frohwein
 #
@@ -16,35 +16,16 @@
 
 use strict;
 use warnings;
-use v5.32;
+use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
-use FindBin; use lib "$FindBin::Bin/../lib";
+use Carp;
+use Readonly;
 
-use IndieRunner;
+sub new ( $class, %init ) {
+	my $self = bless {}, $class;
+	%$self = ( %$self, %init );
+	return $self;
+}
 
-### 1. Init by creating IndieRunner object ###
-
-my $indierunner = IndieRunner->new();
-
-### 2. Setup ###
-
-$indierunner->setup();
-
-### 3. Assemble Configuration of Runtime ###
-
-# by general engine configuration, game-specific config, and user-provided
-# elements: environment, binary, arguments, potentially symlinks
-# get unveil paths
-# get engine-specific pledge promises
-# get typical log file location
-
-### 4. Fork + Exec Runtime (unless dryrun) ###
-
-# with unveil + pledge as appropriate
-
-### 5. Cleanup ###
-
-# hint to typical log file location
-
-exit;
+1;
