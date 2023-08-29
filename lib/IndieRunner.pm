@@ -35,7 +35,7 @@ use IndieRunner::GZDoom;
 use IndieRunner::HashLink;
 use IndieRunner::IdentifyFiles qw( find_file_magic );
 use IndieRunner::Info;
-use IndieRunner::Io qw( script_head pty_cmd write_file );
+use IndieRunner::Io qw( pty_cmd write_file );
 use IndieRunner::Java;
 use IndieRunner::Love2D;
 use IndieRunner::Mono;
@@ -46,6 +46,8 @@ use IndieRunner::XNA;
 sub new ( $class ) {
 	my $self = {};
 	%$self = ( %$self, %{ IndieRunner::Cmdline::init_cli() } );
+
+	# XXX: if script mode, create script object
 
 	# XXX: set engine from cli argument if present
 	my ( $engine, $engine_id_file ) = ( detect_engine() );
@@ -176,7 +178,14 @@ sub setup ( $self ) {
 		}
 	}
 
-	# execute the neuters, symlinks, and need_to_convert, unless
+	if ( %$eobj{ mode } eq 'script' ) {
+		%$eobj{ script }->setup();
+	}
+	else {
+		# XXX: dryrun vs. run mode
+	}
+
+	# execute the removals ("neuter"), replacements (symlinks), and conversions (ffmpeg?), unless
 	#	mode is 'dryrun' or 'script'
 	# fork + pledge + unveil for this into a separate process; use waitpid
 	# 	to continue once completed

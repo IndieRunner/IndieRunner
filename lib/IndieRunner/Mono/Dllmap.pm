@@ -25,20 +25,13 @@ our @EXPORT_OK = qw( get_dllmap_target );
 
 use File::Share qw( :all );
 use File::Spec::Functions qw( catpath splitpath );	# XXX: remove?
-use IndieRunner::Cmdline qw( cli_dllmap_file cli_dryrun cli_mode cli_verbose );
+use IndieRunner::Cmdline;
 use IndieRunner::Io qw( write_file );
 
 sub get_dllmap_target () {
-	my $dryrun =		cli_dryrun();
-	my $mode =		cli_mode();
-	my $verbose =		cli_verbose();
-	my $cli_map =		cli_dllmap_file();
-
-	# 1. return the user-supplied dllmap file if available
-	return $cli_map if $cli_map;
-
-	# 2. use the one from ShareDir
-	return dist_file( 'IndieRunner', 'config/dllmap.config' );
+	#  return the user-supplied dllmap file if available, or the one from ShareDir
+	return IndieRunner::Cmdline::cli_dllmap_file() ||
+		dist_file( 'IndieRunner', 'config/dllmap.config' );
 }
 
 1;

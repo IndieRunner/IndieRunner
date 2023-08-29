@@ -28,7 +28,7 @@ use Config;
 use Readonly;
 
 use IndieRunner::Platform::openbsd;
-use IndieRunner::Cmdline qw( cli_verbose );
+use IndieRunner::Cmdline;
 
 Readonly::Array my @MUST_INIT => (
 	'openbsd',
@@ -59,7 +59,7 @@ sub get_os () {
 sub init_platform () {
 	my $os = get_os();
 	my $os_platform_module = join( '', __PACKAGE__, '::', $os );
-	my $verbose = cli_verbose();
+	my $verbose = IndieRunner::Cmdline::cli_verbose();
 
 	try {
 		say "platform init for: $os_platform_module" if $verbose;

@@ -20,7 +20,7 @@ use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use base qw( Exporter );
-our @EXPORT_OK = qw( ir_copy ir_symlink neuter pty_cmd script_head write_file );
+our @EXPORT_OK = qw( ir_copy ir_symlink neuter pty_cmd write_file );
 
 use autodie;
 use Carp;
@@ -33,8 +33,7 @@ use FindBin;
 use IO::Handle;
 use IO::Pty;
 
-# XXX: is cli_dryrun needed?
-use IndieRunner::Cmdline qw( cli_dryrun cli_mode cli_verbose );
+use IndieRunner::Cmdline;
 use IndieRunner::Platform qw( get_os );
 
 # beginning of scripts for 'script' mode; e.g. shebang
@@ -106,11 +105,13 @@ sub os_copy( $oldfile, $newfile ) {
 	}
 }
 
+=pod
+
 # mode-specific rename subroutine
 sub _rename( $oldfile, $newfile ) {
 	my $mode = cli_mode();
 	if ( $mode eq 'run' ) {
-		say "Rename: $oldfile => $newfile" if cli_verbose();
+		#say "Rename: $oldfile => $newfile" if cli_verbose();
 		rename $oldfile, $newfile;
 	}
 	elsif ( $mode eq 'script' ) {
@@ -125,7 +126,7 @@ sub _rename( $oldfile, $newfile ) {
 sub _symlink( $oldfile, $newfile ) {
 	my $mode = cli_mode();
 	if ( $mode eq 'run' ) {
-		say "Symlink: $newfile -> $oldfile" if cli_verbose();
+		#say "Symlink: $newfile -> $oldfile" if cli_verbose();
 		symlink $oldfile, $newfile;
 	}
 	elsif ( $mode eq 'script' ) {
@@ -140,7 +141,7 @@ sub _symlink( $oldfile, $newfile ) {
 sub _copy( $oldfile, $newfile ) {
 	my $mode = cli_mode();
 	if ( $mode eq 'run' ) {
-		say "Copy: $oldfile => $newfile" if cli_verbose();
+		#say "Copy: $oldfile => $newfile" if cli_verbose();
 		copy $oldfile, $newfile;
 	}
 	elsif ( $mode eq 'script' ) {
@@ -154,8 +155,8 @@ sub _copy( $oldfile, $newfile ) {
 # helper function for symlink in IndieRunner
 # Syntax: _symlink( string glob_of_oldfile, string newfile, bool overwrite )
 sub ir_symlink ( $oldfile_glob, $newfile, $overwrite = 0 ) {
-	my $dryrun = cli_dryrun();
-	my $verbose = cli_verbose();
+	#my $dryrun = cli_dryrun();
+	#my $verbose = cli_verbose();
 	my @oldfile_array = glob( $oldfile_glob );
 	my $oldfile;
 
@@ -189,6 +190,8 @@ sub ir_symlink ( $oldfile_glob, $newfile, $overwrite = 0 ) {
 	return 1;
 }
 
+=cut
+
 # helper function to neuter included files by appending '_'
 sub neuter( $filename ) {
 	_rename( $filename, $filename . '_' ) unless -l $filename;
@@ -220,7 +223,7 @@ sub pty_cmd ( @cmd ) {
 
 		# report if error occurred; see example in perldoc -f system
 		if ( $ret == 0 ) {
-			say "${self_marker} Application exited without errors" if cli_verbose();
+			#say "${self_marker} Application exited without errors" if cli_verbose();
 		}
 		elsif ( $ret == -1 ) {
 			say "${self_marker} failed to execute: $ret_msg";

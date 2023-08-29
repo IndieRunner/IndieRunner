@@ -26,7 +26,7 @@ our @EXPORT_OK = qw( init );
 use Cwd;
 use OpenBSD::Unveil;
 
-use IndieRunner::Cmdline qw( cli_dllmap_file cli_verbose );
+use IndieRunner::Cmdline;
 
 my %unveil_paths = (
 	'/usr/libdata/perl5/'			=> 'r',
@@ -47,8 +47,6 @@ my %unveil_paths = (
 	);
 
 sub _unveil () {
-	my $verbose = cli_verbose();
-
 	# add work directory to %unveil_paths rwc
 	$unveil_paths{ getcwd() } = 'rwc';
 
@@ -59,8 +57,8 @@ sub _unveil () {
 	$unveil_paths{ '/usr/local/bin' } = 'x';	# XXX: bin/ is overly broad
 
 	# XXX: add unveil r for configuration files: cli_dllmap_file
-	if ( cli_dllmap_file() ) {
-		$unveil_paths{ cli_dllmap_file() } = 'r';
+	if ( IndieRunner::Cmdline::cli_dllmap_file() ) {
+		$unveil_paths{ IndieRunner::Cmdline::cli_dllmap_file() } = 'r';
 	}
 
 	# XXX: unveil ~/.config and/or ~/.local/share or XDG paths
@@ -69,7 +67,6 @@ sub _unveil () {
 
 	#foreach  my ( $k, $v ) ( %unveil_paths ) {	# for my (...) is experimental
 	while ( my ( $k, $v ) = each %unveil_paths ) {
-		say "$k: unveil \'$v\'" if $verbose;
 		unveil( $k, $v ) || die "$!";
 	}
 	unveil() || die "$!";

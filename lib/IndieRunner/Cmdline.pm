@@ -28,6 +28,8 @@ use FindBin;
 use Getopt::Long;
 use Pod::Usage;
 
+use IndieRunner::Io;
+
 my $game_dir = '';
 my $cli_file = '';
 my $dllmap_file = '';
@@ -57,9 +59,15 @@ sub init_cli () {
 		   )
 	or pod2usage(2);
 
+	# apply the immediate rules based on cli args
 	chdir $game_dir if $game_dir;
+	if ( $mode eq 'script' ) {
+		$verbose = 0;		# need to disable verbosity to write script to stdout
+		IndieRunner::Io::script_head();
+	}
+
 	return {
-		game_dir	=> $game_dir,
+		game_dir	=> $game_dir,	# XXX; really needed to return, after chdir above?
 		cli_file	=> $cli_file,
 		dllmap_file	=> $dllmap_file,
 		engine 		=> $engine,
