@@ -178,8 +178,8 @@ sub setup ( $self ) {
 		}
 	}
 
-	if ( %$eobj{ mode } eq 'script' ) {
-		%$eobj{ script }->setup();
+	if ( $$self{ mode } eq 'script' ) {
+		$$self{ script }->setup();
 	}
 	else {
 		# XXX: dryrun vs. run mode
