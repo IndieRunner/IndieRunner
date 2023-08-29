@@ -48,8 +48,15 @@ sub new ( $class ) {
 	my ( $engine, $engine_id_file ) = ( detect_engine() );
 
 	my $engine_class		= 'IndieRunner::' . $engine;
-	$$self{ engine }		= $engine_class->new();
+	$$self{ engine }		= $engine_class->new(
+						id_file => $engine_id_file);
 	$$self{ game }			= detect_game( $$self{ engine } );
+
+	# XXX: remove, only for development
+	say 'engine id_file: ' . $$self{ engine }{ id_file };
+	say 'engine neuter_files ' . join( ' ', @{ $$self{ engine }{ neuter_files } } );
+	say 'engine symlink_files ' . join( ' ', keys %{ $$self{ engine }{ symlink_files } } );
+
 	return bless $self, $class;
 }
 

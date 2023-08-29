@@ -37,8 +37,10 @@ sub run_cmd ( $self ) {
 	return ( $BIN, '--quiet', '--main-pack', $run_file );
 }
 
-sub new ( $class ) {
-	return bless {}, $class;
+sub new ( $class, %init ) {
+	my $self = bless {}, $class;
+	%$self = ( %$self, %init );
+	return $self;
 }
 
 sub detect_game ( $self ) {

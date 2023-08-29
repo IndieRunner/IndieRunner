@@ -39,13 +39,16 @@ sub run_cmd ( $self ) {
 	return $self->SUPER::run_cmd();
 }
 
-sub new ( $class ) {
+sub new ( $class, %init ) {
 	# XXX: make this class less verbose (say)
 	my @neuter_files;
 	my %symlink_files;
 	my $fna_file = 'FNA.dll';
 	my $fna_config_file = 'FNA.dll.config';
 	my $skip_fna_version;
+
+	my $self = bless {}, $class;
+	%$self = ( %$self, %init );
 
 	# check if this is a game where we allow FNA version lower than FNA_MIN_VERSION
 	foreach my $f ( glob '*' ) {
@@ -82,10 +85,10 @@ sub new ( $class ) {
 	}
 	push( @neuter_files, $fna_config_file ) if ( -f $fna_config_file );
 
-	return bless {
-		neuter_files => \@neuter_files,
-		symlink_files	=> \%symlink_files,
-	}, $class;
+	$$self{ neuter_files }	= \@neuter_files;
+	$$self{ symlink_files }	= \%symlink_files;
+
+	return $self;
 }
 
 1;
