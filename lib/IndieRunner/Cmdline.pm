@@ -33,8 +33,8 @@ use IndieRunner::Io;
 my $game_dir = '';
 my $cli_file = '';
 my $dllmap_file = '';
-my $engine = '';
-my $game_name = '';
+my $engine_name = '';
+my $game_name;
 my $mode	= 'run';	# run, dryrun, or script
 my $verbose	= 0;
 
@@ -44,7 +44,7 @@ sub init_cli () {
 	                'dir|d=s'	=> \$game_dir,
 	                'dllmap|D=s'	=> \$dllmap_file,
 			'dryrun|n'      => sub { $mode = 'dryrun'; },
-			'engine|e=s'	=> \$engine,
+			'engine|e=s'	=> \$engine_name,
 			'file|f=s'	=> \$cli_file,
 			'game|g=s'	=> \$game_name,
 			'man|m'           => sub { pod2usage(-exitval => 0,
@@ -70,9 +70,9 @@ sub init_cli () {
 		game_dir	=> $game_dir,	# XXX; really needed to return, after chdir above?
 		cli_file	=> $cli_file,
 		dllmap_file	=> $dllmap_file,
-		engine 		=> $engine,
+		engine_name	=> $engine_name,
 		game_args	=> \@ARGV,
-		game		=> $game_name,
+		game_name	=> $game_name,
 		mode		=> $mode,
 		verbose		=> $verbose,
 	};

@@ -45,19 +45,28 @@ use IndieRunner::XNA;
 
 sub new ( $class ) {
 	my $self = {};
+	my $engine;
+	my $engine_id_file = '';
+
 	%$self = ( %$self, %{ IndieRunner::Cmdline::init_cli() } );
 
 	# XXX: if script mode, create script object
 
-	# XXX: set engine from cli argument if present
-	my ( $engine, $engine_id_file ) = ( detect_engine() );
+	# check if engine already supplied by cli args
+	unless ( $engine = $$self{ engine_name } ) {
+		( $engine, $engine_id_file ) = ( detect_engine() );
+	}
 
 	$$self{ engine }		= ( __PACKAGE__ . '::' . $engine )->new( # XXX: use this whenever doing this
 						id_file => $engine_id_file);
 
-	# XXX: set game from cli argument if present
+	# set game from cli argument if present
+	my $game_name = $$self{ game_name } || detect_game_name( $$self{ engine } );
+	say "game_name: $game_name";
+	exit;
+
 	$$self{ game }			= ( __PACKAGE__ . '::Game' )->new(
-						name => detect_game_name( $$self{ engine } ),
+						name => $game_name,
 	);
 
 	# XXX: remove, only for development
