@@ -21,17 +21,17 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use parent 'IndieRunner::Mode';
 
-use Cwd;
 use OpenBSD::Pledge;
 use OpenBSD::Unveil;
 
 sub remove( $self, %files ) {
 	$self->SUPER::remove( %files );
+	say "PWD: $ENV{ PWD }";
 
 	# this is an operation limited to write operation in the CWD
 	my $pid = fork();
 	if ( $pid == 0 ) {
-		unveil( getcwd(), 'rc' ) || die "unable to unveil";
+		unveil( $ENV{ PWD }, 'rc' ) || die "unable to unveil";
 		pledge( qw( rpath cpath ) ) || die "unable to pledge: $!";
 		my $r = unlink( keys %files );
 		exit;
