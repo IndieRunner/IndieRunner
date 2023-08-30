@@ -109,30 +109,14 @@ Arguments to pass to the invocation of the game itself, like: C<-windowed -skipi
 
 =head1 DESCRIPTION
 
-B<IndieRunner> provides a convenient way to launch indie games with supported engines.
+B<indierunner> is the reference CLI frontend for the IndieRunner module. 
 
-=head2 Supported Engines
+=head1 SEE ALSO
 
-=over 8
+L<IndieRunner>
 
-=item FNA (under construction)
+=head1 AUTHOR
 
-=item Godot (under construction)
-
-=item GZDoom (under construction)
-
-=item HashLink (under construction)
-
-=item LibGDX (under construction)
-
-=item LWJGL2 (under construction)
-
-=item LWJGL3 (under construction)
-
-=item MonoGame
-
-=item XNA (under construction)
-
-=back
+Thomas Frohwein
 
 =cut
