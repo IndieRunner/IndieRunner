@@ -30,7 +30,7 @@ use IndieRunner::Io qw( write_file );
 
 sub get_dllmap_target () {
 	#  return the user-supplied dllmap file if available, or the one from ShareDir
-	return IndieRunner::Cmdline::cli_dllmap_file() ||
+	return # IndieRunner::Cmdline::cli_dllmap_file() ||
 		dist_file( 'IndieRunner', 'config/dllmap.config' );
 }
 

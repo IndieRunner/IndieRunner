@@ -1,6 +1,6 @@
 package IndieRunner;
 
-# Copyright (c) 2022 Thomas Frohwein
+# Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -28,24 +28,12 @@ use POSIX qw( strftime );
 use Readonly;
 
 use IndieRunner::Cmdline;
-use IndieRunner::FNA;
 use IndieRunner::Game;
-use IndieRunner::Godot;
 use IndieRunner::GrandCentral;
-use IndieRunner::GZDoom;
-use IndieRunner::HashLink;
 use IndieRunner::IdentifyFiles qw( find_file_magic );
 use IndieRunner::Info;
 use IndieRunner::Io qw( pty_cmd write_file );
-use IndieRunner::Java;
-use IndieRunner::Love2D;
-use IndieRunner::Mode::Dryrun;
-use IndieRunner::Mode::Run;
-use IndieRunner::Mode::Script;
-use IndieRunner::Mono;
-use IndieRunner::MonoGame;
 use IndieRunner::Platform qw( init_platform );
-use IndieRunner::XNA;
 
 # keep this in sync with return of IndieRunner::Cmdline::init_cli()
 Readonly::Hash my %INIT_ATTRIBUTES_DEFAULTS => {
@@ -70,18 +58,20 @@ sub new ( $class, %init ) {
 		$$self{ $k } = $init{ $k } || $v;
 	}
 
-	my $mode = ( $init{ script } ? 'Script' : ( $init{ dryrun } ? 'Dryrun' : 'Run' ) );
-
-	# initialize mode and setup link to mode object
-	$$self{ mode } = ( __PACKAGE__ . '::Mode::' . $mode )->new(
+	# determine and set mode (Run, Dryrun, or Script)
+	my $mode = __PACKAGE__ . '::Mode::' . ( $init{ script } ? 'Script' : ( $init{ dryrun } ? 'Dryrun' : 'Run' ) );
+	eval "require $mode" || die "Failed to load module $mode: $@";
+	$$self{ mode } = $mode->new(
 		verbosity => $$self{ verbosity },
 	);
 
+	# detect and load engine
 	unless ( $engine = $init{ engine } ) {
 		( $engine, $engine_id_file ) = ( detect_engine() );
 	}
-
-	$$self{ engine } = ( __PACKAGE__ . '::' . $engine )->new( # XXX: use this whenever doing this
+	my $engine_class = __PACKAGE__ . '::' . $engine;
+	eval "require $engine_class" || die "Failed to load module $engine_class: $@";
+	$engine_class->new(
 		id_file => $engine_id_file || '',
 	);
 

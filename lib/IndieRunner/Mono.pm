@@ -110,6 +110,7 @@ sub run_cmd ( $self ) {
 
 	my @exe = glob "*.exe";
 	my @cil;
+	my $game_file;
 
 	# XXX: add check for IndieRunner{ file } for command-line supplied file
 	foreach my $e ( @exe ) {

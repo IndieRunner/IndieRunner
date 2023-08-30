@@ -57,9 +57,9 @@ sub _unveil () {
 	$unveil_paths{ '/usr/local/bin' } = 'x';	# XXX: bin/ is overly broad
 
 	# XXX: add unveil r for configuration files: cli_dllmap_file
-	if ( IndieRunner::Cmdline::cli_dllmap_file() ) {
-		$unveil_paths{ IndieRunner::Cmdline::cli_dllmap_file() } = 'r';
-	}
+	#if ( IndieRunner::Cmdline::cli_dllmap_file() ) {
+		#$unveil_paths{ IndieRunner::Cmdline::cli_dllmap_file() } = 'r';
+	#}
 
 	# XXX: unveil ~/.config and/or ~/.local/share or XDG paths
 

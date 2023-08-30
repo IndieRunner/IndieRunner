@@ -69,7 +69,6 @@ sub init_cli () {
 }
 
 # XXX: legacy subroutines; remove when not needed anymore
-sub cli_dllmap_file ()	{ return $dllmap; }
 sub cli_dryrun ()	{ return $dryrun; }
 sub cli_verbose ()		{ return $verbosity; }
 
