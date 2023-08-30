@@ -19,10 +19,7 @@ use strict;
 use warnings;
 use v5.36;
 
-use parent 'IndieRunner::BaseModule';
-
 use Carp qw( cluck );
-
 use Readonly;
 
 Readonly::Scalar my $S4J_NATIVE_LOC => '/usr/local/share/steamworks4j';

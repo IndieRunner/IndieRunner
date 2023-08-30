@@ -24,11 +24,6 @@ use English;
 use parent 'IndieRunner::BaseModule';
 
 use Carp;
-
-# XXX: are all of these exports really needed?
-use base qw( Exporter );
-our @EXPORT_OK = qw( match_bin_file );
-
 use Config;
 use File::Find::Rule;
 use File::Spec::Functions qw( catfile splitpath );
@@ -37,7 +32,6 @@ use List::Util qw( max );
 use Path::Tiny;
 use Readonly;
 
-use IndieRunner::Io qw( ir_symlink );
 use IndieRunner::Java::LibGDX;
 use IndieRunner::Java::LWJGL2;
 use IndieRunner::Java::LWJGL3;

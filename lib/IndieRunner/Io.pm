@@ -18,12 +18,9 @@ use strict;
 use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
+use autodie;
 use English;
 
-use base qw( Exporter );
-our @EXPORT_OK = qw( ir_copy ir_symlink );
-
-use autodie;
 use Carp;
 use File::Copy qw( copy );
 use File::Path qw( make_path );

@@ -20,8 +20,6 @@ use warnings;
 use v5.36;
 use English;
 
-use parent 'IndieRunner::BaseModule';
-
 use Readonly;
 
 Readonly::Hash my %LWJGL2_DIR => (

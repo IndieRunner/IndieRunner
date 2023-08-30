@@ -21,8 +21,6 @@ use v5.36;
 use autodie;
 use English;
 
-use parent 'IndieRunner::BaseModule';
-
 use Carp qw( cluck confess );
 
 use File::Copy::Recursive qw( dircopy );
@@ -32,7 +30,7 @@ use File::Spec::Functions qw( catdir catfile splitdir splitpath );
 use List::Util qw( max );
 use Readonly;
 
-use IndieRunner::Io qw( ir_symlink );
+use IndieRunner::Io;
 
 Readonly::Scalar my $So_Sufx => '.so';
 
@@ -134,7 +132,7 @@ sub setup ( $ ) {
 	}
 
 	foreach my $l ( glob $native_gdx . '/*.so' ) {
-		ir_symlink( $l, ( splitpath( $l ) )[2], 1 ) unless -l $l;
+		IndieRunner::Io::ir_symlink( $l, ( splitpath( $l ) )[2], 1 ) unless -l $l;
 	}
 	say '';
 }
