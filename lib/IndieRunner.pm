@@ -225,7 +225,37 @@ IndieRunner - Launch your indie games on more platforms
 
 =head1 DESCRIPTION
 
-B<IndieRunner> handles the nitty gritty details of running a variety of (indie) games made with certain engines (see engines under SEE ALSO). It performs heuristics to determine the type of engine, its setup needs and runtime configuration. Modes for dryrun and the generation of a statical script to perform setup and run steps are included.
+B<IndieRunner> handles the nitty gritty details of running a variety of (indie) games made with certain engines (SEE ALSO). It performs heuristics to determine type of engine, setup needs, and runtime configuration. Modes for dryrun and the generation of a statical shell script that can be used independently of IndieRunner are included.
+
+=head1 METHODS
+
+=over
+
+=item C<new()>
+
+Constructor.
+
+=item C<setup()>
+
+Perform setup for the game.
+
+=item C<run()>
+
+Configure the runtime binary, arguments, and parameters. Then execute it.
+
+=back
+
+=head1 SUBROUTINES
+
+=item C<detect_engine()>
+
+Detect the engine.
+
+=item C<detect_game_name( $engine_module )>
+
+Detect the name of the game, using engine-specific heuristics from the C<$engine_module>.
+
+=back
 
 =head1 SEE ALSO
 
