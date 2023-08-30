@@ -21,8 +21,23 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use parent 'IndieRunner::Mode';
 
+use Carp;
+use File::Share qw( :all );
+
 my @out;	# accumulates all script output lines which will be printed to stdout in the end
 
-# XXX: move script_head() from Io to here
+sub script_head () {
+	if ( $OSNAME eq 'openbsd' ) {
+		say "#!/bin/ksh\n";
+		my $license = IndieRunner::Io::read_file(
+				catfile( dist_file( 'IndieRunner', 'LICENSE' ) );
+		$license =~ s/\n/\n\# /g;
+		$license =~ s/\n\# $//;
+		say "# $license\n";
+	}
+	else {
+		confess 'Non-OpenBSD OS not implemented';
+	}
+}
 
 1;

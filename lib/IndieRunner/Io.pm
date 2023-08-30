@@ -25,28 +25,12 @@ use Carp;
 use File::Copy qw( copy );
 use File::Path qw( make_path );
 use File::Spec::Functions qw( catfile catpath splitpath );
-use FindBin;	# XXX: use File::Share and move LICENSE to share directory
 
 # for pty_cmd()
 use IO::Handle;
 use IO::Pty;
 
 use IndieRunner::Cmdline;
-
-# beginning of scripts for 'script' mode; e.g. shebang
-sub script_head () {
-	if ( $OSNAME eq 'openbsd' ) {
-		say "#!/bin/ksh\n";
-		# XXX: use File::Share::dist_dir instead for share directory
-		my $license = read_file( catfile( $FindBin::Bin, '..', 'LICENSE' ) );
-		$license =~ s/\n/\n\# /g;
-		$license =~ s/\n\# $//;
-		say "# $license\n";
-	}
-	else {
-		confess 'Non-OpenBSD OS not implemented';
-	}
-}
 
 sub write_file( $data, $filename ) {
 	croak "File $filename already exists!" if ( -e $filename );

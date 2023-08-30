@@ -196,3 +196,8 @@ Library Changes
 ---------------
 
 * libjpeg has had breaking API changes that break the game MidBoss which is expecting old API.
+
+License
+=======
+
+[ISC License](share/LICENSE)
