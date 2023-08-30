@@ -247,6 +247,8 @@ Configure the runtime binary, arguments, and parameters. Then execute it.
 
 =head1 SUBROUTINES
 
+=over
+
 =item C<detect_engine()>
 
 Detect the engine.
