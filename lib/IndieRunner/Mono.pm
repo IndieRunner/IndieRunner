@@ -25,7 +25,7 @@ use Carp;
 use File::Path qw( make_path );
 use Readonly;
 
-use IndieRunner::IdentifyFiles qw( get_magic_descr );
+use IndieRunner::IdentifyFiles;
 use IndieRunner::Mono::Dllmap qw( get_dllmap_target );
 use IndieRunner::Mono::Iomap;
 
@@ -114,7 +114,7 @@ sub run_cmd ( $self ) {
 
 	# XXX: add check for IndieRunner{ file } for command-line supplied file
 	foreach my $e ( @exe ) {
-		if ( index( get_magic_descr( $e ),
+		if ( index( IndieRunner::IdenfityFiles::get_magic_descr( $e ),
 			'Mono/.Net assembly' ) > -1 ) {
 				push @cil, $e;
 		}

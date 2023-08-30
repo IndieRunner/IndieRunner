@@ -22,15 +22,13 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use Carp;
 use File::Find::Rule;
 use File::Share qw( :all );
-use File::Spec::Functions qw( catpath splitpath );
-use List::Util qw( first );
-use POSIX qw( strftime );
+use File::Spec::Functions qw( splitpath );
 use Readonly;
 
 use IndieRunner::Cmdline;
 use IndieRunner::Game;
 use IndieRunner::GrandCentral;
-use IndieRunner::IdentifyFiles qw( find_file_magic );
+use IndieRunner::IdentifyFiles;
 use IndieRunner::Info;
 use IndieRunner::Io qw( pty_cmd write_file );
 use IndieRunner::Platform qw( init_platform );
@@ -159,8 +157,8 @@ sub detect_game_name ( $engine_module ) {
 	# Mono*: name.exe
 
 	$game_name = IndieRunner::Info::goggame_name();
-	($game_name) = find_file_magic( '^ELF.*executable', glob '*' ) unless $game_name;
-	($game_name) = find_file_magic( '^PE32 executable \(console\)', glob '*' ) unless $game_name;
+	($game_name) = IndieRunner::IdentifyFiles::find_file_magic( '^ELF.*executable', glob '*' ) unless $game_name;
+	($game_name) = IndieRunner::IdentifyFiles::find_file_magic( '^PE32 executable \(console\)', glob '*' ) unless $game_name;
 	$game_name = 'unknown' unless $game_name;	# bail
 
 	return $game_name;

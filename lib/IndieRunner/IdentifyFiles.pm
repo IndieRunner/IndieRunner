@@ -19,9 +19,6 @@ use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
-use base qw( Exporter );
-our @EXPORT_OK = qw( find_file_magic get_magic_descr );
-
 use Carp;
 use File::Find::Rule;
 use File::LibMagic;
