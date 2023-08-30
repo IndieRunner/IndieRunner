@@ -36,7 +36,6 @@ use List::Util qw( max );
 use Path::Tiny;
 use Readonly;
 
-use IndieRunner::Cmdline qw( cli_verbose );
 use IndieRunner::Io qw( ir_symlink );
 use IndieRunner::Java::LibGDX;
 use IndieRunner::Java::LWJGL2;

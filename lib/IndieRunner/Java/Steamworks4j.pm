@@ -25,8 +25,6 @@ use Carp qw( cluck );
 
 use Readonly;
 
-use IndieRunner::Cmdline qw( cli_verbose );
-
 Readonly::Scalar my $S4J_NATIVE_LOC => '/usr/local/share/steamworks4j';
 
 sub add_classpath ( $self ) {

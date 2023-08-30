@@ -59,10 +59,8 @@ sub get_os () {
 sub init_platform () {
 	my $os = get_os();
 	my $os_platform_module = join( '', __PACKAGE__, '::', $os );
-	my $verbose = IndieRunner::Cmdline::cli_verbose();
 
 	try {
-		say "platform init for: $os_platform_module" if $verbose;
 		$os_platform_module->init();
 	}
 	catch ($e) {
@@ -71,7 +69,6 @@ sub init_platform () {
 			say "Fatal: platform init failed for $os_platform_module, with error: $e";
 			exit 1;
 		}
-		say "no platform init for $os_platform_module" if $verbose;
 	}
 }
 
