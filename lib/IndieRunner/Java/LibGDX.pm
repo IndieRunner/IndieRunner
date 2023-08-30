@@ -19,6 +19,7 @@ use strict;
 use warnings;
 use v5.36;
 use autodie;
+use English;
 
 use parent 'IndieRunner::BaseModule';
 
@@ -32,7 +33,6 @@ use List::Util qw( max );
 use Readonly;
 
 use IndieRunner::Io qw( ir_symlink );
-use IndieRunner::Platform qw( get_os );
 
 Readonly::Scalar my $So_Sufx => '.so';
 

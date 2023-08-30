@@ -18,19 +18,18 @@ use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
 use v5.36;
+use English;
 
 use parent 'IndieRunner::BaseModule';
 
 use Readonly;
-
-use IndieRunner::Platform qw( get_os );
 
 Readonly::Hash my %LWJGL2_DIR => (
 	        'openbsd'       => '/usr/local/share/lwjgl',
                 );
 
 sub add_classpath ( $self ) {
-	return glob( $LWJGL2_DIR{ get_os() } . '/*.jar' );
+	return glob( $LWJGL2_DIR{ $OSNAME } . '/*.jar' );
 }
 
 1;

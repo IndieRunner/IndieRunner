@@ -19,6 +19,7 @@ use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use autodie;
+use English;
 
 use parent 'IndieRunner::BaseModule';
 
@@ -41,7 +42,6 @@ use IndieRunner::Java::LibGDX;
 use IndieRunner::Java::LWJGL2;
 use IndieRunner::Java::LWJGL3;
 use IndieRunner::Java::Steamworks4j;
-use IndieRunner::Platform qw( get_os );
 
 Readonly::Scalar my $MANIFEST		=> 'META-INF/MANIFEST.MF';
 
@@ -96,7 +96,6 @@ my $java_home;
 my @jvm_args;
 my @jvm_classpath;
 my @jvm_env;
-my $os;
 
 my %java_version = (
 	bundled	=> 0,
@@ -129,7 +128,7 @@ sub get_bundled_java_version () {
 
 	# fetch version string and trim to format for JAVA_HOME
 	my $got_version = match_bin_file($JAVA_VER_REGEX, $bundled_java_bin);
-	if ( $os eq 'openbsd' ) {
+	if ( $OSNAME eq 'openbsd' ) {
 		# OpenBSD: '1.8.0', '11', '17'
 		if (substr($got_version, 0, 2) eq '1.') {
 			$java_version{ bundled } = '1.8.0';
@@ -139,16 +138,16 @@ sub get_bundled_java_version () {
 		}
 	}
 	else {
-		confess "Unsupported OS: " . $os;
+		confess "Unsupported OS: " . $OSNAME;
 	}
 }
 
 sub set_java_home ( $v ) {
-	if ( $os eq 'openbsd' ) {
+	if ( $OSNAME eq 'openbsd' ) {
 		$java_home = '/usr/local/jdk-' . $v;
 	}
 	else {
-		die "Unsupported OS: " . $os;
+		die "Unsupported OS: " . $OSNAME;
 	}
 	confess "Couldn't locate desired JAVA_HOME directory at $java_home: $!"
 		unless ( -d $java_home );
@@ -274,8 +273,7 @@ sub new ( $class, %init ) {
 	%$self = ( %$self, %init );
 
 	# 1. Check OS and initialize basic variables
-	$os = get_os();
-	die "OS not recognized: " . $os unless ( exists $Valid_Java_Versions{$os} );
+	die "OS not recognized: " . $OSNAME unless ( exists $Valid_Java_Versions{$OSNAME} );
 	get_bundled_java_version();
 
 	$Bit_Sufx = ( $Config{'use64bitint'} ? '64' : '' ) . $So_Sufx;
@@ -412,7 +410,7 @@ sub run_cmd ( $self ) {
 
 	# validate java versions
 	foreach my $k ( keys %java_version ) {
-		if ( grep( /^\Q$java_version{ $k }\E$/, @{$Valid_Java_Versions{$os}} ) ) {
+		if ( grep( /^\Q$java_version{ $k }\E$/, @{$Valid_Java_Versions{$OSNAME}} ) ) {
 			$java_version{ $k } = version->declare( $java_version{ $k } );
 		}
 		else {

@@ -18,6 +18,7 @@ use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
 use v5.36;
+use English;
 
 use parent 'IndieRunner::BaseModule';
 
@@ -27,8 +28,6 @@ use base qw( Exporter );
 our @EXPORT_OK = qw( get_java_version_preference );
 
 use Readonly;
-
-use IndieRunner::Platform qw( get_os );
 
 # if LWJGL3 libs are built with Java 11, they fail to run with 1.8:
 # java.lang.NoSuchMethodError: java.nio.ByteBuffer.position(I)Ljava/nio/ByteBuffer;
@@ -41,11 +40,11 @@ Readonly::Hash my %LWJGL3_DIR => (
 	);
 
 sub get_java_version_preference () {
-	return $LWJGL3_JAVA_VERSION{ get_os() };
+	return $LWJGL3_JAVA_VERSION{ $OSNAME };
 }
 
 sub add_classpath ( $self ) {
-	return glob( $LWJGL3_DIR{ get_os() } . '/*.jar' );
+	return glob( $LWJGL3_DIR{ $OSNAME } . '/*.jar' );
 }
 
 1;

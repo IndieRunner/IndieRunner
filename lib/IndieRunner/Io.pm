@@ -18,6 +18,7 @@ use strict;
 use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
+use English;
 
 use base qw( Exporter );
 our @EXPORT_OK = qw( ir_copy ir_symlink neuter pty_cmd write_file );
@@ -27,22 +28,19 @@ use Carp;
 use File::Copy qw( copy );
 use File::Path qw( make_path );
 use File::Spec::Functions qw( catfile catpath splitpath );
-use FindBin;
+use FindBin;	# XXX: use File::Share and move LICENSE to share directory
 
 # for pty_cmd()
 use IO::Handle;
 use IO::Pty;
 
 use IndieRunner::Cmdline;
-use IndieRunner::Platform qw( get_os );
-
-my $_verbosity;
 
 # beginning of scripts for 'script' mode; e.g. shebang
 sub script_head () {
-	my $os = get_os();
-	if ( $os eq 'openbsd' ) {
+	if ( $OSNAME eq 'openbsd' ) {
 		say "#!/bin/ksh\n";
+		# XXX: use File::Share::dist_dir instead for share directory
 		my $license = read_file( catfile( $FindBin::Bin, '..', 'LICENSE' ) );
 		$license =~ s/\n/\n\# /g;
 		$license =~ s/\n\# $//;
@@ -76,8 +74,7 @@ sub read_file( $filename ) {
 
 # print OS-specific rename command
 sub os_rename( $oldfile, $newfile ) {
-	my $os = get_os();
-	if ( $os eq 'openbsd' ) {
+	if ( $OSNAME eq 'openbsd' ) {
 		say "mv $oldfile $newfile";
 	}
 	else {
@@ -87,8 +84,7 @@ sub os_rename( $oldfile, $newfile ) {
 
 # print OS-specific symlink command
 sub os_symlink( $oldfile, $newfile ) {
-	my $os = get_os();
-	if ( $os eq 'openbsd' ) {
+	if ( $OSNAME eq 'openbsd' ) {
 		say "ln -s $oldfile $newfile";
 	}
 	else {
@@ -98,8 +94,7 @@ sub os_symlink( $oldfile, $newfile ) {
 
 # print OS-specific symlink command
 sub os_copy( $oldfile, $newfile ) {
-	my $os = get_os();
-	if ( $os eq 'openbsd' ) {
+	if ( $OSNAME eq 'openbsd' ) {
 		say "cp $oldfile $newfile";
 	}
 	else {

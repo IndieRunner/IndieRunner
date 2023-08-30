@@ -1,6 +1,6 @@
 package IndieRunner::Platform;
 
-# Copyright (c) 2022 Thomas Frohwein
+# Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -20,9 +20,10 @@ use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use autodie;
 use experimental 'try';
+use English;
 
 use base qw( Exporter );
-our @EXPORT_OK = qw( bin_pathcomplete get_os init_platform );
+our @EXPORT_OK = qw( bin_pathcomplete );
 
 use Config;
 use Readonly;
@@ -52,19 +53,15 @@ sub bin_pathcomplete ( $fragment ) {
 	return wantarray ? @matchedfiles : ( $matchedfiles[0] || '' );
 }
 
-sub get_os () {
-	return $Config{qw(osname)};
-}
-
+# XXX: obsolete? remove?
 sub init_platform () {
-	my $os = get_os();
-	my $os_platform_module = join( '', __PACKAGE__, '::', $os );
+	my $os_platform_module = join( '', __PACKAGE__, '::', $OSNAME );
 
 	try {
 		$os_platform_module->init();
 	}
 	catch ($e) {
-		if ( ( grep { /^\Q$os\E/ } @MUST_INIT ) or
+		if ( ( grep { /^\Q$OSNAME\E/ } @MUST_INIT ) or
 			( $e =~ !/^\QUndefined subroutine\E/ )  ){
 			say "Fatal: platform init failed for $os_platform_module, with error: $e";
 			exit 1;

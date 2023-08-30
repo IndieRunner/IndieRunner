@@ -18,6 +18,7 @@ use strict;
 use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
+use English;
 
 use Carp;
 use File::Find::Rule;
@@ -31,7 +32,7 @@ use IndieRunner::GrandCentral;
 use IndieRunner::IdentifyFiles;
 use IndieRunner::Info;
 use IndieRunner::Io qw( pty_cmd write_file );
-use IndieRunner::Platform qw( init_platform );
+use IndieRunner::Platform;
 
 # keep this in sync with return of IndieRunner::Cmdline::init_cli()
 Readonly::Hash my %INIT_ATTRIBUTES_DEFAULTS => {
@@ -190,7 +191,7 @@ sub setup ( $self ) {
 }
 
 sub run ( $self ) {
-	confess "Not implemented.";
+	confess "Not implemented";
 
 	# configure runtime:
 	# - engine-specific, game-specific, and user-provided configuration
