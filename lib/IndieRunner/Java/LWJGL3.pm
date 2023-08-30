@@ -28,7 +28,7 @@ our @EXPORT_OK = qw( get_java_version_preference );
 
 use Readonly;
 
-use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+use IndieRunner::Cmdline qw( cli_verbose );
 use IndieRunner::Platform qw( get_os );
 
 # if LWJGL3 libs are built with Java 11, they fail to run with 1.8:

@@ -36,7 +36,7 @@ use List::Util qw( max );
 use Path::Tiny;
 use Readonly;
 
-use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+use IndieRunner::Cmdline qw( cli_verbose );
 use IndieRunner::Io qw( ir_symlink );
 use IndieRunner::Java::LibGDX;
 use IndieRunner::Java::LWJGL2;
@@ -169,7 +169,7 @@ sub extract_jar ( @class_path ) {
 			croak "No classpath $cp to extract.";
 		}
 		say "Extracting $cp ...";
-		return if cli_dryrun();
+		#return if cli_dryrun();
 		system( '7z', 'x', '-y', $cp ) and
 			confess "Error while attempting to extract $cp";
 	}

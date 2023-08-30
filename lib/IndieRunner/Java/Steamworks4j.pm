@@ -1,6 +1,6 @@
 package IndieRunner::Java::Steamworks4j;
 
-# Copyright (c) 2022 Thomas Frohwein
+# Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -25,7 +25,7 @@ use Carp qw( cluck );
 
 use Readonly;
 
-use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+use IndieRunner::Cmdline qw( cli_verbose );
 
 Readonly::Scalar my $S4J_NATIVE_LOC => '/usr/local/share/steamworks4j';
 

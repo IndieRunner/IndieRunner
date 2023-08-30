@@ -31,7 +31,7 @@ use File::Spec::Functions qw( catdir catfile splitdir splitpath );
 use List::Util qw( max );
 use Readonly;
 
-use IndieRunner::Cmdline qw( cli_dryrun cli_verbose );
+use IndieRunner::Cmdline qw( cli_verbose );
 use IndieRunner::Io qw( ir_symlink );
 use IndieRunner::Platform qw( get_os );
 
@@ -116,7 +116,7 @@ sub add_classpath ( $self ) {
 }
 
 sub setup ( $ ) {
-	my ( $dryrun, $verbose ) = ( cli_dryrun(), cli_verbose() );
+	my $verbose = cli_verbose();
 
 	# What version is bundled with the game?
 	my $bundled_v = get_bundled_gdx_version();
