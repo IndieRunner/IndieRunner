@@ -20,7 +20,7 @@ use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use base qw( Exporter );
-our @EXPORT_OK = qw( cli_dryrun cli_verbose );
+our @EXPORT_OK = qw( cli_verbose );
 
 use Getopt::Long;
 use Pod::Usage;
@@ -69,7 +69,6 @@ sub init_cli () {
 }
 
 # XXX: legacy subroutines; remove when not needed anymore
-sub cli_dryrun ()	{ return $dryrun; }
 sub cli_verbose ()		{ return $verbosity; }
 
 1;
