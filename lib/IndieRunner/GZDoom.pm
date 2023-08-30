@@ -38,7 +38,8 @@ sub new ( $class, %init ) {
 	# - Beyond Sunset (demo)
 	# - Vomitoreum
 	# - I Am Sakuya: Touhou FPS Game
-	my @need_to_remove = ();
+
+	#my @need_to_remove = ();
 	my %need_to_replace;
 
 	my $self = bless {}, $class;
@@ -49,7 +50,7 @@ sub new ( $class, %init ) {
 			'/usr/local/share/games/doom/gzdoom.pk3';
 	}
 
-	$$self{ need_to_remove }	= \@need_to_remove;
+	#$$self{ need_to_remove }	= \@need_to_remove;
 	$$self{ need_to_replace }	= \%need_to_replace;
 
 	return $self;

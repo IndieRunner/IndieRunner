@@ -30,8 +30,7 @@ chdir $cli_config{ dir } or die "Failed to enter $cli_config{ dir }: $!";
 my $indierunner = IndieRunner->new( %cli_config );
 $indierunner->setup();
 $indierunner->run();
-
-# XXX: are any cleanup or closing commands needed?
+$indierunner->finish();
 
 __END__
 

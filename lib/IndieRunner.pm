@@ -169,25 +169,16 @@ sub setup ( $self ) {
 	# XXX: Extract archives first, then
 	#      after extracting archives, need to check for libraries with
 	#      IndieRunner::Java::bundled_libraries()
-	if ( $$self{ engine }{ need_to_extract } ) {
-		$$self{ mode }->extract( %{ $$self{ engine }{ need_to_extract } } );
-	}
 
-	if ( $$self{ engine }{ need_to_remove } ) {
-		$$self{ mode }->remove( @{ $$self{ engine }{ need_to_remove } } );
-	}
-
-	if ( $$self{ engine }{ need_to_replace } ) {
-		$$self{ mode }->replace( %{ $$self{ engine }{ need_to_replace } } );
-	}
-
-	if ( $$self{ engine }{ need_to_convert } ) {
-		$$self{ mode }->convert( %{ $$self{ engine }{ need_to_convert } } );
+	for my $step ( qw( extract remove replace convert ) ) {
+		if ( $$self{ engine }{ 'need_to_' . $step } ) {
+			$$self{ mode }->$step( %{ $$self{ engine }{ 'need_to_' . $step } } );
+		}
 	}
 }
 
 sub run ( $self ) {
-	confess "Not implemented";
+	say STDERR "XXX: run() not implemented yet";
 
 	# configure runtime:
 	# - engine-specific, game-specific, and user-provided configuration
@@ -196,6 +187,10 @@ sub run ( $self ) {
 	# - engine-specific pledge exec promises?
 
 	# XXX: Fork + Exec Runtime, unveil +/- pledge as appropriate
+}
+
+sub finish ( $self ) {
+	$$self{ mode }->finish();
 }
 
 1;
@@ -239,6 +234,10 @@ Perform setup for the game.
 =item C<run()>
 
 Configure the runtime binary, arguments, and parameters. Then execute it.
+
+=item C<finish()>
+
+Depending on mode, perform remaining tasks after C<run>.
 
 =back
 

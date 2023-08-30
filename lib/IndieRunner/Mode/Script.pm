@@ -24,22 +24,32 @@ use parent 'IndieRunner::Mode';
 
 use Carp;
 use File::Share qw( :all );
+use File::Spec::Functions qw( catfile );
 
-my @out;	# accumulates all script output lines which will be printed to stdout in the end
+my $out;	# accumulates all script output lines which will be printed to stdout in the end
 
 sub script_head () {
 	if ( $OSNAME eq 'openbsd' ) {
-		say "#!/bin/ksh\n";
-		my $license = IndieRunner::Io::read_file(
+		my $license = "#!/bin/ksh\n" . IndieRunner::Io::read_file(
 				catfile( dist_file( 'IndieRunner', 'LICENSE' ) )
 				);
 		$license =~ s/\n/\n\# /g;
-		$license =~ s/\n\# $//;
-		say "# $license\n";
+		$license =~ s/\n\#[[:blank:]]+$//;
+		$license .= "\n";
+		return $license;
 	}
 	else {
 		confess 'Non-OpenBSD OS not implemented';
 	}
+}
+
+sub new ( $class, %init ) {
+	$out = script_head();
+	return $class->SUPER::new( %init );
+}
+
+sub finish ( $self ) {
+	say $out;
 }
 
 1;

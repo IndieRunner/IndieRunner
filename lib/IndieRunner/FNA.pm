@@ -41,7 +41,7 @@ sub run_cmd ( $self ) {
 
 sub new ( $class, %init ) {
 	# XXX: make this class less verbose (say)
-	my @need_to_remove;
+	my %need_to_remove;
 	my %need_to_replace;
 	my $fna_file = 'FNA.dll';
 	my $fna_config_file = 'FNA.dll.config';
@@ -83,9 +83,10 @@ sub new ( $class, %init ) {
 			say "FNA.dll version ok: $fna_bundled_version";
 		}
 	}
-	push( @need_to_remove, $fna_config_file ) if ( -f $fna_config_file );
+	#push( @need_to_remove, $fna_config_file ) if ( -f $fna_config_file );
+	$need_to_remove{ $fna_config_file } = undef if -f $fna_config_file;
 
-	$$self{ need_to_remove }	= \@need_to_remove;
+	$$self{ need_to_remove }	= \%need_to_remove;
 	$$self{ need_to_replace }	= \%need_to_replace;
 
 	return $self;

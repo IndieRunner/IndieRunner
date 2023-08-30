@@ -39,12 +39,15 @@ sub run_cmd ( $self ) {
 }
 
 sub new ( $class, %init ) {
-	my @need_to_remove;
+	my %need_to_remove;
 	my $self = bless {}, $class;
 
 	%$self = ( %$self, %init );
-	push @need_to_remove, glob( '*.hdll' );
-	$$self{ need_to_remove }	= \@need_to_remove;
+	#push @need_to_remove, glob( '*.hdll' );
+	foreach my $g ( glob( '*.hdll' ) ) {
+		$need_to_remove{ $g } = undef,
+	}
+	$$self{ need_to_remove }	= \%need_to_remove;
 
 	return $self;
 }

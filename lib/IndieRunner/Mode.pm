@@ -42,8 +42,8 @@ sub extract ( $self, %files_and_subs ) {
 	}
 }
 
-sub remove ( $self, @files ) {
-	foreach my $f ( @files ) {
+sub remove ( $self, %files ) {
+	foreach my $f ( keys %files ) {
 		vsay "remove $f";
 	}
 }
@@ -58,6 +58,10 @@ sub convert ( $self, %from_to ) {
 	while ( my ( $k, $v ) = each ( %from_to ) ) {
 		vsay "convert $k to $v";
 	}
+}
+
+sub finish ( $self ) {
+	# no-op by default
 }
 
 1;
