@@ -22,15 +22,13 @@ use autodie;
 use English;
 
 use Carp;
-use File::Copy qw( copy );
+#use File::Copy qw( copy );
 use File::Path qw( make_path );
 use File::Spec::Functions qw( catfile catpath splitpath );
 
 # for pty_cmd()
 use IO::Handle;
 use IO::Pty;
-
-use IndieRunner::Cmdline;
 
 sub write_file( $data, $filename ) {
 	croak "File $filename already exists!" if ( -e $filename );

@@ -171,11 +171,11 @@ sub setup ( $self ) {
 	#      after extracting archives, need to check for libraries with
 	#      IndieRunner::Java::bundled_libraries()
 
-	my $pid = fork;
+	my $pid = fork();
 	if ( $pid == 0 ) {
-		# XXX: pledge and unveil
+		# XXX: unveil inside the functions
 		# XXX: remove error pledge!
-		pledge( qw( stdio rpath wpath cpath fattr flock exec unveil error ) ) ||
+		pledge( qw( stdio rpath wpath cpath fattr flock proc exec unveil error ) ) ||
 			confess "unable to pledge: $!";
 
 		# XXX: do everything important here
