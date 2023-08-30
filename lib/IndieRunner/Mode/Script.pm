@@ -1,4 +1,4 @@
-package IndieRunner::Script;
+package IndieRunner::Mode::Script;
 
 # Copyright (c) 2022-2023 Thomas Frohwein
 #
@@ -19,6 +19,8 @@ use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
+use parent 'IndieRunner::Io';
+
 my @out;	# accumulates all script output lines which will be printed to stdout in the end
 
 # XXX: move script_head() from Io to here
@@ -27,12 +29,6 @@ sub new ( $class, %init ) {
 	my $self = bless {}, $class;
 	%$self = ( %$self, %init );
 	return $self;
-}
-
-sub setup ( $self ) {
-	push @out, '# Setup';
-
-	# XXX: gather the rest of the setup steps
 }
 
 1;

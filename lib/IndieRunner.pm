@@ -38,6 +38,9 @@ use IndieRunner::Info;
 use IndieRunner::Io qw( pty_cmd write_file );
 use IndieRunner::Java;
 use IndieRunner::Love2D;
+use IndieRunner::Mode::Dryrun;
+use IndieRunner::Mode::Run;
+use IndieRunner::Mode::Script;
 use IndieRunner::Mono;
 use IndieRunner::MonoGame;
 use IndieRunner::Platform qw( init_platform );
@@ -50,7 +53,8 @@ sub new ( $class ) {
 
 	%$self = ( %$self, %{ IndieRunner::Cmdline::init_cli() } );
 
-	# XXX: if script mode, create script object
+	# initialize mode and setup link to mode object
+	$$self{ mode } = ( __PACKAGE__ . '::Mode::' . $$self{ mode_name } )->new();
 
 	# check if engine already supplied by cli args
 	unless ( $engine = $$self{ engine_name } ) {
@@ -62,8 +66,6 @@ sub new ( $class ) {
 
 	# set game from cli argument if present
 	my $game_name = $$self{ game_name } || detect_game_name( $$self{ engine } );
-	say "game_name: $game_name";
-	exit;
 
 	$$self{ game }			= ( __PACKAGE__ . '::Game' )->new(
 						name => $game_name,

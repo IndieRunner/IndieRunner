@@ -35,7 +35,7 @@ my $cli_file = '';
 my $dllmap_file = '';
 my $engine_name = '';
 my $game_name;
-my $mode	= 'run';	# run, dryrun, or script
+my $mode_name	= 'Run';	# run, dryrun, or script
 my $verbose	= 0;
 
 sub init_cli () {
@@ -43,14 +43,14 @@ sub init_cli () {
 	GetOptions (    'help|h'	=> sub { pod2usage(-exitval => 0, -verbose => 1); },
 	                'dir|d=s'	=> \$game_dir,
 	                'dllmap|D=s'	=> \$dllmap_file,
-			'dryrun|n'      => sub { $mode = 'dryrun'; },
+			'dryrun|n'      => sub { $mode_name = 'Dryrun'; },
 			'engine|e=s'	=> \$engine_name,
 			'file|f=s'	=> \$cli_file,
 			'game|g=s'	=> \$game_name,
 			'man|m'           => sub { pod2usage(-exitval => 0,
 			                                     -verbose => 2,
 							     -input => "$FindBin::Bin/../lib/IndieRunner.pod"); },
-			'script'	=> sub { $mode = 'script' },
+			'script'	=> sub { $mode_name = 'Script' },
 			'usage'         => sub { pod2usage(-exitval => 0,
 			                                   -verbose => 0,
 							   -input => "$FindBin::Bin/../lib/IndieRunner.pod"); },
@@ -61,10 +61,6 @@ sub init_cli () {
 
 	# apply the immediate rules based on cli args
 	chdir $game_dir if $game_dir;
-	if ( $mode eq 'script' ) {
-		$verbose = 0;		# need to disable verbosity to write script to stdout
-		IndieRunner::Io::script_head();
-	}
 
 	return {
 		game_dir	=> $game_dir,	# XXX; really needed to return, after chdir above?
@@ -73,18 +69,18 @@ sub init_cli () {
 		engine_name	=> $engine_name,
 		game_args	=> \@ARGV,
 		game_name	=> $game_name,
-		mode		=> $mode,
+		mode_name	=> $mode_name,
 		verbose		=> $verbose,
 	};
 }
 
 sub cli_dllmap_file ()	{ return $dllmap_file; }
-sub cli_dryrun ()	{ return $mode eq 'dryrun'; }
+sub cli_dryrun ()	{ return $mode_name eq 'Dryrun'; }
 sub cli_file ()		{ return $cli_file; }
 sub cli_gameargs ()	{
 	return '';
 }
-sub cli_mode ()			{ return $mode; }
+sub cli_mode ()			{ return $mode_name; }
 sub cli_verbose ()		{ return $verbose; }
 
 1;
