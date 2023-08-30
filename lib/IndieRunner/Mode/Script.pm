@@ -18,6 +18,7 @@ use strict;
 use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
+use English;
 
 use parent 'IndieRunner::Mode';
 
@@ -30,7 +31,8 @@ sub script_head () {
 	if ( $OSNAME eq 'openbsd' ) {
 		say "#!/bin/ksh\n";
 		my $license = IndieRunner::Io::read_file(
-				catfile( dist_file( 'IndieRunner', 'LICENSE' ) );
+				catfile( dist_file( 'IndieRunner', 'LICENSE' ) )
+				);
 		$license =~ s/\n/\n\# /g;
 		$license =~ s/\n\# $//;
 		say "# $license\n";

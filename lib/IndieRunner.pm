@@ -31,6 +31,7 @@ use IndieRunner::GrandCentral;
 use IndieRunner::IdentifyFiles;
 use IndieRunner::Info;
 use IndieRunner::Io;
+use IndieRunner::Mono;		# for get_mono_files
 use IndieRunner::Platform;
 
 # keep this in sync with return of IndieRunner::Cmdline::init_cli()
@@ -183,10 +184,6 @@ sub setup ( $self ) {
 	if ( $$self{ engine }{ need_to_convert } ) {
 		$$self{ mode }->convert( %{ $$self{ engine }{ need_to_convert } } );
 	}
-
-	# fork + pledge + unveil for this into a separate process; use waitpid
-	# 	to continue once completed
-	#
 }
 
 sub run ( $self ) {
