@@ -24,17 +24,11 @@ use FindBin; use lib "$FindBin::Bin/../lib";
 use IndieRunner;
 use IndieRunner::Cmdline;
 
-# 1. get CLI configuration
 my %cli_config = %{ IndieRunner::Cmdline::init_cli() };
 chdir $cli_config{ dir } or die "Failed to enter $cli_config{ dir }: $!";
 
-# 2. init IndieRunner object with parameters from CLI (XXX)
 my $indierunner = IndieRunner->new( %cli_config );
-
-# 3. setup
 $indierunner->setup();
-
-# 4. run
 $indierunner->run();
 
 # XXX: are any cleanup or closing commands needed?
