@@ -23,64 +23,59 @@ use base qw( Exporter );
 our @EXPORT_OK = qw( cli_dllmap_file cli_dryrun cli_file cli_gameargs
                      cli_mode cli_verbose init_cli );
 
-use File::Spec::Functions qw( catdir );
-use FindBin;
 use Getopt::Long;
 use Pod::Usage;
 
-use IndieRunner::Io;
-
-my $game_dir = '';
-my $cli_file = '';
-my $dllmap_file = '';
-my $engine_name = '';
-my $game_name;
-my $mode_name	= 'Run';	# run, dryrun, or script
-my $verbose	= 0;
+my $dir;
+my $dllmap;
+my $dryrun;
+my $engine;
+my $file;
+my $game;
+my $mode;
+my $script;
+my $verbosity;
 
 sub init_cli () {
 	Getopt::Long::Configure ("bundling");
 	GetOptions (    'help|h'	=> sub { pod2usage(-exitval => 0, -verbose => 1); },
-	                'dir|d=s'	=> \$game_dir,
-	                'dllmap|D=s'	=> \$dllmap_file,
-			'dryrun|n'      => sub { $mode_name = 'Dryrun'; },
-			'engine|e=s'	=> \$engine_name,
-			'file|f=s'	=> \$cli_file,
-			'game|g=s'	=> \$game_name,
+	                'dir|d=s'	=> \$dir,
+	                'dllmap|D=s'	=> \$dllmap,
+			'dryrun|n'      => \$dryrun,
+			'engine|e=s'	=> \$engine,
+			'file|f=s'	=> \$file,
+			'game|g=s'	=> \$game,
 			'man|m'           => sub { pod2usage(-exitval => 0,
-			                                     -verbose => 2,
-							     -input => "$FindBin::Bin/../lib/IndieRunner.pod"); },
-			'script'	=> sub { $mode_name = 'Script' },
+			                                     -verbose => 2, ); },
+			'script'	=> \$script,
 			'usage'         => sub { pod2usage(-exitval => 0,
-			                                   -verbose => 0,
-							   -input => "$FindBin::Bin/../lib/IndieRunner.pod"); },
-			'verbose|v'     => \$verbose,
-			'version'       => sub { say $VERSION; exit; },
+			                                   -verbose => 0, ; },
+			'verbose|v'     => \$verbosity,
+			'version'       => sub { say $VERSION; exit; },	# XXX: $VERSION from which module or script?
 		   )
 	or pod2usage(2);
 
-	# apply the immediate rules based on cli args
-	chdir $game_dir if $game_dir;
-
+	# keep this in sync with %INIT_ATTRIBUTES_DEFAULTS in IndieRunner.pm
 	return {
-		game_dir	=> $game_dir,	# XXX; really needed to return, after chdir above?
-		cli_file	=> $cli_file,
-		dllmap_file	=> $dllmap_file,
-		engine_name	=> $engine_name,
+		dir		=> $dir,
+		dllmap		=> $dllmap,
+		engine		=> $engine,
+		file		=> $file,
+		game		=> $game,
 		game_args	=> \@ARGV,
-		game_name	=> $game_name,
-		mode_name	=> $mode_name,
-		verbose		=> $verbose,
+		script		=> $script,
+		verbosity	=> $verbose,
 	};
 }
 
-sub cli_dllmap_file ()	{ return $dllmap_file; }
-sub cli_dryrun ()	{ return $mode_name eq 'Dryrun'; }
-sub cli_file ()		{ return $cli_file; }
-sub cli_gameargs ()	{
+# XXX: legacy subroutines; remove when not needed anymore
+sub cli_dllmap_file ()	{ return $dllmap; }
+sub cli_dryrun ()	{ return $dryrun; }
+sub cli_file ()		{ return $file; }
+sub cli_gameargs ()	{	# XXX: useless, remove it
 	return '';
 }
-sub cli_mode ()			{ return $mode_name; }
-sub cli_verbose ()		{ return $verbose; }
+sub cli_mode ()			{ confess "XXX: obsolete to be removed"; }
+sub cli_verbose ()		{ return $verbosity; }
 
 1;

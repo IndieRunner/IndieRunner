@@ -25,6 +25,7 @@ use File::Share qw( :all );
 use File::Spec::Functions qw( catpath splitpath );
 use List::Util qw( first );
 use POSIX qw( strftime );
+use Readonly;
 
 use IndieRunner::Cmdline;
 use IndieRunner::FNA;
@@ -46,10 +47,30 @@ use IndieRunner::MonoGame;
 use IndieRunner::Platform qw( init_platform );
 use IndieRunner::XNA;
 
+# keep this in sync with return of IndieRunner::Cmdline::init_cli()
+Readonly::Hash my %INIT_ATTRIBUTES_DEFAULTS => {
+	dir		=> '.',
+	dllmap		=> '',
+	dryrun		=> 0,
+	engine		=> '',
+	file		=> '',
+	game		=> '',
+	game_args	=> undef,
+	script		=> 0,
+	verbosity	=> 0,
+};
+
 sub new ( $class, %init ) {
-	my $self = { %init };
+	my $self = {};
+
 	my $engine;
 	my $engine_id_file = '';
+
+	# XXX: set default attributes, unless specified in %init args
+
+	$$self{ game_dir }	= $init{ game_dir } || '.';
+
+	# XXX: immediate actions here? chdir to game dir here?
 
 	# initialize mode and setup link to mode object
 	$$self{ mode } = ( __PACKAGE__ . '::Mode::' . $$self{ mode_name } )->new(
