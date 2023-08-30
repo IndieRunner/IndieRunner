@@ -39,7 +39,7 @@ my $verbosity = 0;
 sub init_cli () {
 	Getopt::Long::Configure ("bundling");
 	GetOptions (    'help|h'	=> sub { pod2usage(-exitval => 0, -verbose => 1); },
-	                'dir|d=s'	=> \$dir,
+	                'directory|d=s'	=> \$dir,
 	                'dllmap|D=s'	=> \$dllmap,
 			'dryrun|n'	=> \$dryrun,
 			'engine|e=s'	=> \$engine,
@@ -51,7 +51,7 @@ sub init_cli () {
 			'usage'		=> sub { pod2usage(-exitval => 0,
 			                                   -verbose => 0, ); },
 			'verbose|v'	=> sub{ $verbosity++; },
-			'version'	=> sub { say $VERSION; exit; },	# XXX: $VERSION from which module or script?
+			'version|V'	=> sub { say $VERSION; exit; },	# XXX: $VERSION from which module or script?
 		   )
 	or pod2usage(2);
 
