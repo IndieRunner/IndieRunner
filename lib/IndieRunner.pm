@@ -70,7 +70,7 @@ sub new ( $class, %init ) {
 	}
 	my $engine_class = __PACKAGE__ . '::' . $engine;
 	eval "require $engine_class" || die "Failed to load module $engine_class: $@";
-	$engine_class->new(
+	$$self{ engine } = $engine_class->new(
 		id_file => $engine_id_file || '',
 	);
 
