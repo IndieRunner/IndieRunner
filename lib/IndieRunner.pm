@@ -167,46 +167,28 @@ sub detect_game_name ( $engine_module ) {
 }
 
 sub setup ( $self ) {
-	my $eobj = $$self{ engine };
-	say 'need_to_remove: ' . join( ' ', @{ $$eobj{ need_to_remove } } )
-		if ( @$eobj{ need_to_remove } );
-
-	if ( %$eobj{ need_to_replace } ) {
-		say 'need_to_replace:';
-		while ( my ( $k, $v ) = each %{ $$eobj{ need_to_replace } } ) {
-			say "$k => $v";
-		}
-	}
-
-	if ( %$eobj{ need_to_convert } ) {
-		say 'need_to_convert:';
-		while ( my ( $k, $v ) = each %{ $$eobj{ need_to_convert } } ) {
-			say "$k => $v";
-		}
-	}
-
-	if ( %$eobj{ need_to_extract } ) {
-		say 'need_to_extract:';
-		while ( my ( $k, $v ) = each %{ $$eobj{ need_to_extract } } ) {
-			say "Extract $k with $v";
-		}
-	}
-
-	if ( $$self{ mode } eq 'script' ) {
-		$$self{ script }->setup();
-	}
-	else {
-		# XXX: dryrun vs. run mode
-	}
-
-	# execute the removals ("neuter"), replacements (symlinks), and conversions (ffmpeg?), unless
-	#	mode is 'dryrun' or 'script'
-	# fork + pledge + unveil for this into a separate process; use waitpid
-	# 	to continue once completed
-	#
 	# XXX: Extract archives first, then
 	#      after extracting archives, need to check for libraries with
 	#      IndieRunner::Java::bundled_libraries()
+	if ( $$self{ engine }{ need_to_extract } ) {
+		$$self{ mode }->extract( %{ $$self{ engine }{ need_to_extract } } );
+	}
+
+	if ( $$self{ engine }{ need_to_remove } ) {
+		$$self{ mode }->remove( @{ $$self{ engine }{ need_to_remove } } );
+	}
+
+	if ( $$self{ engine }{ need_to_replace } ) {
+		$$self{ mode }->replace( %{ $$self{ engine }{ need_to_replace } } );
+	}
+
+	if ( $$self{ engine }{ need_to_convert } ) {
+		$$self{ mode }->convert( %{ $$self{ engine }{ need_to_convert } } );
+	}
+
+	# fork + pledge + unveil for this into a separate process; use waitpid
+	# 	to continue once completed
+	#
 }
 
 sub run ( $self ) {

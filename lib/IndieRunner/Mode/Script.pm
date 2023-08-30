@@ -25,13 +25,4 @@ my @out;	# accumulates all script output lines which will be printed to stdout i
 
 # XXX: move script_head() from Io to here
 
-sub new ( $class, %init ) {
-	my $self = bless {}, $class;
-	%$self = ( %$self, %init );
-
-	$$self{ verbosity } = 0;	# Script mode has to disable verbosity
-
-	return $self;
-}
-
 1;
