@@ -1,6 +1,6 @@
-package IndieRunner::Mode::Script;
+package IndieRunner::Mode;
 
-# Copyright (c) 2022-2023 Thomas Frohwein
+# Copyright (c) 2022 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -19,10 +19,45 @@ use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
-use parent 'IndieRunner::Mode';
+my $verbosity;
 
-my @out;	# accumulates all script output lines which will be printed to stdout in the end
+sub vsay ( @say_args ) {
+	say @say_args if $verbosity > 0;
+}
 
-# XXX: move script_head() from Io to here
+# parent for Mode object constructor
+sub new ( $class, %init ) {
+	my $self = bless {}, $class;
+	%$self = ( %$self, %init );
+
+	# make verbosity available for vsay etc.
+	$verbosity = $$self{ verbosity };
+
+	return $self;
+}
+
+sub extract ( $self, %files_and_subs ) {
+	while ( my ( $k, $v ) = each ( %files_and_subs ) ) {
+		vsay "extract file $k with $v";
+	}
+}
+
+sub remove ( $self, @files ) {
+	foreach my $f ( @files ) {
+		vsay "remove $f";
+	}
+}
+
+sub replace ( $self, %target_source ) {
+	while ( my ( $k, $v ) = each ( %target_source ) ) {
+		vsay "replace $k with $v";
+	}
+}
+
+sub convert ( $self, %from_to ) {
+	while ( my ( $k, $v ) = each ( %from_to ) ) {
+		vsay "convert $k to $v";
+	}
+}
 
 1;

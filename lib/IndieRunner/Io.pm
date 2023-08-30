@@ -258,44 +258,4 @@ sub pty_cmd ( @cmd ) {
 	return $cmd_ret;
 }
 
-# only print if verbose
-sub vsay ( @say_args ) {
-	say @say_args if $_verbosity > 0;
-}
-
-# parent for Mode object constructor
-sub new ( $class, %init ) {
-	my $self = bless {}, $class;
-	%$self = ( %$self, %init );
-
-	# make verbosity available for sub _v
-	$_verbosity = $$self{ verbosity };
-
-	return $self;
-}
-
-sub extract ( $self, %files_and_subs ) {
-	while ( my ( $k, $v ) = each ( %files_and_subs ) ) {
-		vsay "extract file $k with $v";
-	}
-}
-
-sub remove ( $self, @files ) {
-	foreach my $f ( @files ) {
-		vsay "remove $f";
-	}
-}
-
-sub replace ( $self, %target_source ) {
-	while ( my ( $k, $v ) = each ( %target_source ) ) {
-		vsay "replace $k with $v";
-	}
-}
-
-sub convert ( $self, %from_to ) {
-	while ( my ( $k, $v ) = each ( %from_to ) ) {
-		vsay "convert $k to $v";
-	}
-}
-
 1;
