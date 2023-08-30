@@ -31,16 +31,11 @@ Readonly::Scalar my $BIN => 'godot';
 # - SokoSolitaire => '--video-driver GLES2' # shader issues with default GLES3
 
 sub run_cmd ( $self ) {
-	my $run_file = $self->cli_file() || $self->engine_id_file();
+	my $run_file = # $self->cli_file() ||
+		 $self->engine_id_file();
 	IndieRunner::set_game_name( (split /\./, $run_file)[0] );
 
 	return ( $BIN, '--quiet', '--main-pack', $run_file );
-}
-
-sub new ( $class, %init ) {
-	my $self = bless {}, $class;
-	%$self = ( %$self, %init );
-	return $self;
 }
 
 sub detect_game ( $self ) {

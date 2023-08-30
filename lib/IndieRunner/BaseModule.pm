@@ -19,27 +19,14 @@ use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
-#my $bin;
-#my $env;
-#my $args;
-
-#sub configure { };
-
-#sub run_cmd ( $, $engine_id_file, $cli_file ) {
-	##return ( $BIN, '--quiet', '--main-pack', $run_file );
-#}
-
 sub new ( $class, %args ) {
 	my $self = bless { %args }, $class;
 	return $self;
 }
 
-# XXX: needed? remove?
-sub setup ( $ ) {
-	# No setup needed.
-}
-
 # getters/setters
+
+=pod
 
 sub cli_file ( $self, @val ) {
 	if ( @val ) {
@@ -82,5 +69,7 @@ sub verbose ( $self, @val ) {
 	}
 	return $self->{verbose};
 }
+
+=cut
 
 1;

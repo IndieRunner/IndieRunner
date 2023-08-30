@@ -107,26 +107,27 @@ sub run_cmd ( $self ) {
 	# TODO: setup custom config for MidBoss
 
 	# determine which file is the main assembly for mono
-	my $game_file = $self->cli_file();
-	unless ( $game_file ) {
-		my @exe = glob "*.exe";
-		my @cil;
-		foreach my $e ( @exe ) {
-			if ( index( get_magic_descr( $e ),
-				'Mono/.Net assembly' ) > -1 ) {
-					push @cil, $e;
-			}
-		}
 
-		if ( scalar @cil > 1 ) {
-			say "\nMore than one CIL .exe file found:";
-			say "\n\t" . join( "\n\t", @cil ) . "\n";
-			say "In this case, you must specify the main mono assembly.\n";
-			say "Example:\n$0 -f \"$cil[0]\"\n";
-			exit 1;
+	my @exe = glob "*.exe";
+	my @cil;
+
+	# XXX: add check for IndieRunner{ file } for command-line supplied file
+	foreach my $e ( @exe ) {
+		if ( index( get_magic_descr( $e ),
+			'Mono/.Net assembly' ) > -1 ) {
+				push @cil, $e;
 		}
-		$game_file = $cil[0];
 	}
+
+	if ( scalar @cil > 1 ) {
+		say "\nMore than one CIL .exe file found:";
+		say "\n\t" . join( "\n\t", @cil ) . "\n";
+		say "In this case, you must specify the main mono assembly.\n";
+		say "Example:\n$0 -f \"$cil[0]\"\n";
+		exit 1;
+	}
+	$game_file = $cil[0];
+
 	IndieRunner::set_game_name( (split /\./, $game_file)[0] );
 
 	my @ld_library_path = (
