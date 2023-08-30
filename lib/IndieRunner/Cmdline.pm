@@ -20,8 +20,7 @@ use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use base qw( Exporter );
-our @EXPORT_OK = qw( cli_dllmap_file cli_dryrun cli_file cli_gameargs
-                     cli_mode cli_verbose init_cli );
+our @EXPORT_OK = qw( cli_dryrun cli_file cli_verbose );
 
 use Getopt::Long;
 use Pod::Usage;
@@ -73,10 +72,6 @@ sub init_cli () {
 sub cli_dllmap_file ()	{ return $dllmap; }
 sub cli_dryrun ()	{ return $dryrun; }
 sub cli_file ()		{ return $file; }
-sub cli_gameargs ()	{	# XXX: useless, remove it
-	return '';
-}
-sub cli_mode ()			{ say "XXX: obsolete to be removed"; exit 1; }
 sub cli_verbose ()		{ return $verbosity; }
 
 1;
@@ -102,6 +97,6 @@ IndieRunner::Cmdline provides subroutine init_cli() which is meant to be used by
 
 L<IndieRunner>, L<indierunner>.
 
-head1 AUTHOR
+=head1 AUTHOR
 
 Thomas Frohwein
