@@ -26,7 +26,6 @@ our @EXPORT_OK = qw( get_dllmap_target );
 use File::Share qw( :all );
 use File::Spec::Functions qw( catpath splitpath );	# XXX: remove?
 use IndieRunner::Cmdline;
-use IndieRunner::Io qw( write_file );
 
 sub get_dllmap_target () {
 	#  return the user-supplied dllmap file if available, or the one from ShareDir

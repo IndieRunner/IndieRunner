@@ -31,7 +31,7 @@ use IndieRunner::Game;
 use IndieRunner::GrandCentral;
 use IndieRunner::IdentifyFiles;
 use IndieRunner::Info;
-use IndieRunner::Io qw( pty_cmd write_file );
+use IndieRunner::Io;
 use IndieRunner::Platform;
 
 # keep this in sync with return of IndieRunner::Cmdline::init_cli()
