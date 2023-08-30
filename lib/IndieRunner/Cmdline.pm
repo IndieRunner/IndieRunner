@@ -26,7 +26,7 @@ our @EXPORT_OK = qw( cli_dllmap_file cli_dryrun cli_file cli_gameargs
 use Getopt::Long;
 use Pod::Usage;
 
-my $dir;
+my $dir = '.';
 my $dllmap;
 my $dryrun;
 my $engine;
@@ -34,24 +34,24 @@ my $file;
 my $game;
 my $mode;
 my $script;
-my $verbosity;
+my $verbosity = 0;
 
 sub init_cli () {
 	Getopt::Long::Configure ("bundling");
 	GetOptions (    'help|h'	=> sub { pod2usage(-exitval => 0, -verbose => 1); },
 	                'dir|d=s'	=> \$dir,
 	                'dllmap|D=s'	=> \$dllmap,
-			'dryrun|n'      => \$dryrun,
+			'dryrun|n'	=> \$dryrun,
 			'engine|e=s'	=> \$engine,
 			'file|f=s'	=> \$file,
 			'game|g=s'	=> \$game,
-			'man|m'           => sub { pod2usage(-exitval => 0,
+			'man|m'		=> sub { pod2usage(-exitval => 0,
 			                                     -verbose => 2, ); },
-			'script'	=> \$script,
-			'usage'         => sub { pod2usage(-exitval => 0,
-			                                   -verbose => 0, ; },
-			'verbose|v'     => \$verbosity,
-			'version'       => sub { say $VERSION; exit; },	# XXX: $VERSION from which module or script?
+			'script|s'	=> \$script,
+			'usage'		=> sub { pod2usage(-exitval => 0,
+			                                   -verbose => 0, ); },
+			'verbose|v'	=> sub{ $verbosity++; },
+			'version'	=> sub { say $VERSION; exit; },	# XXX: $VERSION from which module or script?
 		   )
 	or pod2usage(2);
 
@@ -59,12 +59,13 @@ sub init_cli () {
 	return {
 		dir		=> $dir,
 		dllmap		=> $dllmap,
+		dryrun		=> $dryrun,
 		engine		=> $engine,
 		file		=> $file,
 		game		=> $game,
 		game_args	=> \@ARGV,
 		script		=> $script,
-		verbosity	=> $verbose,
+		verbosity	=> $verbosity,
 	};
 }
 
@@ -75,7 +76,7 @@ sub cli_file ()		{ return $file; }
 sub cli_gameargs ()	{	# XXX: useless, remove it
 	return '';
 }
-sub cli_mode ()			{ confess "XXX: obsolete to be removed"; }
+sub cli_mode ()			{ say "XXX: obsolete to be removed"; exit 1; }
 sub cli_verbose ()		{ return $verbosity; }
 
 1;

@@ -49,14 +49,13 @@ use IndieRunner::XNA;
 
 # keep this in sync with return of IndieRunner::Cmdline::init_cli()
 Readonly::Hash my %INIT_ATTRIBUTES_DEFAULTS => {
-	dir		=> '.',
 	dllmap		=> '',
-	dryrun		=> 0,
-	engine		=> '',
+	dryrun		=> undef,
+	engine		=> undef,
 	file		=> '',
 	game		=> '',
 	game_args	=> undef,
-	script		=> 0,
+	script		=> undef,
 	verbosity	=> 0,
 };
 
@@ -64,42 +63,34 @@ sub new ( $class, %init ) {
 	my $self = {};
 
 	my $engine;
-	my $engine_id_file = '';
+	my $engine_id_file;
 
-	# XXX: set default attributes, unless specified in %init args
+	# set attributes from %init or default
+	while ( my ( $k, $v ) = each ( %INIT_ATTRIBUTES_DEFAULTS ) ) {
+		$$self{ $k } = $init{ $k } || $v;
+	}
 
-	$$self{ game_dir }	= $init{ game_dir } || '.';
-
-	# XXX: immediate actions here? chdir to game dir here?
+	my $mode = ( $init{ script } ? 'Script' : ( $init{ dryrun } ? 'Dryrun' : 'Run' ) );
 
 	# initialize mode and setup link to mode object
-	$$self{ mode } = ( __PACKAGE__ . '::Mode::' . $$self{ mode_name } )->new(
-		verbosity => $$self{ verbose },
+	$$self{ mode } = ( __PACKAGE__ . '::Mode::' . $mode )->new(
+		verbosity => $$self{ verbosity },
 	);
 
-	# check if engine already supplied by cli args
-	unless ( $engine = $$self{ engine_name } ) {
+	unless ( $engine = $init{ engine } ) {
 		( $engine, $engine_id_file ) = ( detect_engine() );
 	}
 
 	$$self{ engine } = ( __PACKAGE__ . '::' . $engine )->new( # XXX: use this whenever doing this
-		id_file => $engine_id_file,
+		id_file => $engine_id_file || '',
 	);
 
 	# set game from cli argument if present
-	my $game_name = $$self{ game_name } || detect_game_name( $$self{ engine } );
+	my $game = $init{ game } || detect_game_name( $$self{ engine } );
 
 	$$self{ game } = ( __PACKAGE__ . '::Game' )->new(
-		name => $game_name,
+		name => $game,
 	);
-
-	# XXX: remove, only for development
-	say 'engine id_file: ' . $$self{ engine }{ id_file };
-	say 'engine need_to_remove ' . join( ' ', @{ $$self{ engine }{ need_to_remove } } )
-		if $$self{ engine }{ need_to_remove };
-	say 'engine need_to_replace ' . join( ' ', keys %{ $$self{ engine }{ need_to_replace } } )
-		if $$self{ engine }{ need_to_replace };
-	say 'game name ' . $$self{ game }{ name };
 
 	return bless $self, $class;
 }

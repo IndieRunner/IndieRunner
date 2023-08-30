@@ -26,6 +26,7 @@ use IndieRunner::Cmdline;
 
 # 1. get CLI configuration
 my %cli_config = %{ IndieRunner::Cmdline::init_cli() };
+chdir $cli_config{ dir } or die "Failed to enter $cli_config{ dir }: $!";
 
 # 2. init IndieRunner object with parameters from CLI (XXX)
 my $indierunner = IndieRunner->new( %cli_config );
