@@ -46,12 +46,10 @@ use IndieRunner::MonoGame;
 use IndieRunner::Platform qw( init_platform );
 use IndieRunner::XNA;
 
-sub new ( $class ) {
-	my $self = {};
+sub new ( $class, %init ) {
+	my $self = { %init };
 	my $engine;
 	my $engine_id_file = '';
-
-	%$self = ( %$self, %{ IndieRunner::Cmdline::init_cli() } );
 
 	# initialize mode and setup link to mode object
 	$$self{ mode } = ( __PACKAGE__ . '::Mode::' . $$self{ mode_name } )->new(

@@ -22,12 +22,13 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use FindBin; use lib "$FindBin::Bin/../lib";
 
 use IndieRunner;
+use IndieRunner::Cmdline;
 
-# 1. get CLI arguments
-# XXX
+# 1. get CLI configuration
+my %cli_config = %{ IndieRunner::Cmdline::init_cli() };
 
 # 2. init IndieRunner object with parameters from CLI (XXX)
-my $indierunner = IndieRunner->new();
+my $indierunner = IndieRunner->new( %cli_config );
 
 # 3. setup
 $indierunner->setup();
