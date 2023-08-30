@@ -23,28 +23,16 @@ use FindBin; use lib "$FindBin::Bin/../lib";
 
 use IndieRunner;
 
-### 1. Init by creating IndieRunner object ###
+# 1. get CLI arguments
+# XXX
 
+# 2. init IndieRunner object with parameters from CLI (XXX)
 my $indierunner = IndieRunner->new();
 
-### 2. Setup ###
-
+# 3. setup
 $indierunner->setup();
 
-### 3. Assemble Configuration of Runtime ###
+# 4. run
+$indierunner->run();
 
-# by general engine configuration, game-specific config, and user-provided
-# elements: environment, binary, arguments, potentially symlinks
-# get unveil paths
-# get engine-specific pledge promises
-# get typical log file location
-
-### 4. Fork + Exec Runtime (unless dryrun) ###
-
-# with unveil + pledge as appropriate
-
-### 5. Cleanup ###
-
-# hint to typical log file location
-
-exit;
+# XXX: are any cleanup or closing commands needed?

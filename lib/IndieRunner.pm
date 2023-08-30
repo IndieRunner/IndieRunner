@@ -193,6 +193,14 @@ sub setup ( $self ) {
 
 sub run ( $self ) {
 	confess "Not implemented.";
+
+	# configure runtime:
+	# - engine-specific, game-specific, and user-provided configuration
+	# - elements: environment ( set %{ENV} ), binary, arguments, potentially symlinks
+	# - need to know unveil paths
+	# - engine-specific pledge exec promises?
+
+	# XXX: Fork + Exec Runtime, unveil +/- pledge as appropriate
 }
 
 1;
