@@ -80,3 +80,28 @@ sub cli_mode ()			{ say "XXX: obsolete to be removed"; exit 1; }
 sub cli_verbose ()		{ return $verbosity; }
 
 1;
+
+__END__
+
+=head1 NAME
+
+IndieRunner::Cmdline - command-line parser for construction of IndieRunner object
+
+=head1 SYNOPSIS
+
+ use IndieRunner::Cmdline;
+
+ # obtain hash for IndieRunner CLI configuration
+ my %indierunner_config = IndieRunner::Cmdline::init_cli()
+
+=head1 DESCRIPTION
+
+IndieRunner::Cmdline provides subroutine init_cli() which is meant to be used by a command-line client to configure the creation of IndieRunner object. It is little more than creation of a hash from the commandline arguments. It leaves the use of default values to IndieRunner.
+
+=head1 SEE ALSO
+
+L<IndieRunner>, L<indierunner>.
+
+head1 AUTHOR
+
+Thomas Frohwein
