@@ -43,15 +43,19 @@ sub extract ( $self, %files_and_subs ) {
 }
 
 sub remove ( $self, %files ) {
+	vsay "remove the following files:";
 	foreach my $f ( keys %files ) {
-		vsay "remove $f";
+		vsay $f;
 	}
+	vsay;
 }
 
 sub replace ( $self, %target_source ) {
+	vsay "Replace files as follows:";
 	while ( my ( $k, $v ) = each ( %target_source ) ) {
-		vsay "replace $k with $v";
+		vsay "$k with $v";
 	}
+	vsay;
 }
 
 sub convert ( $self, %from_to ) {
