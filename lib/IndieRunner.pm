@@ -26,7 +26,6 @@ use File::Share qw( :all );
 use File::Spec::Functions qw( splitpath );
 use Readonly;
 
-use IndieRunner::Cmdline;
 use IndieRunner::Game;
 use IndieRunner::GrandCentral;
 use IndieRunner::IdentifyFiles;
@@ -210,28 +209,34 @@ __END__
 
 IndieRunner - Launch your indie games on more platforms
 
+=head1 SYNOPSIS
+
+ use IndieRunner;
+
+ # create IndieRunner object with default values
+ chdir path/to/game or die "chdir failed: $!";
+ my $indierunner = IndieRunner->new();
+
+ # perform setup of files for the project
+ $indierunner->setup();
+
+ # run the project
+ $indierunner->run();
+
 =head1 DESCRIPTION
 
-B<IndieRunner> provides a convenient way to launch indie games with supported engines.
+B<IndieRunner> handles the nitty gritty details of running a variety of (indie) games made with certain engines (see engines under SEE ALSO). It performs heuristics to determine the type of engine, its setup needs and runtime configuration. Modes for dryrun and the generation of a statical script to perform setup and run steps are included.
 
-=head2 Supported Engines
+=head1 SEE ALSO
 
-=over 8
+=head2 Engines
 
-=item FNA (under construction)
+L<IndieRunner::FNA>, L<IndieRunner::GZDoom>, L<IndieRunner::Godot>, L<IndieRunner::HashLink>, L<IndieRunner::Java>, L<IndieRunner::Love2D>, L<IndieRunner::Mono>, L<IndieRunner::MonoGame>, L<IndieRunner::XNA>.
 
-=item Godot (under construction)
+=head2 Other
 
-=item GZDoom (under construction)
+L<IndieRunner::Mode>, L<IndieRunner::GrandCentral>, L<IndieRunner::IdentifyFiles>.
 
-=item HashLink (under construction)
+=head1 AUTHOR
 
-=item LibGDX (under construction)
-
-=item LWJGL2 (under construction)
-
-=item LWJGL3 (under construction)
-
-=item MonoGame
-
-=item XNA (under construction)
+Thomas Frohwein
