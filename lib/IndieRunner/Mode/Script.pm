@@ -28,6 +28,9 @@ my @out;	# accumulates all script output lines which will be printed to stdout i
 sub new ( $class, %init ) {
 	my $self = bless {}, $class;
 	%$self = ( %$self, %init );
+
+	$$self{ verbosity } = 0;	# Script mode has to disable verbosity
+
 	return $self;
 }
 

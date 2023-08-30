@@ -21,8 +21,9 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use parent 'IndieRunner::Io';
 
-sub new ( $class ) {
+sub new ( $class, %init ) {
 	my $self = bless {}, $class;
+	%$self = ( %$self, %init );
 	return $self;
 }
 

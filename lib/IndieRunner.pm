@@ -54,21 +54,24 @@ sub new ( $class ) {
 	%$self = ( %$self, %{ IndieRunner::Cmdline::init_cli() } );
 
 	# initialize mode and setup link to mode object
-	$$self{ mode } = ( __PACKAGE__ . '::Mode::' . $$self{ mode_name } )->new();
+	$$self{ mode } = ( __PACKAGE__ . '::Mode::' . $$self{ mode_name } )->new(
+		verbosity => $$self{ verbose },
+	);
 
 	# check if engine already supplied by cli args
 	unless ( $engine = $$self{ engine_name } ) {
 		( $engine, $engine_id_file ) = ( detect_engine() );
 	}
 
-	$$self{ engine }		= ( __PACKAGE__ . '::' . $engine )->new( # XXX: use this whenever doing this
-						id_file => $engine_id_file);
+	$$self{ engine } = ( __PACKAGE__ . '::' . $engine )->new( # XXX: use this whenever doing this
+		id_file => $engine_id_file,
+	);
 
 	# set game from cli argument if present
 	my $game_name = $$self{ game_name } || detect_game_name( $$self{ engine } );
 
-	$$self{ game }			= ( __PACKAGE__ . '::Game' )->new(
-						name => $game_name,
+	$$self{ game } = ( __PACKAGE__ . '::Game' )->new(
+		name => $game_name,
 	);
 
 	# XXX: remove, only for development
