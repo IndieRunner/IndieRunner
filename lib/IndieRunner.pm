@@ -214,3 +214,35 @@ sub run ( $self ) {
 }
 
 1;
+
+__END__
+
+=head1 NAME
+
+IndieRunner - Launch your indie games on more platforms
+
+=head1 DESCRIPTION
+
+B<IndieRunner> provides a convenient way to launch indie games with supported engines.
+
+=head2 Supported Engines
+
+=over 8
+
+=item FNA (under construction)
+
+=item Godot (under construction)
+
+=item GZDoom (under construction)
+
+=item HashLink (under construction)
+
+=item LibGDX (under construction)
+
+=item LWJGL2 (under construction)
+
+=item LWJGL3 (under construction)
+
+=item MonoGame
+
+=item XNA (under construction)
