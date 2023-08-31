@@ -36,7 +36,7 @@ use IndieRunner::Mono;		# for get_mono_files
 use IndieRunner::Platform;
 
 # keep this in sync with return of IndieRunner::Cmdline::init_cli()
-Readonly::Hash my %INIT_ATTRIBUTES_DEFAULTS => {
+Readonly::Hash my %INIT_DEFAULTS => {
 	dllmap		=> '',
 	dryrun		=> undef,
 	engine		=> undef,
@@ -54,7 +54,7 @@ sub new ( $class, %init ) {
 	my $engine_id_file;
 
 	# set attributes from %init or default
-	while ( my ( $k, $v ) = each ( %INIT_ATTRIBUTES_DEFAULTS ) ) {
+	while ( my ( $k, $v ) = each ( %INIT_DEFAULTS ) ) {
 		$$self{ $k } = $init{ $k } || $v;
 	}
 
@@ -79,7 +79,8 @@ sub new ( $class, %init ) {
 	my $game = $init{ game } || detect_game_name( $$self{ engine } );
 
 	$$self{ game } = ( __PACKAGE__ . '::Game' )->new(
-		name => $game,
+		name	=> $game,
+		engine	=> $$self{ engine },
 	);
 
 	return bless $self, $class;
@@ -194,6 +195,8 @@ sub setup ( $self ) {
 }
 
 sub run ( $self ) {
+
+	# get everything for runtime configuration
 	say STDERR "XXX: run() not implemented yet";
 
 	# configure runtime:

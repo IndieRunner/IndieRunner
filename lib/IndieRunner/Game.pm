@@ -21,8 +21,29 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 sub new ( $class, %init ) {
 	my $self = bless {}, $class;
+
 	%$self = ( %$self, %init );
+	%$self = ( %$self, configure( $$self{ engine } ) );
+
 	return $self;
+}
+
+sub configure ( $engine ) {
+	my %config = (
+		      bin	=> $engine->get_bin(),
+		      env	=> $engine->get_env_ref(),	# hashref
+		      flags	=> $engine->get_flags_ref(),	# arrayref
+		     );
+
+	# XXX: for development only
+	say "bin: $config{ bin }";
+	say 'env:';
+	while ( my ( $k, $v ) = each ( %{ $config{ env } } ) ) {
+		say "$k:\t$v";
+	}
+	say 'flags: ' . join( ' ', @{ $config{ flags } } );
+
+	return %config;
 }
 
 1;
