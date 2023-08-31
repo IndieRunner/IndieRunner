@@ -24,52 +24,8 @@ sub new ( $class, %args ) {
 	return $self;
 }
 
-# getters/setters
-
-=pod
-
-sub cli_file ( $self, @val ) {
-	if ( @val ) {
-		$self->{cli_file} = shift @val;
-	}
-	return $self->{cli_file};
+sub post_extract( $self ) {
+	# no-op by default
 }
-
-sub dryrun ( $self, @val ) {
-	if ( @val ) {
-		$self->{dryrun} = shift @val;
-	}
-	return $self->{dryrun};
-}
-
-sub engine_id_file ( $self, @val ) {
-	if ( @val ) {
-		$self->{engine_id_file} = shift @val;
-	}
-	return $self->{engine_id_file};
-}
-
-sub gameargs ( $self, @val ) {
-	if ( @val ) {
-		$self->{gameargs} = shift @val;
-	}
-	return $self->{gameargs};
-}
-
-sub game_name ( $self, @val ) {
-	if ( @val ) {
-		$self->{game_name} = shift @val;
-	}
-	return $self->{game_name};
-}
-
-sub verbose ( $self, @val ) {
-	if ( @val ) {
-		$self->{verbose} = shift @val;
-	}
-	return $self->{verbose};
-}
-
-=cut
 
 1;

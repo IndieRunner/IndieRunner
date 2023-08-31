@@ -167,16 +167,18 @@ sub detect_game_name ( $engine_module ) {
 }
 
 sub setup ( $self ) {
-	# XXX: Extract archives first, then
-	#      after extracting archives, need to check for libraries with
-	#      IndieRunner::Java::bundled_libraries()
-
-	# make setup a separate and restricted process
+	# run setup in separate and restricted process
 	my $pid = fork();
 	if ( $pid == 0 ) {
 		pledge( qw( rpath cpath proc exec unveil ) ) || confess "unable to pledge: $!";
 
-		for my $step ( qw( extract remove replace convert ) ) {
+		# run post_extract() after extract() to account for all needing setup
+		if ( $$self{ engine }{ need_to_extract } ) {
+			$$self{ mode }->extract(
+				%{ $$self{ engine }{ need_to_extract } } );
+			$$self{ engine }->post_extract();
+		}
+		for my $step ( qw( remove replace convert ) ) {
 			if ( $$self{ engine }{ 'need_to_' . $step } ) {
 				$$self{ mode }->$step(
 					%{ $$self{ engine }{ 'need_to_' . $step } } );

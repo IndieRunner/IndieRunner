@@ -435,4 +435,10 @@ sub run_cmd ( $self ) {
 
 }
 
+sub post_extract ( $self ) {
+	$self->SUPER::post_extract();
+	my %bundled_libs = bundled_libraries();
+	$$self{ need_to_replace } = \%bundled_libs;
+}
+
 1;
