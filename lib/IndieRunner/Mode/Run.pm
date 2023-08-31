@@ -21,19 +21,102 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use parent 'IndieRunner::Mode';
 
+use Cwd;
 use OpenBSD::Pledge;
 use OpenBSD::Unveil;
+use Readonly;
+
+Readonly my @WMA_TO_OGG => ( '/usr/local/bin/ffmpeg', '-loglevel', 'fatal', '-i', '!<<in>>', '-c:a', 'libvorbis', '-q:a', '10', '!<<out>>' );
+Readonly my @WMV_TO_OGV => ( '/usr/local/bin/ffmpeg', '-loglevel', 'fatal', '-i', '!<<in>>', '-c:v', 'libtheora', '-q:v', '10', '-c:a', 'libvorbis', '-q:a', '10', '!<<out>>' );
+
+Readonly my @_7Z_COMMAND	=> ( '/usr/local/bin/7z', 'x', '-y' );
 
 sub remove( $self, %files ) {
 	$self->SUPER::remove( %files );
-	say "PWD: $ENV{ PWD }";
 
-	# this is an operation limited to write operation in the CWD
 	my $pid = fork();
 	if ( $pid == 0 ) {
-		unveil( $ENV{ PWD }, 'rc' ) || die "unable to unveil";
+		unveil( getcwd(), 'rc' ) || die "unable to unveil: $!";
 		pledge( qw( rpath cpath ) ) || die "unable to pledge: $!";
 		my $r = unlink( keys %files );
+		exit;
+	}
+	elsif ( not defined( $pid ) ) {
+		die "failed to fork: $!";
+	}
+	waitpid $pid, 0;
+}
+
+sub replace( $self, %target_source ) {
+	$self->SUPER::replace( %target_source );
+
+	my $pid = fork();
+	if ( $pid == 0 ) {
+		unveil( getcwd(), 'rc' )	|| die "unable to unveil: $!";
+		pledge( qw( rpath cpath ) )	|| die "unable to pledge: $!";
+		while ( my ( $target, $source ) = each ( %target_source ) ) {
+			if ( -f $target ) {
+				my $r = unlink $target || die "$!";
+			}
+			my $r = symlink $source, $target || die "$!";
+		}
+		exit;
+	}
+	elsif ( not defined( $pid ) ) {
+		die "failed to fork: $!";
+	}
+	waitpid $pid, 0;
+}
+
+sub convert( $self, %from_to ) {
+	$self->SUPER::convert( %from_to );
+
+	my $pid = fork();
+	if ( $pid == 0 ) {
+		unveil( $WMA_TO_OGG[0], 'x' ) || die "unable to unveil: $!";
+		pledge( qw( rpath proc exec ) ) || die "unable to pledge: $!";
+		while ( my ( $from, $to ) = each ( %from_to ) ) {
+			if ( -e $to ) {
+				say STDERR "Error: unable convert because target file $to already exists";
+				next;
+			}
+			if ( $from =~ /.wma$/i ) {
+				#my @command = @WMA_TO_OGG =~ s/!<<in>>/$from/r;
+				#@command =~ s/!<<out>>/$to/;
+				#system( @command ) == 0 || die "Command failed: $command - $!";
+			}
+			elsif ( $from =~ /.wmv$/i ) {
+				my @command = map { s/!<<in>>/$from/r } @WMV_TO_OGV;
+				s/!<<out>>/$to/ for @command;
+				system( @command ) == 0 || die "Command failed: $!";
+			}
+			else {
+				say "unrecognized extension: $from";
+			}
+		}
+		exit;
+	}
+	elsif ( not defined( $pid ) ) {
+		die "failed to fork: $!";
+	}
+	waitpid $pid, 0;
+}
+
+sub extract( $self, %files_and_subs ) {
+	$self->SUPER::extract( %files_and_subs );
+
+	my $pid = fork();
+	if ( $pid == 0 ) {
+		unveil( $_7Z_COMMAND[0] , 'x' ) || die "unable to unveil: $!";
+		pledge( qw( rpath proc exec ) ) || die "unable to pledge: $!";
+		while ( my ( $file, $method ) = each ( %files_and_subs ) ) {
+			if ( $file =~ /.jar$/i ) {
+				system( @_7Z_COMMAND, $file ) == 0 || die "Command failed: $!";
+			}
+			else {
+				say "unrecognized extension: $file";
+			}
+		}
 		exit;
 	}
 	elsif ( not defined( $pid ) ) {

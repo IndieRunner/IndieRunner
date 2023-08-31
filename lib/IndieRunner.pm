@@ -171,29 +171,24 @@ sub setup ( $self ) {
 	#      after extracting archives, need to check for libraries with
 	#      IndieRunner::Java::bundled_libraries()
 
+	# make setup a separate and restricted process
 	my $pid = fork();
 	if ( $pid == 0 ) {
-		# XXX: unveil inside the functions
-		# XXX: remove error pledge!
-		pledge( qw( stdio rpath wpath cpath fattr flock proc exec unveil error ) ) ||
-			confess "unable to pledge: $!";
+		pledge( qw( rpath cpath proc exec unveil ) ) || confess "unable to pledge: $!";
 
-		# XXX: do everything important here
 		for my $step ( qw( extract remove replace convert ) ) {
 			if ( $$self{ engine }{ 'need_to_' . $step } ) {
 				$$self{ mode }->$step(
 					%{ $$self{ engine }{ 'need_to_' . $step } } );
 			}
 		}
-		say "CHILD FINISHED";
+
 		exit;
 	}
 	elsif ( not defined( $pid ) ) {
 		confess "failed to fork: $!";
 	}
 	waitpid $pid, 0;
-	say "SETUP COMPLETED";
-	exit;
 }
 
 sub run ( $self ) {
