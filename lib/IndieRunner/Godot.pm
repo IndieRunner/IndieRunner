@@ -48,4 +48,13 @@ sub get_bin( $self ) {
 	return GODOT3_BIN;
 }
 
+sub get_args_ref( $self ) {
+	my @args = (
+		'--quiet',
+		'--main-pack',
+		glob( '*.pck' ),	# XXX: make smarter - -f cli file vs. pck file vs. detected via byte sequence
+		);
+	return \@args;
+}
+
 1;

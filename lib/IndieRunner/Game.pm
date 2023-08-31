@@ -32,7 +32,7 @@ sub configure ( $engine ) {
 	my %config = (
 		      bin	=> $engine->get_bin(),
 		      env	=> $engine->get_env_ref(),	# hashref
-		      flags	=> $engine->get_flags_ref(),	# arrayref
+		      args	=> $engine->get_args_ref(),	# arrayref
 		     );
 
 	# XXX: for development only
@@ -41,7 +41,7 @@ sub configure ( $engine ) {
 	while ( my ( $k, $v ) = each ( %{ $config{ env } } ) ) {
 		say "$k:\t$v";
 	}
-	say 'flags: ' . join( ' ', @{ $config{ flags } } );
+	say 'args: ' . join( ' ', @{ $config{ args } } );
 
 	return %config;
 }

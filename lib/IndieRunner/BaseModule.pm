@@ -38,7 +38,7 @@ sub get_env_ref( $self ) {
 	return \%;
 }
 
-sub get_flags_ref( $self ) {
+sub get_args_ref( $self ) {
 	return \@;
 }
 

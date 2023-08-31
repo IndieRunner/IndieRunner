@@ -61,6 +61,7 @@ Letters indicate which platform versions have been tested successfully:
 |Escape Goat 2		|MonoGame|	|	|	|	|Humble:L|		|
 |Evoland Legendary Edition|HashLink|	|	|	|	|	|steam.hdll stub: Steam failed to activate|
 |EXAPUNKS		|Mono	|	|L	|	|	|	|		|
+|Extinction Eclipse	|Godot3	|L	|	|	|	|	|		|
 |Farm Keeper		|Godot3	|W	|	|	|	|	|		|
 |FEZ			|FNA	|L(beta)|	|	|	|	|		|
 |Fist Puncher		|FNA	|	|L	|	|	|	|		|

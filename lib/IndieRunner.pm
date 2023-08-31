@@ -196,6 +196,13 @@ sub setup ( $self ) {
 
 sub run ( $self ) {
 
+	say "bin: $$self{ game }{ bin }";
+	say 'env:';
+	while ( my ( $k, $v ) = each ( %{ $$self{ game }{ env } } ) ) {
+		say "$k = $v";
+	}
+	say 'args: ' . join( ' ', @{ $$self{ game }{ args } } );
+
 	# get everything for runtime configuration
 	say STDERR "XXX: run() not implemented yet";
 
