@@ -147,26 +147,6 @@ sub set_java_home ( $v ) {
 		unless ( -d $java_home );
 }
 
-sub extract_jar ( @class_path ) {
-	my $ae;
-
-	# Notes on options for extracting:
-	# - Archive::Extract fails to fix directory permissions +x (Stardash, INC: The Beginning)
-	# - jar(1) (JDK 1.8) also fails to fix directory permissions
-	# - unzip(1) from packages: use -qq to silence and -o to overwrite existing files
-	#   ... but unzip exits with error about overlapping, possible zip bomb (Space Haven)
-	# - 7z x -y: verbose output, seems like it can't be quited much (-bd maybe)
-	foreach my $cp (@class_path) {
-		unless ( -f $cp ) {
-			croak "No classpath $cp to extract.";
-		}
-		say "Extracting $cp ...";
-		#return if cli_dryrun();
-		system( '7z', 'x', '-y', $cp ) and
-			confess "Error while attempting to extract $cp";
-	}
-}
-
 sub replace_lib ( $lib ) {
 	my $lib_glob;           # pattern to search for $syslib
 

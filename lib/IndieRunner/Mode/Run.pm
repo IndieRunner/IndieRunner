@@ -29,6 +29,12 @@ use Readonly;
 Readonly my @WMA_TO_OGG => ( '/usr/local/bin/ffmpeg', '-loglevel', 'fatal', '-i', '!<<in>>', '-c:a', 'libvorbis', '-q:a', '10', '!<<out>>' );
 Readonly my @WMV_TO_OGV => ( '/usr/local/bin/ffmpeg', '-loglevel', 'fatal', '-i', '!<<in>>', '-c:v', 'libtheora', '-q:v', '10', '-c:a', 'libvorbis', '-q:a', '10', '!<<out>>' );
 
+# Notes on options for extracting:
+# - Archive::Extract fails to fix directory permissions +x (Stardash, INC: The Beginning)
+# - jar(1) (JDK 1.8) also fails to fix directory permissions
+# - unzip(1) from packages: use -qq to silence and -o to overwrite existing files
+#   ... but unzip exits with error about overlapping, possible zip bomb (Space Haven)
+# - 7z x -y: verbose output, seems like it can't be quited much (-bd maybe)
 Readonly my @_7Z_COMMAND	=> ( '/usr/local/bin/7z', 'x', '-y' );
 
 sub remove( $self, %files ) {
