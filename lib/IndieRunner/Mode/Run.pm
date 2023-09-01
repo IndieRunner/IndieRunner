@@ -46,7 +46,7 @@ sub remove( $self, %files ) {
 	if ( $pid == 0 ) {
 		unveil( getcwd(), 'rc' ) || die "unable to unveil: $!";
 		pledge( qw( rpath cpath ) ) || die "unable to pledge: $!";
-		my $r = unlink( keys %files );
+		map { rename( $_, $_.'_' ) } keys( %files );
 		exit;
 	}
 	elsif ( not defined( $pid ) ) {
@@ -64,9 +64,9 @@ sub replace( $self, %target_source ) {
 		pledge( qw( rpath cpath ) )	|| die "unable to pledge: $!";
 		while ( my ( $target, $source ) = each ( %target_source ) ) {
 			if ( -f $target ) {
-				my $r = unlink $target || die "$!";
+				rename $target, $target.'_' or die "$!";
 			}
-			my $r = symlink $source, $target || die "$!";
+			symlink $source, $target || die "$!";
 		}
 		exit;
 	}
@@ -89,13 +89,13 @@ sub convert( $self, %from_to ) {
 				next;
 			}
 			if ( $from =~ /.wma$/i ) {
-				#my @command = @WMA_TO_OGG =~ s/!<<in>>/$from/r;
-				#@command =~ s/!<<out>>/$to/;
-				#system( @command ) == 0 || die "Command failed: $command - $!";
+				my @command = map { s/!<<in>>/$from/r } @WMA_TO_OGG;
+				@command = map { s/!<<out>>/$to/r } @command;
+				system( @command ) == 0 || die "Command failed: $command - $!";
 			}
 			elsif ( $from =~ /.wmv$/i ) {
 				my @command = map { s/!<<in>>/$from/r } @WMV_TO_OGV;
-				s/!<<out>>/$to/ for @command;
+				@command = map { s/!<<out>>/$to/r } @command;
 				system( @command ) == 0 || die "Command failed: $!";
 			}
 			else {
