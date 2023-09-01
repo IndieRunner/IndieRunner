@@ -378,7 +378,7 @@ sub iomap_symlink () {
 		$index_file = $k if -e $k;
 		last if $index_file;
 	}
-	return undef unless $index_file;
+	return unless $index_file;
 
 	foreach my $symlink_pair ( @{ $iomap{ $index_file } } ) {
 		my ($oldfile, $newfile) = @{ $symlink_pair };

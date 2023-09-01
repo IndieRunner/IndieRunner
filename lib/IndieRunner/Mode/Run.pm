@@ -133,8 +133,8 @@ sub extract( $self, %files_and_subs ) {
 	waitpid $pid, 0;
 }
 
-sub run( $self, %config ) {
-	my @full_command = $self->SUPER::run( %config );
+sub run( $self, $game_name, %config ) {
+	my @full_command = $self->SUPER::run( $game_name, %config );
 
 	unveil( $ENV_CMD, 'x' )		|| die "unable to unveil: $!";
 	unveil( $full_command[0], 'x' )	|| die "unable to unveil: $!";

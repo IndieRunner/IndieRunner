@@ -20,9 +20,6 @@ use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use Carp;
 
-use base qw( Exporter );
-our @EXPORT_OK = qw( get_dllmap_target );
-
 use File::Share qw( :all );
 use File::Spec::Functions qw( catpath splitpath );	# XXX: remove?
 use IndieRunner::Cmdline;

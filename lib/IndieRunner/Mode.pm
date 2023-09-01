@@ -68,12 +68,13 @@ sub finish ( $self ) {
 	# no-op by default
 }
 
-sub run ( $self, %config ) {
+sub run ( $self, $game_name, %config ) {
 	my @full_command = ( $config{ bin } );
 	unshift( @full_command, 'env', @{ $config{ env } } ) if ( @{ $config{ env } } );
 	push( @full_command, @{ $config{ args } } ) if ( @{ $config{ args } } );
 
-	vsay "\nExecuting: " . join( ' ', @full_command ) . "\n";
+	vsay "\nLauching $game_name";
+	vsay "Executing: " . join( ' ', @full_command ) . "\n";
 	return @full_command;
 }
 

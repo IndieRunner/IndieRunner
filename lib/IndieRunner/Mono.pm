@@ -1,6 +1,6 @@
 package IndieRunner::Mono;
 
-# Copyright (c) 2022 Thomas Frohwein
+# Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -22,14 +22,13 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use parent 'IndieRunner::BaseModule';
 
 use Carp;
-use File::Path qw( make_path );
 use Readonly;
 
 use IndieRunner::IdentifyFiles;
-use IndieRunner::Mono::Dllmap qw( get_dllmap_target );
+use IndieRunner::Mono::Dllmap;
 use IndieRunner::Mono::Iomap;
 
-Readonly::Scalar my $BIN => 'mono';
+Readonly::Scalar my $MONO_BIN => '/usr/local/bin/mono';
 
 Readonly::Array my @MONO_GLOBS => (
 	'I18N{,.*}.dll',
@@ -102,53 +101,13 @@ sub quirks ( $game_file ) {
 	# XXX: for 'SSGame.exe': mkdir -p ~/.local/share/SSDD
 }
 
-sub run_cmd ( $self ) {
-	# TODO: check for quirks: eagle island, MONO_FORCE_COMPAT
-	# TODO: setup custom config for MidBoss
+sub get_bin ( $self ) {
+	return $MONO_BIN;
+}
 
-	# determine which file is the main assembly for mono
-
-	my @exe = glob "*.exe";
-	my @cil;
-	my $game_file;
-
-	# XXX: add check for IndieRunner{ file } for command-line supplied file
-	foreach my $e ( @exe ) {
-		if ( index( IndieRunner::IdenfityFiles::get_magic_descr( $e ),
-			'Mono/.Net assembly' ) > -1 ) {
-				push @cil, $e;
-		}
-	}
-
-	if ( scalar @cil > 1 ) {
-		say "\nMore than one CIL .exe file found:";
-		say "\n\t" . join( "\n\t", @cil ) . "\n";
-		say "In this case, you must specify the main mono assembly.\n";
-		say "Example:\n$0 -f \"$cil[0]\"\n";
-		exit 1;
-	}
-	$game_file = $cil[0];
-
-	IndieRunner::set_game_name( (split /\./, $game_file)[0] );
-
-	my @ld_library_path = (
-		'/usr/local/lib',
-		'/usr/X11R6/lib',
-		'/usr/local/lib/steamworks-nosteam',
-		);
-	my @mono_path = (
-		'/usr/local/share/FNA',
-		'/usr/local/lib/steamworks-nosteam',
-		);
-	@env = (
-		'LD_LIBRARY_PATH='	. join( ':', @ld_library_path ),
-		'MONO_CONFIG='		. get_dllmap_target(),
-		'MONO_PATH='		. join( ':', @mono_path ),
-		'SDL_PLATFORM=Linux',
-		);
-	quirks $game_file;
-
-	return ( 'env', @env, $BIN, $game_file, @cil_args );
+# game_name needed for heuristics to identify the main file to execute
+sub set_game_name ( $self, $name ) {
+	$$self{ game_name } = $name;
 }
 
 sub new ( $class, %init ) {
@@ -174,6 +133,40 @@ sub new ( $class, %init ) {
 	$$self{ need_to_replace }	= \%need_to_replace;
 
 	return $self;
+}
+
+sub get_env_ref ( $self ) {
+	my @ld_library_path = (
+		'/usr/local/lib',
+		'/usr/X11R6/lib',
+		'/usr/local/lib/steamworks-nosteam',
+		);
+	my @mono_path = (
+		'/usr/local/share/FNA',
+		'/usr/local/lib/steamworks-nosteam',
+		);
+	my @env = (
+		'LD_LIBRARY_PATH='	. join( ':', @ld_library_path ),
+		'MONO_CONFIG='		. IndieRunner::Mono::Dllmap::get_dllmap_target(),
+		'MONO_PATH='		. join( ':', @mono_path ),
+		'SDL_PLATFORM=Linux',
+		);
+
+	return \@env;
+}
+
+sub get_args_ref ( $self ) {
+	# heuristic to figure out the binary name from game_name
+	my $game_file;
+	if ( -f $$self{ game_name } . '.exe' ) {
+		$game_file = $$self{ game_name } . '.exe';
+	}
+	elsif ( -f ( $$self{ game_name } =~ s/[[:blank:]]//gr ) . '.exe' ) {
+		$game_file = ( $$self{ game_name } =~ s/[[:blank:]]//gr ) . '.exe';
+	}
+
+	confess "Failed to identify game file for Mono. Aborting." if ( not $game_file );
+	return [ $game_file ];
 }
 
 1;

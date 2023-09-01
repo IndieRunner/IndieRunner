@@ -78,6 +78,8 @@ sub new ( $class, %init ) {
 	# set game from cli argument if present
 	my $game = $init{ game } || detect_game_name( $$self{ engine } );
 
+	$$self{ engine }->set_game_name( $game );
+
 	$$self{ game } = ( __PACKAGE__ . '::Game' )->new(
 		name		=> $game,
 		engine		=> $$self{ engine },
@@ -199,7 +201,7 @@ sub setup ( $self ) {
 
 sub run ( $self ) {
 	my $configuration_ref = $$self{ game }->configure();
-	$$self{ mode }->run( %{ $configuration_ref } );
+	$$self{ mode }->run( $$self{ game }{ name }, %{ $configuration_ref } );
 }
 
 sub finish ( $self ) {

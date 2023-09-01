@@ -23,17 +23,6 @@ use parent 'IndieRunner::BaseModule';
 
 use constant GODOT3_BIN	=> '/usr/local/bin/godot';
 
-# XXX: Quirks needed:
-# - SokoSolitaire => '--video-driver GLES2' # shader issues with default GLES3
-
-sub run_cmd ( $self ) {
-	my $run_file = # $self->cli_file() ||
-		 $self->engine_id_file();
-	IndieRunner::set_game_name( (split /\./, $run_file)[0] );
-
-	return ( get_bin(), '--quiet', '--main-pack', $run_file );
-}
-
 sub detect_game ( $self ) {
 	my @pck_files =	glob '*.pck';
 	return undef unless @pck_files;
