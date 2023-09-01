@@ -21,10 +21,7 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use parent 'IndieRunner::BaseModule';
 
-use Carp;	# XXX: remove?
-#use Readonly;	# XXX: use constant ? (perl pragma)
-
-use constant GODOT3_BIN	=> 'godot';
+use constant GODOT3_BIN	=> '/usr/local/bin/godot';
 
 # XXX: Quirks needed:
 # - SokoSolitaire => '--video-driver GLES2' # shader issues with default GLES3

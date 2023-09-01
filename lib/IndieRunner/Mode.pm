@@ -68,4 +68,13 @@ sub finish ( $self ) {
 	# no-op by default
 }
 
+sub run ( $self, %config ) {
+	my @full_command = ( $config{ bin } );
+	unshift( @full_command, 'env', @{ $config{ env } } ) if ( @{ $config{ env } } );
+	push( @full_command, @{ $config{ args } } ) if ( @{ $config{ args } } );
+
+	vsay "\nExecuting: " . join( ' ', @full_command ) . "\n";
+	return @full_command;
+}
+
 1;

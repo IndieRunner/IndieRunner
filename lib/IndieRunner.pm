@@ -79,8 +79,9 @@ sub new ( $class, %init ) {
 	my $game = $init{ game } || detect_game_name( $$self{ engine } );
 
 	$$self{ game } = ( __PACKAGE__ . '::Game' )->new(
-		name	=> $game,
-		engine	=> $$self{ engine },
+		name		=> $game,
+		engine		=> $$self{ engine },
+		user_args	=> @$self{ game_args },
 	);
 
 	return bless $self, $class;
@@ -186,6 +187,8 @@ sub setup ( $self ) {
 			}
 		}
 
+		# XXX: check for dead symlinks?
+
 		exit;
 	}
 	elsif ( not defined( $pid ) ) {
@@ -195,24 +198,8 @@ sub setup ( $self ) {
 }
 
 sub run ( $self ) {
-
-	say "bin: $$self{ game }{ bin }";
-	say 'env:';
-	while ( my ( $k, $v ) = each ( %{ $$self{ game }{ env } } ) ) {
-		say "$k = $v";
-	}
-	say 'args: ' . join( ' ', @{ $$self{ game }{ args } } );
-
-	# get everything for runtime configuration
-	say STDERR "XXX: run() not implemented yet";
-
-	# configure runtime:
-	# - engine-specific, game-specific, and user-provided configuration
-	# - elements: environment ( set %{ENV} ), binary, arguments, potentially symlinks
-	# - need to know unveil paths
-	# - engine-specific pledge exec promises?
-
-	# XXX: Fork + Exec Runtime, unveil +/- pledge as appropriate
+	my $configuration_ref = $$self{ game }->configure();
+	$$self{ mode }->run( %{ $configuration_ref } );
 }
 
 sub finish ( $self ) {

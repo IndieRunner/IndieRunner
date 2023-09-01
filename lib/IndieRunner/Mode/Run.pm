@@ -26,6 +26,8 @@ use OpenBSD::Pledge;
 use OpenBSD::Unveil;
 use Readonly;
 
+Readonly my $ENV_CMD => '/usr/bin/env';
+
 Readonly my @WMA_TO_OGG => ( '/usr/local/bin/ffmpeg', '-loglevel', 'fatal', '-i', '!<<in>>', '-c:a', 'libvorbis', '-q:a', '10', '!<<out>>' );
 Readonly my @WMV_TO_OGV => ( '/usr/local/bin/ffmpeg', '-loglevel', 'fatal', '-i', '!<<in>>', '-c:v', 'libtheora', '-q:v', '10', '-c:a', 'libvorbis', '-q:a', '10', '!<<out>>' );
 
@@ -129,6 +131,16 @@ sub extract( $self, %files_and_subs ) {
 		die "failed to fork: $!";
 	}
 	waitpid $pid, 0;
+}
+
+sub run( $self, %config ) {
+	my @full_command = $self->SUPER::run( %config );
+
+	unveil( $ENV_CMD, 'x' )		|| die "unable to unveil: $!";
+	unveil( $full_command[0], 'x' )	|| die "unable to unveil: $!";
+	pledge( qw( rpath exec ) )	|| die "unable to pledge: $!";
+
+	exec( @full_command );
 }
 
 1;

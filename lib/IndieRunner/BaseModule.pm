@@ -35,7 +35,7 @@ sub get_bin( $self ) {
 }
 
 sub get_env_ref( $self ) {
-	return \%;
+	return \@;
 }
 
 sub get_args_ref( $self ) {

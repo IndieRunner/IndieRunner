@@ -19,31 +19,51 @@ use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
+use Readonly;
+
+Readonly::Hash my %GAME_ENV => {
+	# empty for now
+};
+
+Readonly::Hash my %GAME_ARGS => {
+	'SokoSolitaire' => '--video-driver GLES2',	# XXX: may only be needed on Intel GPU
+};
+
 sub new ( $class, %init ) {
 	my $self = bless {}, $class;
 
 	%$self = ( %$self, %init );
-	%$self = ( %$self, configure( $$self{ engine } ) );
+	%$self = ( %$self, engine_config( $$self{ engine } ) );
+
+	if ( @{ $$self{ user_args } } ) {
+		push( @{ $$self{ args } }, @{ $$self{ user_args } } );
+	}
 
 	return $self;
 }
 
-sub configure ( $engine ) {
-	my %config = (
-		      bin	=> $engine->get_bin(),
-		      env	=> $engine->get_env_ref(),	# hashref
-		      args	=> $engine->get_args_ref(),	# arrayref
-		     );
+sub engine_config ( $engine ) {
+	(
+	 bin	=> $engine->get_bin(),
+	 env	=> $engine->get_env_ref(),	# arrayref
+	 args	=> $engine->get_args_ref(),	# arrayref
+	);
+}
 
-	# XXX: for development only
-	say "bin: $config{ bin }";
-	say 'env:';
-	while ( my ( $k, $v ) = each ( %{ $config{ env } } ) ) {
-		say "$k:\t$v";
-	}
-	say 'args: ' . join( ' ', @{ $config{ args } } );
+sub configure ( $self ) {
+	# get game-specific configuration
+	unshift( @{ $$self{ env } }, $GAME_ENV{ $$self{ name } } || '' );
+	unshift( @{ $$self{ args } }, $GAME_ARGS{ $$self{ name } } || '' );
 
-	return %config;
+	# remove any '' that may have been added above
+	@{ $$self{ env } } = grep { !/^$/ } @{ $$self{ env } };
+	@{ $$self{ args } } = grep { !/^$/ } @{ $$self{ args } };
+
+	return {
+		bin	=> $$self{ bin },
+		env	=> $$self{ env },
+		args	=> $$self{ args },
+	};
 }
 
 1;
