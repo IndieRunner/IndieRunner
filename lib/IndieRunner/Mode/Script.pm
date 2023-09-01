@@ -45,6 +45,8 @@ sub script_head () {
 
 sub new ( $class, %init ) {
 	$out = script_head();
+	$init{ pledge_group } = 'no_file_mod';
+	$init{ verbosity } = 0;	# don't print verbose message which would mess up script output
 	return $class->SUPER::new( %init );
 }
 

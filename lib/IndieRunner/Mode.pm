@@ -19,10 +19,27 @@ use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
+use OpenBSD::Pledge;
+use OpenBSD::Unveil;
+use Readonly;
+
+Readonly my %PLEDGE_GROUP => (
+	'default'	=> [ qw( rpath cpath proc exec unveil ) ],
+	'no_file_mod'	=> [ qw( rpath proc exec unveil ) ],
+	);
+
 my $verbosity;
 
 sub vsay ( @say_args ) {
-	say @say_args if $verbosity > 0;
+	say @say_args if $verbosity >= 1;
+}
+
+sub vvsay ( @say_args ) {
+	say @say_args if $verbosity >= 2;
+}
+
+sub vvvsay ( @say_args ) {
+	say @say_args if $verbosity >= 3;
 }
 
 # parent for Mode object constructor
@@ -32,6 +49,8 @@ sub new ( $class, %init ) {
 
 	# make verbosity available for vsay etc.
 	$verbosity = $$self{ verbosity };
+
+	init_pledge( $$self{ pledge_group } || 'default' );
 
 	return $self;
 }
@@ -76,6 +95,15 @@ sub run ( $self, $game_name, %config ) {
 	vsay "\nLauching $game_name";
 	vsay "Executing: " . join( ' ', @full_command ) . "\n";
 	return @full_command;
+}
+
+sub set_verbosity ( $self, $verbosity ) {
+	$$self{ verbosity } = $verbosity;
+}
+
+sub init_pledge ( $group ) {
+	vvvsay 'pledge promises: ' . join( ' ', @{ $PLEDGE_GROUP{ $group } } );
+	pledge( @{ $PLEDGE_GROUP{ $group } } ) || die "unable to pledge: $!";
 }
 
 1;

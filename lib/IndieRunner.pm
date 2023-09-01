@@ -176,9 +176,7 @@ sub setup ( $self ) {
 	# run setup in separate and restricted process
 	my $pid = fork();
 	if ( $pid == 0 ) {
-		pledge( qw( rpath cpath proc exec unveil ) ) || confess "unable to pledge: $!";
-
-		# run post_extract() after extract() to account for all needing setup
+		# run post_extract() after extract() to account for all files needing setup
 		if ( $$self{ engine }{ need_to_extract } ) {
 			$$self{ mode }->extract(
 				%{ $$self{ engine }{ need_to_extract } } );

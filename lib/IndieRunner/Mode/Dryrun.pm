@@ -21,4 +21,15 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use parent 'IndieRunner::Mode';
 
+# Dryrun only makes sense with verbosity
+use constant DRYRUN_MIN_VERBOSITY => 2;
+
+sub new ( $class, %init ) {
+	$init{ pledge_group } = 'no_file_mod';
+	if ( $init{ verbosity } < DRYRUN_MIN_VERBOSITY ) {
+		$init{ verbosity } = DRYRUN_MIN_VERBOSITY;
+	}
+	return $class->SUPER::new( %init );
+}
+
 1;
