@@ -1,6 +1,6 @@
 package IndieRunner::Java;
 
-# Copyright (c) 2022 Thomas Frohwein
+# Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -21,7 +21,7 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use autodie;
 use English;
 
-use parent 'IndieRunner::BaseModule';
+use parent 'IndieRunner::Engine';
 
 use Carp;
 use Config;

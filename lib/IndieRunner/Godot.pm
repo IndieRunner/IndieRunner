@@ -19,7 +19,7 @@ use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
-use parent 'IndieRunner::BaseModule';
+use parent 'IndieRunner::Engine';
 
 use constant GODOT3_BIN	=> '/usr/local/bin/godot';
 

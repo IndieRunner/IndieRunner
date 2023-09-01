@@ -1,6 +1,6 @@
 package IndieRunner::Love2D;
 
-# Copyright (c) 2022 Thomas Frohwein
+# Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -20,7 +20,7 @@ use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use autodie;
 
-use parent 'IndieRunner::BaseModule';
+use parent 'IndieRunner::Engine';
 
 use Carp;
 use Readonly;
