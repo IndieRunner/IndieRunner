@@ -167,6 +167,8 @@ sub detect_game_name ( $engine_module ) {
 	($game_name) = IndieRunner::IdentifyFiles::find_file_magic( '^PE32 executable \(console\)', glob '*' ) unless $game_name;
 	$game_name = 'unknown' unless $game_name;	# bail
 
+	# XXX: set $game_name from $$self{ file } if not identified yet
+
 	return $game_name;
 }
 

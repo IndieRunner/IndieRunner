@@ -21,12 +21,12 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use Readonly;
 
+# lowercase keys for %GAME_ENV and %GAME_ARGS for detection
 Readonly::Hash my %GAME_ENV => {
-	# empty for now
+	'shenzhen i/o'	=> 'MONO_FORCE_COMPAT=1',
 };
-
 Readonly::Hash my %GAME_ARGS => {
-	'SokoSolitaire' => '--video-driver GLES2',	# XXX: may only be needed on Intel GPU
+	'sokosolitaire' => '--video-driver GLES2',	# XXX: may only be needed on Intel GPU
 };
 
 sub new ( $class, %init ) {
@@ -52,8 +52,8 @@ sub engine_config ( $engine ) {
 
 sub configure ( $self ) {
 	# get game-specific configuration
-	unshift( @{ $$self{ env } }, $GAME_ENV{ $$self{ name } } || '' );
-	unshift( @{ $$self{ args } }, $GAME_ARGS{ $$self{ name } } || '' );
+	unshift( @{ $$self{ env } }, $GAME_ENV{ lc( $$self{ name } ) } || '' );
+	unshift( @{ $$self{ args } }, $GAME_ARGS{ lc( $$self{ name } ) } || '' );
 
 	# remove any '' that may have been added above
 	@{ $$self{ env } } = grep { !/^$/ } @{ $$self{ env } };

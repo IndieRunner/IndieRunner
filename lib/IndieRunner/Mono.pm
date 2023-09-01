@@ -158,14 +158,29 @@ sub get_env_ref ( $self ) {
 sub get_args_ref ( $self ) {
 	# heuristic to figure out the binary name from game_name
 	my $game_file;
+	my $first_word = (split( /[[:blank:]]/, $$self{ game_name } ) )[0];
 	if ( -f $$self{ game_name } . '.exe' ) {
 		$game_file = $$self{ game_name } . '.exe';
 	}
 	elsif ( -f ( $$self{ game_name } =~ s/[[:blank:]]//gr ) . '.exe' ) {
 		$game_file = ( $$self{ game_name } =~ s/[[:blank:]]//gr ) . '.exe';
 	}
+	else {
+		if ( length( $first_word ) > 3 and my @candidate_files = glob '*' ) {
+			if ( @candidate_files = grep { /^\Q$first_word\E.*\.exe$/i }
+						@candidate_files ) {
+				# heuristic: return shortest file
+				my $shortest = $candidate_files[0];
+				foreach my $f ( @candidate_files ) {
+					$shortest = $f if length( $f ) < length( $shortest );
+				}
+				$game_file = $shortest;
+			}
 
-	confess "Failed to identify game file for Mono. Aborting." if ( not $game_file );
+		}
+	}
+
+	confess "Failed to identify game file for Mono, based on detected game name \"$$self{ game_name }\". Aborting." if ( not $game_file );
 	return [ $game_file ];
 }
 
