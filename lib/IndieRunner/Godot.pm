@@ -26,11 +26,10 @@ use constant GODOT3_BIN	=> '/usr/local/bin/godot';
 sub detect_game ( $self ) {
 	my @pck_files =	glob '*.pck';
 	return undef unless @pck_files;
-	return $pck_files[0] =~ s/\.pck$//r;
+	return @pck_files[0] =~ s/\.pck$//r;
 }
 
 sub get_bin( $self ) {
-	# XXX: will need to disambiguate into Godot3BIN and Godot4BIN eventually
 	return GODOT3_BIN;
 }
 
@@ -38,7 +37,7 @@ sub get_args_ref( $self ) {
 	my @args = (
 		'--quiet',
 		'--main-pack',
-		glob( '*.pck' ),	# XXX: make smarter - -f cli file vs. pck file vs. detected via byte sequence
+		( glob( '*.pck' ) )[0],	# XXX: add detection via byte sequence
 		);
 	return \@args;
 }

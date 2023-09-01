@@ -24,13 +24,7 @@ use parent 'IndieRunner::BaseModule';
 use Carp;
 use Readonly;
 
-Readonly::Scalar my $BIN => 'gzdoom';
-
-sub run_cmd ( $self ) {
-	#IndieRunner::set_game_name( ( split /\./, $self->engine_id_file() )[0] );
-	$self->game_name( ( split /\./, $self->engine_id_file() )[0] );
-	return ( $BIN, '-iwad', $self->engine_id_file );
-}
+Readonly::Scalar my $GZDOOM_BIN => '/usr/local/bin/gzdoom';
 
 sub new ( $class, %init ) {
 	# neuter gzdoom.pk3 if present and replace with symlinked
@@ -39,7 +33,6 @@ sub new ( $class, %init ) {
 	# - Vomitoreum
 	# - I Am Sakuya: Touhou FPS Game
 
-	#my @need_to_remove = ();
 	my %need_to_replace;
 
 	my $self = bless {}, $class;
@@ -49,8 +42,6 @@ sub new ( $class, %init ) {
 		$need_to_replace{ 'gzdoom.pk3' } =
 			'/usr/local/share/games/doom/gzdoom.pk3';
 	}
-
-	#$$self{ need_to_remove }	= \@need_to_remove;
 	$$self{ need_to_replace }	= \%need_to_replace;
 
 	return $self;
@@ -59,7 +50,19 @@ sub new ( $class, %init ) {
 sub detect_game ( $self ) {
 	my @ipk3_files = glob '*.ipk3';
 	return undef unless @ipk3_files;
-	return $ipk3_files[0] =~ s/\.ipk3$//r;
+	return ( $ipk3_files ) =~ s/\.ipk3$//r;
+}
+
+sub get_bin ( $self ) {
+	return $GZDOOM_BIN;
+}
+
+sub get_args_ref( $self ) {
+	my @args = (
+		'-iwad',
+		( glob( '*.ipk3' ) )[0];
+		);
+	return \@args;
 }
 
 1;

@@ -24,7 +24,6 @@ use Carp;
 use File::Find::Rule;
 use File::Share qw( :all );
 use File::Spec::Functions qw( splitpath );
-use OpenBSD::Pledge;
 use Readonly;
 
 use IndieRunner::Game;
@@ -33,7 +32,6 @@ use IndieRunner::IdentifyFiles;
 use IndieRunner::Info;
 use IndieRunner::Io;
 use IndieRunner::Mono;		# for get_mono_files
-use IndieRunner::Platform;
 
 # keep this in sync with return of IndieRunner::Cmdline::init_cli()
 Readonly::Hash my %INIT_DEFAULTS => {
@@ -152,15 +150,18 @@ sub detect_game_name ( $engine_module ) {
 		}
 	}
 
-
 	# 2. use engine-specific heuristic from the engine module
 	if ( $engine_module->can( 'detect_game' ) ) {
 		return $engine_module->detect_game();
 	}
 
-	# XXX: Godot -> name.pck, GZDoom -> name.ipk3
-	# HashLink: deadcells.sh, Northgard
-	# Mono*: name.exe
+	my @exe_files = glob '*.exe';
+	if ( @exe_files ) {
+		$game_name = $exe_files[0];
+		foreach my $e ( @exe_files ) {
+			$game_name = $e if length( $e ) < length( $game_name );
+		}
+	}
 
 	$game_name = IndieRunner::Info::goggame_name();
 	($game_name) = IndieRunner::IdentifyFiles::find_file_magic( '^ELF.*executable', glob '*' ) unless $game_name;
@@ -173,6 +174,7 @@ sub detect_game_name ( $engine_module ) {
 }
 
 sub setup ( $self ) {
+
 	# run setup in separate and restricted process
 	my $pid = fork();
 	if ( $pid == 0 ) {

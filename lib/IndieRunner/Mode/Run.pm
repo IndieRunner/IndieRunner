@@ -91,7 +91,7 @@ sub convert( $self, %from_to ) {
 			if ( $from =~ /.wma$/i ) {
 				my @command = map { s/!<<in>>/$from/r } @WMA_TO_OGG;
 				@command = map { s/!<<out>>/$to/r } @command;
-				system( @command ) == 0 || die "Command failed: $command - $!";
+				system( @command ) == 0 || die "Command failed: $!";
 			}
 			elsif ( $from =~ /.wmv$/i ) {
 				my @command = map { s/!<<in>>/$from/r } @WMV_TO_OGV;
