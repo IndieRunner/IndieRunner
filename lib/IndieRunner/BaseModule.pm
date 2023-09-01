@@ -42,4 +42,9 @@ sub get_args_ref( $self ) {
 	return \@;
 }
 
+# game_name needed for heuristics to identify the main file to execute
+sub set_game_name ( $self, $name ) {
+	$$self{ game_name } = $name;
+}
+
 1;

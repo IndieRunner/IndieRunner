@@ -105,11 +105,6 @@ sub get_bin ( $self ) {
 	return $MONO_BIN;
 }
 
-# game_name needed for heuristics to identify the main file to execute
-sub set_game_name ( $self, $name ) {
-	$$self{ game_name } = $name;
-}
-
 sub new ( $class, %init ) {
 	my %need_to_remove;
 	my @remove_list;
