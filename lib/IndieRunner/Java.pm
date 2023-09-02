@@ -23,7 +23,6 @@ use English;
 
 use parent 'IndieRunner::Engine';
 
-use Carp;
 use Config;
 use File::Find::Rule;
 use File::Spec::Functions qw( catfile splitpath );
@@ -132,7 +131,7 @@ sub get_bundled_java_version () {
 		}
 	}
 	else {
-		confess "Unsupported OS: " . $OSNAME;
+		die "Unsupported OS: " . $OSNAME;
 	}
 }
 
@@ -143,7 +142,7 @@ sub set_java_home ( $v ) {
 	else {
 		die "Unsupported OS: " . $OSNAME;
 	}
-	confess "Couldn't locate desired JAVA_HOME directory at $java_home: $!"
+	die "Couldn't locate desired JAVA_HOME directory at $java_home: $!"
 		unless ( -d $java_home );
 }
 
@@ -167,8 +166,6 @@ sub replace_lib ( $lib ) {
 
 sub bundled_libraries () {
 	my %symlink_libs;
-	#my $verbose = cli_verbose();
-	#my $dryrun = cli_dryrun();
 
 	#say "\nChecking which libraries are present...";
 	my @bundled_libs	= File::Find::Rule->file
@@ -188,7 +185,6 @@ sub bundled_libraries () {
 		# f L: broken symlink => needs fixing
 		# f l: no file found (impossible after glob above)
 		if ($f and $l) {
-			#say 'ok' if ( $verbose or $dryrun );
 			next;
 		}
 		elsif ( my $replacement = replace_lib( $file ) ) {
@@ -251,12 +247,11 @@ sub new ( $class, %init ) {
 	get_bundled_java_version();
 
 	$Bit_Sufx = ( $Config{'use64bitint'} ? '64' : '' ) . $So_Sufx;
-	#say "Library suffix:\t$Bit_Sufx" if $self->verbose();
 
 	# 2. Get data on main JAR file and more
 	# 	a. first check JSON config file
-		# prioritize *config.json, e.g. for Airships: Conquer the Skies, Lenna's Inception
-		# commonly config.json, but sometimes e.g. TFD.json
+	#	   prioritize *config.json, e.g. for Airships: Conquer the Skies, Lenna's Inception
+	#	   commonly config.json, but sometimes e.g. TFD.json
 	($config_file) = glob '*config.json';
 	($config_file) = glob '*.json' unless $config_file;
 	if ( grep { /^\Q$config_file\E$/ } @INVALID_CONFIG_FILES or ! -e $config_file ) {
@@ -297,7 +292,7 @@ sub new ( $class, %init ) {
 			}
 
 			if ( scalar @java_lines > 1 ) {
-				confess "XXX: Not implemented";
+				die "XXX: Not implemented";
 			}
 		}
 
@@ -317,9 +312,6 @@ sub new ( $class, %init ) {
 			if ( $java_lines[0] =~ s/\s(([[:alnum:]]+\.){2,}[[:alnum:]]+)\s/ / ) {
 				$main_class = $1 unless $main_class;
 			}
-			#say 'Found JVM classpath in file: ' . join( ':', @jvm_classpath)
-				#if ( @jvm_classpath and $self->verbose() );
-			#say "java_line: $java_lines[0]";	# leftover line parts; uncomment to inspect
 		}
 	}
 
@@ -334,7 +326,7 @@ sub new ( $class, %init ) {
 				__PACKAGE__ . '::extract_jar';
 		}
 		else {
-			confess "No JAR file to extract" unless glob '*.jar';
+			die "No JAR file to extract" unless glob '*.jar';
 			$need_to_extract{ ( glob '*.jar' )[0] } = __PACKAGE__ . '::extract_jar';
 		}
 	}
@@ -349,10 +341,8 @@ sub new ( $class, %init ) {
 		push( @java_frameworks, 'LWJGL' . lwjgl_2_or_3() );
 	}
 	push @java_frameworks, 'Steamworks4j' if has_steamworks4j();
-	#say 'Bundled Java Frameworks: ' . join( ' ', @java_frameworks)
-		#if $self->verbose();
 
-	# 5. Call specific setup for each framework
+	# 5. XXX: Call specific setup for each framework
 	#unless ( skip_framework_setup() ) {
 		#foreach my $f ( @java_frameworks ) {
 			#my $module = "IndieRunner::Java::$f";
@@ -426,7 +416,7 @@ sub run_cmd ( $self ) {
 		        join( ':', @jvm_classpath, '.' ), '-jar', $game_jar );
 	}
 	else {
-		confess "Unable to identify main class for JVM execution" unless $main_class;
+		die "Unable to identify main class for JVM execution" unless $main_class;
 
 		return( 'env', @jvm_env, $java_home . '/bin/java', @jvm_args, '-cp',
 		        join( ':', @jvm_classpath, '.' ), $main_class );
