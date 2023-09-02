@@ -29,9 +29,7 @@ sub detect_game ( $self ) {
 	return @pck_files[0] =~ s/\.pck$//r;
 }
 
-sub get_bin( $self ) {
-	return GODOT3_BIN;
-}
+sub get_bin( $self ) { return GODOT3_BIN; }
 
 sub get_args_ref( $self ) {
 	my @args = (

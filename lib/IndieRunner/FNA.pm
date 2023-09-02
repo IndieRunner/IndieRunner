@@ -21,9 +21,7 @@ use v5.36;
 
 use parent 'IndieRunner::Mono';
 
-use Carp;
 use Readonly;
-
 use IndieRunner::Mono;
 
 # $FNA_MIN_VERSION depends on the version of the native support libraries
@@ -35,12 +33,7 @@ Readonly::Array  my @ALLOW_BUNDLED_FNA => (
 	'SuperBernieWorld.exe',	# 1.2.0 (Kitsune Zero),	19.3
 	);
 
-sub run_cmd ( $self ) {
-	return $self->SUPER::run_cmd();
-}
-
 sub new ( $class, %init ) {
-	# XXX: make this class less verbose (say)
 	my %need_to_remove;
 	my %need_to_replace;
 	my $fna_file = 'FNA.dll';
@@ -62,7 +55,7 @@ sub new ( $class, %init ) {
 	unless ( $skip_fna_version ) {
 		my $fna_bundled_version = version->declare(
 			IndieRunner::Mono::get_assembly_version( $fna_file ) )
-			or croak "Failed to get version of $fna_file";
+			or die "Failed to get version of $fna_file";
 		my $fna_replacement_version = '';
 		if ( $fna_bundled_version < $FNA_MIN_VERSION ) {
 			# check if replacement FNA can be used
@@ -72,18 +65,13 @@ sub new ( $class, %init ) {
 			}
 			unless ( $fna_replacement_version &&
 				$fna_replacement_version >= $FNA_MIN_VERSION ) {
-				say "No FNA.dll found with version >= $FNA_MIN_VERSION";
-				exit 1;
+				die "No FNA.dll found with version >= $FNA_MIN_VERSION";
 			}
 			else {
 				$need_to_replace{ $fna_file } = $FNA_REPLACEMENT;
 			}
 		}
-		else {
-			say "FNA.dll version ok: $fna_bundled_version";
-		}
 	}
-	#push( @need_to_remove, $fna_config_file ) if ( -f $fna_config_file );
 	$need_to_remove{ $fna_config_file } = undef if -f $fna_config_file;
 
 	$$self{ need_to_remove }	= \%need_to_remove;

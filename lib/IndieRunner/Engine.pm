@@ -1,4 +1,4 @@
-package IndieRunner::BaseModule;
+package IndieRunner::Engine;
 
 # Copyright (c) 2022 Thomas Frohwein
 #

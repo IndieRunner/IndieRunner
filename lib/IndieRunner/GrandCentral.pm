@@ -1,6 +1,6 @@
 package IndieRunner::GrandCentral;
 
-# Copyright (c) 2022 Thomas Frohwein
+# Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -18,19 +18,12 @@ use strict;
 use warnings;
 use v5.36;
 use version; our $VERSION = qv('0.0.1');
-use Carp;
 use autodie;
 
-use Fcntl qw( SEEK_CUR SEEK_END );
 use Readonly;
 use Text::Glob qw( match_glob );
 
-###
-# Module to provide the main functions to pick and choose
-# pathway to run the game
-###
-
-Readonly::Hash my %Indicator_Files => (	# files that are indicative of a framework
+Readonly::Hash my %Indicator_Files => (
 	'FNA.dll'			=> 'FNA',
 	'FNA.dll.config'		=> 'FNA',
 	'*.pck'				=> 'Godot',
@@ -52,7 +45,7 @@ Readonly::Hash my %Indicator_Files => (	# files that are indicative of a framewo
 	'MonoGame.Framework.dll'	=> 'MonoGame',
 	'MonoGame.Framework.dll.config'	=> 'MonoGame',
 	'xnafx40_redist.msi'		=> 'XNA',
-	'_CommonRedist/XNA'		=> 'XNA',	# XXX: check if this is useful at all here
+	'_CommonRedist/XNA'		=> 'XNA',
 );
 
 Readonly::Hash my %Indicators => (	# byte sequences that are indicative of a framework
@@ -71,8 +64,6 @@ Readonly::Hash my %Indicators => (	# byte sequences that are indicative of a fra
 		'magic_bytes'	=> 'MonoGame.Framework',
 	},
 	'FNA'	=> {
-		# likely not specific enough to be reliable
-		# alternatively, consider `monodis --assemblyref *.exe | fgrep 'Name=FNA'`
 		'glob'		=> '*.exe',
 		'magic_bytes'	=> 'FNA',
 	},
@@ -84,7 +75,7 @@ sub find_bytes ( $file, $bytes ) {
 
 	open( my $fh, '<:raw', $file );
 	# XXX:	works so far, but unclear if this may fail to detect string that
-	# 	extends over 2 chunks
+	# 	extends over 2 chunks, unless they are aligned
 	while ( read( $fh, $_, $chunksize ) ) {
 		if ( /\Q$bytes\E/ ) {
 			close $fh;

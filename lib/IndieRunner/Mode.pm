@@ -24,8 +24,8 @@ use OpenBSD::Unveil;
 use Readonly;
 
 Readonly my %PLEDGE_GROUP => (
-	'default'	=> [ qw( rpath cpath proc exec unveil ) ],
-	'no_file_mod'	=> [ qw( rpath proc exec unveil ) ],
+	'default'	=> [ qw( rpath cpath proc exec prot_exec flock unveil ) ],
+	'no_file_mod'	=> [ qw( rpath proc exec prot_exec flock unveil ) ],
 	);
 
 my $verbosity;

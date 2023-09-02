@@ -1,6 +1,6 @@
 package IndieRunner::Game;
 
-# Copyright (c) 2022 Thomas Frohwein
+# Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -51,6 +51,7 @@ sub engine_config ( $engine ) {
 }
 
 sub configure ( $self ) {
+
 	# get game-specific configuration
 	unshift( @{ $$self{ env } }, $GAME_ENV{ lc( $$self{ name } ) } || '' );
 	unshift( @{ $$self{ args } }, $GAME_ARGS{ lc( $$self{ name } ) } || '' );

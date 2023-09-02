@@ -21,35 +21,39 @@ use v5.36;
 
 use parent 'IndieRunner::Engine';
 
-use Carp;
 use Readonly;
 
-Readonly::Scalar	my $BIN => 'hl';
-Readonly::Array		my @DAT => (
+Readonly my $HASHLINK_BIN	=> '/usr/local/bin/hl';
+Readonly my @DAT		=> (
 					'sdlboot.dat',
 					'hlboot-sdl.dat',
 					'hlboot.dat',
 					);
-
-sub run_cmd ( $self ) {
-	foreach my $d ( @DAT ) {
-		return ( $BIN, $d ) if ( -f $d );
-	}
-	croak "Failed to find .dat file for hashlink";
-}
 
 sub new ( $class, %init ) {
 	my %need_to_remove;
 	my $self = bless {}, $class;
 
 	%$self = ( %$self, %init );
-	#push @need_to_remove, glob( '*.hdll' );
 	foreach my $g ( glob( '*.hdll' ) ) {
 		$need_to_remove{ $g } = undef,
 	}
 	$$self{ need_to_remove }	= \%need_to_remove;
 
 	return $self;
+}
+
+sub get_bin ( $self ) { return $HASHLINK_BIN; }
+
+sub get_args_ref ( $self ) {
+	my @args;
+	foreach my $d ( @DAT ) {
+		if ( -f $d ) {
+			push @args, $d;
+			last;
+		}
+	}
+	return \@args;
 }
 
 1;

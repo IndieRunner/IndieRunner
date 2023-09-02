@@ -26,6 +26,7 @@ use File::Share qw( :all );
 use File::Spec::Functions qw( splitpath );
 use Readonly;
 
+use IndieRunner::Engine;
 use IndieRunner::Game;
 use IndieRunner::GrandCentral;
 use IndieRunner::IdentifyFiles;
