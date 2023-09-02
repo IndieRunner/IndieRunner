@@ -1,6 +1,6 @@
 package IndieRunner::HashLink;
 
-# Copyright (c) 2022 Thomas Frohwein
+# Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -27,8 +27,7 @@ Readonly my $HASHLINK_BIN	=> '/usr/local/bin/hl';
 Readonly my @DAT		=> (
 					'sdlboot.dat',
 					'hlboot-sdl.dat',
-					'hlboot.dat',
-					);
+					);			# hlboot.dat is fallback inside hl binary
 
 sub new ( $class, %init ) {
 	my %need_to_remove;
