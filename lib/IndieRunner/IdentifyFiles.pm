@@ -1,6 +1,6 @@
 package IndieRunner::IdentifyFiles;
 
-# Copyright (c) 2022 Thomas Frohwein
+# Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -19,7 +19,6 @@ use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
-use Carp;
 use File::Find::Rule;
 use File::LibMagic;
 
@@ -55,7 +54,7 @@ sub find_file_type ( $directory, $type ) {
 	my @file_list;
 	my @out_list;
 
-	unless (exists($filetypes{$type})) { croak "Error: Invalid filetype"; }
+	unless (exists($filetypes{$type})) { die "Error: Invalid filetype"; }
 
 	@file_list = File::Find::Rule->file
 				     ->nonempty
@@ -84,7 +83,7 @@ sub find_file_magic ( $magic_regex, @files ) {
 
 # equivalent to strings(1)
 sub strings ( $file ) {
-	open( FH, '<:raw', $file )	or croak("Couldn't open file $file: $!");
+	open( FH, '<:raw', $file )	or die ("Couldn't open file $file: $!");
 	local $/ = "\0";
 	while (<FH>) {
 		while (/([\040-\176\s]{4,})/g) {
