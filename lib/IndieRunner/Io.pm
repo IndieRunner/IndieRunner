@@ -19,21 +19,14 @@ use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use autodie;
-use English;
 
-use Carp;
-#use File::Copy qw( copy );
-use File::Path qw( make_path );
-use File::Spec::Functions qw( catfile catpath splitpath );
-
-# for pty_cmd()
-use IO::Handle;
-use IO::Pty;
+use File::Path;
+use File::Spec::Functions;
 
 sub write_file( $data, $filename ) {
-	croak "File $filename already exists!" if ( -e $filename );
-	my ($vol, $dir, $fil) = splitpath( $filename );
-	make_path( catpath( $vol, $dir ) );
+	die "File $filename already exists!" if ( -e $filename );
+	my ($vol, $dir, $fil) = File::Spec::Functions::splitpath( $filename );
+	File::Path::make_path( File::Spec::Functions::catpath( $vol, $dir ) );
 
 	open( my $fh, '>', $filename );
 	print $fh $data;
@@ -42,194 +35,13 @@ sub write_file( $data, $filename ) {
 
 sub read_file( $filename ) {
 	my $out;
-	croak "No such file: $filename" unless ( -f $filename );
+	die "No such file: $filename" unless ( -f $filename );
 	open( my $fh, '<', $filename );
 	while( my $line = <$fh> ) {
 		$out .= $line;
 	}
 	close $fh;
 	return $out;
-}
-
-# print OS-specific rename command
-sub os_rename( $oldfile, $newfile ) {
-	if ( $OSNAME eq 'openbsd' ) {
-		say "mv $oldfile $newfile";
-	}
-	else {
-		confess 'Non-OpenBSD OS not implemented';
-	}
-}
-
-# print OS-specific symlink command
-sub os_symlink( $oldfile, $newfile ) {
-	if ( $OSNAME eq 'openbsd' ) {
-		say "ln -s $oldfile $newfile";
-	}
-	else {
-		confess 'Non-OpenBSD OS not implemented';
-	}
-}
-
-# print OS-specific symlink command
-sub os_copy( $oldfile, $newfile ) {
-	if ( $OSNAME eq 'openbsd' ) {
-		say "cp $oldfile $newfile";
-	}
-	else {
-		confess 'Non-OpenBSD OS not implemented';
-	}
-}
-
-=pod
-
-# mode-specific rename subroutine
-sub _rename( $oldfile, $newfile ) {
-	my $mode = cli_mode();
-	if ( $mode eq 'run' ) {
-		#say "Rename: $oldfile => $newfile" if cli_verbose();
-		rename $oldfile, $newfile;
-	}
-	elsif ( $mode eq 'script' ) {
-		os_rename( $oldfile, $newfile );
-	}
-	else {	# mode == 'dryrun'
-		say "Rename: $oldfile => $newfile";
-	}
-}
-
-# mode-specific symlink subroutine
-sub _symlink( $oldfile, $newfile ) {
-	my $mode = cli_mode();
-	if ( $mode eq 'run' ) {
-		#say "Symlink: $newfile -> $oldfile" if cli_verbose();
-		symlink $oldfile, $newfile;
-	}
-	elsif ( $mode eq 'script' ) {
-		os_symlink( $oldfile, $newfile );
-	}
-	else {	# mode == 'dryrun'
-		say "Symlink: $newfile -> $oldfile";
-	}
-}
-
-# mode-specific symlink subroutine
-sub _copy( $oldfile, $newfile ) {
-	my $mode = cli_mode();
-	if ( $mode eq 'run' ) {
-		#say "Copy: $oldfile => $newfile" if cli_verbose();
-		copy $oldfile, $newfile;
-	}
-	elsif ( $mode eq 'script' ) {
-		os_copy( $oldfile, $newfile );
-	}
-	else {	# mode == 'dryrun'
-		say "Copy: $oldfile => $newfile";
-	}
-}
-
-# helper function for symlink in IndieRunner
-# Syntax: _symlink( string glob_of_oldfile, string newfile, bool overwrite )
-sub ir_symlink ( $oldfile_glob, $newfile, $overwrite = 0 ) {
-	#my $dryrun = cli_dryrun();
-	#my $verbose = cli_verbose();
-	my @oldfile_array = glob( $oldfile_glob );
-	my $oldfile;
-
-	# 3 scenarios: no file, 1 file, more than 1 file
-	if ( @oldfile_array == 0 ) {
-		return 0;	# no replacement file found
-	}
-	if ( @oldfile_array == 1 ) {
-		$oldfile = $oldfile_array[0];
-	}
-	elsif ( @oldfile_array < 0 ) {
-		confess "scalar should never return < 0";
-	}
-	else {
-		# if file is versioned (e.g. libopenal.so.4.2)
-		# last item in array *should* be the highest version
-		$oldfile = pop @oldfile_array;
-	}
-
-	if ( -e $newfile ) {
-		if ( $overwrite ) {
-			_rename $newfile, $newfile . '_';
-		}
-		else {
-			return 1 unless cli_mode() eq 'script';
-		}
-	}
-
-	_symlink($oldfile, $newfile);
-
-	return 1;
-}
-
-=cut
-
-# helper function to neuter included files by appending '_'
-sub neuter( $filename ) {
-	_rename( $filename, $filename . '_' ) unless -l $filename;
-}
-
-sub ir_copy( $oldfile, $newfile ) {
-	_copy( $oldfile, $newfile );
-}
-
-# run in pseudoterminal in forked process
-sub pty_cmd ( @cmd ) {
-	my $pty = IO::Pty->new();
-	my $pid = fork;
-	my @cmd_out;
-	my $cmd_ret = '';
-	my $self_marker = '[IndieRunner]';	# used to filter out from cmd_out later
-
-	if ( $pid == 0 ) {
-		my $slave = $pty->slave;
-		close $pty;
-		STDOUT->fdopen($slave, '>');
-		STDIN->fdopen($slave, '<');
-		STDERR->fdopen(\*STDOUT,'>');
-		close($slave);
-
-		system( @cmd );
-		my $ret = $?;
-		my $ret_msg = $!;
-
-		# report if error occurred; see example in perldoc -f system
-		if ( $ret == 0 ) {
-			#say "${self_marker} Application exited without errors" if cli_verbose();
-		}
-		elsif ( $ret == -1 ) {
-			say "${self_marker} failed to execute: $ret_msg";
-		}
-		elsif ( $ret & 127 ) {
-			printf "%s child process died with signal %d, %s coredump\n",
-				$self_marker, ( $ret & 127 ),  ( $ret & 128 ) ? 'with' : 'without';
-		}
-		else {
-			printf "%s child process exited with value %d\n",
-				$self_marker, $ret >> 8;
-		}
-
-		exit;
-	}
-
-	$pty->close_slave();
-	while (<$pty>) {
-		print;
-		push @cmd_out, $_;
-	}
-	close $pty;
-
-	foreach my $line ( @cmd_out ) {
-		next if $line =~ m{\Q$self_marker\E};
-		$line =~ s/\e\[[0-9;]*m(?:\e\[K)?//g;	# remove escape sequences
-		$cmd_ret .= $line;
-	}
-
-	return $cmd_ret;
 }
 
 1;

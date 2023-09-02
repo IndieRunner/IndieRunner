@@ -23,7 +23,6 @@ use English;
 
 use Carp qw( cluck confess );
 
-use File::Copy::Recursive qw( dircopy );
 use File::Find::Rule;
 use File::Path qw( remove_tree );
 use File::Spec::Functions qw( catdir catfile splitdir splitpath );
