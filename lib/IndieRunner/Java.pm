@@ -254,7 +254,7 @@ sub new ( $class, %init ) {
 	#	   commonly config.json, but sometimes e.g. TFD.json
 	($config_file) = glob '*config.json';
 	($config_file) = glob '*.json' unless $config_file;
-	if ( grep { /^\Q$config_file\E$/ } @INVALID_CONFIG_FILES or ! -e $config_file ) {
+	if ( $config_file and ( grep { /^\Q$config_file\E$/ } @INVALID_CONFIG_FILES or ! -e $config_file ) ) {
 		undef $config_file;
 	}
 

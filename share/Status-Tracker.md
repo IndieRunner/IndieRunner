@@ -30,6 +30,7 @@ Letters indicate which platform versions have been tested successfully:
 |Bleed 2		|FNA	|L	|	|	|	|	|		|
 |Blossom Tales II: The Minotaur Prince	|FNA	|L	|	|	|	|	|		|
 |BLUE REVOLVER		|Love2D	|	|	|L	|	|	|		|
+|Brawl Tactics: Origins	|W	|	|	|	|	|	|		|
 |Breath of Death VII	|XNA	|W	|	|	|	|	|		|
 |Brotato		|Godot3	|W	|	|	|	|	|		|
 |Brushwood Buddies	|FNA	|	|	|L	|	|	|		|
