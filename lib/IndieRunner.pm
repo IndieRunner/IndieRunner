@@ -162,9 +162,10 @@ sub detect_game_name ( $engine_module ) {
 		foreach my $e ( @exe_files ) {
 			$game_name = $e if length( $e ) < length( $game_name );
 		}
+		$game_name = substr $game_name, 0, -4;
 	}
 
-	$game_name = IndieRunner::Info::goggame_name();
+	$game_name = IndieRunner::Info::goggame_name() unless $game_name;
 	($game_name) = IndieRunner::IdentifyFiles::find_file_magic( '^ELF.*executable', glob '*' ) unless $game_name;
 	($game_name) = IndieRunner::IdentifyFiles::find_file_magic( '^PE32 executable \(console\)', glob '*' ) unless $game_name;
 	$game_name = 'unknown' unless $game_name;	# bail
