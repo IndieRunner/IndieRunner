@@ -3,6 +3,8 @@
 <h1>IndieRunner</h1>
 </p>
 
+**CAUTION: IndieRunner is undergoing a major refactor at the moment before it'll be ready for an initial release. Stay tuned!**
+
 Liberate your games from platform-dependent bundled dependencies. Maximize platform compatibility and longevity.
 
 Many games are built in a way that allows more platforms than advertised.
