@@ -145,6 +145,7 @@ Letters indicate which platform versions have been tested successfully:
 |Space Haven		|LibGDX	|	|L	|	|	|	|buggy - crashes; sometimes white noise music|
 |Spaceport Hope		|LibGDX	|L	|	|	|	|	|		|
 |SpeedRunners		|FNA	|L	|	|	|	|	|FNA used since 2023-03-25 update|
+|Sprout Valley		|Godot3	|W	|	|	|	|	|		|
 |Stardash		|LibGDX	|	|	|L	|	|	|		|
 |Stardew Valley		|MonoGame|	|M	|	|	|	|use MAC 32bit Build|
 |Stone Kingdoms		|Love2D	|	|	|L	|	|	|		|
