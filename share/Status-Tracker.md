@@ -49,6 +49,7 @@ Letters indicate which platform versions have been tested successfully:
 |Dad Quest		|MonoGame|W	|	|	|	|	|		|
 |Dead Cells		|HashLink|	|L	|	|	|	|		|
 |Dead Pixels II		|FNA	|L	|	|	|	|	|Early Access (2022-08-27)|
+|Deepest Chamber: Resurrection|LibGDX|L	|	|	|	|	|		|
 |Delver			|LibGDX	|L	|	|	|	|	|		|
 |Dice Tribes: Ambitions	|HashLink|L	|	|	|	|	|		|
 |Dome Keeper		|Godot3	|L	|	|	|	|	|		|

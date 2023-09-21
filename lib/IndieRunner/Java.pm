@@ -83,6 +83,7 @@ my %Valid_Java_Versions = (
 	);
 
 my $game_jar;
+my $jar_mode;
 my $main_class;
 my @java_frameworks;
 my $java_home;
@@ -227,9 +228,11 @@ sub skip_framework_setup () {
 }
 
 sub test_jar_mode () {
-	foreach my $j ( @JAR_MODE_FILES ) {
-		return 1 if -e $j;
-	}
+	# XXX: for now disabled, this needs to be reworked
+	#      to detect if jars have already been extracted
+	#foreach my $j ( @JAR_MODE_FILES ) {
+		#return 1 if -e $j;
+	#}
 	return 0;
 }
 
@@ -241,6 +244,8 @@ sub new ( $class, %init ) {
 
 	my $self = bless {}, $class;
 	%$self = ( %$self, %init );
+
+	$jar_mode = test_jar_mode();	# if set, run with a game .jar file rather than from extracted files
 
 	# 1. Check OS and initialize basic variables
 	die "OS not recognized: " . $OSNAME unless ( exists $Valid_Java_Versions{$OSNAME} );
@@ -350,26 +355,10 @@ sub new ( $class, %init ) {
 		#}
 	#}
 
-	$$self{ need_to_extract }	= \%need_to_extract;
-
-	return $self;
-}
-
-sub run_cmd ( $self ) {
-	my $jar_mode = test_jar_mode();	# if set, run with a game .jar file rather than from extracted files
-
-	# adjust JVM invocation for LWJGL3
+	# 6. set java_home
 	if ( grep { /^\QLWJGL3\E$/ } @java_frameworks ) {
 		$java_version{ lwjgl3 } =
 			IndieRunner::Java::LWJGL3::get_java_version_preference();
-	}
-
-	# expand classpath based on frameworks that are used
-	unless ( skip_framework_setup() ) {
-		foreach my $fw ( @java_frameworks ) {
-			my $module = "IndieRunner::Java::$fw";
-			push( @jvm_classpath, $module->add_classpath() );
-		}
 	}
 
 	# validate java versions
@@ -385,50 +374,78 @@ sub run_cmd ( $self ) {
 	# pick best java version
 	my $os_java_version = max( values %java_version );
 	$os_java_version = '1.8.0' unless $os_java_version;
-	if ( $self->verbose() ) {
+	$os_java_version = '17';	# XXX: FOR TESTING ONLY!!!
+	if ( 1 ) {	# XXX: check if verbose
 		say "Bundled Java version:\t\t" . ( $java_version{ bundled } ?
 			$java_version{ bundled } : 'not found' );
 		say "LWJGL3 preferred Java version:\t$java_version{ lwjgl3 }"
 			if $java_version{ lwjgl3 };
 		say "Java version to be used:\t$os_java_version";
 	}
-
 	set_java_home( $os_java_version );
-	say "Java Home:\t\t\t$java_home" if $self->verbose();
-	@jvm_env = ( "JAVA_HOME=" . $java_home, );
-	fix_jvm_args();
-	push @jvm_args, '-Dorg.lwjgl.system.allocator=system';	# avoids libjemalloc, e.g. Pathway
-	push @jvm_args, '-Dorg.lwjgl.util.DebugLoader=true';
-	push @jvm_args, '-Dorg.lwjgl.util.Debug=true';
-	#push @jvm_args, '-Dos.name=Linux';	# XXX: keep? could cause weird errors
+	say "Java Home:\t\t\t$java_home" if 1;	# XXX: check if verbose
 
-	# more effort to figure out $main_class if not set
-	unless ( $main_class ) {
-		my @mlines = path( $MANIFEST )->lines_utf8 if -f $MANIFEST;
-		map { /^\QMain-Class:\E\s+(\S+)/ and $main_class = $1 } @mlines;
-	}
+	$$self{ need_to_extract }	= \%need_to_extract;
 
-	if ( $jar_mode ) {
-		# quirks
-		push @jvm_args, '-Dsteam=false' if -f 'Airships';
-
-		return( 'env', @jvm_env, $java_home . '/bin/java', @jvm_args, '-cp',
-		        join( ':', @jvm_classpath, '.' ), '-jar', $game_jar );
-	}
-	else {
-		die "Unable to identify main class for JVM execution" unless $main_class;
-
-		return( 'env', @jvm_env, $java_home . '/bin/java', @jvm_args, '-cp',
-		        join( ':', @jvm_classpath, '.' ), $main_class );
-	}
-
-
+	return $self;
 }
 
 sub post_extract ( $self ) {
 	$self->SUPER::post_extract();
 	my %bundled_libs = bundled_libraries();
 	$$self{ need_to_replace } = \%bundled_libs;
+}
+
+sub get_bin ( $self ) {
+	return $java_home . "/bin/java";
+}
+
+sub get_args_ref( $self ) {
+	# expand classpath based on frameworks that are used
+	unless ( skip_framework_setup() ) {
+		foreach my $fw ( @java_frameworks ) {
+			my $module = "IndieRunner::Java::$fw";
+			push( @jvm_classpath, $module->add_classpath() );
+		}
+	}
+
+	fix_jvm_args();
+	push @jvm_args, '-Dorg.lwjgl.system.allocator=system';	# avoids libjemalloc, e.g. Pathway
+	push @jvm_args, '-Dorg.lwjgl.util.DebugLoader=true';
+	push @jvm_args, '-Dorg.lwjgl.util.Debug=true';
+	#push @jvm_args, '-Dos.name=Linux';	# XXX: keep? could cause weird errors
+
+	if ( $jar_mode ) {
+		# quirks
+		push @jvm_args, '-Dsteam=false' if -f 'Airships';
+		push @jvm_args, ( '-cp', join( ':', @jvm_classpath, '.' ) );
+		push @jvm_args, ( '-jar', $game_jar );
+
+		#return( 'env', @jvm_env, $java_home . '/bin/java', @jvm_args, '-cp',
+		        #join( ':', @jvm_classpath, '.' ), '-jar', $game_jar );
+	}
+	else {
+		die "Unable to identify main class for JVM execution" unless $main_class;
+		push @jvm_args, ( '-cp', join( ':', @jvm_classpath, '.' ) );
+		push @jvm_args, $main_class;
+
+		#return( 'env', @jvm_env, $java_home . '/bin/java', @jvm_args, '-cp',
+		        #join( ':', @jvm_classpath, '.' ), $main_class );
+	}
+	# XXX: only for testing Deepest Chamber: Resurrection!!!
+	push @jvm_args, '-nosteam';
+
+	return \@jvm_args;
+}
+
+sub get_env_ref ( $self ) {
+	@jvm_env = ( "JAVA_HOME=" . $java_home, );
+	# more effort to figure out $main_class if not set
+	unless ( $main_class ) {
+		my @mlines = path( $MANIFEST )->lines_utf8 if -f $MANIFEST;
+		map { /^\QMain-Class:\E\s+(\S+)/ and $main_class = $1 } @mlines;
+	}
+	return \@jvm_env;
 }
 
 1;

@@ -131,6 +131,7 @@ sub new ( $class, %init ) {
 }
 
 sub get_env_ref ( $self ) {
+	# XXX: not used here: @ld_library_path, @mono_path
 	my @ld_library_path = (
 		'/usr/local/lib',
 		'/usr/X11R6/lib',
