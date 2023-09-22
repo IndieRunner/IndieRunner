@@ -187,7 +187,7 @@ Known (General) Problems
 Runtime Changes
 ---------------
 
-* mono abandoned MONO_IOMAP with version 6, which has rendered games using Windows pathnames with '\' largely unplayable.
+* mono abandoned MONO_IOMAP with version 6, which has rendered games using Windows pathnames with '\\' largely unplayable.
 
 Steam
 -----
