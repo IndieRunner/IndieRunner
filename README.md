@@ -38,6 +38,7 @@ The following selection of high profile games have been working with IndieRunner
 
 * Brotato
 * Dead Cells
+* Deepest Chamber: Resurrection
 * Gravity Circuit
 * Northgard
 * Nuclear Blaze
@@ -58,11 +59,11 @@ The following selection of high profile games have been working with IndieRunner
 How to Make a Project that Can Run on as Many Platforms as Possible
 ===================================================================
 
-Completely Opensource Your Project
-----------------------------------
+Completely Open-Source Your Project
+-----------------------------------
 
-+ You're not limited in your engine design
-- Can't use proprietary engines (Unity, Unreal, GameMaker)
+* (+) You're not limited in your engine design
+* (-) Can't use proprietary engines (Unity, Unreal, GameMaker)
 
 Opensource your Engine Code; Sell the Assets
 --------------------------------------------
@@ -72,8 +73,8 @@ Examples:
 * idTech (gzdoom)
 * Wolfire Games (Lugaru, Overgrowth)
 
-Use a ByteCode Framework that Relies on Opensource Native Libraries
--------------------------------------------------------------------
+Use a ByteCode Framework that Relies on Open-Source Native Libraries
+--------------------------------------------------------------------
 
 Examples:
 * FNA
@@ -134,7 +135,7 @@ External (non-Perl) programs and libraries used:
 
 Install them all with:
 ```
-# pkg_add faudio ffmpeg fna godot gzdoom hashlink hlsteam jdk libgdx libstubborn libtheora{,file,play} love lwjgl{,3} mono openal p7zip sdl2-image steamctl
+# pkg_add faudio ffmpeg fna godot gzdoom hashlink hlsteam jdk libgdx libstubborn libtheora{,file,play} love lwjgl{,3} mono openal p7zip sdl2-image
 ```
 
 Platform Requirements
