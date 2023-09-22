@@ -1,5 +1,3 @@
-package IndieRunner::Java;
-
 # Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -14,6 +12,7 @@ package IndieRunner::Java;
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+package IndieRunner::Java;
 use strict;
 use warnings;
 use v5.36;
@@ -27,7 +26,7 @@ use Config;
 use File::Find::Rule;
 use File::Spec::Functions qw( catfile splitpath );
 use JSON;
-use List::Util qw( max );
+use List::Util qw( max min );
 use Path::Tiny;
 use Readonly;
 
@@ -228,11 +227,9 @@ sub skip_framework_setup () {
 }
 
 sub test_jar_mode () {
-	# XXX: for now disabled, this needs to be reworked
-	#      to detect if jars have already been extracted
-	#foreach my $j ( @JAR_MODE_FILES ) {
-		#return 1 if -e $j;
-	#}
+	foreach my $j ( @JAR_MODE_FILES ) {
+		return 1 if -e $j;
+	}
 	return 0;
 }
 
@@ -321,7 +318,7 @@ sub new ( $class, %init ) {
 	}
 
 	# 3. Extract JAR file if not done previously
-	unless ( -f $MANIFEST or test_jar_mode ) {
+	unless ( -f $MANIFEST or $jar_mode ) {
 		if ( $game_jar ) {
 			$need_to_extract{ $game_jar } =
 				__PACKAGE__ . '::extract_jar';
@@ -367,14 +364,16 @@ sub new ( $class, %init ) {
 			$java_version{ $k } = version->declare( $java_version{ $k } );
 		}
 		else {
-			$java_version{ $k } = 0;
+			# change to next-highest valid Java version
+			$java_version{ $k } = min grep version->declare($_)->numify
+						> version->declare($java_version{ $k })->numify,
+						@{$Valid_Java_Versions{$OSNAME}};
 		}
 	}
 
 	# pick best java version
 	my $os_java_version = max( values %java_version );
 	$os_java_version = '1.8.0' unless $os_java_version;
-	$os_java_version = '17';	# XXX: FOR TESTING ONLY!!!
 	if ( 1 ) {	# XXX: check if verbose
 		say "Bundled Java version:\t\t" . ( $java_version{ bundled } ?
 			$java_version{ bundled } : 'not found' );
@@ -416,24 +415,18 @@ sub get_args_ref( $self ) {
 	#push @jvm_args, '-Dos.name=Linux';	# XXX: keep? could cause weird errors
 
 	if ( $jar_mode ) {
-		# quirks
-		push @jvm_args, '-Dsteam=false' if -f 'Airships';
 		push @jvm_args, ( '-cp', join( ':', @jvm_classpath, '.' ) );
 		push @jvm_args, ( '-jar', $game_jar );
-
-		#return( 'env', @jvm_env, $java_home . '/bin/java', @jvm_args, '-cp',
-		        #join( ':', @jvm_classpath, '.' ), '-jar', $game_jar );
 	}
 	else {
 		die "Unable to identify main class for JVM execution" unless $main_class;
 		push @jvm_args, ( '-cp', join( ':', @jvm_classpath, '.' ) );
 		push @jvm_args, $main_class;
-
-		#return( 'env', @jvm_env, $java_home . '/bin/java', @jvm_args, '-cp',
-		        #join( ':', @jvm_classpath, '.' ), $main_class );
 	}
-	# XXX: only for testing Deepest Chamber: Resurrection!!!
-	push @jvm_args, '-nosteam';
+
+	# quirks
+	push @jvm_args, '-Dsteam=false' if -f 'Airships';
+	push @jvm_args, '-nosteam' if -f 'DeepestChamber';
 
 	return \@jvm_args;
 }
