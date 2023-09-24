@@ -39,7 +39,7 @@ Readonly my @WMV_TO_OGV => ( '/usr/local/bin/ffmpeg', '-loglevel', 'fatal', '-i'
 Readonly my @_7Z_COMMAND	=> ( '/usr/local/bin/7z', 'x', '-y' );
 
 sub remove( $self, $file ) {
-	$self->SUPER::remove( %files );
+	$self->SUPER::remove( $file );
 	return 0 if -f $_.'_';
 	return rename( $_, $_.'_' );
 }
@@ -47,7 +47,7 @@ sub remove( $self, $file ) {
 # replace moves $newfile out of the way for a symlink to $oldfile
 # replace just creates a symlink if there is no exsting $newfile
 sub replace( $self, $oldfile, $newfile ) {
-	$self->SUPER::replace( %target_source );
+	$self->SUPER::replace( $oldfile, $newfile );
 	return 1 if ( -f $newfile and -l $newfile );	# symlink already set up 
 	remove( $self, $newfile ) if -f $newfile;
 	return symlink $oldfile, $newfile;
@@ -75,7 +75,7 @@ sub convert( $self, $from, $to ) {
 }
 
 sub extract( $self, $file ) {
-	$self->SUPER::extract( %files_and_subs );
+	$self->SUPER::extract( $file );
 
 	if ( $file =~ /.jar$/i ) {
 		return system( @_7Z_COMMAND, $file ) == 0 || die "system: $!";

@@ -20,7 +20,6 @@ use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use OpenBSD::Pledge;
-use OpenBSD::Unveil;
 use Readonly;
 
 Readonly my %PLEDGE_GROUP => (
@@ -55,32 +54,20 @@ sub new ( $class, %init ) {
 	return $self;
 }
 
-sub extract ( $self, %files_and_subs ) {
-	while ( my ( $k, $v ) = each ( %files_and_subs ) ) {
-		vsay "extract file $k with $v";
-	}
+sub extract ( $self, $file ) {
+	vsay "extracting $file";
 }
 
-sub remove ( $self, %files ) {
-	vsay "remove the following files:";
-	foreach my $f ( keys %files ) {
-		vsay $f;
-	}
-	vsay;
+sub remove ( $self, $file ) {
+	vsay "removing $file";
 }
 
-sub replace ( $self, %target_source ) {
-	vsay "Replace files as follows:";
-	while ( my ( $k, $v ) = each ( %target_source ) ) {
-		vsay "$k with $v";
-	}
-	vsay;
+sub insert ( $self, $oldfile, $newfile ) {
+	vsay "inserting $oldfile as $newfile";
 }
 
-sub convert ( $self, %from_to ) {
-	while ( my ( $k, $v ) = each ( %from_to ) ) {
-		vsay "convert $k to $v";
-	}
+sub convert ( $self, $from, $to ) {
+	vsay "converting $from to $to";
 }
 
 sub finish ( $self ) {

@@ -1,6 +1,6 @@
 package IndieRunner::GZDoom;
 
-# Copyright (c) 2022 Thomas Frohwein
+# Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -25,6 +25,7 @@ use Carp;
 use Readonly;
 
 Readonly::Scalar my $GZDOOM_BIN => '/usr/local/bin/gzdoom';
+Readonly::Scalar my $GZDOOM_PK3 => '/usr/local/share/games/doom/gzdoom.pk3';
 
 sub setup ( $self, $mode_obj ) {
 	# neuter gzdoom.pk3 if present and replace with symlinked
@@ -33,10 +34,7 @@ sub setup ( $self, $mode_obj ) {
 	# - Vomitoreum
 	# - I Am Sakuya: Touhou FPS Game
 
-	if ( -f 'gzdoom.pk3' and not -l 'gzdoom.pk3' ) {
-		$mode_obj->replace{ 'gzdoom.pk3' } =
-			'/usr/local/share/games/doom/gzdoom.pk3';
-	}
+	$mode_obj->replace( $GZDOOM_PK3, 'gzdoom.pk3' );
 }
 
 sub detect_game ( $self ) {
