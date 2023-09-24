@@ -61,8 +61,7 @@ sub get_bin ( $self ) {
 
 sub get_args_ref ( $self ) {
 	# note: Gravity Circuit => bin/GravityCircuit as argument
-	my @args = ( $$self{ id_file } );
-	return \@args;
+	return [ $$self{ id_file } ];
 }
 
 1;
