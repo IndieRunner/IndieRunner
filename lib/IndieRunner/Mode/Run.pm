@@ -39,15 +39,15 @@ Readonly my @WMV_TO_OGV => ( '/usr/local/bin/ffmpeg', '-loglevel', 'fatal', '-i'
 Readonly my @_7Z_COMMAND	=> ( '/usr/local/bin/7z', 'x', '-y' );
 
 sub remove( $self, $file ) {
-	$self->SUPER::remove( $file );
 	return 0 if -f $file.'_';
+	$self->SUPER::remove( $file );
 	return rename( $file, $file.'_' );
 }
 
 sub insert( $self, $oldfile, $newfile ) {
 	remove( $self, $newfile ) if -f $newfile;
-	$self->SUPER::insert( $oldfile, $newfile );
 	return 1 if ( -f $newfile and -l $newfile );	# symlink already set up 
+	$self->SUPER::insert( $oldfile, $newfile );
 	return symlink $oldfile, $newfile;
 }
 
