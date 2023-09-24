@@ -84,6 +84,10 @@ sub new ( $class, %init ) {
 		user_args	=> @$self{ game_args },
 	);
 
+	# XXX: check for dead symlinks?
+
+	# XXX: double-check code in  post_extract()
+
 	return bless $self, $class;
 }
 
@@ -175,31 +179,6 @@ sub detect_game_name ( $engine_module ) {
 }
 
 sub setup ( $self ) {
-
-	# run setup in separate and restricted process
-	my $pid = fork();
-	if ( $pid == 0 ) {
-		# run post_extract() after extract() to account for all files needing setup
-		if ( $$self{ engine }{ need_to_extract } ) {
-			$$self{ mode }->extract(
-				%{ $$self{ engine }{ need_to_extract } } );
-			$$self{ engine }->post_extract();
-		}
-		for my $step ( qw( remove replace convert ) ) {
-			if ( $$self{ engine }{ 'need_to_' . $step } ) {
-				$$self{ mode }->$step(
-					%{ $$self{ engine }{ 'need_to_' . $step } } );
-			}
-		}
-
-		# XXX: check for dead symlinks?
-
-		exit;
-	}
-	elsif ( not defined( $pid ) ) {
-		confess "failed to fork: $!";
-	}
-	waitpid $pid, 0;
 }
 
 sub run ( $self ) {
