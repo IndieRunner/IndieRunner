@@ -22,7 +22,6 @@ use autodie;
 
 use parent 'IndieRunner::Engine';
 
-use Carp;
 use Readonly;
 
 # TODO: will this hash be used?
@@ -51,28 +50,19 @@ Readonly::Hash my %LOVE2D_GAME_VERSION => {
 	'TerraformingEarth'	=> '11.x',
 	};
 
-my $bin;
-
-sub get_love_version ( $engine_id_file ) {
+sub get_bin ( $self ) {
 	foreach my $k ( keys %LOVE2D_GAME_VERSION ) {
-		if ( $engine_id_file =~ /\Q$k\E/ ) {
-			IndieRunner::set_game_name( $k );
-			return $LOVE2D_GAME_VERSION{ $k };
+		if ( $$self{ id_file } =~ /$k/ ) {
+			return $LOVE2D_VERSION_BIN{ $LOVE2D_GAME_VERSION{ $k } };
 		}
 	}
-	confess "failed to identify Love2D game";
+	die "failed to determine a binary";
 }
 
-sub run_cmd ( $self ) {
-	$bin = $LOVE2D_VERSION_BIN{ get_love_version( $self->engine_id_file() ) };
-	say "Love2D binary: $bin" if $self->verbose();
-	return ( $bin, $self->engine_id_file() );
-}
-
-sub new ( $class, %init ) {
-	my $self = bless {}, $class;
-	%$self = ( %$self, %init );
-	return $self;
+sub get_args_ref ( $self ) {
+	# note: Gravity Circuit => bin/GravityCircuit as argument
+	my @args = ( $$self{ id_file } );
+	return \@args;
 }
 
 1;
