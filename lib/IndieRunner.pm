@@ -51,24 +51,6 @@ sub new ( $class, %init ) {
 	my $engine;
 	my $engine_id_file;
 
-=pod
-	### XXX: use the following pattern to fork and pledge/unveil the process that gathers the data ###
-	pipe ( my $reader, my $writer );
-	my $pid = fork();
-	if ( $pid == 0 ) {
-		close $reader;
-		print $writer "child says hello";
-		exit;
-	}
-	elsif ( not defined ( $pid ) ) {
-		die "failed to fork!";
-	}
-	close $writer;
-	while ( my $line = <$reader> ) {
-		say $line;
-	}
-=cut
-
 	# set attributes from %init or default
 	while ( my ( $k, $v ) = each ( %INIT_DEFAULTS ) ) {
 		$$self{ $k } = $init{ $k } || $v;
