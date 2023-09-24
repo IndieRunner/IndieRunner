@@ -26,6 +26,10 @@ sub new ( $class, %args ) {
 	return $self;
 }
 
+sub setup ( $self, $mode_obj ) {
+	# no-op by default
+}
+
 sub post_extract( $self ) {
 	# no-op by default
 }

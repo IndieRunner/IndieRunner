@@ -40,55 +40,55 @@ Readonly my @_7Z_COMMAND	=> ( '/usr/local/bin/7z', 'x', '-y' );
 
 sub remove( $self, $file ) {
 	$self->SUPER::remove( %files );
-	rename( $_, $_.'_' );
-	return 0;
+	return 0 if -f $_.'_';
+	return rename( $_, $_.'_' );
 }
 
-sub replace( $self, $source, $target ) {
+# replace moves $newfile out of the way for a symlink to $oldfile
+# replace just creates a symlink if there is no exsting $newfile
+sub replace( $self, $oldfile, $newfile ) {
 	$self->SUPER::replace( %target_source );
-	rename $target, $target.'_' if -f $target;
-	symlink $source, $target;
-	return 0;
+	return 1 if ( -f $newfile and -l $newfile );	# symlink already set up 
+	remove( $self, $newfile ) if -f $newfile;
+	return symlink $oldfile, $newfile;
 }
 
 sub convert( $self, $from, $to ) {
 	if ( -e $to ) {
 		say STDERR "Error: unable convert - target $to already exists";
-		return 1;
+		return 0;
 	}
 	elsif ( $from =~ /.wma$/i ) {
 		my @command = map { s/!<<in>>/$from/r } @WMA_TO_OGG;
 		@command = map { s/!<<out>>/$to/r } @command;
-		system( @command ) == 0 || die "Command failed: $!";
+		return system( @command ) == 0 || die "Command failed: $!";
 	}
 	elsif ( $from =~ /.wmv$/i ) {
 		my @command = map { s/!<<in>>/$from/r } @WMV_TO_OGV;
 		@command = map { s/!<<out>>/$to/r } @command;
-		system( @command ) == 0 || die "Command failed: $!";
+		return system( @command ) == 0 || die "Command failed: $!";
 	}
 	else {
 		say "unrecognized extension: $from";
-		return 1;
+		return 0;
 	}
-	return 0;
 }
 
 sub extract( $self, $file ) {
 	$self->SUPER::extract( %files_and_subs );
 
 	if ( $file =~ /.jar$/i ) {
-		system( @_7Z_COMMAND, $file ) == 0 || die "system: $!";
+		return system( @_7Z_COMMAND, $file ) == 0 || die "system: $!";
 	}
 	else {
 		say "unrecognized extension: $file";
 		return 1;
 	}
-	return 0;
 }
 
 sub run( $self, $game_name, %config ) {
 	my @full_command = $self->SUPER::run( $game_name, %config );
-	system( @full_command );
+	return system( @full_command );
 }
 
 1;

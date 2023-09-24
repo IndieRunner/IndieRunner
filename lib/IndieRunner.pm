@@ -58,7 +58,7 @@ sub new ( $class, %init ) {
 
 	# determine and set mode (Run, Dryrun, or Script)
 	my $mode = __PACKAGE__ . '::Mode::' . ( $init{ script } ? 'Script' : ( $init{ dryrun } ? 'Dryrun' : 'Run' ) );
-	eval "require $mode" || die "Failed to load module $mode: $@";
+	eval "require $mode" or die "Failed to load module $mode: $@";
 	$$self{ mode } = $mode->new(
 		verbosity => $$self{ verbosity },
 	);
@@ -68,7 +68,7 @@ sub new ( $class, %init ) {
 		( $engine, $engine_id_file ) = ( detect_engine() );
 	}
 	my $engine_class = __PACKAGE__ . '::' . $engine;
-	eval "require $engine_class" || die "Failed to load module $engine_class: $@";
+	eval "require $engine_class" or die "Failed to load module $engine_class: $@";
 	$$self{ engine } = $engine_class->new(
 		id_file => $engine_id_file || '',
 	);
@@ -83,10 +83,6 @@ sub new ( $class, %init ) {
 		engine		=> $$self{ engine },
 		user_args	=> @$self{ game_args },
 	);
-
-	# XXX: check for dead symlinks?
-
-	# XXX: double-check code in  post_extract()
 
 	return bless $self, $class;
 }
@@ -179,6 +175,10 @@ sub detect_game_name ( $engine_module ) {
 }
 
 sub setup ( $self ) {
+	$$self{ engine }->setup( $$self{ mode } );
+	# XXX: check for dead symlinks?
+	# XXX: double-check code in post_extract()
+
 }
 
 sub run ( $self ) {

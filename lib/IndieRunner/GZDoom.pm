@@ -26,25 +26,17 @@ use Readonly;
 
 Readonly::Scalar my $GZDOOM_BIN => '/usr/local/bin/gzdoom';
 
-sub new ( $class, %init ) {
+sub setup ( $self, $mode_obj ) {
 	# neuter gzdoom.pk3 if present and replace with symlinked
 	# /usr/local/share/games/doom/gzdoom.pk3. Needed for:
 	# - Beyond Sunset (demo)
 	# - Vomitoreum
 	# - I Am Sakuya: Touhou FPS Game
 
-	my %need_to_replace;
-
-	my $self = bless {}, $class;
-	%$self = ( %$self, %init );
-
-	if ( -f 'gzdoom.pk3' ) {
-		$need_to_replace{ 'gzdoom.pk3' } =
+	if ( -f 'gzdoom.pk3' and not -l 'gzdoom.pk3' ) {
+		$mode_obj->replace{ 'gzdoom.pk3' } =
 			'/usr/local/share/games/doom/gzdoom.pk3';
 	}
-	$$self{ need_to_replace }	= \%need_to_replace;
-
-	return $self;
 }
 
 sub detect_game ( $self ) {

@@ -24,22 +24,15 @@ use parent 'IndieRunner::Engine';
 use Readonly;
 
 Readonly my $HASHLINK_BIN	=> '/usr/local/bin/hl';
+
+# hlboot.dat is fallback inside hl binary
 Readonly my @DAT		=> (
 					'sdlboot.dat',
 					'hlboot-sdl.dat',
-					);			# hlboot.dat is fallback inside hl binary
+					);
 
-sub new ( $class, %init ) {
-	my %need_to_remove;
-	my $self = bless {}, $class;
-
-	%$self = ( %$self, %init );
-	foreach my $g ( glob( '*.hdll' ) ) {
-		$need_to_remove{ $g } = undef,
-	}
-	$$self{ need_to_remove }	= \%need_to_remove;
-
-	return $self;
+sub setup ( $self, $mode_obj ) {
+	map { $mode_obj->remove( $_ ) } glob( '*.hdll' );
 }
 
 sub get_bin ( $self ) { return $HASHLINK_BIN; }
