@@ -40,16 +40,14 @@ Readonly my @_7Z_COMMAND	=> ( '/usr/local/bin/7z', 'x', '-y' );
 
 sub remove( $self, $file ) {
 	$self->SUPER::remove( $file );
-	return 0 if -f $_.'_';
-	return rename( $_, $_.'_' );
+	return 0 if -f $file.'_';
+	return rename( $file, $file.'_' );
 }
 
-# replace moves $newfile out of the way for a symlink to $oldfile
-# replace just creates a symlink if there is no exsting $newfile
-sub replace( $self, $oldfile, $newfile ) {
-	$self->SUPER::replace( $oldfile, $newfile );
-	return 1 if ( -f $newfile and -l $newfile );	# symlink already set up 
+sub insert( $self, $oldfile, $newfile ) {
 	remove( $self, $newfile ) if -f $newfile;
+	$self->SUPER::insert( $oldfile, $newfile );
+	return 1 if ( -f $newfile and -l $newfile );	# symlink already set up 
 	return symlink $oldfile, $newfile;
 }
 

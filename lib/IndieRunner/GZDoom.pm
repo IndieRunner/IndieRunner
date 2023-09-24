@@ -27,20 +27,22 @@ use Readonly;
 Readonly::Scalar my $GZDOOM_BIN => '/usr/local/bin/gzdoom';
 Readonly::Scalar my $GZDOOM_PK3 => '/usr/local/share/games/doom/gzdoom.pk3';
 
+my $game_ipk3_file;
+
 sub setup ( $self, $mode_obj ) {
-	# neuter gzdoom.pk3 if present and replace with symlinked
+	# neuter gzdoom.pk3 if present and insert
 	# /usr/local/share/games/doom/gzdoom.pk3. Needed for:
 	# - Beyond Sunset (demo)
 	# - Vomitoreum
 	# - I Am Sakuya: Touhou FPS Game
 
-	$mode_obj->replace( $GZDOOM_PK3, 'gzdoom.pk3' );
+	$mode_obj->insert( $GZDOOM_PK3, 'gzdoom.pk3' );
 }
 
 sub detect_game ( $self ) {
 	my @ipk3_files = glob '*.ipk3';
 	return undef unless @ipk3_files;
-	return ( $ipk3_files ) =~ s/\.ipk3$//r;
+	return $game_ipk3_file = ( map { s/\.ipk3$//r } @ipk3_files )[0];
 }
 
 sub get_bin ( $self ) {
@@ -50,7 +52,7 @@ sub get_bin ( $self ) {
 sub get_args_ref( $self ) {
 	my @args = (
 		'-iwad',
-		( glob( '*.ipk3' ) )[0];
+		$game_ipk3_file,
 		);
 	return \@args;
 }
