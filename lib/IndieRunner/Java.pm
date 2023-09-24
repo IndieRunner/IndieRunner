@@ -26,7 +26,6 @@ use Config;
 use File::Find::Rule;
 use File::Spec::Functions qw( catfile splitpath );
 use JSON;
-use List::Util qw( max min );
 use Path::Tiny;
 use Readonly;
 
@@ -365,14 +364,14 @@ sub new ( $class, %init ) {
 		}
 		else {
 			# change to next-highest valid Java version
-			$java_version{ $k } = min grep version->declare($_)->numify
-						> version->declare($java_version{ $k })->numify,
-						@{$Valid_Java_Versions{$OSNAME}};
+			$java_version{$k} = (sort {$a cmp $b} grep( version->declare($_)->numify
+			                                      > version->declare($java_version{$k})->numify,
+								@{$Valid_Java_Versions{$OSNAME}} ) )[0];
 		}
 	}
 
 	# pick best java version
-	my $os_java_version = max( values %java_version );
+	my $os_java_version = (sort {$b cmp $a} values( %java_version ) )[0];
 	$os_java_version = '1.8.0' unless $os_java_version;
 	if ( 1 ) {	# XXX: check if verbose
 		say "Bundled Java version:\t\t" . ( $java_version{ bundled } ?
