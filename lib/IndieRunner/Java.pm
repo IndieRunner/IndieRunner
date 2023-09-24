@@ -116,6 +116,8 @@ sub get_bundled_java_version () {
 
 	# find bundled java binary (alternatively libjava.so or libjvm.so)
 	($bundled_java_bin) = File::Find::Rule->file->name('java')->in('.');
+	($bundled_java_bin) = File::Find::Rule->file->name('java.exe')->in('.')
+		unless $bundled_java_bin;
 	return undef unless $bundled_java_bin;
 
 	# fetch version string and trim to format for JAVA_HOME
@@ -419,7 +421,7 @@ sub get_args_ref( $self ) {
 	}
 	else {
 		die "Unable to identify main class for JVM execution" unless $main_class;
-		push @jvm_args, ( '-cp', join( ':', @jvm_classpath, '.' ) );
+		push @jvm_args, ( '-cp', join( ':', @jvm_classpath, '.' ) ) if $jvm_classpath[0];
 		push @jvm_args, $main_class;
 	}
 
