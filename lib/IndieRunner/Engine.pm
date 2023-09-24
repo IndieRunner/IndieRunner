@@ -19,8 +19,6 @@ use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
-use Carp;	# XXX: for development only; remove when confess not needed anymore
-
 sub new ( $class, %args ) {
 	my $self = bless { %args }, $class;
 	return $self;
@@ -35,7 +33,7 @@ sub post_extract( $self ) {
 }
 
 sub get_bin( $self ) {
-	confess "not implemented for $self";
+	die "not implemented for $self: " . (caller(0))[3];
 }
 
 sub get_env_ref( $self ) {

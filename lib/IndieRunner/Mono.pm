@@ -58,8 +58,6 @@ Readonly::Hash my %QUIRKS_ENV => {
 		],
 	};
 
-my @cil_args;
-my @env;
 
 sub get_mono_files ( $custom_suffix = '' ) {
 	my @mono_files;
@@ -85,20 +83,6 @@ sub get_assembly_version ( $assembly_file ) {
         else {
 		return '';
         }
-}
-
-sub quirks ( $game_file ) {
-	foreach my $k ( keys %QUIRKS_ARGS ) {
-		if ( grep { $_ eq $game_file } @{ $QUIRKS_ARGS{ $k } } ) {
-			push @cil_args, $k;
-		}
-	}
-	foreach my $k ( keys %QUIRKS_ENV ) {
-		if ( grep { $_ eq $game_file } @{ $QUIRKS_ENV{ $k } } ) {
-			push @env, $k;
-		}
-	}
-	# XXX: for 'SSGame.exe': mkdir -p ~/.local/share/SSDD
 }
 
 sub get_bin ( $self ) {
@@ -130,6 +114,11 @@ sub new ( $class, %init ) {
 	return $self;
 }
 
+sub setup ( $self, $mode_obj ) {
+	# XXX: for 'SSGame.exe': mkdir -p ~/.local/share/SSDD
+}
+
+
 sub get_env_ref ( $self ) {
 	my @ld_library_path = (
 		'/usr/local/lib',
@@ -147,11 +136,22 @@ sub get_env_ref ( $self ) {
 		'SDL_PLATFORM=Linux',
 		);
 
+	# quirks
+	foreach my $k ( keys %QUIRKS_ENV ) {
+		foreach my $l ( @{ QUIRKS_ENV{ $k } } ) {
+			if ( -e $QUIRKS_ENV{ $k }{ $l } ) {
+				push @env, $k;
+				last;
+			}
+		}
+	}
+
 	return \@env;
 }
 
 sub get_args_ref ( $self ) {
 	# heuristic to figure out the binary name from game_name
+	my @args;
 	my $game_file;
 	my $first_word = (split( /[[:blank:]]/, $$self{ game_name } ) )[0];
 	if ( -f $$self{ game_name } . '.exe' ) {
@@ -176,7 +176,19 @@ sub get_args_ref ( $self ) {
 	}
 
 	confess "Failed to identify game file for Mono, based on detected game name \"$$self{ game_name }\". Aborting." if ( not $game_file );
-	return [ $game_file ];
+	push @args, $game_file;
+
+	# quirks
+	foreach my $k ( keys %QUIRKS_ARGS ) {
+		foreach my $l ( @{ QUIRKS_ARGS{ $k } } ) {
+			if ( -e $QUIRKS_ARGS{ $k }{ $l } ) {
+				push @args, $k;
+				last;
+			}
+		}
+	}
+
+	return \@args;
 }
 
 1;
