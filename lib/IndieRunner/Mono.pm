@@ -138,8 +138,8 @@ sub get_env_ref ( $self ) {
 
 	# quirks
 	foreach my $k ( keys %QUIRKS_ENV ) {
-		foreach my $l ( @{ QUIRKS_ENV{ $k } } ) {
-			if ( -e $QUIRKS_ENV{ $k }{ $l } ) {
+		foreach my $l ( @{ $QUIRKS_ENV{ $k } } ) {
+			if ( -e $l ) {
 				push @env, $k;
 				last;
 			}
@@ -180,8 +180,8 @@ sub get_args_ref ( $self ) {
 
 	# quirks
 	foreach my $k ( keys %QUIRKS_ARGS ) {
-		foreach my $l ( @{ QUIRKS_ARGS{ $k } } ) {
-			if ( -e $QUIRKS_ARGS{ $k }{ $l } ) {
+		foreach my $l ( @{ $QUIRKS_ARGS{ $k } } ) {
+			if ( -e $l ) {
 				push @args, $k;
 				last;
 			}

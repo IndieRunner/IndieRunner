@@ -26,7 +26,7 @@ use constant GODOT3_BIN	=> '/usr/local/bin/godot';
 sub detect_game ( $self ) {
 	my @pck_files =	glob '*.pck';
 	return undef unless @pck_files;
-	return @pck_files[0] =~ s/\.pck$//r;
+	return $pck_files[0] =~ s/\.pck$//r;
 }
 
 sub get_bin( $self ) { return GODOT3_BIN; }
