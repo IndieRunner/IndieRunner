@@ -45,6 +45,7 @@ Readonly::Hash my %LOVE2D_GAME_VERSION => {
 	'DepthsOfLimbo'		=> '11.x',
 	'GravityCircuit'	=> '11.x',
 	'Marvellous_Inc'	=> '0.10.x',
+	'Moonring'		=> '11.x',
 	'SNKRX'			=> '11.x',
 	'StoneKingdoms'		=> '11.x',
 	'TerraformingEarth'	=> '11.x',
@@ -56,12 +57,25 @@ sub get_bin ( $self ) {
 			return $LOVE2D_VERSION_BIN{ $LOVE2D_GAME_VERSION{ $k } };
 		}
 	}
+
+	if ( -f 'moonring.exe' ) {
+		return $LOVE2D_VERSION_BIN{ $LOVE2D_GAME_VERSION { Moonring } };
+	}
+
 	die "failed to determine a binary";
 }
 
 sub get_args_ref ( $self ) {
-	# note: Gravity Circuit => bin/GravityCircuit as argument
-	return [ $$self{ id_file } ];
+	my $game_file;
+
+	if ( -f 'moonring.exe' ) {
+		$game_file = 'moonring.exe';
+	}
+
+	# note: Gravity Circuit => bin/GravityCircuit as argument (is $id_file)
+	$game_file = $$self{ id_file } unless $game_file;
+
+	return [ $game_file ];
 }
 
 1;

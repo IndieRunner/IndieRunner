@@ -103,6 +103,7 @@ Letters indicate which platform versions have been tested successfully:
 |MidBoss		|FNA	|	|	|L	|	|	|Crash on death; needs SDL_image fix from fnaify|
 |Mobius Front '83	|Mono	|	|L	|	|	|	|buggy with random crashes|
 |MOLEK-SYNTEZ		|Mono	|	|L	|	|	|	|		|
+|Moonring		|Love2D	|W	|	|	|	|	|		|
 |Mount Your Friends	|XNA	|W	|	|	|	|	|		|
 |Murder Miners		|FNA	|L	|	|	|	|	|no online support|
 |Neoteria		|LibGDX	|	|	|	|	|	|		|
