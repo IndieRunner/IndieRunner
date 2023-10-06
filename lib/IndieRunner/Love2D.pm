@@ -47,6 +47,7 @@ Readonly::Hash my %LOVE2D_GAME_VERSION => {
 	'Marvellous_Inc'	=> '0.10.x',
 	'Moonring'		=> '11.x',
 	'SNKRX'			=> '11.x',
+	'Spellrazor'		=> '0.10.x',
 	'StoneKingdoms'		=> '11.x',
 	'TerraformingEarth'	=> '11.x',
 	};
@@ -60,6 +61,9 @@ sub get_bin ( $self ) {
 
 	if ( -f 'moonring.exe' ) {
 		return $LOVE2D_VERSION_BIN{ $LOVE2D_GAME_VERSION { Moonring } };
+	}
+	if ( -f 'Spellrazor.exe' ) {
+		return $LOVE2D_VERSION_BIN{ $LOVE2D_GAME_VERSION { Spellrazor } };
 	}
 
 	# XXX: implement heuristic to get version string from love.exe, lovec.exe
@@ -75,9 +79,8 @@ sub get_bin ( $self ) {
 sub get_args_ref ( $self ) {
 	my $game_file;
 
-	if ( -f 'moonring.exe' ) {
-		$game_file = 'moonring.exe';
-	}
+	$game_file = 'moonring.exe' if ( -f 'moonring.exe' );
+	$game_file = 'Spellrazor.exe' if ( -f 'Spellrazor.exe' );
 
 	# note: Gravity Circuit => bin/GravityCircuit as argument (is $id_file)
 	$game_file = $$self{ id_file } unless $game_file;
