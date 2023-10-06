@@ -62,6 +62,13 @@ sub get_bin ( $self ) {
 		return $LOVE2D_VERSION_BIN{ $LOVE2D_GAME_VERSION { Moonring } };
 	}
 
+	# XXX: implement heuristic to get version string from love.exe, lovec.exe
+	#      Examples (via `$ strings love.exe`)
+	#      - 11.4
+	#      - 0.10.1
+	#
+	#      Regex: maybe '[[:digit:]]{,2}\.[[:digit:]]'
+
 	die "failed to determine a binary";
 }
 
