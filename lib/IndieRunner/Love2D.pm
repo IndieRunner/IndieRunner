@@ -22,6 +22,7 @@ use autodie;
 
 use parent 'IndieRunner::Engine';
 
+use File::Find::Rule;
 use Readonly;
 
 use IndieRunner::Helpers;
@@ -40,22 +41,28 @@ Readonly::Hash my %LOVE2D_VERSION_BIN => {
 	'11.x'		=> 'love-11',
 	};
 
-Readonly::Array my @LOVE2D_VERSION_FILES => (
+Readonly::Array my @LOVE2D_VERSION_GLOBS => (
+	'conf.lua',	# if not packaged, e.g. Move or Die
+	'love',
 	'love.exe',
 	'lovec.exe',
+	'love.dll',
+	'*.exe',
 	);
 
 Readonly::Hash my %LOVE2D_GAME_VERSION => {
-	'bluerevolver'		=> '0.10.x',
 	'cityglitch'		=> '0.10.x',
 	'CurseOfTheArrow'	=> '11.x',
 	'DepthsOfLimbo'		=> '11.x',
-	'GravityCircuit'	=> '11.x',
 	'Marvellous_Inc'	=> '0.10.x',
-	'SNKRX'			=> '11.x',
 	'StoneKingdoms'		=> '11.x',
-	'TerraformingEarth'	=> '11.x',
 	};
+
+Readonly::Array my @QUIRKS_GAMEFILE => (
+	'moonring.exe',
+	'SNKRX.exe',
+	'Spellrazor.exe',
+	);
 
 sub get_bin ( $self ) {
 	foreach my $k ( keys %LOVE2D_GAME_VERSION ) {
@@ -64,14 +71,24 @@ sub get_bin ( $self ) {
 		}
 	}
 
-	foreach my $f ( @LOVE2D_VERSION_FILES ) {
-		if ( -f $f ) {
-			my $love_v = IndieRunner::Helpers::match_bin_file(
-					'0\.\d{,2}\.\d', $f) ||
-				     IndieRunner::Helpers::match_bin_file(
-					'1\d\.\d', $f);
+	# make a list of regex @valid_versions from the values of %LOVE2D_GAME_VERSION
+	my @valid_versions = values %LOVE2D_GAME_VERSION;
+	map { s/x/\\d+/g } @valid_versions;
+	map { s/\./\\./g } @valid_versions;
+
+	foreach my $g ( @LOVE2D_VERSION_GLOBS ) {
+		my @found = File::Find::Rule->file()
+					    ->name( $g )
+					    ->in( '.' );
+		foreach my $f ( @found ) {
+			my $love_v;
+			foreach my $v ( @valid_versions ) {
+				last if ( $love_v = IndieRunner::Helpers::match_bin_file(
+						"$v", $f) );
+			}
 			next unless $love_v;
 			$love_v =~ s/\.\d+$/.x/;
+			next unless grep { /^\Q$love_v\E$/ } values %LOVE2D_GAME_VERSION;
 			return $LOVE2D_VERSION_BIN{ $love_v };
 		}
 	}
@@ -82,8 +99,10 @@ sub get_bin ( $self ) {
 sub get_args_ref ( $self ) {
 	my $game_file;
 
-	$game_file = 'moonring.exe' if ( -f 'moonring.exe' );
-	$game_file = 'Spellrazor.exe' if ( -f 'Spellrazor.exe' );
+	foreach my $q ( @QUIRKS_GAMEFILE ) {
+		$game_file = $q if ( -f $q );
+		last if $game_file;
+	}
 
 	# note: Gravity Circuit => bin/GravityCircuit as argument (is $id_file)
 	$game_file = $$self{ id_file } unless $game_file;
