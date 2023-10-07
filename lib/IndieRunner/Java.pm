@@ -29,6 +29,7 @@ use JSON;
 use Path::Tiny;
 use Readonly;
 
+use IndieRunner::Helpers;
 use IndieRunner::Java::LibGDX;
 use IndieRunner::Java::LWJGL2;
 use IndieRunner::Java::LWJGL3;
@@ -94,14 +95,6 @@ my %java_version = (
 	lwjgl3	=> 0,
 	);
 
-# TODO: move this into a different module; possibly IdentifyFiles.pm, Misc.pm, or Helpers.pm
-sub match_bin_file ( $regex, $file, $case_insensitive = 0 ) {
-	my $out = $1 if ( $case_insensitive ?
-		path($file)->slurp_raw =~ /($regex)/i :
-		path($file)->slurp_raw =~ /($regex)/ );
-	return $out;
-}
-
 sub fix_jvm_args () {
 	my @initial_jvm_args = @jvm_args;
 
@@ -121,7 +114,11 @@ sub get_bundled_java_version () {
 	return undef unless $bundled_java_bin;
 
 	# fetch version string and trim to format for JAVA_HOME
-	my $got_version = match_bin_file($JAVA_VER_REGEX, $bundled_java_bin);
+	my $got_version = IndieRunner::Helpers::match_bin_file(
+						$JAVA_VER_REGEX,
+						$bundled_java_bin);
+	# XXX: check that $got_version isn't empty
+
 	if ( $OSNAME eq 'openbsd' ) {
 		# OpenBSD: '1.8.0', '11', '17'
 		if (substr($got_version, 0, 2) eq '1.') {

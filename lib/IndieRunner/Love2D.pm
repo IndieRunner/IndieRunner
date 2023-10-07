@@ -24,6 +24,8 @@ use parent 'IndieRunner::Engine';
 
 use Readonly;
 
+use IndieRunner::Helpers;
+
 # TODO: will this hash be used?
 Readonly::Hash my %LOVE2D_VERSION_STRINGS => {
 	'0.9.x'		=> '0\.9\.[0-9]',
@@ -38,6 +40,11 @@ Readonly::Hash my %LOVE2D_VERSION_BIN => {
 	'11.x'		=> 'love-11',
 	};
 
+Readonly::Array my @LOVE2D_VERSION_FILES => (
+	'love.exe',
+	'lovec.exe',
+	);
+
 Readonly::Hash my %LOVE2D_GAME_VERSION => {
 	'bluerevolver'		=> '0.10.x',
 	'cityglitch'		=> '0.10.x',
@@ -45,9 +52,7 @@ Readonly::Hash my %LOVE2D_GAME_VERSION => {
 	'DepthsOfLimbo'		=> '11.x',
 	'GravityCircuit'	=> '11.x',
 	'Marvellous_Inc'	=> '0.10.x',
-	'Moonring'		=> '11.x',
 	'SNKRX'			=> '11.x',
-	'Spellrazor'		=> '0.10.x',
 	'StoneKingdoms'		=> '11.x',
 	'TerraformingEarth'	=> '11.x',
 	};
@@ -59,19 +64,17 @@ sub get_bin ( $self ) {
 		}
 	}
 
-	if ( -f 'moonring.exe' ) {
-		return $LOVE2D_VERSION_BIN{ $LOVE2D_GAME_VERSION { Moonring } };
+	foreach my $f ( @LOVE2D_VERSION_FILES ) {
+		if ( -f $f ) {
+			my $love_v = IndieRunner::Helpers::match_bin_file(
+					'0\.\d{,2}\.\d', $f) ||
+				     IndieRunner::Helpers::match_bin_file(
+					'1\d\.\d', $f);
+			next unless $love_v;
+			$love_v =~ s/\.\d+$/.x/;
+			return $LOVE2D_VERSION_BIN{ $love_v };
+		}
 	}
-	if ( -f 'Spellrazor.exe' ) {
-		return $LOVE2D_VERSION_BIN{ $LOVE2D_GAME_VERSION { Spellrazor } };
-	}
-
-	# XXX: implement heuristic to get version string from love.exe, lovec.exe
-	#      Examples (via `$ strings love.exe`)
-	#      - 11.4
-	#      - 0.10.1
-	#
-	#      Regex: maybe '[[:digit:]]{,2}\.[[:digit:]]'
 
 	die "failed to determine a binary";
 }

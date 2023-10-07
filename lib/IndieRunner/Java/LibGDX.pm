@@ -29,6 +29,7 @@ use File::Spec::Functions qw( catdir catfile splitdir splitpath );
 use List::Util qw( max );
 use Readonly;
 
+use IndieRunner::Helpers;
 use IndieRunner::Io;
 
 Readonly::Scalar my $So_Sufx => '.so';
@@ -89,13 +90,13 @@ sub select_most_compatible_version ( $target_v, @other_v ) {
 sub get_bundled_gdx_version () {
 	my $gdx_version_file = catfile( $GDX_BUNDLED_LOC, $GDX_VERSION_FILE );
 	return '' unless ( -e $gdx_version_file );
-	return IndieRunner::Java::match_bin_file( $GDX_VERSION_REGEX,
+	return IndieRunner::Helpers::match_bin_file( $GDX_VERSION_REGEX,
 		$gdx_version_file );
 }
 
 sub get_native_gdx ( $bundled_v ) {
 	my %candidate_replacements =	# keys: version, values: location
-		map { IndieRunner::Java::match_bin_file( $GDX_VERSION_REGEX, $_) =>
+		map { IndieRunner::Helpers::match_bin_file( $GDX_VERSION_REGEX, $_) =>
 			( splitpath($_) )[1]
 		    } File::Find::Rule->file
 				      ->name( $GDX_VERSION_FILE )
