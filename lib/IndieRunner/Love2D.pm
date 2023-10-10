@@ -51,6 +51,7 @@ Readonly::Array my @LOVE2D_VERSION_GLOBS => (
 	);
 
 Readonly::Hash my %LOVE2D_GAME_VERSION => {
+	'britebot'			=> '0.10.x',
 	'cityglitch'			=> '0.10.x',
 	'CurseOfTheArrow'		=> '11.x',
 	'DepthsOfLimbo'			=> '11.x',

@@ -33,6 +33,7 @@ Letters indicate which platform versions have been tested successfully:
 |BLUE REVOLVER		|Love2D	|	|	|L	|	|	|		|
 |Brawl Tactics: Origins	|W	|	|	|	|	|	|		|
 |Breath of Death VII	|XNA	|W	|	|	|	|	|		|
+|Britebot		|Love2D	|	|	|L	|	|	|love-0.10	|
 |Brotato		|Godot3	|W	|	|	|	|	|		|
 |Brushwood Buddies	|FNA	|	|	|L	|	|	|		|
 |Capsized		|MonoGame|	|L	|	|	|	|		|
