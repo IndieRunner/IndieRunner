@@ -40,6 +40,7 @@ Readonly::Hash my %Indicator_Files => (
 	'*gdx*.{so,dll}'		=> 'Java',
 	'*.love'			=> 'Love2D',
 	'love.dll'			=> 'Love2D',
+	'love'				=> 'Love2D',	# Shell Out Showdown: bin/love
 	'GravityCircuit'		=> 'Love2D',	# TODO: hack for detection; find heuristic
 	'SNKRX.exe'			=> 'Love2D',	# TODO: hack for detection; find heuristic
 	'TerraformingEarth.exe'		=> 'Love2D',	# TODO: hack for detection; find heuristic

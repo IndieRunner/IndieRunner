@@ -135,6 +135,7 @@ Letters indicate which platform versions have been tested successfully:
 |Rogue Legacy		|FNA	|L	|	|	|	|	|		|
 |Roma Invicta		|Godot3	|L	|	|	|	|	|		|
 |Salt & Sanctuary	|FNA	|L	|	|	|	|	|		|
+|Shell Out Showdown	|Love2D	|	|	|L	|	|	|love-11	|
 |SHENZHEN I/O		|Mono	|	|L	|	|	|	|		|
 |Shrine			|GZDoom	|L	|	|	|	|	|free! handling gzdoom.pk3 not yet implemented|
 |Shrine II		|GZDoom	|L	|	|	|	|	|free! handling gzdoom.pk3 not yet implemented|
