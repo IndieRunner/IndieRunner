@@ -147,6 +147,7 @@ Letters indicate which platform versions have been tested successfully:
 |SokoSolitaire		|Godot3	|L	|	|	|	|	|needs to run with --video-driver GLES2 to avoid graphics bugs|
 |Sole Saga		|Godot3	|L	|	|	|	|	|		|
 |SoulCaster I & II	|FNA	|	|	|	|	|Humble:L|		|
+|Soulstice		|Love2D	|	|	|L	|	|	|love-0.10	|
 |SpaceChem		|Mono	|	|	|L	|	|	|		|
 |Space Grunts		|LibGDX	|	|	|L	|	|	|		|
 |Space Grunts 2		|LibGDX	|	|	|L	|	|	|		|
