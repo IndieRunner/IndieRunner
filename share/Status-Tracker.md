@@ -17,6 +17,7 @@ Letters indicate which platform versions have been tested successfully:
 |Airships: Conquer the Skies|LibGDX|	|	|L	|	|	|		|
 |Akane the Kunoichi	|XNA	|W	|	|	|	|	|		|
 |Amazing Princess Sarah	|XNA	|	|	|	|	|	|iomap error when loading level	|
+|Anagrams		|Love2D	|	|	|L	|	|	|		|
 |Apocalyptic Vibes	|GZDoom	|W	|	|	|	|	|		|
 |Apotheon		|FNA	|L	|	|	|	|	|		|
 |Apple Jack 1&2		|XNA	|W	|	|	|	|	|		|
@@ -121,7 +122,9 @@ Letters indicate which platform versions have been tested successfully:
 |Penny Arcade's On the Rain-Slick Precipice of Darkness 3|XNA|||||||
 |Penny Arcade's On the Rain-Slick Precipice of Darkness 4|XNA|||||||
 |Planetfriend		|FNA	|	|	|L	|	|	|		|
+|Poems & Codes		|Love2D	|	|	|L(demo)|	|	|		|
 |Project Crypt		|GZDoom	|W	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
+|Prose & Code		|Love2D	|	|	|L	|	|	|		|
 |Revenge of the Titans	|LWJGL2	|	|	|	|	|Humble:L|		|
 |Rex Rocket		|FNA	|L	|	|	|	|	|		|
 |Rise to Ruins		|LWJGL2	|	|	|L	|	|	|		|
