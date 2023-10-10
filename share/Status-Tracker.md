@@ -92,6 +92,7 @@ Letters indicate which platform versions have been tested successfully:
 |The Isolated Town	|Godot3	|	|	|L	|	|	|		|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
 |Kitsune Zero		|FNA	|	|	|L	|	|	|		|
+|Labyrinth of Legendary Loot|Love2D|	|	|L	|	|	|love-11	|
 |Landnama		|Godot3	|L	|	|	|	|	|		|
 |LaserCat		|XNA	|	|	|L	|	|	|		|
 |Little Racers STREET	|FNA	|L	|	|	|	|	|		|

@@ -51,11 +51,12 @@ Readonly::Array my @LOVE2D_VERSION_GLOBS => (
 	);
 
 Readonly::Hash my %LOVE2D_GAME_VERSION => {
-	'cityglitch'		=> '0.10.x',
-	'CurseOfTheArrow'	=> '11.x',
-	'DepthsOfLimbo'		=> '11.x',
-	'Marvellous_Inc'	=> '0.10.x',
-	'StoneKingdoms'		=> '11.x',
+	'cityglitch'			=> '0.10.x',
+	'CurseOfTheArrow'		=> '11.x',
+	'DepthsOfLimbo'			=> '11.x',
+	'Marvellous_Inc'		=> '0.10.x',
+	'StoneKingdoms'			=> '11.x',
+	'LabyrinthOfLegendaryLoot'	=> '11.x',
 	};
 
 Readonly::Array my @QUIRKS_GAMEFILE => (
