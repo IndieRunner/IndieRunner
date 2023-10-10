@@ -57,6 +57,7 @@ Readonly::Hash my %LOVE2D_GAME_VERSION => {
 	'Marvellous_Inc'		=> '0.10.x',
 	'StoneKingdoms'			=> '11.x',
 	'LabyrinthOfLegendaryLoot'	=> '11.x',
+	'hhhs'				=> '11.c', # Hoarder's Horrible House of Stuff
 	};
 
 Readonly::Array my @QUIRKS_GAMEFILE => (
