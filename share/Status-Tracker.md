@@ -37,6 +37,7 @@ Letters indicate which platform versions have been tested successfully:
 |Brotato		|Godot3	|W	|	|	|	|	|		|
 |Brushwood Buddies	|FNA	|	|	|L	|	|	|		|
 |Capsized		|MonoGame|	|L	|	|	|	|		|
+|Cards with Personalities|Godot3|W	|	|	|	|	|		|
 |Cassette Beasts	|Godot3	|L	|	|	|	|	|		|
 |Celeste		|FNA	|	|	|L	|	|	|no audio	|
 |Charlie Murder		|FNA	|L	|	|	|	|	|no online multiplayer|

@@ -63,6 +63,7 @@ Readonly::Hash my %LOVE2D_GAME_VERSION => {
 	};
 
 Readonly::Array my @QUIRKS_GAMEFILE => (
+	'CardswithPersonalities.exe',
 	'moonring.exe',
 	'SNKRX.exe',
 	'Spellrazor.exe',
