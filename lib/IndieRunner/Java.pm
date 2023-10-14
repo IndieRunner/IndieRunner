@@ -41,7 +41,8 @@ Readonly::Scalar my $MANIFEST		=> 'META-INF/MANIFEST.MF';
 #                               '1.8.0_181-b02'
 #                               '11.0.13+8-1'
 #                               '17.0.1+12-1'
-Readonly::Scalar my $JAVA_VER_REGEX => '\d{1,2}\.\d{1,2}\.\d{1,2}[_\+][\w\-]+';
+#                               '1.7.0-u80-unofficial-b32'
+Readonly::Scalar my $JAVA_VER_REGEX => '\d{1,2}\.\d{1,2}\.\d{1,2}[_\+\-][\w\-]+';
 
 Readonly::Scalar my $So_Sufx => '.so';
 my $Bit_Sufx;
@@ -81,6 +82,7 @@ my %Valid_Java_Versions = (
 			   ],
 	);
 
+my $class_path_ptr;
 my $game_jar;
 my $jar_mode;
 my $main_class;
@@ -117,7 +119,7 @@ sub get_bundled_java_version () {
 	my $got_version = IndieRunner::Helpers::match_bin_file(
 						$JAVA_VER_REGEX,
 						$bundled_java_bin);
-	# XXX: check that $got_version isn't empty
+	return undef unless $got_version;
 
 	if ( $OSNAME eq 'openbsd' ) {
 		# OpenBSD: '1.8.0', '11', '17'
@@ -165,7 +167,6 @@ sub replace_lib ( $lib ) {
 sub bundled_libraries () {
 	my %symlink_libs;
 
-	#say "\nChecking which libraries are present...";
 	my @bundled_libs	= File::Find::Rule->file
 						  ->name( '*' . $So_Sufx )
 						  ->in( '.');
@@ -173,24 +174,39 @@ sub bundled_libraries () {
 	# ignore anything in jre/
 	@bundled_libs	= grep { !/\Qjre\/\E/ } @bundled_libs;
 
-	my ($f, $l);    # f: regular file test, l: symlink test
 	foreach my $file (@bundled_libs) {
-		#print $file . ' ... ' if ( $verbose or $dryrun );
-		($f, $l) = ( -f $file , -l $file );
+		$symlink_libs{ $file } = replace_lib( $file );
+		say "$file | $symlink_libs{ $file }";
+	}
+	exit;
 
-		# F L: symlink to existing file => everything ok
-		# F l: non-symlink file => needs fixing
-		# f L: broken symlink => needs fixing
-		# f l: no file found (impossible after glob above)
-		if ($f and $l) {
-			next;
+	return %symlink_libs;
+}
+
+sub setup ( $self, $mode_obj ) {
+	# Extract JAR file if not done previously
+	unless ( -f $MANIFEST or $jar_mode ) {
+		if ( $game_jar ) {
+			$mode_obj->extract( $game_jar ) || die "failed to extract: $game_jar";
 		}
-		elsif ( my $replacement = replace_lib( $file ) ) {
-			$symlink_libs{ $file } = $replacement;
+		elsif ( $class_path_ptr ) {
+			$mode_obj->extract( @{$class_path_ptr}[0] ) || die "failed to extract file";
+		}
+		else {
+			die "No JAR file to extract" unless glob '*.jar';
+			foreach my $f ( glob '*.jar' ) {
+				$mode_obj->extract( $f ) || die "failed to extract: $f";
+			}
 		}
 	}
 
-	return %symlink_libs;
+	# symlink correct libraries
+	my %bundled_libs = bundled_libraries();
+	foreach my $lib ( keys %bundled_libs ) {
+		say "$lib | $bundled_libs{$lib}";
+		$mode_obj->insert( $bundled_libs{ $lib }, $lib ) || die
+			"failed to symlink $lib -> $bundled_libs{ $lib }";
+	}
 }
 
 sub has_libgdx () {
@@ -235,7 +251,6 @@ sub new ( $class, %init ) {
 	my %need_to_extract;
 
 	my $config_file;
-	my $class_path_ptr;
 
 	my $self = bless {}, $class;
 	%$self = ( %$self, %init );
@@ -315,22 +330,6 @@ sub new ( $class, %init ) {
 		}
 	}
 
-	# 3. Extract JAR file if not done previously
-	unless ( -f $MANIFEST or $jar_mode ) {
-		if ( $game_jar ) {
-			$need_to_extract{ $game_jar } =
-				__PACKAGE__ . '::extract_jar';
-		}
-		elsif ( $class_path_ptr ) {
-			$need_to_extract{ @{$class_path_ptr}[0] } =
-				__PACKAGE__ . '::extract_jar';
-		}
-		else {
-			die "No JAR file to extract" unless glob '*.jar';
-			$need_to_extract{ ( glob '*.jar' )[0] } = __PACKAGE__ . '::extract_jar';
-		}
-	}
-
 	# 4. Enumerate frameworks (LibGDX, LWJGL{2,3}, Steamworks4j)
 
 	if ( has_libgdx() ) {
@@ -385,12 +384,6 @@ sub new ( $class, %init ) {
 	$$self{ need_to_extract }	= \%need_to_extract;
 
 	return $self;
-}
-
-sub post_extract ( $self ) {
-	$self->SUPER::post_extract();
-	my %bundled_libs = bundled_libraries();
-	$$self{ need_to_replace } = \%bundled_libs;
 }
 
 sub get_bin ( $self ) {

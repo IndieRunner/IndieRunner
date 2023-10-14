@@ -177,7 +177,6 @@ sub detect_game_name ( $engine_module ) {
 sub setup ( $self ) {
 	$$self{ engine }->setup( $$self{ mode } );
 	# XXX: check for dead symlinks?
-	# XXX: double-check code in post_extract()
 
 }
 

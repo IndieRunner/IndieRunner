@@ -80,7 +80,7 @@ sub extract( $self, $file ) {
 	}
 	else {
 		say "unrecognized extension: $file";
-		return 1;
+		return 0;
 	}
 }
 
