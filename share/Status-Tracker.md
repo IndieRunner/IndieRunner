@@ -162,6 +162,7 @@ Letters indicate which platform versions have been tested successfully:
 |Stardash		|LibGDX	|	|	|L	|	|	|		|
 |Stardew Valley		|MonoGame|	|M	|	|	|	|use MAC 32bit Build|
 |Stone Kingdoms		|Love2D	|	|	|L	|	|	|		|
+|Striving for Light	|Godot3	|	|	|L	|	|	|		|
 |Super Bernie World	|FNA	|	|	|L	|	|	|		|
 |Supplice		|GZDoom	|W	|	|	|	|	|gzdoom 4.10	|
 |Sword of the Stars: The Pit|XNA|	|W	|	|	|	|		|
