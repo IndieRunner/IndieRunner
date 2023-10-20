@@ -104,6 +104,7 @@ Letters indicate which platform versions have been tested successfully:
 |Meganoid		|LibGDX	|	|	|L	|	|	|		|
 |Meganoid: Grandpa's Chronicles|LibGDX|	|	|L	|	|	|		|
 |Mercenary Kings	|FNA	|	|	|	|	|	|NLog.NLogConfigurationException|
+|Metanet Hunter G4	|Love2D	|	|	|L	|	|	|		|
 |Mewnbase		|LibGDX	|	|	|	|	|	|		|
 |MidBoss		|FNA	|	|	|L	|	|	|Crash on death; needs SDL_image fix from fnaify|
 |Mobius Front '83	|Mono	|	|L	|	|	|	|buggy with random crashes|

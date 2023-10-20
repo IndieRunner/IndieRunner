@@ -58,6 +58,7 @@ Readonly::Hash my %LOVE2D_GAME_VERSION => {
 	'hhhs'				=> '11.c', # Hoarder's Horrible House of Stuff
 	'LabyrinthOfLegendaryLoot'	=> '11.x',
 	'Marvellous_Inc'		=> '0.10.x',
+	'Metanet Hunter G4'		=> '11.x',
 	'possession'			=> '11.x',
 	'soulstice'			=> '0.10.x',
 	'StoneKingdoms'			=> '11.x',
