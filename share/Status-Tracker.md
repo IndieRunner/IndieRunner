@@ -127,6 +127,7 @@ Letters indicate which platform versions have been tested successfully:
 |Penny Arcade's On the Rain-Slick Precipice of Darkness 4|XNA|||||||
 |Planetfriend		|FNA	|	|	|L	|	|	|		|
 |Poems & Codes		|Love2D	|	|	|L(demo)|	|	|		|
+|Possession		|Love2D	|	|	|L	|	|	|		|
 |Project Crypt		|GZDoom	|W	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
 |Prose & Code		|Love2D	|	|	|L	|	|	|		|
 |Revenge of the Titans	|LWJGL2	|	|	|	|	|Humble:L|		|
