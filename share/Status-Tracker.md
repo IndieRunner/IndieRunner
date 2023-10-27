@@ -36,6 +36,7 @@ Letters indicate which platform versions have been tested successfully:
 |Britebot		|Love2D	|	|	|L	|	|	|love-0.10	|
 |Brotato		|Godot3	|W	|	|	|	|	|		|
 |Brushwood Buddies	|FNA	|	|	|L	|	|	|		|
+|Bugscraper		|Love2D	|	|	|	|	|	|		|
 |Capsized		|MonoGame|	|L	|	|	|	|		|
 |Cards with Personalities|Godot3|W	|	|	|	|	|		|
 |Cassette Beasts	|Godot3	|L	|	|	|	|	|		|

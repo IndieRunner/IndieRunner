@@ -178,7 +178,6 @@ sub bundled_libraries () {
 		$symlink_libs{ $file } = replace_lib( $file );
 		say "$file | $symlink_libs{ $file }";
 	}
-	exit;
 
 	return %symlink_libs;
 }
