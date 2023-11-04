@@ -175,6 +175,7 @@ Letters indicate which platform versions have been tested successfully:
 |Titan Attacks!		|LWJGL2	|	|	|	|	|Humble:L|		|
 |TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
 |Transmogrify		|Godot3	|L	|	|	|	|	|		|
+|Trolley Delayma	|Godot3	|	|	|L	|	|	|		|
 |Ukraine Defense Force Tactics|Godot3|W	|	|	|	|	|		|
 |Ultratron		|LWJGL2	|	|	|	|	|Humble:L|		|
 |Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|steamworks4j	|
