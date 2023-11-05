@@ -1,6 +1,6 @@
 package IndieRunner::Godot;
 
-# Copyright (c) 2022 Thomas Frohwein
+# Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -32,10 +32,12 @@ sub detect_game ( $self ) {
 sub get_bin( $self ) { return GODOT3_BIN; }
 
 sub get_args_ref( $self ) {
+	my $game_file = $$self{ id_file } if $$self{ id_file };
+	$game_file = ( glob( '*.pck' ) )[0] unless $game_file;
 	my @args = (
 		'--quiet',
 		'--main-pack',
-		( glob( '*.pck' ) )[0],	# XXX: add detection via byte sequence
+		$game_file,
 		);
 	return \@args;
 }

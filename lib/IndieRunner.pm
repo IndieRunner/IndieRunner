@@ -152,7 +152,8 @@ sub detect_game_name ( $engine_module ) {
 
 	# 2. use engine-specific heuristic from the engine module
 	if ( $engine_module->can( 'detect_game' ) ) {
-		return $engine_module->detect_game();
+		my $r = $engine_module->detect_game();
+		return $r if $r;
 	}
 
 	my @exe_files = glob '*.exe';
