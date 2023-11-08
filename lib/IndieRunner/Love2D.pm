@@ -111,6 +111,8 @@ sub get_args_ref ( $self ) {
 		last if $game_file;
 	}
 
+	$game_file = ( glob '*.love' )[0] unless $game_file;
+
 	# note: Gravity Circuit => bin/GravityCircuit as argument (is $id_file)
 	$game_file = $$self{ id_file } unless $game_file;
 

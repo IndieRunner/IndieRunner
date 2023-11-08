@@ -140,6 +140,7 @@ Letters indicate which platform versions have been tested successfully:
 |Roma Invicta		|Godot3	|L	|	|	|	|	|		|
 |RUN: The world in-between|Godot3|L	|	|	|	|	|		|
 |Salt & Sanctuary	|FNA	|L	|	|	|	|	|		|
+|Settlers of the Deep	|Love2D	|	|	|L	|	|	|love-11	|
 |Shell Out Showdown	|Love2D	|	|	|L	|	|	|love-11	|
 |SHENZHEN I/O		|Mono	|	|L	|	|	|	|		|
 |Shrine			|GZDoom	|L	|	|	|	|	|free! handling gzdoom.pk3 not yet implemented|
