@@ -67,6 +67,7 @@ Letters indicate which platform versions have been tested successfully:
 |Escape Goat		|MonoGame|	|	|	|	|Humble:L|		|
 |Escape Goat 2		|MonoGame|	|	|	|	|Humble:L|		|
 |Evoland Legendary Edition|HashLink|	|	|	|	|	|steam.hdll stub: Steam failed to activate|
+|Ex-Zodiac		|Godot3	|L	|	|	|	|	|		|
 |EXAPUNKS		|Mono	|	|L	|	|	|	|		|
 |Extinction Eclipse	|Godot3	|L	|	|	|	|	|		|
 |Farm Keeper		|Godot3	|W	|	|	|	|	|		|
