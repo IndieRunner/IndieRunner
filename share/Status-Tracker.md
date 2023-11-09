@@ -87,6 +87,7 @@ Letters indicate which platform versions have been tested successfully:
 |Gunslugs		|LibGDX	|	|	|L	|	|	|		|
 |Gunslugs 3: Rogue Tactics|LibGDX|	|	|L	|	|	|		|
 |Hacknet		|FNA	|	|L	|	|	|	|		|
+|Her Name Was Fire	|Godot3	|W	|	|	|	|	|		|
 |Heroes of Loot		|LibGDX	|	|	|L	|	|	|		|
 |Hexes			|Godot3	|L	|	|	|	|	|		|
 |Hive			|FNA	|L	|	|	|	|	|		|
@@ -119,6 +120,7 @@ Letters indicate which platform versions have been tested successfully:
 |Ninja Warrior		|XNA	|	|	|	|	|	|engine detection fails|
 |Nuclear Blaze		|HashLink|	|	|	|	|	|steam.hdll stub: Steam is not running!|
 |Of Blades & Tails	|Godot3	|L	|	|	|	|	|Godot with mono support|
+|Omnigon		|Godot3	|W	|	|	|	|	|		|
 |One Finger Death Punch	|XNA	|W	|	|	|	|	|		|
 |Operation STEEL	|Godot3	|L	|	|	|	|	|		|
 |Opus Magnum		|Mono	|	|L	|	|	|	|		|
