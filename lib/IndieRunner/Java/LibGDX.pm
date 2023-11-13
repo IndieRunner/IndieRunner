@@ -1,6 +1,4 @@
-package IndieRunner::Java::LibGDX;
-
-# Copyright (c) 2022 Thomas Frohwein
+# Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -14,6 +12,7 @@ package IndieRunner::Java::LibGDX;
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+package IndieRunner::Java::LibGDX;
 use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
@@ -112,8 +111,7 @@ sub add_classpath ( $self ) {
 	return ( $native_gdx );
 }
 
-sub setup ( $ ) {
-	#my $verbose = cli_verbose();
+sub setup ( $, $mode_obj ) {
 
 	# What version is bundled with the game?
 	my $bundled_v = get_bundled_gdx_version();
@@ -131,10 +129,15 @@ sub setup ( $ ) {
 		confess "Can't proceed: unable to find native LibGDX implementation";
 	}
 
+	# insert framework libraries
 	foreach my $l ( glob $native_gdx . '/*.so' ) {
-		IndieRunner::Io::ir_symlink( $l, ( splitpath( $l ) )[2], 1 ) unless -l $l;
+		#IndieRunner::Io::ir_symlink( $l, ( splitpath( $l ) )[2], 1 ) unless -l $l;
+		$mode_obj->insert( $l, ( splitpath( $l ) )[2] ) || die;
 	}
-	say '';
+
+	# insert framework managed code (class files)
+	$mode_obj->insert( catdir( $native_gdx, $GDX_BUNDLED_LOC ), $GDX_BUNDLED_LOC )
+		|| die "failed to insert gdx class libraries";
 }
 
 1;

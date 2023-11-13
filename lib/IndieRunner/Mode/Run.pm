@@ -45,7 +45,7 @@ sub remove( $self, $file ) {
 }
 
 sub insert( $self, $oldfile, $newfile ) {
-	remove( $self, $newfile ) if -f $newfile;
+	remove( $self, $newfile ) if ( -f $newfile or -d $newfile );
 	return 1 if ( -f $newfile and -l $newfile );	# symlink already set up 
 	$self->SUPER::insert( $oldfile, $newfile );
 	return symlink $oldfile, $newfile;

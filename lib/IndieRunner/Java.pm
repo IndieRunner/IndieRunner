@@ -202,9 +202,19 @@ sub setup ( $self, $mode_obj ) {
 	# symlink correct libraries
 	my %bundled_libs = bundled_libraries();
 	foreach my $lib ( keys %bundled_libs ) {
-		say "$lib | $bundled_libs{$lib}";
+		next unless $bundled_libs{ $lib };
+		say "$lib | $bundled_libs{ $lib }";
 		$mode_obj->insert( $bundled_libs{ $lib }, $lib ) || die
 			"failed to symlink $lib -> $bundled_libs{ $lib }";
+	}
+
+	# Call specific setup for each framework
+	unless ( skip_framework_setup() ) {
+		foreach my $fw ( @java_frameworks ) {
+			my $module = "IndieRunner::Java::$fw";
+			eval "require $module" or die "Failed to load module $module";
+			$module->setup( $mode_obj );
+		}
 	}
 }
 
@@ -256,13 +266,13 @@ sub new ( $class, %init ) {
 
 	$jar_mode = test_jar_mode();	# if set, run with a game .jar file rather than from extracted files
 
-	# 1. Check OS and initialize basic variables
+	# Check OS and initialize basic variables
 	die "OS not recognized: " . $OSNAME unless ( exists $Valid_Java_Versions{$OSNAME} );
 	get_bundled_java_version();
 
 	$Bit_Sufx = ( $Config{'use64bitint'} ? '64' : '' ) . $So_Sufx;
 
-	# 2. Get data on main JAR file and more
+	# Get data on main JAR file and more
 	# 	a. first check JSON config file
 	#	   prioritize *config.json, e.g. for Airships: Conquer the Skies, Lenna's Inception
 	#	   commonly config.json, but sometimes e.g. TFD.json
@@ -329,7 +339,7 @@ sub new ( $class, %init ) {
 		}
 	}
 
-	# 4. Enumerate frameworks (LibGDX, LWJGL{2,3}, Steamworks4j)
+	# populate @java_frameworks (LibGDX, LWJGL{2,3}, Steamworks4j)
 
 	if ( has_libgdx() ) {
 		push( @java_frameworks, 'LibGDX' );
@@ -340,15 +350,7 @@ sub new ( $class, %init ) {
 	}
 	push @java_frameworks, 'Steamworks4j' if has_steamworks4j();
 
-	# 5. XXX: Call specific setup for each framework
-	#unless ( skip_framework_setup() ) {
-		#foreach my $f ( @java_frameworks ) {
-			#my $module = "IndieRunner::Java::$f";
-			#$module->setup();
-		#}
-	#}
-
-	# 6. set java_home
+	# set java_home
 	if ( grep { /^\QLWJGL3\E$/ } @java_frameworks ) {
 		$java_version{ lwjgl3 } =
 			IndieRunner::Java::LWJGL3::get_java_version_preference();
