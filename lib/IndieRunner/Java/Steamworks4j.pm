@@ -17,6 +17,7 @@ use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
 use v5.36;
+use parent 'IndieRunner::Java::JavaMod';
 
 use Readonly;
 
@@ -24,10 +25,6 @@ Readonly::Scalar my $S4J_NATIVE_LOC => '/usr/local/share/steamworks4j';
 
 sub add_classpath ( $self ) {
 	return ( $S4J_NATIVE_LOC );
-}
-
-sub setup( $, $mode_obj ) {
-	# no-op
 }
 
 1;

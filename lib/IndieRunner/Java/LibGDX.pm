@@ -19,6 +19,7 @@ use warnings;
 use v5.36;
 use autodie;
 use English;
+use parent 'IndieRunner::Java::JavaMod';
 
 use Carp qw( cluck confess );
 

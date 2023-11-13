@@ -19,6 +19,7 @@ use strict;
 use warnings;
 use v5.36;
 use English;
+use parent 'IndieRunner::Java::JavaMod';
 
 use Readonly;
 
@@ -28,10 +29,6 @@ Readonly::Hash my %LWJGL2_DIR => (
 
 sub add_classpath ( $ ) {
 	return glob( $LWJGL2_DIR{ $OSNAME } . '/*.jar' );
-}
-
-sub setup ( $, $mode_obj ) {
-	# no-op
 }
 
 1;
