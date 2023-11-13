@@ -1,6 +1,4 @@
-package IndieRunner::Java::LWJGL2;
-
-# Copyright (c) 2022 Thomas Frohwein
+# Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -14,20 +12,22 @@ package IndieRunner::Java::LWJGL2;
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+package IndieRunner::Java::JavaMod;
 use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
 use v5.36;
+use autodie;
 use English;
 
-use Readonly;
+use Carp qw( cluck confess );
 
-Readonly::Hash my %LWJGL2_DIR => (
-	        'openbsd'       => '/usr/local/share/lwjgl',
-                );
+Readonly::Scalar my $GDX_BUNDLED_LOC	=> 'com/badlogic/gdx';
+Readonly::Scalar my $GDX_VERSION_FILE	=> 'Version.class';
+Readonly::Scalar my $GDX_NATIVE_LOC	=> '/usr/local/share/libgdx';
 
-sub add_classpath ( $ ) {
-	return glob( $LWJGL2_DIR{ $OSNAME } . '/*.jar' );
+sub add_classpath ( $self ) {
+	return ( $native_gdx );
 }
 
 sub setup ( $, $mode_obj ) {

@@ -1,5 +1,3 @@
-package IndieRunner::Java::Steamworks4j;
-
 # Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -14,18 +12,22 @@ package IndieRunner::Java::Steamworks4j;
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+package IndieRunner::Java::Steamworks4j;
 use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
 use v5.36;
 
-use Carp qw( cluck );
 use Readonly;
 
 Readonly::Scalar my $S4J_NATIVE_LOC => '/usr/local/share/steamworks4j';
 
 sub add_classpath ( $self ) {
 	return ( $S4J_NATIVE_LOC );
+}
+
+sub setup( $, $mode_obj ) {
+	# no-op
 }
 
 1;

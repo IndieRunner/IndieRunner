@@ -382,8 +382,6 @@ sub new ( $class, %init ) {
 	set_java_home( $os_java_version );
 	say "Java Home:\t\t\t$java_home" if 1;	# XXX: check if verbose
 
-	$$self{ need_to_extract }	= \%need_to_extract;
-
 	return $self;
 }
 

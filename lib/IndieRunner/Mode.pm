@@ -22,6 +22,7 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use OpenBSD::Pledge;
 use Readonly;
 
+# XXX: remove if not used
 Readonly my %PLEDGE_GROUP => (
 	'default'	=> [ qw( rpath cpath proc exec prot_exec flock unveil ) ],
 	'no_file_mod'	=> [ qw( rpath proc exec prot_exec flock unveil ) ],
@@ -88,6 +89,7 @@ sub set_verbosity ( $self, $verbosity ) {
 	$$self{ verbosity } = $verbosity;
 }
 
+# XXX: remove if not used
 sub init_pledge ( $group ) {
 	vvvsay 'pledge promises: ' . join( ' ', @{ $PLEDGE_GROUP{ $group } } );
 	pledge( @{ $PLEDGE_GROUP{ $group } } ) || die "unable to pledge: $!";

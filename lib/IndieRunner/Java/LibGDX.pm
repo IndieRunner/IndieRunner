@@ -108,7 +108,10 @@ sub get_native_gdx ( $bundled_v ) {
 }
 
 sub add_classpath ( $self ) {
-	return ( $native_gdx );
+	#return ( $native_gdx ); # XXX: not working currently
+	#say "DEBUG: native_gdx - $native_gdx";
+	#exit;
+	return ( '/usr/local/share/libgdx/1.9.9' );
 }
 
 sub setup ( $, $mode_obj ) {
@@ -131,7 +134,6 @@ sub setup ( $, $mode_obj ) {
 
 	# insert framework libraries
 	foreach my $l ( glob $native_gdx . '/*.so' ) {
-		#IndieRunner::Io::ir_symlink( $l, ( splitpath( $l ) )[2], 1 ) unless -l $l;
 		$mode_obj->insert( $l, ( splitpath( $l ) )[2] ) || die;
 	}
 
