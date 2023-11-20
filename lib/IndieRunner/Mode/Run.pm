@@ -56,7 +56,8 @@ sub convert( $self, $from, $to ) {
 		say STDERR "Error: unable convert - target $to already exists";
 		return 0;
 	}
-	elsif ( $from =~ /.wma$/i ) {
+	$self->SUPER::convert( $from, $to );
+	if ( $from =~ /.wma$/i ) {
 		my @command = map { s/!<<in>>/$from/r } @WMA_TO_OGG;
 		@command = map { s/!<<out>>/$to/r } @command;
 		return system( @command ) == 0 || die "Command failed: $!";
