@@ -1,5 +1,3 @@
-package IndieRunner::Mono;
-
 # Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -14,6 +12,7 @@ package IndieRunner::Mono;
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+package IndieRunner::Mono;
 use strict;
 use warnings;
 use v5.36;
@@ -42,7 +41,7 @@ Readonly::Array my @MONO_GLOBS => (
 	);
 
 Readonly::Array my @MONO_GLOB_EXCLUDE => (	# regexes
-	'^System\.Data\.SQLite\.dll$',	# SpaceChem
+	'System.Data.SQLite.dll',	# SpaceChem
 	);
 
 Readonly::Hash my %QUIRKS_ARGS => {
@@ -89,32 +88,19 @@ sub get_bin ( $self ) {
 	return $MONO_BIN;
 }
 
-sub new ( $class, %init ) {
-	my %need_to_remove;
-	my @remove_list;
-
-	my $self = bless {}, $class;
-	%$self = ( %$self, %init );
-
+sub setup ( $self, $mode_obj ) {
 	# neuter system Mono assemblies, except @MONO_GLOB_EXCLUDE
-	push @remove_list, get_mono_files();
-
-	foreach my $e ( @MONO_GLOB_EXCLUDE ) {
-		foreach my $f ( grep { !/$e/ } @remove_list ) {
-			$need_to_remove{ $f } = undef;
-		}
+	foreach my $f ( get_mono_files() ) {
+		$mode_obj->remove( $f )
+			unless grep { /\Q$f\E/ } @MONO_GLOB_EXCLUDE;
 	}
 
 	# replacement for mono's lost MONO_IOMAP
-	my %need_to_replace = IndieRunner::Mono::Iomap::iomap_symlink();
+	my %iomaps = IndieRunner::Mono::Iomap::iomap_symlink();
+	while ( ( my $newfile, my $oldfile ) = each ( %iomaps ) ) {
+		$mode_obj->insert( $oldfile, $newfile );
+	}
 
-	$$self{ need_to_remove }	= \%need_to_remove;
-	$$self{ need_to_replace }	= \%need_to_replace;
-
-	return $self;
-}
-
-sub setup ( $self, $mode_obj ) {
 	# XXX: for 'SSGame.exe': mkdir -p ~/.local/share/SSDD
 }
 

@@ -257,8 +257,6 @@ sub test_jar_mode () {
 }
 
 sub new ( $class, %init ) {
-	my %need_to_extract;
-
 	my $config_file;
 
 	my $self = bless {}, $class;

@@ -58,7 +58,7 @@ Show actions that would be taken, without changing or executing anything.
 
 For use with Mono/FNA/XNA only: specify custom I<file> with dllmap assignments.
 
-=item B<--engine=I<engine>/-d I<engine>>
+=item B<--engine=I<engine>/-e I<engine>>
 
 Bypass automatic engine detection. Use with caution.
 

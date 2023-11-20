@@ -1,6 +1,4 @@
-package IndieRunner::FNA;
-
-# Copyright (c) 2022 Thomas Frohwein
+# Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -14,6 +12,7 @@ package IndieRunner::FNA;
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+package IndieRunner::FNA;
 use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
@@ -28,20 +27,18 @@ use IndieRunner::Mono;
 Readonly::Scalar my $FNA_MIN_VERSION => version->declare( '21.1' );
 Readonly::Scalar my $FNA_REPLACEMENT => '/usr/local/share/FNA/FNA.dll';
 
+Readonly::Scalar my $FNA_DLL		=> 'FNA.dll';
+Readonly::Scalar my $FNA_DLL_CONFIG	=> 'FNA.dll.config'; # XXX: not needed? rm?
+
 Readonly::Array  my @ALLOW_BUNDLED_FNA => (
 	# 'Game.exe',		# game version,		FNA version
 	'SuperBernieWorld.exe',	# 1.2.0 (Kitsune Zero),	19.3
 	);
 
-sub new ( $class, %init ) {
-	my %need_to_remove;
-	my %need_to_replace;
-	my $fna_file = 'FNA.dll';
-	my $fna_config_file = 'FNA.dll.config';
+sub setup ( $self, $mode_obj ) {
 	my $skip_fna_version;
 
-	my $self = bless {}, $class;
-	%$self = ( %$self, %init );
+	$self->SUPER::setup( $mode_obj );
 
 	# check if this is a game where we allow FNA version lower than FNA_MIN_VERSION
 	foreach my $f ( glob '*' ) {
@@ -54,8 +51,8 @@ sub new ( $class, %init ) {
 	# check if FNA version needs to be replaced
 	unless ( $skip_fna_version ) {
 		my $fna_bundled_version = version->declare(
-			IndieRunner::Mono::get_assembly_version( $fna_file ) )
-			or die "Failed to get version of $fna_file";
+			IndieRunner::Mono::get_assembly_version( $FNA_DLL ) )
+			or die "Failed to get version of $FNA_DLL";
 		my $fna_replacement_version = '';
 		if ( $fna_bundled_version < $FNA_MIN_VERSION ) {
 			# check if replacement FNA can be used
@@ -68,16 +65,10 @@ sub new ( $class, %init ) {
 				die "No FNA.dll found with version >= $FNA_MIN_VERSION";
 			}
 			else {
-				$need_to_replace{ $fna_file } = $FNA_REPLACEMENT;
+				$mode_obj->insert( $FNA_REPLACEMENT, $FNA_DLL ) || die;
 			}
 		}
 	}
-	$need_to_remove{ $fna_config_file } = undef if -f $fna_config_file;
-
-	$$self{ need_to_remove }	= \%need_to_remove;
-	$$self{ need_to_replace }	= \%need_to_replace;
-
-	return $self;
 }
 
 1;
