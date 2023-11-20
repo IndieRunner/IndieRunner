@@ -67,7 +67,7 @@ sub convert( $self, $from, $to ) {
 		return system( @command ) == 0 || die "Command failed: $!";
 	}
 	else {
-		say "unrecognized extension: $from";
+		say STDERR "unrecognized extension: $from - skipping";
 		return 0;
 	}
 }

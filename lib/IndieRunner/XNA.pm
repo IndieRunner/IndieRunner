@@ -1,6 +1,4 @@
-package IndieRunner::XNA;
-
-# Copyright (c) 2022 Thomas Frohwein
+# Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -14,6 +12,7 @@ package IndieRunner::XNA;
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+package IndieRunner::XNA;
 use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
@@ -24,17 +23,8 @@ use parent 'IndieRunner::Mono';
 use Carp;
 use File::Find::Rule;
 
-sub run_cmd ( $self ) {
-	return $self->SUPER::run_cmd( );
-}
-
-sub new ( $class, %init ) {
-	my %need_to_convert;
-
-	my $self = bless {}, $class;
-	%$self = ( %$self, %init );
-
-	# TODO: include from IndieRunner::Mono::new()
+sub setup ( $self, $mode_obj ) {
+	$self->SUPER::setup( $mode_obj );
 
 	# enumerate all WMA and WMV files
 	my @wmafiles = File::Find::Rule->file()
@@ -46,56 +36,12 @@ sub new ( $class, %init ) {
 
 	foreach my $w ( @wmafiles ) {
 		my $ogg = substr( $w, 0, -3 ) . 'ogg';
-		if ( not -f $ogg ) {
-			$need_to_convert{ $w } = $ogg;
-		}
+		$mode_obj->convert( $w, $ogg );
 	}
 	foreach my $w ( @wmvfiles ) {
 		my $ogv = substr( $w, 0, -3 ) . 'ogv';
-		if ( not -f $ogv ) {
-			$need_to_convert{ $w } = $ogv;
-		}
+		$mode_obj->convert( $w, $ogv );
 	}
-
-=pod
-
-	if ( scalar( @wmafiles ) + scalar( @wmvfiles ) > 0
-		&& ! $self->dryrun() ) {
-			say "Converting WMA and WMV media files. "
-				. "This may take a few minutes...";
-	}
-
-	# convert with ffmpeg
-	foreach my $wma ( @wmafiles ) {
-		my $ogg = substr( $wma, 0, -3 ) . 'ogg';
-		last if ( -f $ogg );
-		say "Convert: $wma => $ogg" if ( $self->dryrun() || $self->verbose() );
-		unless ( $self->dryrun() ) {
-			my @ffmpeg_cmd = ( 'ffmpeg', '-loglevel', 'fatal',
-					   '-i', $wma, '-c:a', 'libvorbis',
-					   '-q:a', '10', $ogg );
-			system( @ffmpeg_cmd ) == 0 or
-				croak "system @ffmpeg_cmd failed: $?";
-		}
-	}
-	foreach my $wmv ( @wmvfiles ) {
-		my $ogv = substr( $wmv, 0, -3 ) . 'ogv';
-		say "Convert: $wmv => $ogv" if ( $self->dryrun() || $self->verbose() );
-		unless ( $self->dryrun() ) {
-			my @ffmpeg_cmd = ( 'ffmpeg', '-loglevel', 'fatal',
-					   '-i', $wmv, '-c:v', 'libtheora',
-					   '-q:v', '10', '-c:a', 'libvorbis',
-					   '-q:a', '10', $ogv );
-			system( @ffmpeg_cmd ) == 0 or
-				croak "system @ffmpeg_cmd failed: $?";
-		}
-	}
-
-=cut
-
-	$$self{ need_to_convert }	= \%need_to_convert;
-
-	return $self;
 }
 
 1;
