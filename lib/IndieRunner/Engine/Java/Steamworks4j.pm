@@ -12,7 +12,7 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-package IndieRunner::Java::Steamworks4j;
+package IndieRunner::Engine::Java::Steamworks4j;
 use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;

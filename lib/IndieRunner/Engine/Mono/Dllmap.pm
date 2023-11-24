@@ -1,6 +1,4 @@
-package IndieRunner::Mono::Dllmap;
-
-# Copyright (c) 2022 Thomas Frohwein
+# Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -14,6 +12,7 @@ package IndieRunner::Mono::Dllmap;
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+package IndieRunner::Engine::Mono::Dllmap;
 use strict;
 use warnings;
 use v5.36;
