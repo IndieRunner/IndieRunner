@@ -91,7 +91,7 @@ sub set_verbosity ( $self, $verbosity ) {
 # XXX: remove if not used
 sub init_pledge ( $group ) {
 	if ( $OSNAME eq 'OpenBSD') {
-		use OpenBSD::Pledge;
+		require OpenBSD::Pledge;
 		vvvsay 'pledge promises: ' . join( ' ', @{ $PLEDGE_GROUP{ $group } } );
 		pledge( @{ $PLEDGE_GROUP{ $group } } ) || die "unable to pledge: $!";
 	}
