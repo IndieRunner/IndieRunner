@@ -18,7 +18,7 @@ use strict;
 use warnings;
 use v5.36;
 use English;
-use parent 'IndieRunner::Java::JavaMod';
+use parent 'IndieRunner::Engine::Java::JavaMod';
 
 use Readonly;
 

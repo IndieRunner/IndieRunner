@@ -17,7 +17,7 @@ use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use strict;
 use warnings;
 use v5.36;
-use parent 'IndieRunner::Java::JavaMod';
+use parent 'IndieRunner::Engine::Java::JavaMod';
 
 use Readonly;
 

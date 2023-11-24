@@ -30,10 +30,10 @@ use Path::Tiny;
 use Readonly;
 
 use IndieRunner::Helpers;
-use IndieRunner::Java::LibGDX;
-use IndieRunner::Java::LWJGL2;
-use IndieRunner::Java::LWJGL3;
-use IndieRunner::Java::Steamworks4j;
+use IndieRunner::Engine::Java::LibGDX;
+use IndieRunner::Engine::Java::LWJGL2;
+use IndieRunner::Engine::Java::LWJGL3;
+use IndieRunner::Engine::Java::Steamworks4j;
 
 Readonly::Scalar my $MANIFEST		=> 'META-INF/MANIFEST.MF';
 
@@ -211,7 +211,7 @@ sub setup ( $self, $mode_obj ) {
 	# Call specific setup for each framework
 	unless ( skip_framework_setup() ) {
 		foreach my $fw ( @java_frameworks ) {
-			my $module = "IndieRunner::Java::$fw";
+			my $module = "IndieRunner::Engine::Java::$fw";
 			eval "require $module" or die "Failed to load module $module";
 			$module->setup( $mode_obj );
 		}
@@ -351,7 +351,7 @@ sub new ( $class, %init ) {
 	# set java_home
 	if ( grep { /^\QLWJGL3\E$/ } @java_frameworks ) {
 		$java_version{ lwjgl3 } =
-			IndieRunner::Java::LWJGL3::get_java_version_preference();
+			IndieRunner::Engine::Java::LWJGL3::get_java_version_preference();
 	}
 
 	# validate java versions
@@ -391,7 +391,7 @@ sub get_args_ref( $self ) {
 	# expand classpath based on frameworks that are used
 	unless ( skip_framework_setup() ) {
 		foreach my $fw ( @java_frameworks ) {
-			my $module = "IndieRunner::Java::$fw";
+			my $module = "IndieRunner::Engine::Java::$fw";
 			push( @jvm_classpath, $module->add_classpath() );
 		}
 	}

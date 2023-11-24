@@ -24,8 +24,8 @@ use Carp;
 use Readonly;
 
 use IndieRunner::IdentifyFiles;
-use IndieRunner::Mono::Dllmap;
-use IndieRunner::Mono::Iomap;
+use IndieRunner::Engine::Mono::Dllmap;
+use IndieRunner::Engine::Mono::Iomap;
 
 Readonly::Scalar my $MONO_BIN => '/usr/local/bin/mono';
 
@@ -96,7 +96,7 @@ sub setup ( $self, $mode_obj ) {
 	}
 
 	# replacement for mono's lost MONO_IOMAP
-	my %iomaps = IndieRunner::Mono::Iomap::iomap_symlink();
+	my %iomaps = IndieRunner::Engine::Mono::Iomap::iomap_symlink();
 	while ( ( my $newfile, my $oldfile ) = each ( %iomaps ) ) {
 		$mode_obj->insert( $oldfile, $newfile );
 	}
@@ -117,7 +117,7 @@ sub get_env_ref ( $self ) {
 		);
 	my @env = (
 		'LD_LIBRARY_PATH='	. join( ':', @ld_library_path ),
-		'MONO_CONFIG='		. IndieRunner::Mono::Dllmap::get_dllmap_target(),
+		'MONO_CONFIG='		. IndieRunner::Engine::Mono::Dllmap::get_dllmap_target(),
 		'MONO_PATH='		. join( ':', @mono_path ),
 		'SDL_PLATFORM=Linux',
 		);

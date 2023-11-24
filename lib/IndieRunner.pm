@@ -26,12 +26,12 @@ use File::Spec::Functions qw( splitpath );
 use Readonly;
 
 use IndieRunner::Engine;
+use IndieRunner::Engine::Mono;		# for get_mono_files
 use IndieRunner::Game;
 use IndieRunner::GrandCentral;
 use IndieRunner::IdentifyFiles;
 use IndieRunner::Info;
 use IndieRunner::Io;
-use IndieRunner::Mono;		# for get_mono_files
 
 # keep this in sync with return of IndieRunner::Cmdline::init_cli()
 Readonly::Hash my %INIT_DEFAULTS => {
@@ -67,7 +67,7 @@ sub new ( $class, %init ) {
 	unless ( $engine = $init{ engine } ) {
 		( $engine, $engine_id_file ) = ( detect_engine() );
 	}
-	my $engine_class = __PACKAGE__ . '::' . $engine;
+	my $engine_class = __PACKAGE__ . '::Engine::' . $engine;
 	eval "require $engine_class" or die "Failed to load module $engine_class: $@";
 	$$self{ engine } = $engine_class->new(
 		id_file => $engine_id_file || '',
@@ -107,8 +107,8 @@ sub detect_engine () {
 	return ( $engine, $engine_id_file || '' ) if $engine;
 
 	# not FNA, XNA, or MonoGame on 1st pass; check if it could still be Mono
-	$engine = 'Mono' if IndieRunner::Mono::get_mono_files() or
-		IndieRunner::Mono::get_mono_files('_');
+	$engine = 'Mono' if IndieRunner::Engine::Mono::get_mono_files() or
+		IndieRunner::Engine::Mono::get_mono_files('_');
 	return ( $engine, $engine_id_file || '' ) if $engine;
 
 	# 2nd Pass: Byte Sequences
@@ -256,7 +256,7 @@ Detect the name of the game, using engine-specific heuristics from the C<$engine
 
 =head2 Engines
 
-L<IndieRunner::FNA>, L<IndieRunner::GZDoom>, L<IndieRunner::Godot>, L<IndieRunner::HashLink>, L<IndieRunner::Java>, L<IndieRunner::Love2D>, L<IndieRunner::Mono>, L<IndieRunner::MonoGame>, L<IndieRunner::XNA>.
+L<IndieRunner::Engine::FNA>, L<IndieRunner::Engine::GZDoom>, L<IndieRunner::Engine::Godot>, L<IndieRunner::Engine::HashLink>, L<IndieRunner::Engine::Java>, L<IndieRunner::Engine::Love2D>, L<IndieRunner::Engine::Mono>, L<IndieRunner::Engine::MonoGame>, L<IndieRunner::Engine::XNA>.
 
 =head2 Other
 

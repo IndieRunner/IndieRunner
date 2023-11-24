@@ -18,7 +18,7 @@ use strict;
 use warnings;
 use v5.36;
 
-use parent 'IndieRunner::Mono';
+use parent 'IndieRunner::Engine::Mono';
 
 use Carp;
 use File::Find::Rule;

@@ -18,10 +18,10 @@ use strict;
 use warnings;
 use v5.36;
 
-use parent 'IndieRunner::Mono';
+use parent 'IndieRunner::Engine::Mono';
 
 use Readonly;
-use IndieRunner::Mono;
+use IndieRunner::Engine::Mono;
 
 # $FNA_MIN_VERSION depends on the version of the native support libraries
 Readonly::Scalar my $FNA_MIN_VERSION => version->declare( '21.1' );
@@ -51,14 +51,14 @@ sub setup ( $self, $mode_obj ) {
 	# check if FNA version needs to be replaced
 	unless ( $skip_fna_version ) {
 		my $fna_bundled_version = version->declare(
-			IndieRunner::Mono::get_assembly_version( $FNA_DLL ) )
+			IndieRunner::Engine::Mono::get_assembly_version( $FNA_DLL ) )
 			or die "Failed to get version of $FNA_DLL";
 		my $fna_replacement_version = '';
 		if ( $fna_bundled_version < $FNA_MIN_VERSION ) {
 			# check if replacement FNA can be used
 			if ( -f $FNA_REPLACEMENT ) {
 				$fna_replacement_version =
-					version->declare( IndieRunner::Mono::get_assembly_version( $FNA_REPLACEMENT ) );
+					version->declare( IndieRunner::Engine::Mono::get_assembly_version( $FNA_REPLACEMENT ) );
 			}
 			unless ( $fna_replacement_version &&
 				$fna_replacement_version >= $FNA_MIN_VERSION ) {
