@@ -132,12 +132,14 @@ External (non-Perl) programs and libraries used:
 * OpenAL (module LibGDX)
 * ScummVM (module ScummVM)
 * SDL2 (modules FNA, XNA, HashLink)
+* SDL2-image
+* SDL2-mixer
 * steamworks4j (some Java modules)
 * steamworks-nosteam (modules FNA, XNA)
 
 Install them all with:
 ```
-# pkg_add faudio ffmpeg fna godot gzdoom hashlink hlsteam jdk libgdx libstubborn libtheora{,file,play} love lwjgl{,3} mono openal p7zip sdl2-image
+# pkg_add faudio ffmpeg fna godot gzdoom hashlink hlsteam jdk libgdx libstubborn libtheora{,file,play} love lwjgl{,3} mono openal p7zip sdl2-image sdl2-mixer
 ```
 
 Platform Requirements
