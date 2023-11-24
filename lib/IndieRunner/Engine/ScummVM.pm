@@ -37,7 +37,6 @@ sub detect_game ( $self ) {
 	# if unknown game variant (AGS), maybe on a different (later) line
 
 	my @out = split(/\n/, qx( $SCUMMVM_BIN --detect ), $MAX_OUT);
-	say join("\n", @out);
 	return undef unless grep { /^GameID/ } @out;	# no ScummVM game detected
 
 	@out = grep { /^[a-z]+:([[:alnum:]]+)/ } @out;	# XXX: refine the heuristic more
