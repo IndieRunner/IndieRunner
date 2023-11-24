@@ -27,7 +27,9 @@ use IndieRunner::IdentifyFiles;
 use IndieRunner::Engine::Mono::Dllmap;
 use IndieRunner::Engine::Mono::Iomap;
 
-Readonly::Scalar my $MONO_BIN => '/usr/local/bin/mono';
+# OpenBSD:	/usr/local/bin/mono
+# Gentoo:	/usr/bin/mono
+Readonly::Scalar my $MONO_BIN => 'mono';
 
 Readonly::Array my @MONO_GLOBS => (
 	'I18N{,.*}.dll',
