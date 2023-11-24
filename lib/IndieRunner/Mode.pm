@@ -1,5 +1,3 @@
-package IndieRunner::Mode;
-
 # Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -14,12 +12,13 @@ package IndieRunner::Mode;
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+package IndieRunner::Mode;
 use strict;
 use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
-use OpenBSD::Pledge;
+use English;
 use Readonly;
 
 # XXX: remove if not used
@@ -91,8 +90,11 @@ sub set_verbosity ( $self, $verbosity ) {
 
 # XXX: remove if not used
 sub init_pledge ( $group ) {
-	vvvsay 'pledge promises: ' . join( ' ', @{ $PLEDGE_GROUP{ $group } } );
-	pledge( @{ $PLEDGE_GROUP{ $group } } ) || die "unable to pledge: $!";
+	if ( $OSNAME eq 'OpenBSD') {
+		use OpenBSD::Pledge;
+		vvvsay 'pledge promises: ' . join( ' ', @{ $PLEDGE_GROUP{ $group } } );
+		pledge( @{ $PLEDGE_GROUP{ $group } } ) || die "unable to pledge: $!";
+	}
 }
 
 1;
