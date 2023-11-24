@@ -27,6 +27,7 @@ use Readonly;
 
 use IndieRunner::Engine;
 use IndieRunner::Engine::Mono;		# for get_mono_files
+use IndieRunner::Engine::ScummVM;	# for detect_game during engine heuristic
 use IndieRunner::Game;
 use IndieRunner::GrandCentral;
 use IndieRunner::IdentifyFiles;
@@ -111,6 +112,10 @@ sub detect_engine () {
 		IndieRunner::Engine::Mono::get_mono_files('_');
 	return ( $engine, $engine_id_file || '' ) if $engine;
 
+	# not Mono-anything, check if it could be ScummVM
+	$engine = 'ScummVM' if IndieRunner::Engine::ScummVM::detect_game( undef );
+	return ( $engine, $engine_id_file || '' ) if $engine;
+
 	# 2nd Pass: Byte Sequences
 	say STDERR "Failed to identify game engine on first pass; performing second pass.";
 	foreach my $f ( @files ) {
@@ -120,6 +125,7 @@ sub detect_engine () {
 			last;
 		}
 	}
+
 	return ( $engine, $engine_id_file || '' ) if $engine;
 
 	confess "No game engine identified. Aborting.";

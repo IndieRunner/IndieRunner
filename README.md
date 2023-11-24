@@ -117,6 +117,7 @@ External (non-Perl) programs and libraries used:
 * ffmpeg (module XNA)
 * FNA (modules FNA, XNA)
 * godot (module Godot)
+* goldberg_emulator, if no native support for libsteam_api.so
 * gzdoom (module GZDoom)
 * hashlink (module HashLink)
 * hlsteam (module HashLink)
@@ -129,6 +130,7 @@ External (non-Perl) programs and libraries used:
 * LWJGL, LWJGL3
 * mono (modules Mono, FNA, XNA, MonoGame)
 * OpenAL (module LibGDX)
+* ScummVM (module ScummVM)
 * SDL2 (modules FNA, XNA, HashLink)
 * steamworks4j (some Java modules)
 * steamworks-nosteam (modules FNA, XNA)

@@ -27,6 +27,7 @@ Letters indicate which platform versions have been tested successfully:
 |Balrum			|LWJGL3	|	|L	|	|	|	|		|
 |Battlevoid Harbinger	|LibGDX	|	|	|	|	|	|no audio	|
 |Beyond Sunset (demo)	|GZDoom	|L	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
+|Blade Runner		|ScummVM|	|L	|	|	|	|		|
 |Bleed			|FNA	|	|	|	|	|Humble:L|		|
 |Bleed 2		|FNA	|L	|	|	|	|	|		|
 |Blossom Tales II: The Minotaur Prince	|FNA	|L	|	|	|	|	|		|
@@ -59,6 +60,7 @@ Letters indicate which platform versions have been tested successfully:
 |Dice Tribes: Ambitions	|HashLink|L	|	|	|	|	|		|
 |Dome Keeper		|Godot3	|L	|	|	|	|	|		|
 |Draw a Stickman: EPIC	|XNA	|	|	|	|	|	|crashes early without Steamworks.NET.dll stub|
+|Dreams in the Witch House|ScummVM|W	|	|	|	|	|		|
 |Droid Assault		|LWJGL2	|	|	|	|	|Humble:L|		|
 |Dust: An Elysian Tail	|FNA	|	|L	|	|	|	|		|
 |Eagle Island		|MonoGame|	|L	|	|	|	|run in subdirectory 'Linux'|
