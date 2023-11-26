@@ -122,11 +122,10 @@ sub detect_engine () {
 		$engine = IndieRunner::GrandCentral::identify_engine_thorough($f);
 		if ( $engine ) {
 			$engine_id_file = $f;
-			last;
+			say STDERR "second pass result: $engine found in $engine_id_file";
+			return ( $engine, $engine_id_file || '' );
 		}
 	}
-
-	return ( $engine, $engine_id_file || '' ) if $engine;
 
 	confess "No game engine identified. Aborting.";
 }
