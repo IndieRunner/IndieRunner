@@ -23,9 +23,10 @@ use parent 'IndieRunner::Engine';
 use Carp;
 use Readonly;
 
-use IndieRunner::IdentifyFiles;
 use IndieRunner::Engine::Mono::Dllmap;
 use IndieRunner::Engine::Mono::Iomap;
+use IndieRunner::Helpers;
+use IndieRunner::IdentifyFiles;
 
 # OpenBSD:	/usr/local/bin/mono
 # Gentoo:	/usr/bin/mono
@@ -91,10 +92,16 @@ sub get_bin ( $self ) {
 }
 
 sub setup ( $self, $mode_obj ) {
-	# neuter system Mono assemblies, except @MONO_GLOB_EXCLUDE
+	# remove system Mono assemblies, except @MONO_GLOB_EXCLUDE
 	foreach my $f ( get_mono_files() ) {
 		$mode_obj->remove( $f )
 			unless grep { /\Q$f\E/ } @MONO_GLOB_EXCLUDE;
+	}
+
+	# remove config files that do dllmap
+	foreach my $c ( glob '*.config' ) {
+		$mode_obj->remove( $c )
+			if ( IndieRunner::Helpers::match_bin_file( 'dllmap', $c ) );
 	}
 
 	# replacement for mono's lost MONO_IOMAP

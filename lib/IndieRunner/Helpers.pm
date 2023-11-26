@@ -1,5 +1,3 @@
-package IndieRunner::Helpers;
-
 # Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -14,6 +12,7 @@ package IndieRunner::Helpers;
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+package IndieRunner::Helpers;
 use strict;
 use warnings;
 use v5.36;
