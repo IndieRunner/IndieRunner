@@ -28,7 +28,7 @@ Readonly::Scalar my $FNA_MIN_VERSION => version->declare( '21.1' );
 Readonly::Scalar my $FNA_REPLACEMENT => '/usr/local/share/FNA/FNA.dll';
 
 Readonly::Scalar my $FNA_DLL		=> 'FNA.dll';
-Readonly::Scalar my $FNA_DLL_CONFIG	=> 'FNA.dll.config'; # XXX: not needed? rm?
+Readonly::Scalar my $FNA_DLL_CONFIG	=> 'FNA.dll.config';
 
 Readonly::Array  my @ALLOW_BUNDLED_FNA => (
 	# 'Game.exe',		# game version,		FNA version
@@ -69,6 +69,8 @@ sub setup ( $self, $mode_obj ) {
 			}
 		}
 	}
+
+	$mode_obj->remove( $FNA_DLL_CONFIG ) if -e $FNA_DLL_CONFIG;
 }
 
 1;
