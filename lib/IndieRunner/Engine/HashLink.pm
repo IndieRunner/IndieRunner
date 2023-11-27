@@ -28,6 +28,7 @@ Readonly my $HASHLINK_BIN	=> '/usr/local/bin/hl';
 Readonly my @DAT		=> (
 					'sdlboot.dat',
 					'hlboot-sdl.dat',
+					'hlboot.dat',	# XXX: keep? is run by default anyway
 					);
 
 sub setup ( $self, $mode_obj ) {

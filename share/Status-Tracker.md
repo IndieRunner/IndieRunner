@@ -71,6 +71,7 @@ Letters indicate which platform versions have been tested successfully:
 |Evoland Legendary Edition|HashLink|	|	|	|	|	|steam.hdll stub: Steam failed to activate|
 |Ex-Zodiac		|Godot3	|L	|	|	|	|	|		|
 |EXAPUNKS		|Mono	|	|L	|	|	|	|		|
+|The Excavation of Hob's Barrow|ScummVM||L	|	|	|	|		|
 |Extinction Eclipse	|Godot3	|L	|	|	|	|	|		|
 |Farm Keeper		|Godot3	|W	|	|	|	|	|		|
 |FEZ			|FNA	|L(beta)|	|	|	|	|		|
