@@ -136,6 +136,7 @@ Letters indicate which platform versions have been tested successfully:
 |Planetfriend		|FNA	|	|	|L	|	|	|		|
 |Poems & Codes		|Love2D	|	|	|L(demo)|	|	|		|
 |Possession		|Love2D	|	|	|L	|	|	|		|
+|Primal Light		|Godot3	|L	|	|	|	|	|		|
 |Project Crypt		|GZDoom	|W	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
 |Prose & Code		|Love2D	|	|	|L	|	|	|		|
 |PUTRID SHOT ULTRA	|Love2D	|W	|	|	|	|	|		|

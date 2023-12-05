@@ -1,5 +1,3 @@
-package IndieRunner::GrandCentral;
-
 # Copyright (c) 2022-2023 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -14,6 +12,7 @@ package IndieRunner::GrandCentral;
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+package IndieRunner::GrandCentral;
 use strict;
 use warnings;
 use v5.36;
@@ -41,6 +40,7 @@ Readonly::Hash my %Indicator_Files => (
 	'*.love'			=> 'Love2D',
 	'love.dll'			=> 'Love2D',
 	'love'				=> 'Love2D',	# Shell Out Showdown: bin/love
+	'liblove*.so*'			=> 'Love2D',	# Snacktorio
 	'GravityCircuit'		=> 'Love2D',	# TODO: hack for detection; find heuristic
 	'SNKRX.exe'			=> 'Love2D',	# TODO: hack for detection; find heuristic
 	'TerraformingEarth.exe'		=> 'Love2D',	# TODO: hack for detection; find heuristic

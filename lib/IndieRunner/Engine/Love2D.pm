@@ -31,6 +31,7 @@ Readonly::Hash my %LOVE2D_VERSION_STRINGS => {
 	'0.9.x'		=> '0\.9\.[0-9]',
 	'0.10.x'	=> '0\.10\.[0-9]',
 	'11.x'		=> '11\.[0-9]',
+	'12.x'		=> '12\.[0-0]',
 	};
 
 Readonly::Hash my %LOVE2D_VERSION_BIN => {
@@ -38,10 +39,12 @@ Readonly::Hash my %LOVE2D_VERSION_BIN => {
 	'0.9.x'		=> 'love-0.9',		# not in ports July 2023
 	'0.10.x'	=> 'love-0.10',
 	'11.x'		=> 'love-11',
+	#'12.x'		=> '/nonexistent',	# XXX: need port
 	};
 
 Readonly::Array my @LOVE2D_VERSION_GLOBS => (
 	'conf.lua',	# if not packaged, e.g. Move or Die
+	'liblove*.so*',
 	'love',
 	'love.exe',
 	'lovec.exe',
@@ -69,6 +72,7 @@ Readonly::Array my @QUIRKS_GAMEFILE => (
 	'PutridShotUltra.exe',
 	'SNKRX.exe',
 	'Spellrazor.exe',
+	'bin/snacktorio',
 	);
 
 sub get_bin ( $self ) {
