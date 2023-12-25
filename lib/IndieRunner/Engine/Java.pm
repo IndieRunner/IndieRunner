@@ -209,6 +209,7 @@ sub setup ( $self, $mode_obj ) {
 	}
 
 	# Call specific setup for each framework
+	detect_java_frameworks();
 	unless ( skip_framework_setup() ) {
 		foreach my $fw ( @java_frameworks ) {
 			my $module = "IndieRunner::Engine::Java::$fw";
@@ -240,6 +241,17 @@ sub lwjgl_2_or_3 () {
 			     ->in( '.' )
 	   ) { return 3; }
 	return 2;
+}
+
+sub detect_java_frameworks () {
+	if ( has_libgdx() ) {
+		push( @java_frameworks, 'LibGDX' );
+		push( @java_frameworks, 'LWJGL' . lwjgl_2_or_3() );	# LibGDX implies LWJGL
+	}
+	elsif ( has_lwjgl_any() ) {
+		push( @java_frameworks, 'LWJGL' . lwjgl_2_or_3() );
+	}
+	push @java_frameworks, 'Steamworks4j' if has_steamworks4j();
 }
 
 sub skip_framework_setup () {
@@ -336,17 +348,6 @@ sub new ( $class, %init ) {
 			}
 		}
 	}
-
-	# populate @java_frameworks (LibGDX, LWJGL{2,3}, Steamworks4j)
-
-	if ( has_libgdx() ) {
-		push( @java_frameworks, 'LibGDX' );
-		push( @java_frameworks, 'LWJGL' . lwjgl_2_or_3() );	# LibGDX implies LWJGL
-	}
-	elsif ( has_lwjgl_any() ) {
-		push( @java_frameworks, 'LWJGL' . lwjgl_2_or_3() );
-	}
-	push @java_frameworks, 'Steamworks4j' if has_steamworks4j();
 
 	# set java_home
 	if ( grep { /^\QLWJGL3\E$/ } @java_frameworks ) {

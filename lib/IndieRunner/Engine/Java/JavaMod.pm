@@ -26,8 +26,8 @@ Readonly::Scalar my $GDX_BUNDLED_LOC	=> 'com/badlogic/gdx';
 Readonly::Scalar my $GDX_VERSION_FILE	=> 'Version.class';
 Readonly::Scalar my $GDX_NATIVE_LOC	=> '/usr/local/share/libgdx';
 
-sub add_classpath ( $self ) {
-	return ( $native_gdx );
+sub add_classpath ( $ ) {
+	# no-op
 }
 
 sub setup ( $, $mode_obj ) {

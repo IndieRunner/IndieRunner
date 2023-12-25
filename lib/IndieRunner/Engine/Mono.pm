@@ -152,6 +152,9 @@ sub get_args_ref ( $self ) {
 	if ( -f $$self{ game_name } . '.exe' ) {
 		$game_file = $$self{ game_name } . '.exe';
 	}
+	elsif ( -f 'PanzerPaladin.exe' ) {	# XXX: make this process a list
+		$game_file = 'PanzerPaladin.exe';
+	}
 	elsif ( -f ( $$self{ game_name } =~ s/[[:blank:]]//gr ) . '.exe' ) {
 		$game_file = ( $$self{ game_name } =~ s/[[:blank:]]//gr ) . '.exe';
 	}
