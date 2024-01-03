@@ -10,6 +10,7 @@ Letters indicate which platform versions have been tested successfully:
 * L: Linux
 * W: Windows
 * M: MacOS
+* X: Other (e.g. platform-independent like mygame.love)
 
 |Game			|Module	|Steam	|GOG	|itch.io|Epic	|Other	|Comments	|
 |-----------------------|-------|-------|-------|-------|-------|-------|---------------|
@@ -174,6 +175,7 @@ Letters indicate which platform versions have been tested successfully:
 |Sprout Valley		|Godot3	|W	|	|	|	|	|		|
 |Stardash		|LibGDX	|	|	|L	|	|	|		|
 |Stardew Valley		|MonoGame|	|M	|	|	|	|use MAC 32bit Build|
+|Sternly Worded Adventures|Love2D|		|X	|	|	|		|
 |Stone Kingdoms		|Love2D	|	|	|L	|	|	|		|
 |Striving for Light	|Godot3	|	|	|L	|	|	|		|
 |Super Bernie World	|FNA	|	|	|L	|	|	|		|

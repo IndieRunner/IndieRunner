@@ -63,6 +63,7 @@ Readonly::Hash my %LOVE2D_GAME_VERSION => {
 	'Metanet Hunter G4'		=> '11.x',
 	'possession'			=> '11.x',
 	'soulstice'			=> '0.10.x',
+	'SternlyWordedAdventures'	=> '11.x',
 	'StoneKingdoms'			=> '11.x',
 	};
 
