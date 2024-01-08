@@ -63,6 +63,7 @@ sub new ( $class, %init ) {
 	$$self{ mode } = $mode->new(
 		verbosity => $$self{ verbosity },
 	);
+	$$self{ mode }->vsay( 'Mode: ' . (split( '::', $mode))[-1] );
 
 	# detect and load engine
 	unless ( $engine = $init{ engine } ) {
@@ -181,17 +182,20 @@ sub detect_game_name ( $engine_module ) {
 }
 
 sub setup ( $self ) {
+	$$self{ mode }->vsay( 'Setup' );
 	$$self{ engine }->setup( $$self{ mode } );
 	# XXX: check for dead symlinks?
 
 }
 
 sub run ( $self ) {
+	$$self{ mode }->vsay( 'Run' );
 	my $configuration_ref = $$self{ game }->configure();
 	$$self{ mode }->run( $$self{ game }{ name }, %{ $configuration_ref } );
 }
 
 sub finish ( $self ) {
+	$$self{ mode }->vsay( 'Finish' );
 	$$self{ mode }->finish();
 }
 

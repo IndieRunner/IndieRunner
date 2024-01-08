@@ -33,7 +33,7 @@ sub new ( $class, %init ) {
 	my $self = bless {}, $class;
 
 	%$self = ( %$self, %init );
-	%$self = ( %$self, engine_config( $$self{ engine } ) );
+	%$self = ( %$self, engine_config( $$self{ engine } ) ); # XXX: is this too early? With Java like Cube Chaos, get_args_ref() appears to be called too early (before extraction of jar)
 
 	if ( @{ $$self{ user_args } } ) {
 		push( @{ $$self{ args } }, @{ $$self{ user_args } } );

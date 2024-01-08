@@ -29,15 +29,15 @@ Readonly my %PLEDGE_GROUP => (
 
 my $verbosity;
 
-sub vsay ( @say_args ) {
+sub vsay ( $self, @say_args ) {
 	say @say_args if $verbosity >= 1;
 }
 
-sub vvsay ( @say_args ) {
+sub vvsay ( $self, @say_args ) {
 	say @say_args if $verbosity >= 2;
 }
 
-sub vvvsay ( @say_args ) {
+sub vvvsay ( $self, @say_args ) {
 	say @say_args if $verbosity >= 3;
 }
 
@@ -55,19 +55,19 @@ sub new ( $class, %init ) {
 }
 
 sub extract ( $self, $file ) {
-	vsay "extracting $file";
+	vsay $self, "extracting $file";
 }
 
 sub remove ( $self, $file ) {
-	vsay "removing $file";
+	vsay $self, "removing $file";
 }
 
 sub insert ( $self, $oldfile, $newfile ) {
-	vsay "inserting $oldfile as $newfile";
+	vsay $self, "inserting $oldfile as $newfile";
 }
 
 sub convert ( $self, $from, $to ) {
-	vsay "converting $from to $to";
+	vsay $self, "converting $from to $to";
 }
 
 sub finish ( $self ) {
@@ -79,8 +79,8 @@ sub run ( $self, $game_name, %config ) {
 	unshift( @full_command, 'env', @{ $config{ env } } ) if ( @{ $config{ env } } );
 	push( @full_command, @{ $config{ args } } ) if ( @{ $config{ args } } );
 
-	vsay "\nLauching $game_name";
-	vsay "Executing: " . join( ' ', @full_command ) . "\n";
+	vsay $self, "\nLauching $game_name";
+	vsay $self, "Executing: " . join( ' ', @full_command ) . "\n";
 	return @full_command;
 }
 
@@ -92,7 +92,7 @@ sub set_verbosity ( $self, $verbosity ) {
 sub init_pledge ( $group ) {
 	if ( $OSNAME eq 'OpenBSD') {
 		require OpenBSD::Pledge;
-		vvvsay 'pledge promises: ' . join( ' ', @{ $PLEDGE_GROUP{ $group } } );
+		vvvsay '', 'pledge promises: ' . join( ' ', @{ $PLEDGE_GROUP{ $group } } );
 		pledge( @{ $PLEDGE_GROUP{ $group } } ) || die "unable to pledge: $!";
 	}
 }
