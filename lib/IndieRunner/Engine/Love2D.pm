@@ -73,6 +73,7 @@ Readonly::Array my @QUIRKS_GAMEFILE => (
 	'PutridShotUltra.exe',
 	'SNKRX.exe',
 	'Spellrazor.exe',
+	'Sternly Worded Adventures.exe',
 	'bin/snacktorio',
 	);
 
