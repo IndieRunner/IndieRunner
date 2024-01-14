@@ -67,7 +67,7 @@ sub new ( $class, %init ) {
 
 	# detect and load engine
 	unless ( $engine = $init{ engine } ) {
-		( $engine, $engine_id_file ) = ( detect_engine() );
+		( $engine, $engine_id_file ) = ( detect_engine( $self ) );
 	}
 	my $engine_class = __PACKAGE__ . '::Engine::' . $engine;
 	$$self{ mode }->vvsay( 'Engine: ' . (split( '::', $engine_class))[-1] );
@@ -91,13 +91,14 @@ sub new ( $class, %init ) {
 	return bless $self, $class;
 }
 
-sub detect_engine () {
+sub detect_engine ( $self ) {
 	my $engine;
 	my $engine_id_file;
 
 	my @files = File::Find::Rule->file()->maxdepth( 3 )->in( '.' );
 
 	# 1st Pass: File Names
+	$$self{ mode }->vvsay( 'Engine detection: 1st pass' );
 	foreach my $f ( @files ) {
 		# use just basename of file, as different games put those files
 		# in different directories
@@ -120,7 +121,8 @@ sub detect_engine () {
 	return ( $engine, $engine_id_file || '' ) if $engine;
 
 	# 2nd Pass: Byte Sequences
-	say STDERR "Failed to identify game engine on first pass; performing second pass.";
+	$$self{ mode }->vvsay( 'Engine detection: 2nd pass' ) or
+		say STDERR "Failed to identify game engine on first pass; performing second pass.";
 	foreach my $f ( @files ) {
 		$engine = IndieRunner::GrandCentral::identify_engine_thorough($f);
 		if ( $engine ) {
