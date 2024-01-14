@@ -31,7 +31,7 @@ my $verbosity;
 
 sub vsay ( $self, @say_args ) {
 	if ( $verbosity >= 2 ) {
-		say ( '[' . scalar caller . '] ', @say_args );
+		say ( '[' . (caller(1))[3] . '] ', @say_args );
 		return 1;
 	}
 	elsif ( $verbosity >= 1 ) {
@@ -43,7 +43,7 @@ sub vsay ( $self, @say_args ) {
 
 sub vvsay ( $self, @say_args ) {
 	if ( $verbosity >= 2 ) {
-		say ( '[' . scalar caller . '] ', @say_args );
+		say ( '[' . (caller(1))[3] . '] ', @say_args );
 		return 1;
 	}
 	return 0;
@@ -51,7 +51,7 @@ sub vvsay ( $self, @say_args ) {
 
 sub vvvsay ( $self, @say_args ) {
 	if ( $verbosity >= 3 ) {
-		say ( '[' . scalar caller . '] ', @say_args );
+		say ( '[' . (caller(1))[3] . '] ', @say_args );
 		return 1;
 	}
 	return 0;
