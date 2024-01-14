@@ -30,15 +30,27 @@ Readonly my %PLEDGE_GROUP => (
 my $verbosity;
 
 sub vsay ( $self, @say_args ) {
-	say @say_args if $verbosity >= 1;
+	if $verbosity >= 1 {
+		say @say_args;
+		return 1;
+	}
+	return 0;
 }
 
 sub vvsay ( $self, @say_args ) {
-	say @say_args if $verbosity >= 2;
+	if $verbosity >= 2 {
+		say @say_args;
+		return 1;
+	}
+	return 0;
 }
 
 sub vvvsay ( $self, @say_args ) {
-	say @say_args if $verbosity >= 3;
+	if $verbosity >= 3 {
+		say @say_args;
+		return 1;
+	}
+	return 0;
 }
 
 # parent for Mode object constructor
