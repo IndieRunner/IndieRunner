@@ -24,7 +24,7 @@ sub new ( $class, %args ) {
 }
 
 sub setup ( $self ) {
-	# no-op by default
+	$$self{ mode_obj }->vvsay( 'Setup' );
 }
 
 sub get_bin( $self ) {

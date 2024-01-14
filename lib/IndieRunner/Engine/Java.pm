@@ -84,7 +84,7 @@ my %Valid_Java_Versions = (
 
 my $class_path_ptr;
 my $game_jar;
-my $jar_mode;
+my $jar_mode;	# if set, run with a game .jar file rather than from extracted files
 my $main_class;
 my @java_frameworks;
 my $java_home;
@@ -124,10 +124,10 @@ sub get_bundled_java_version () {
 	if ( $OSNAME eq 'openbsd' ) {
 		# OpenBSD: '1.8.0', '11', '17'
 		if (substr($got_version, 0, 2) eq '1.') {
-			$java_version{ bundled } = '1.8.0';
+			return '1.8.0';
 		}
 		else {
-			$java_version{ bundled } = substr( $got_version, 0, 2 );
+			return substr( $got_version, 0, 2 );
 		}
 	}
 	else {
@@ -276,15 +276,17 @@ sub new ( $class, %init ) {
 	my $self = bless {}, $class;
 	%$self = ( %$self, %init );
 
-	$jar_mode = test_jar_mode();	# if set, run with a game .jar file rather than from extracted files
-
-	# Check OS and initialize basic variables
-	die "OS not recognized: " . $OSNAME unless ( exists $Valid_Java_Versions{$OSNAME} );
-	get_bundled_java_version();
-
+	die "OS not recognized: " . $OSNAME
+		unless ( exists $Valid_Java_Versions{$OSNAME} );
+	$jar_mode = test_jar_mode();
 	$Bit_Sufx = ( $Config{'use64bitint'} ? '64' : '' ) . $So_Sufx;
 
-	# Get data on main JAR file and more
+	$java_version{ bundled } = get_bundled_java_version();
+	unless ( $java_version{ bundled } ) {
+		say STDERR "Warning: unable to identify Java version from the bundled files.";
+	}
+
+	# Get data on main JAR file and more (main class, classpaths, main jar, JVM args)
 	# 	a. first check JSON config file
 	#	   prioritize *config.json, e.g. for Airships: Conquer the Skies, Lenna's Inception
 	#	   commonly config.json, but sometimes e.g. TFD.json
@@ -295,6 +297,7 @@ sub new ( $class, %init ) {
 	}
 
 	if ( $config_file ) {
+		$$self{ mode_obj }->vvsay( "Collecting data from config file: $config_file" );
 		my $config_data		= decode_json(path($config_file)->slurp_utf8)
 			or die "unable to read config data from $config_file: $!";
 		$main_class		= $$config_data{'mainClass'}
@@ -304,16 +307,17 @@ sub new ( $class, %init ) {
 		@jvm_args = @{$$config_data{'vmArgs'}} if ( exists($$config_data{'vmArgs'}) );
 	}
 	#	b. check shellscripts for the data
-	else {
+	elsif ( my @sh_files = glob '*.sh' ) {
+		$$self{ mode_obj }->vvsay( "Looking for configuration data in bundled shell scripts..." );
 		#	e.g. Puppy Games LWJGL game, like Titan Attacks, Ultratron (ultratron.sh)
 		#	e.g. Delver (run-delver.sh)
 
 		# find and slurp .sh file
-		my @sh_files = glob '*.sh';
 		my $content;
 		my @lines;
 		my @java_lines;
 		foreach my $sh ( @sh_files ) {
+			$$self{ mode_obj }->vvsay( "Checking $sh ..." );
 			# slurp and format content of file
 			$content = path( $sh )->slurp_utf8;
 			$content =~ s/\s*\\\n\s*/ /g;	# rm escaped newlines
@@ -350,6 +354,9 @@ sub new ( $class, %init ) {
 			}
 		}
 	}
+	else {
+		$$self{ mode_obj }->vvsay( "No config file or shell script with configuration data found." );
+	}
 
 	# set java_home
 	if ( grep { /^\QLWJGL3\E$/ } @java_frameworks ) {
@@ -373,15 +380,13 @@ sub new ( $class, %init ) {
 	# pick best java version
 	my $os_java_version = (sort {$b cmp $a} values( %java_version ) )[0];
 	$os_java_version = '1.8.0' unless $os_java_version;
-	if ( 1 ) {	# XXX: check if verbose
-		say "Bundled Java version:\t\t" . ( $java_version{ bundled } ?
-			$java_version{ bundled } : 'not found' );
-		say "LWJGL3 preferred Java version:\t$java_version{ lwjgl3 }"
-			if $java_version{ lwjgl3 };
-		say "Java version to be used:\t$os_java_version";
-	}
+	$$self{ mode_obj }->vsay( "Bundled Java version:\t\t" . ( $java_version{ bundled }
+		? $java_version{ bundled } : 'not found' ) );
+	$$self{ mode_obj }->vsay( "LWJGL3 preferred Java version:\t$java_version{ lwjgl3 }" )
+		if $java_version{ lwjgl3 };
+	$$self{ mode_obj }->vsay( "Java version to be used:\t$os_java_version" );
 	set_java_home( $os_java_version );
-	say "Java Home:\t\t\t$java_home" if 1;	# XXX: check if verbose
+	$$self{ mode_obj }->vsay( "Java Home:\t\t\t$java_home" );
 
 	return $self;
 }
