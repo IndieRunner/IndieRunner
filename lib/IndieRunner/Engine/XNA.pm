@@ -23,8 +23,8 @@ use parent 'IndieRunner::Engine::Mono';
 use Carp;
 use File::Find::Rule;
 
-sub setup ( $self, $mode_obj ) {
-	$self->SUPER::setup( $mode_obj );
+sub setup ( $self ) {
+	$self->SUPER::setup();
 
 	# enumerate all WMA and WMV files
 	my @wmafiles = File::Find::Rule->file()
@@ -36,11 +36,11 @@ sub setup ( $self, $mode_obj ) {
 
 	foreach my $w ( @wmafiles ) {
 		my $ogg = substr( $w, 0, -3 ) . 'ogg';
-		$mode_obj->convert( $w, $ogg );
+		$$self{ mode_obj }->convert( $w, $ogg );
 	}
 	foreach my $w ( @wmvfiles ) {
 		my $ogv = substr( $w, 0, -3 ) . 'ogv';
-		$mode_obj->convert( $w, $ogv );
+		$$self{ mode_obj }->convert( $w, $ogv );
 	}
 }
 

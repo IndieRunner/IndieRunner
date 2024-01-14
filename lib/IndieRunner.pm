@@ -74,6 +74,7 @@ sub new ( $class, %init ) {
 	eval "require $engine_class" or die "Failed to load module $engine_class: $@";
 	$$self{ engine } = $engine_class->new(
 		id_file => $engine_id_file || '',
+		mode_obj => $$self{ mode },
 	);
 
 	# set game from cli argument if present
@@ -187,7 +188,7 @@ sub detect_game_name ( $engine_module ) {
 
 sub setup ( $self ) {
 	$$self{ mode }->vvsay( 'Setup' );
-	$$self{ engine }->setup( $$self{ mode } );
+	$$self{ engine }->setup();
 	# XXX: check for dead symlinks?
 
 }

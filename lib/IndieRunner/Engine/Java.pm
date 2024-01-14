@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2023 Thomas Frohwein
+# Copyright (c) 2022-2024 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -182,19 +182,21 @@ sub bundled_libraries () {
 	return %symlink_libs;
 }
 
-sub setup ( $self, $mode_obj ) {
+sub setup ( $self ) {
+	$self->SUPER::setup();
+
 	# Extract JAR file if not done previously
 	unless ( -f $MANIFEST or $jar_mode ) {
 		if ( $game_jar ) {
-			$mode_obj->extract( $game_jar ) || die "failed to extract: $game_jar";
+			$$self{ mode_obj }->extract( $game_jar ) || die "failed to extract: $game_jar";
 		}
 		elsif ( $class_path_ptr ) {
-			$mode_obj->extract( @{$class_path_ptr}[0] ) || die "failed to extract file";
+			$$self{ mode_obj }->extract( @{$class_path_ptr}[0] ) || die "failed to extract file";
 		}
 		else {
 			die "No JAR file to extract" unless glob '*.jar';
 			foreach my $f ( glob '*.jar' ) {
-				$mode_obj->extract( $f ) || die "failed to extract: $f";
+				$$self{ mode_obj }->extract( $f ) || die "failed to extract: $f";
 			}
 		}
 	}
@@ -204,7 +206,7 @@ sub setup ( $self, $mode_obj ) {
 	foreach my $lib ( keys %bundled_libs ) {
 		next unless $bundled_libs{ $lib };
 		say "$lib | $bundled_libs{ $lib }";
-		$mode_obj->insert( $bundled_libs{ $lib }, $lib ) || die
+		$$self{ mode_obj }->insert( $bundled_libs{ $lib }, $lib ) || die
 			"failed to symlink $lib -> $bundled_libs{ $lib }";
 	}
 
@@ -214,7 +216,7 @@ sub setup ( $self, $mode_obj ) {
 		foreach my $fw ( @java_frameworks ) {
 			my $module = "IndieRunner::Engine::Java::$fw";
 			eval "require $module" or die "Failed to load module $module";
-			$module->setup( $mode_obj );
+			$module->setup( $$self{ mode_obj } );
 		}
 	}
 }

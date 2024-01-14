@@ -31,10 +31,10 @@ Readonly::Hash my %MG_LIBS => (
 	'libopenal.so.1'	=> '/usr/local/lib/libopenal.so.*',
 	);
 
-sub setup ( $self, $mode_obj ) {
-	$self->SUPER::setup( $mode_obj );
+sub setup ( $self ) {
+	$self->SUPER::setup();
 
-	$mode_obj->insert( ( glob( '/usr/lib/libc.so.*' ) )[-1],
+	$$self{ mode_obj }->insert( ( glob( '/usr/lib/libc.so.*' ) )[-1],
 	                   'libdl.so.2' );
 
 	foreach my $file ( keys %MG_LIBS ) {
@@ -43,7 +43,7 @@ sub setup ( $self, $mode_obj ) {
 						  ->maxdepth( 2 )
 						  ->in( '.' );
 		foreach my $found ( @found_files ) {
-			$mode_obj->insert( ( glob( $MG_LIBS{ $file } ) )[-1],
+			$$self{ mode_obj }->insert( ( glob( $MG_LIBS{ $file } ) )[-1],
 			                   $found );
 		}
 	}

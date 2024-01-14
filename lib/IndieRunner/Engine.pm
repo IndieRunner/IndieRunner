@@ -23,7 +23,7 @@ sub new ( $class, %args ) {
 	return $self;
 }
 
-sub setup ( $self, $mode_obj ) {
+sub setup ( $self ) {
 	# no-op by default
 }
 

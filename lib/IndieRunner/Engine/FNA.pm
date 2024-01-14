@@ -34,10 +34,10 @@ Readonly::Array  my @ALLOW_BUNDLED_FNA => (
 	'SuperBernieWorld.exe',	# 1.2.0 (Kitsune Zero),	19.3
 	);
 
-sub setup ( $self, $mode_obj ) {
+sub setup ( $self ) {
 	my $skip_fna_version;
 
-	$self->SUPER::setup( $mode_obj );
+	$self->SUPER::setup();
 
 	# check if this is a game where we allow FNA version lower than FNA_MIN_VERSION
 	foreach my $f ( glob '*' ) {
@@ -64,7 +64,7 @@ sub setup ( $self, $mode_obj ) {
 				die "No FNA.dll found with version >= $FNA_MIN_VERSION";
 			}
 			else {
-				$mode_obj->insert( $FNA_REPLACEMENT, $FNA_DLL ) || die;
+				$$self{ mode_obj }->insert( $FNA_REPLACEMENT, $FNA_DLL ) || die;
 			}
 		}
 	}

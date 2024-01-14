@@ -31,8 +31,8 @@ Readonly my @DAT		=> (
 					'hlboot.dat',	# XXX: keep? is run by default anyway
 					);
 
-sub setup ( $self, $mode_obj ) {
-	map { $mode_obj->remove( $_ ) } glob( '*.hdll' );
+sub setup ( $self ) {
+	map { $$self{ mode_obj }->remove( $_ ) } glob( '*.hdll' );
 }
 
 sub get_bin ( $self ) { return $HASHLINK_BIN; }
