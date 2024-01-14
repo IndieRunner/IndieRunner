@@ -63,13 +63,14 @@ sub new ( $class, %init ) {
 	$$self{ mode } = $mode->new(
 		verbosity => $$self{ verbosity },
 	);
-	$$self{ mode }->vsay( 'Mode: ' . (split( '::', $mode))[-1] );
+	$$self{ mode }->vvsay( 'Mode: ' . (split( '::', $mode))[-1] );
 
 	# detect and load engine
 	unless ( $engine = $init{ engine } ) {
 		( $engine, $engine_id_file ) = ( detect_engine() );
 	}
 	my $engine_class = __PACKAGE__ . '::Engine::' . $engine;
+	$$self{ mode }->vvsay( 'Engine: ' . (split( '::', $engine_class))[-1] );
 	eval "require $engine_class" or die "Failed to load module $engine_class: $@";
 	$$self{ engine } = $engine_class->new(
 		id_file => $engine_id_file || '',
@@ -77,6 +78,7 @@ sub new ( $class, %init ) {
 
 	# set game from cli argument if present
 	my $game = $init{ game } || detect_game_name( $$self{ engine } );
+	$$self{ mode }->vvsay( 'Game Name: ' . $game );
 
 	$$self{ engine }->set_game_name( $game );
 
@@ -182,20 +184,20 @@ sub detect_game_name ( $engine_module ) {
 }
 
 sub setup ( $self ) {
-	$$self{ mode }->vsay( 'Setup' );
+	$$self{ mode }->vvsay( 'Setup' );
 	$$self{ engine }->setup( $$self{ mode } );
 	# XXX: check for dead symlinks?
 
 }
 
 sub run ( $self ) {
-	$$self{ mode }->vsay( 'Run' );
+	$$self{ mode }->vvsay( 'Run' );
 	my $configuration_ref = $$self{ game }->configure();
 	$$self{ mode }->run( $$self{ game }{ name }, %{ $configuration_ref } );
 }
 
 sub finish ( $self ) {
-	$$self{ mode }->vsay( 'Finish' );
+	$$self{ mode }->vvsay( 'Finish' );
 	$$self{ mode }->finish();
 }
 
