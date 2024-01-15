@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2023 Thomas Frohwein
+# Copyright (c) 2022-2024 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -108,7 +108,7 @@ sub get_native_gdx ( $bundled_v ) {
 	return ( catdir( @location ) );
 }
 
-sub add_classpath ( $self ) {
+sub add_classpath ( $self ) { # XXX: remove? not called by anything
 	#return ( $native_gdx ); # XXX: not working currently
 	#say "DEBUG: native_gdx - $native_gdx";
 	#exit;
@@ -119,12 +119,12 @@ sub setup ( $, $mode_obj ) {
 
 	# What version is bundled with the game?
 	my $bundled_v = get_bundled_gdx_version();
-	#if ( $bundled_v and $verbose ) {
-		#say "Identified bundled LibGDX version: $bundled_v";
-	#}
-	#elsif ( $verbose ) {
-		#say "WARNING: unable to identify bundled LibGDX version";
-	#}
+	if ( $bundled_v ) {
+		$mode_obj->vsay( "Identified bundled LibGDX version: $bundled_v" );
+	}
+	else {
+		$mode_obj->vsay( "WARNING: unable to identify bundled LibGDX version" );
+	}
 
 	# Choose a native LibGDX implementation based on the bundled version
 	$native_gdx = get_native_gdx( $bundled_v );	# get the location to use

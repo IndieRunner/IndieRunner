@@ -20,11 +20,17 @@ use v5.36;
 use parent 'IndieRunner::Engine::Java::JavaMod';
 
 use Readonly;
+use File::Spec::Functions qw( catdir );
 
-Readonly::Scalar my $S4J_NATIVE_LOC => '/usr/local/share/steamworks4j';
+Readonly::Scalar my $S4J_BUNDLED_LOC	=> 'com/codedisaster/steamworks';
+Readonly::Scalar my $S4J_NATIVE_LOC	=> '/usr/local/share/steamworks4j';
 
 sub add_classpath ( $self ) {
 	return ( $S4J_NATIVE_LOC );
 }
 
+sub setup ( $self, $mode_obj ) {
+	$mode_obj->insert( catdir( $S4J_NATIVE_LOC, $S4J_BUNDLED_LOC ), $S4J_BUNDLED_LOC )
+		|| die "failed to insert steamworks4j class libraries";
+}
 1;

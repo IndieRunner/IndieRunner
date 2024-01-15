@@ -187,6 +187,7 @@ sub setup ( $self ) {
 
 	# Extract JAR file if not done previously
 	unless ( -f $MANIFEST or $jar_mode ) {
+		$$self{ mode_obj }->vvsay( "Trying to extract game jar file..." );
 		if ( $game_jar ) {
 			$$self{ mode_obj }->extract( $game_jar ) || die "failed to extract: $game_jar";
 		}
@@ -194,14 +195,15 @@ sub setup ( $self ) {
 			$$self{ mode_obj }->extract( @{$class_path_ptr}[0] ) || die "failed to extract file";
 		}
 		else {
+			# XXX: review - remove?
 			die "No JAR file to extract" unless glob '*.jar';
-			foreach my $f ( glob '*.jar' ) {
-				$$self{ mode_obj }->extract( $f ) || die "failed to extract: $f";
-			}
+			#foreach my $f ( glob '*.jar' ) {
+				#$$self{ mode_obj }->extract( $f ) || die "failed to extract: $f";
+			#}
 		}
 	}
 
-	# symlink correct libraries
+	$$self{ mode_obj }->vvsay( "Symlink native system libraries." );
 	my %bundled_libs = bundled_libraries();
 	foreach my $lib ( keys %bundled_libs ) {
 		next unless $bundled_libs{ $lib };
@@ -400,7 +402,7 @@ sub get_args_ref( $self ) {
 	unless ( skip_framework_setup() ) {
 		foreach my $fw ( @java_frameworks ) {
 			my $module = "IndieRunner::Engine::Java::$fw";
-			push( @jvm_classpath, $module->add_classpath() );
+			push( @jvm_classpath, $module->add_classpath() );  # XXX: does this work at all?
 		}
 	}
 
