@@ -30,7 +30,9 @@ sub add_classpath ( $self ) {
 }
 
 sub setup ( $self, $mode_obj ) {
-	$mode_obj->insert( catdir( $S4J_NATIVE_LOC, $S4J_BUNDLED_LOC ), $S4J_BUNDLED_LOC )
-		|| die "failed to insert steamworks4j class libraries";
+	if ( -d $S4J_NATIVE_LOC ) {
+		$mode_obj->insert( catdir( $S4J_NATIVE_LOC, $S4J_BUNDLED_LOC ), $S4J_BUNDLED_LOC )
+			|| die "failed to insert steamworks4j class libraries";
+	}
 }
 1;
