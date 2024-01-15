@@ -1,6 +1,4 @@
-package IndieRunner::Game;
-
-# Copyright (c) 2022-2023 Thomas Frohwein
+# Copyright (c) 2022-2024 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -14,6 +12,7 @@ package IndieRunner::Game;
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+package IndieRunner::Game;
 use strict;
 use warnings;
 use v5.36;
@@ -30,15 +29,7 @@ Readonly::Hash my %GAME_ARGS => {
 };
 
 sub new ( $class, %init ) {
-	my $self = bless {}, $class;
-
-	%$self = ( %$self, %init );
-	%$self = ( %$self, engine_config( $$self{ engine } ) ); # XXX: is this too early? With Java like Cube Chaos, get_args_ref() appears to be called too early (before extraction of jar)
-
-	if ( @{ $$self{ user_args } } ) {
-		push( @{ $$self{ args } }, @{ $$self{ user_args } } );
-	}
-
+	my $self = bless { %init }, $class;
 	return $self;
 }
 
@@ -51,6 +42,11 @@ sub engine_config ( $engine ) {
 }
 
 sub configure ( $self ) {
+	%$self = ( %$self, engine_config( $$self{ engine } ) );
+
+	if ( @{ $$self{ user_args } } ) {
+		push( @{ $$self{ args } }, @{ $$self{ user_args } } );
+	}
 
 	# get game-specific configuration
 	unshift( @{ $$self{ env } }, $GAME_ENV{ lc( $$self{ name } ) } || '' );
