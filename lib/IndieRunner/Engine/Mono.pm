@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2023 Thomas Frohwein
+# Copyright (c) 2022-2024 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -172,6 +172,7 @@ sub get_args_ref ( $self ) {
 
 		}
 	}
+	($game_file) = glob '*.exe' unless $game_file;	# just pick the first .exe
 
 	confess "Failed to identify game file for Mono, based on detected game name \"$$self{ game_name }\". Aborting." if ( not $game_file );
 	push @args, $game_file;
