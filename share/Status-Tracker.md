@@ -39,6 +39,7 @@ Letters indicate which platform versions have been tested successfully:
 |Brotato		|Godot3	|W	|	|	|	|	|		|
 |Brushwood Buddies	|FNA	|	|	|L	|	|	|		|
 |Bugscraper		|Love2D	|	|	|	|	|	|		|
+|Burrito Bear		|Godot3	|W	|	|	|	|	|		|
 |Capsized		|MonoGame|	|L	|	|	|	|		|
 |Cards with Personalities|Godot3|W	|	|	|	|	|		|
 |Cassette Beasts	|Godot3	|L	|	|	|	|	|		|
