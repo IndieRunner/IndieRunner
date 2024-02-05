@@ -3,7 +3,7 @@
 
 This will be updated as best as possible, but with the ever-shifting tectonic plates of runtime and libraries, breakage of some games may go undetected for a while.
 
-Open a GitHub issue if you have updates on something working or not working.
+All the games listed here have been shown to run. If one of them isn't running, it is a bug. Open a GitHub issue if you have updates on something working or not working.
 
 Letters indicate which platform versions have been tested successfully:
 
