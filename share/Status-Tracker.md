@@ -25,6 +25,7 @@ Letters indicate which platform versions have been tested successfully:
 |Ashworld		|LibGDX	|	|	|L	|	|	|		|
 |Atom Zombie Smasher	|Mono	|L	|	|	|	|	|		|
 |Axiom Verge		|FNA	|L(1.56)|	|	|1.51	|	|		|
+|Balatro		|Love2D	|W	|	|	|	|	|		|
 |Balrum			|LWJGL3	|	|L	|	|	|	|		|
 |Battlevoid Harbinger	|LibGDX	|	|	|	|	|	|no audio	|
 |Beyond Sunset (demo)	|GZDoom	|L	|	|	|	|	|handling gzdoom.pk3 not yet implemented|

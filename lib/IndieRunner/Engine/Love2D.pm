@@ -68,6 +68,7 @@ Readonly::Hash my %LOVE2D_GAME_VERSION => {
 	};
 
 Readonly::Array my @QUIRKS_GAMEFILE => (
+	'Balatro.exe',
 	'CardswithPersonalities.exe',
 	'moonring.exe',
 	'PutridShotUltra.exe',
