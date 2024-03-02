@@ -50,7 +50,7 @@ Letters indicate which platform versions have been tested successfully:
 |cityglitch		|Love2D	|	|	|L	|	|	|		|
 |CometStriker		|FNA	|L	|	|	|	|	|		|
 |Crop Rotation		|HashLink|L	|	|	|	|	|		|
-|CRYPTARK		|FNA	|	|L	|	|	|	|		|
+|CRYPTARK		|FNA	|L	|L	|	|	|	|		|
 |Crystal Project	|FNA	|L	|	|	|	|	|		|
 |Cthulhu Saves the World|XNA	|W	|	|	|	|	|		|
 |Curse of the Arrow	|Love2D	|	|	|L	|	|	|		|
