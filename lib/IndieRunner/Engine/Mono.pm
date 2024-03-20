@@ -43,8 +43,11 @@ Readonly::Array my @MONO_GLOBS => (
 	'mscorlib.dll',
 	);
 
-Readonly::Array my @MONO_GLOB_EXCLUDE => (	# regexes
+Readonly::Array my @MONO_GLOB_EXCLUDE => (	# literal (partial) match, not glob or RE
 	'System.Data.SQLite.dll',	# SpaceChem
+	'System.Data.HashFunction.Core.dll',	# Stardew Valley
+	'System.Data.HashFunction.Interfaces.dll',	# Stardew Valley
+	'System.Data.HashFunction.xxHash.dll',	# Stardew Valley
 	);
 
 Readonly::Hash my %QUIRKS_ARGS => {
