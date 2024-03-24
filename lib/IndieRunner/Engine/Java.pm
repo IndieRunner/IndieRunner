@@ -110,10 +110,10 @@ sub fix_jvm_args () {
 sub get_bundled_java_version () {
 	my $bundled_java_bin;
 
-	# find bundled java binary (alternatively libjava.so or libjvm.so)
-	($bundled_java_bin) = File::Find::Rule->file->name('java')->in('.');
-	($bundled_java_bin) = File::Find::Rule->file->name('java.exe')->in('.')
-		unless $bundled_java_bin;
+	# find bundled java binary (XXX: alternatively libjava.so or libjvm.so)
+	($bundled_java_bin) = File::Find::Rule->file->name('java')->in('.') ||
+			      File::Find::Rule->file->name('java.exe')->in('.') ||
+			      File::Find::Rule->file->name('release')->in('.');
 	return undef unless $bundled_java_bin;
 
 	# fetch version string and trim to format for JAVA_HOME
