@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2023 Thomas Frohwein
+# Copyright (c) 2022-2024 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -72,6 +72,7 @@ Readonly::Array my @QUIRKS_GAMEFILE => (
 	'CardswithPersonalities.exe',
 	'moonring.exe',
 	'PutridShotUltra.exe',
+	'PuzzlersRevenge.exe',
 	'SNKRX.exe',
 	'Spellrazor.exe',
 	'Sternly Worded Adventures.exe',

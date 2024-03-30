@@ -144,6 +144,7 @@ Letters indicate which platform versions have been tested successfully:
 |Project Crypt		|GZDoom	|W	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
 |Prose & Code		|Love2D	|	|	|L	|	|	|		|
 |PUTRID SHOT ULTRA	|Love2D	|W	|	|	|	|	|		|
+|The Puzzler's Revenge	|Love2D	|	|	|W	|	|	|		|
 |Revenge of the Titans	|LWJGL2	|	|	|	|	|Humble:L|		|
 |Rex Rocket		|FNA	|L	|	|	|	|	|		|
 |Rise to Ruins		|LWJGL2	|	|	|L	|	|	|		|
