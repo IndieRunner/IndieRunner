@@ -195,7 +195,7 @@ Letters indicate which platform versions have been tested successfully:
 |Trolley Delayma	|Godot3	|	|	|L	|	|	|		|
 |Ukraine Defense Force Tactics|Godot3|W	|	|	|	|	|		|
 |Ultratron		|LWJGL2	|	|	|	|	|Humble:L|		|
-|Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|steamworks4j	|
+|Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|Steam version needs steamworks4j|
 |Verses of Enchantment	|Godot3	|L	|	|	|	|	|		|
 |Vomitoreum		|GZDoom	|L	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
 |V-Hunter Puzzler Dx	|Godot3	|W	|	|	|	|	|		|
