@@ -59,18 +59,6 @@ Readonly my %LOVE2D_GAME_VERSION => {
 	'StoneKingdoms'			=> '11.x',
 	};
 
-Readonly my @QUIRKS_GAMEFILE => (
-	'Balatro.exe',
-	'CardswithPersonalities.exe',
-	'moonring.exe',
-	'PutridShotUltra.exe',
-	'PuzzlersRevenge.exe',
-	'SNKRX.exe',
-	'Spellrazor.exe',
-	'Sternly Worded Adventures.exe',
-	'bin/snacktorio',
-	);
-
 sub get_bin ( $self ) {
 	for my $k ( keys %LOVE2D_GAME_VERSION ) {
 		if ( $$self{ id_file } =~ /$k/ ) {
@@ -105,17 +93,7 @@ sub get_bin ( $self ) {
 }
 
 sub get_args_ref ( $self ) {
-	my $game_file;
-
-	foreach my $q ( @QUIRKS_GAMEFILE ) {
-		$game_file = $q if ( -f $q );
-		last if $game_file;
-	}
-
-	$game_file = ( glob '*.love' )[0] unless $game_file;
-
-	# note: Gravity Circuit => bin/GravityCircuit as argument (is $id_file)
-	$game_file = $$self{ id_file } unless $game_file;
+	my $game_file = $$self{ id_file };
 
 	return [ $game_file ];
 }
