@@ -27,7 +27,7 @@ Readonly my @SkipFiles => (
 	'lovec.exe',
 );
 
-Readonly::Hash my %Indicator_Files => (
+Readonly my %Indicator_Files => (
 	'FNA.dll'			=> 'FNA',
 	'FNA.dll.config'		=> 'FNA',
 	'*.pck'				=> 'Godot',
@@ -50,7 +50,7 @@ Readonly::Hash my %Indicator_Files => (
 );
 
 # combination of file glob and byte sequence to identify frameworks
-Readonly::Hash my %Indicators => (
+Readonly my %Indicators => (
 	'Godot' => {
 		'glob'		=> [ '*.x86', '*.x86_64', ],
 		# 'GDPC' is internal byte sequence for the format,

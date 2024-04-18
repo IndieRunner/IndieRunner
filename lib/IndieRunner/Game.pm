@@ -21,10 +21,10 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use Readonly;
 
 # lowercase keys for %GAME_ENV and %GAME_ARGS for detection
-Readonly::Hash my %GAME_ENV => {
+Readonly my %GAME_ENV => {
 	'shenzhen i/o'	=> 'MONO_FORCE_COMPAT=1',
 };
-Readonly::Hash my %GAME_ARGS => {
+Readonly my %GAME_ARGS => {
 	'sokosolitaire' => '--video-driver GLES2',	# XXX: may only be needed on Intel GPU
 };
 

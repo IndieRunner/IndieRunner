@@ -22,7 +22,7 @@ use parent 'IndieRunner::Engine::Java::JavaMod';
 
 use Readonly;
 
-Readonly::Hash my %LWJGL2_DIR => (
+Readonly my %LWJGL2_DIR => (
 	        'openbsd'       => '/usr/local/share/lwjgl',
                 );
 

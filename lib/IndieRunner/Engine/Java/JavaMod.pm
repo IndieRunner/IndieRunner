@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2023 Thomas Frohwein
+# Copyright (c) 2022-2024 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -20,11 +20,11 @@ use v5.36;
 use autodie;
 use English;
 
-use Carp qw( cluck confess );
+use Readonly;
 
-Readonly::Scalar my $GDX_BUNDLED_LOC	=> 'com/badlogic/gdx';
-Readonly::Scalar my $GDX_VERSION_FILE	=> 'Version.class';
-Readonly::Scalar my $GDX_NATIVE_LOC	=> '/usr/local/share/libgdx';
+Readonly my $GDX_BUNDLED_LOC	=> 'com/badlogic/gdx';
+Readonly my $GDX_VERSION_FILE	=> 'Version.class';
+Readonly my $GDX_NATIVE_LOC	=> '/usr/local/share/libgdx';
 
 sub add_classpath ( $ ) {
 	# no-op

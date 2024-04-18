@@ -35,42 +35,42 @@ use IndieRunner::Engine::Java::LWJGL2;
 use IndieRunner::Engine::Java::LWJGL3;
 use IndieRunner::Engine::Java::Steamworks4j;
 
-Readonly::Scalar my $MANIFEST		=> 'META-INF/MANIFEST.MF';
+Readonly my $MANIFEST		=> 'META-INF/MANIFEST.MF';
 
 # Java version string examples: '1.8.0_312-b07'
 #                               '1.8.0_181-b02'
 #                               '11.0.13+8-1'
 #                               '17.0.1+12-1'
 #                               '1.7.0-u80-unofficial-b32'
-Readonly::Scalar my $JAVA_VER_REGEX => '\d{1,2}\.\d{1,2}\.\d{1,2}[_\+\-][\w\-]+';
+Readonly my $JAVA_VER_REGEX => '\d{1,2}\.\d{1,2}\.\d{1,2}[_\+\-][\w\-]+';
 
-Readonly::Scalar my $So_Sufx => '.so';
+Readonly my $So_Sufx => '.so';
 my $Bit_Sufx;
 
-Readonly::Array my @LIB_LOCATIONS => (
+Readonly my @LIB_LOCATIONS => (
 	'/usr/X11R6/lib',
 	'/usr/local/lib',
 	# XXX: make lwjgl location conditional; it interferes with e.g. Songs of Syx
 	'/usr/local/share/lwjgl',
 	);
 
-Readonly::Array my @SKIP_FRAMEWORKS => (
+Readonly my @SKIP_FRAMEWORKS => (
 	'TitanAttacks.jar',
 	'Airships_sysjava.sh',
 	);
 
-Readonly::Array my @JAVA_LINE_PATTERNS => (
+Readonly my @JAVA_LINE_PATTERNS => (
 	'^java\s',
 	'\-Xbootclasspath',
 	'\-Djava\.',
 	'\s\-cp\s',
 	);
 
-Readonly::Array my @INVALID_CONFIG_FILES => (
+Readonly my @INVALID_CONFIG_FILES => (
 	'uiskin.json',
 	);
 
-Readonly::Array my @JAR_MODE_FILES => (
+Readonly my @JAR_MODE_FILES => (
 	'Airships',
 	);
 

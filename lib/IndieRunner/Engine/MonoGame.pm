@@ -25,7 +25,7 @@ use Readonly;
 use File::Find::Rule;
 use autodie;
 
-Readonly::Hash my %MG_LIBS => (
+Readonly my %MG_LIBS => (
 	'libSDL2-2.0.so.0'	=> '/usr/local/lib/libSDL2.so.*',
 	'liblua53.so'		=> '/usr/local/lib/liblua5.3.so.*',
 	'libopenal.so.1'	=> '/usr/local/lib/libopenal.so.*',

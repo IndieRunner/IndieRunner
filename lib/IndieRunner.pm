@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2023 Thomas Frohwein
+# Copyright (c) 2022-2024 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -35,7 +35,7 @@ use IndieRunner::Info;
 use IndieRunner::Io;
 
 # keep this in sync with return of IndieRunner::Cmdline::init_cli()
-Readonly::Hash my %INIT_DEFAULTS => {
+Readonly my %INIT_DEFAULTS => {
 	dllmap		=> '',
 	dryrun		=> undef,
 	engine		=> undef,

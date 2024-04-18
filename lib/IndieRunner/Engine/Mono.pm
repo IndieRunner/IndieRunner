@@ -30,9 +30,9 @@ use IndieRunner::IdentifyFiles;
 
 # OpenBSD:	/usr/local/bin/mono
 # Gentoo:	/usr/bin/mono
-Readonly::Scalar my $MONO_BIN => 'mono';
+Readonly my $MONO_BIN => 'mono';
 
-Readonly::Array my @MONO_GLOBS => (
+Readonly my @MONO_GLOBS => (
 	'I18N{,.*}.dll',
 	'Microsoft.*.dll',
 	'Mono.*.dll',
@@ -43,19 +43,19 @@ Readonly::Array my @MONO_GLOBS => (
 	'mscorlib.dll',
 	);
 
-Readonly::Array my @MONO_GLOB_EXCLUDE => (	# literal (partial) match, not glob or RE
+Readonly my @MONO_GLOB_EXCLUDE => (	# literal (partial) match, not glob or RE
 	'System.Data.SQLite.dll',	# SpaceChem
 	'System.Data.HashFunction.Core.dll',	# Stardew Valley
 	'System.Data.HashFunction.Interfaces.dll',	# Stardew Valley
 	'System.Data.HashFunction.xxHash.dll',	# Stardew Valley
 	);
 
-Readonly::Hash my %QUIRKS_ARGS => {
+Readonly my %QUIRKS_ARGS => {
 	'-disableweb'	=> [ 'Hacknet.exe', ],
 	'-noSound'	=> [ 'ScourgeBringer.exe', ],
 	};
 
-Readonly::Hash my %QUIRKS_ENV => {
+Readonly my %QUIRKS_ENV => {
 	'MONO_FORCE_COMPAT=1'	=> [
 		'Blueberry.exe',
 		'Shenzhen.exe',

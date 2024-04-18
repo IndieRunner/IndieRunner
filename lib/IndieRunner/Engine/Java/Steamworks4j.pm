@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2023 Thomas Frohwein
+# Copyright (c) 2022-2024 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -22,8 +22,8 @@ use parent 'IndieRunner::Engine::Java::JavaMod';
 use Readonly;
 use File::Spec::Functions qw( catdir );
 
-Readonly::Scalar my $S4J_BUNDLED_LOC	=> 'com/codedisaster/steamworks';
-Readonly::Scalar my $S4J_NATIVE_LOC	=> '/usr/local/share/steamworks4j';
+Readonly my $S4J_BUNDLED_LOC	=> 'com/codedisaster/steamworks';
+Readonly my $S4J_NATIVE_LOC	=> '/usr/local/share/steamworks4j';
 
 sub add_classpath ( $self ) {
 	return ( $S4J_NATIVE_LOC );

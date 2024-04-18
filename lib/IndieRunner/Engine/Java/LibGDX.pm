@@ -32,12 +32,12 @@ use Readonly;
 use IndieRunner::Helpers;
 use IndieRunner::Io;
 
-Readonly::Scalar my $So_Sufx => '.so';
+Readonly my $So_Sufx => '.so';
 
-Readonly::Scalar my $GDX_BUNDLED_LOC	=> 'com/badlogic/gdx';
-Readonly::Scalar my $GDX_VERSION_FILE	=> 'Version.class';
-Readonly::Scalar my $GDX_VERSION_REGEX	=> '\d+\.\d+\.\d+';
-Readonly::Scalar my $GDX_NATIVE_LOC	=> '/usr/local/share/libgdx';
+Readonly my $GDX_BUNDLED_LOC	=> 'com/badlogic/gdx';
+Readonly my $GDX_VERSION_FILE	=> 'Version.class';
+Readonly my $GDX_VERSION_REGEX	=> '\d+\.\d+\.\d+';
+Readonly my $GDX_NATIVE_LOC	=> '/usr/local/share/libgdx';
 
 my $native_gdx;
 

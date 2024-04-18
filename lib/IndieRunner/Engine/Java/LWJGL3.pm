@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2023 Thomas Frohwein
+# Copyright (c) 2022-2024 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -29,11 +29,11 @@ use Readonly;
 
 # if LWJGL3 libs are built with Java 11, they fail to run with 1.8:
 # java.lang.NoSuchMethodError: java.nio.ByteBuffer.position(I)Ljava/nio/ByteBuffer;
-Readonly::Hash my %LWJGL3_JAVA_VERSION => (
+Readonly my %LWJGL3_JAVA_VERSION => (
 	'openbsd'	=> '11',
 	);
 
-Readonly::Hash my %LWJGL3_DIR => (
+Readonly my %LWJGL3_DIR => (
 	'openbsd'	=> '/usr/local/share/lwjgl3',
 	);
 

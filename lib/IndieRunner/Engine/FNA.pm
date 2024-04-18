@@ -24,12 +24,12 @@ use Readonly;
 use IndieRunner::Engine::Mono;
 
 # $FNA_MIN_VERSION depends on the version of the native support libraries
-Readonly::Scalar my $FNA_MIN_VERSION => version->declare( '21.1' );
-Readonly::Scalar my $FNA_REPLACEMENT => '/usr/local/share/FNA/FNA.dll';
+Readonly my $FNA_MIN_VERSION => version->declare( '21.1' );
+Readonly my $FNA_REPLACEMENT => '/usr/local/share/FNA/FNA.dll';
 
-Readonly::Scalar my $FNA_DLL		=> 'FNA.dll';
+Readonly my $FNA_DLL		=> 'FNA.dll';
 
-Readonly::Array  my @ALLOW_BUNDLED_FNA => (
+Readonly  my @ALLOW_BUNDLED_FNA => (
 	# 'Game.exe',		# game version,		FNA version
 	'SuperBernieWorld.exe',	# 1.2.0 (Kitsune Zero),	19.3
 	);

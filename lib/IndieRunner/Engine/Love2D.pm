@@ -26,7 +26,7 @@ use Readonly;
 
 use IndieRunner::Helpers;
 
-Readonly::Hash my %LOVE2D_VERSION_BIN => {
+Readonly my %LOVE2D_VERSION_BIN => {
 	'0.8.x'		=> 'love-0.8',
 	'0.9.x'		=> 'love-0.9',		# not in ports July 2023
 	'0.10.x'	=> 'love-0.10',
@@ -34,7 +34,7 @@ Readonly::Hash my %LOVE2D_VERSION_BIN => {
 	#'12.x'		=> '/nonexistent',	# XXX: need port
 	};
 
-Readonly::Array my @LOVE2D_VERSION_FILES => (
+Readonly my @LOVE2D_VERSION_FILES => (
 	'conf.lua',	# if not packaged, e.g. Move or Die
 	'liblove*.so*',
 	'love',
@@ -44,7 +44,7 @@ Readonly::Array my @LOVE2D_VERSION_FILES => (
 	'*.exe',
 	);
 
-Readonly::Hash my %LOVE2D_GAME_VERSION => {
+Readonly my %LOVE2D_GAME_VERSION => {
 	'britebot'			=> '0.10.x',
 	'cityglitch'			=> '0.10.x',
 	'CurseOfTheArrow'		=> '11.x',
@@ -59,7 +59,7 @@ Readonly::Hash my %LOVE2D_GAME_VERSION => {
 	'StoneKingdoms'			=> '11.x',
 	};
 
-Readonly::Array my @QUIRKS_GAMEFILE => (
+Readonly my @QUIRKS_GAMEFILE => (
 	'Balatro.exe',
 	'CardswithPersonalities.exe',
 	'moonring.exe',

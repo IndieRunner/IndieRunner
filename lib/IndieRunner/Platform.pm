@@ -1,6 +1,4 @@
-package IndieRunner::Platform;
-
-# Copyright (c) 2022-2023 Thomas Frohwein
+# Copyright (c) 2022-2024 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -14,6 +12,7 @@ package IndieRunner::Platform;
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
+package IndieRunner::Platform;
 use strict;
 use warnings;
 use v5.36;
@@ -31,7 +30,7 @@ use Readonly;
 use IndieRunner::Platform::openbsd;
 use IndieRunner::Cmdline;
 
-Readonly::Array my @MUST_INIT => (
+Readonly my @MUST_INIT => (
 	'openbsd',
 	);
 

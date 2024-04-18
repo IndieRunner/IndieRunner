@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2023 Thomas Frohwein
+# Copyright (c) 2022-2024 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -20,7 +20,7 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use Carp;
 use Readonly;
 
-Readonly::Hash my %iomap => {
+Readonly my %iomap => {
 	'AJ1.exe' => [
 		[ 'j_rip.xnb', 'Content/AJ1/j_Rip.xnb' ],
 		[ 'j_rip.xnb', 'Content/AJ2/j_Rip.xnb' ],

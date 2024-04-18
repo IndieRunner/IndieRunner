@@ -23,8 +23,8 @@ use parent 'IndieRunner::Engine';
 use Carp;
 use Readonly;
 
-Readonly::Scalar my $GZDOOM_BIN => '/usr/local/bin/gzdoom';
-Readonly::Scalar my $GZDOOM_PK3 => '/usr/local/share/games/doom/gzdoom.pk3';
+Readonly my $GZDOOM_BIN => '/usr/local/bin/gzdoom';
+Readonly my $GZDOOM_PK3 => '/usr/local/share/games/doom/gzdoom.pk3';
 
 my $game_ipk3_file;
 
