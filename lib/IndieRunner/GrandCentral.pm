@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2023 Thomas Frohwein
+# Copyright (c) 2022-2024 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -22,6 +22,11 @@ use autodie;
 use Readonly;
 use Text::Glob qw( match_glob );
 
+# don't use SkipFiles for identify_engine_thorough
+Readonly my @SkipFiles => (
+	'lovec.exe',
+);
+
 Readonly::Hash my %Indicator_Files => (
 	'FNA.dll'			=> 'FNA',
 	'FNA.dll.config'		=> 'FNA',
@@ -38,36 +43,38 @@ Readonly::Hash my %Indicator_Files => (
 	'*lwjgl*.{so,dll}'		=> 'Java',
 	'*gdx*.{so,dll}'		=> 'Java',
 	'*.love'			=> 'Love2D',
-	'love.dll'			=> 'Love2D',
-	'love'				=> 'Love2D',	# Shell Out Showdown: bin/love
-	'liblove*.so*'			=> 'Love2D',	# Snacktorio
-	'GravityCircuit'		=> 'Love2D',	# TODO: hack for detection; find heuristic
-	'SNKRX.exe'			=> 'Love2D',	# TODO: hack for detection; find heuristic
-	'TerraformingEarth.exe'		=> 'Love2D',	# TODO: hack for detection; find heuristic
 	'MonoGame.Framework.dll'	=> 'MonoGame',
 	'MonoGame.Framework.dll.config'	=> 'MonoGame',
 	'xnafx40_redist.msi'		=> 'XNA',
 	'_CommonRedist/XNA'		=> 'XNA',
 );
 
-Readonly::Hash my %Indicators => (	# byte sequences that are indicative of a framework
-	'Godot'	=> {
-		'glob'		=> '*.x86_64',
-		'magic_bytes'	=> 'GDPC',
+# combination of file glob and byte sequence to identify frameworks
+Readonly::Hash my %Indicators => (
+	'Godot' => {
+		'glob'		=> [ '*.x86', '*.x86_64', ],
+		# 'GDPC' is internal byte sequence for the format,
+		# but gets false positives
+		# alternative: godot_nativescript
+		'magic_bytes'	=> 'godot_open',
 	},
-	'XNA'	=> {
-		# 'Microsoft.Xna.Framework' is found in XNA, FNA, and MonoGame
-		# This needs to be part of a staged heuristic
-		'glob'		=> '*.exe',
-		'magic_bytes'	=> 'Microsoft.Xna.Framework',
+	'Love2D' => {
+		'glob'		=> [	'*.exe',
+					'{,bin/}snacktorio',
+					'{,bin/}GravityCircuit',
+					'bin/love',	# Shell Out Showdown
+				   ],
+		'magic_bytes'	=> 'love_version',	# or: luaopen_love or love.boot
 	},
-	'MonoGame'	=> {
-		'glob'		=> '*.exe',
+	'MonoGame' => {
+		'glob'		=> [ '*.exe', ],
 		'magic_bytes'	=> 'MonoGame.Framework',
 	},
-	'FNA'	=> {
-		'glob'		=> '*.exe',
-		'magic_bytes'	=> 'FNA',
+	'XNA' => {
+		# 'Microsoft.Xna.Framework' is found in XNA, FNA, and MonoGame
+		# This needs to be part of a staged heuristic
+		'glob'		=> [ '*.exe', ],
+		'magic_bytes'	=> 'Microsoft.Xna.Framework',
 	},
 );
 
@@ -89,7 +96,7 @@ sub find_bytes ( $file, $bytes ) {
 }
 
 sub identify_engine ( $file ) { # detect by globbing for keys of %Indicator_Files
-	foreach my $engine_pattern ( keys %Indicator_Files ) {
+	for my $engine_pattern ( keys %Indicator_Files ) {
 		# account for possible '_' add the end after previous run
 		if ( match_glob( $engine_pattern, $file )
 		  || match_glob( $engine_pattern . '_', $file ) ) {
@@ -99,9 +106,11 @@ sub identify_engine ( $file ) { # detect by globbing for keys of %Indicator_File
 	return '';
 }
 
-sub identify_engine_thorough ( $file ) { # detect via "magic bytes"
-	foreach my $engine ( keys %Indicators ) {
-		if ( match_glob( $Indicators{$engine}{'glob'}, $file ) and
+sub identify_engine_thorough ( $file ) {
+	for my $engine ( keys %Indicators ) {
+		if ( #match_glob( $Indicators{$engine}{'glob'}, $file ) and not
+		     grep { match_glob( $_, $file ) } @{ $Indicators{$engine}{glob} } and not
+		     grep { $_ eq $file } @SkipFiles and
 		     find_bytes( $file, $Indicators{$engine}{'magic_bytes'} )	) {
 			return $engine;
 		}
