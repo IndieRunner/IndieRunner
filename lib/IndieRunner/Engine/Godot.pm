@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2023 Thomas Frohwein
+# Copyright (c) 2022-2024 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -21,6 +21,12 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use parent 'IndieRunner::Engine';
 
 use constant GODOT3_BIN	=> '/usr/local/bin/godot';
+
+###
+# Godot 4 games for future addition when implemented:
+# - Buckshot Roulette (itch.io)
+# - 8 Colors Star Guardians (itch.io)
+###
 
 sub detect_game ( $self ) {
 	my @pck_files =	glob '*.pck';
