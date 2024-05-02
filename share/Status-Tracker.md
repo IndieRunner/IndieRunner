@@ -56,6 +56,7 @@ Letters indicate which platform versions have been tested successfully:
 |Curse of the Arrow	|Love2D	|	|	|L	|	|	|		|
 |Curse of the Crescent Isle DX|FNA	|	|	|	|	|Humble:L|	|
 |Dad Quest		|MonoGame|W	|	|	|	|	|		|
+|Dashpong		|Godot3	|L	|	|	|	|	|		|
 |Dead Cells		|HashLink|	|L	|	|	|	|		|
 |Dead Pixels II		|FNA	|L	|	|	|	|	|Early Access (2022-08-27)|
 |Deepest Chamber: Resurrection|LibGDX|L	|	|	|	|	|		|
@@ -187,6 +188,7 @@ Letters indicate which platform versions have been tested successfully:
 |Supplice		|GZDoom	|W	|	|	|	|	|gzdoom 4.10	|
 |Sword of the Stars: The Pit|XNA|	|W	|	|	|	|		|
 |Takara Cards		|Godot3	|L	|	|	|	|	|		|
+|Tendryll		|Godot3	|W	|	|	|	|	|needs addons/godotsteam/x11/libgodotsteam.so|
 |Terraria		|FNA	|L	|L	|	|	|	|Version 1.4.4.9|
 |They Don't Sleep	|Godot3	|W	|	|	|	|	|		|
 |Titan Attacks!		|LWJGL2	|	|	|	|	|Humble:L|		|
