@@ -189,6 +189,7 @@ Letters indicate which platform versions have been tested successfully:
 |Sword of the Stars: The Pit|XNA|	|W	|	|	|	|		|
 |Takara Cards		|Godot3	|L	|	|	|	|	|		|
 |Tendryll		|Godot3	|W	|	|	|	|	|needs addons/godotsteam/x11/libgodotsteam.so|
+|Tempus Bound		|Godot3	|W	|	|	|	|	|		|
 |Terraria		|FNA	|L	|L	|	|	|	|Version 1.4.4.9|
 |They Don't Sleep	|Godot3	|W	|	|	|	|	|		|
 |Titan Attacks!		|LWJGL2	|	|	|	|	|Humble:L|		|
