@@ -14,6 +14,7 @@ Letters indicate which platform versions have been tested successfully:
 
 |Game			|Module	|Steam	|GOG	|itch.io|Epic	|Other	|Comments	|
 |-----------------------|-------|-------|-------|-------|-------|-------|---------------|
+|Abscission		|ScummVM|W	|	|	|	|	|		|
 |The Adventures of Shuggy|FNA	|	|	|	|	|Humble:L|		|
 |Airships: Conquer the Skies|LibGDX|	|	|L	|	|	|		|
 |Akane the Kunoichi	|XNA	|W	|	|	|	|	|		|
@@ -101,6 +102,7 @@ Letters indicate which platform versions have been tested successfully:
 |Hoarder's Horrible House of Stuff|Love2D||	|L	|	|	|love-11	|
 |Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
 |I Am Sakuya		|GZDoom	|W	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
+|If On A Winter's Night, Four Travelers|ScummVM|||L	|	|	|		|
 |INC: The Beginning	|LibGDX	|	|	|L	|	|	|		|
 |Into the Necrovale	|HashLink|		|L(demo)|	|	|		|
 |The Isolated Town	|Godot3	|	|	|L	|	|	|		|
