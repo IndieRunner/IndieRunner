@@ -34,10 +34,11 @@ Letters indicate which platform versions have been tested successfully:
 |Bleed			|FNA	|	|	|	|	|Humble:L|		|
 |Bleed 2		|FNA	|L	|	|	|	|	|		|
 |Blossom Tales II: The Minotaur Prince	|FNA	|L	|	|	|	|	|		|
-|BLUE REVOLVER		|Love2D	|	|	|L	|	|	|		|
+|BLUE REVOLVER		|Love2D	|	|	|L	|	|	|XXX: detects wrong Love2D version|
 |Brawl Tactics: Origins	|W	|	|	|	|	|	|		|
 |Breath of Death VII	|XNA	|W	|	|	|	|	|		|
 |Britebot		|Love2D	|	|	|L	|	|	|love-0.10	|
+|Broken Sword II: The Smoking Mirror|ScummVM||W	|	|	|	|original game, not remastered version|
 |Brotato		|Godot3	|W	|	|	|	|	|		|
 |Brushwood Buddies	|FNA	|	|	|L	|	|	|		|
 |Bugscraper		|Love2D	|	|	|	|	|	|		|
