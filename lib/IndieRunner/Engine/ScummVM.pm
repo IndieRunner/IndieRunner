@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2023 Thomas Frohwein
+# Copyright (c) 2022-2024 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -39,8 +39,8 @@ sub detect_game ( $self ) {
 	my @out = split(/\n/, qx( $SCUMMVM_BIN --detect ), $MAX_OUT);
 	return undef unless grep { /^GameID/ } @out;	# no ScummVM game detected
 
-	@out = grep { /^[a-z]+:([[:alnum:]]+)/ } @out;	# XXX: refine the heuristic more
-	$out[0] =~ m/^[a-z]+:([[:alnum:]]+)/;
+	@out = grep { /^[[:alnum:]]+:([[:alnum:]]+)/ } @out;	# XXX: refine the heuristic more
+	$out[0] =~ m/^[[:alnum:]]+:([[:alnum:]]+)/;
 	$game = $1;
 
 	return $game;
