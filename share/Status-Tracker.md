@@ -16,6 +16,7 @@ Letters indicate which platform versions have been tested successfully:
 |-----------------------|-------|-------|-------|-------|-------|-------|---------------|
 |Abscission		|ScummVM|W	|	|	|	|	|		|
 |The Adventures of Shuggy|FNA	|	|	|	|	|Humble:L|		|
+|Aether			|Godot	|L	|	|	|	|	|		|
 |Airships: Conquer the Skies|LibGDX|	|	|L	|	|	|		|
 |Akane the Kunoichi	|XNA	|W	|	|	|	|	|		|
 |Amazing Princess Sarah	|XNA	|	|	|	|	|	|iomap error when loading level	|
