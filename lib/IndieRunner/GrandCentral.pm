@@ -52,7 +52,7 @@ Readonly my %Indicator_Files => (
 # combination of file glob and byte sequence to identify frameworks
 Readonly my %Indicators => (
 	'Godot' => {
-		'glob'		=> [ '*.x86', '*.x86_64', ],
+		'glob'		=> [ '*.x86', '*.x86_64', '*.exe', ],
 		# 'GDPC' is internal byte sequence for the format,
 		# but gets false positives
 		# alternative: godot_nativescript
