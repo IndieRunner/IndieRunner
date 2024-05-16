@@ -1,4 +1,4 @@
-<!-- CAUTION: this is parsed by IndieRunner for game entries in the table -->
+<!-- CAUTION: this file is parsed by IndieRunner for game entries in the table -->
 # Status Tracker
 
 This will be updated as best as possible, but with the ever-shifting tectonic plates of runtime and libraries, breakage of some games may go undetected for a while.
@@ -112,6 +112,7 @@ Letters indicate which platform versions have been tested successfully:
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
 |Kitsune Zero		|FNA	|	|	|L	|	|	|		|
 |Labyrinth of Legendary Loot|Love2D|	|	|L	|	|	|love-11	|
+|Lair of goblins	|Godot3	|W	|	|	|	|	|		|
 |Landnama		|Godot3	|L	|	|	|	|	|		|
 |LaserCat		|XNA	|	|	|L	|	|	|		|
 |Little Racers STREET	|FNA	|L	|	|	|	|	|		|
