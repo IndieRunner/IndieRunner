@@ -13,10 +13,8 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner::Engine::Java::Steamworks4j;
-use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
-use strict;
-use warnings;
 use v5.36;
+use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use parent 'IndieRunner::Engine::Java::JavaMod';
 
 use Readonly;

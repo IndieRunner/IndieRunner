@@ -14,9 +14,7 @@
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-use strict;
-use warnings;
-use v5.32;
+use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use FindBin; use lib "$FindBin::Bin/../lib";

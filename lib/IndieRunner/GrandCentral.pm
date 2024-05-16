@@ -13,8 +13,6 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner::GrandCentral;
-use strict;
-use warnings;
 use v5.36;
 use version; our $VERSION = qv('0.0.1');
 use autodie;

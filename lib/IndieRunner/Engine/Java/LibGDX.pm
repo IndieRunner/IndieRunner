@@ -13,10 +13,8 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner::Engine::Java::LibGDX;
-use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
-use strict;
-use warnings;
 use v5.36;
+use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use autodie;
 use English;
 use parent 'IndieRunner::Engine::Java::JavaMod';

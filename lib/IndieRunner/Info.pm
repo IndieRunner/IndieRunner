@@ -1,6 +1,4 @@
-package IndieRunner::Info;
-
-# Copyright (c) 2022-2023 Thomas Frohwein
+# Copyright (c) 2022-2024 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -14,8 +12,7 @@ package IndieRunner::Info;
 # ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-use strict;
-use warnings;
+package IndieRunner::Info;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use autodie;

@@ -13,8 +13,6 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner::Engine::Mono;
-use strict;
-use warnings;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
