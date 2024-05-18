@@ -19,6 +19,14 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use English;
 use Readonly;
 
+use File::Spec::Functions qw( devnull splitpath );
+
+use constant {
+	RIGG_NONE	=> 0,
+	RIGG_PERMISSIVE	=> 1,
+	RIGG_STRICT	=> 2,
+};
+
 # XXX: remove if not used
 Readonly my %PLEDGE_GROUP => (
 	'default'	=> [ qw( rpath cpath proc exec prot_exec flock unveil ) ],
@@ -26,6 +34,7 @@ Readonly my %PLEDGE_GROUP => (
 	);
 
 my $verbosity;
+my $rigg_unveil;
 
 sub vsay ( $self, @say_args ) {
 	if ( $verbosity >= 2 ) {
@@ -61,7 +70,8 @@ sub new ( $class, %init ) {
 	%$self = ( %$self, %init );
 
 	# make verbosity available for vsay etc.
-	$verbosity = $$self{ verbosity };
+	$verbosity =	$$self{ verbosity };
+	$rigg_unveil =	$$self{ rigg_unveil };
 
 	init_pledge( $$self{ pledge_group } || 'default' );
 
@@ -89,12 +99,34 @@ sub finish ( $self ) {
 }
 
 sub run ( $self, $game_name, %config ) {
-	my @full_command = ( $config{ bin } );
+	my $fullbin	= $config{ bin };
+	my $bin		= (splitpath( $fullbin ))[2];
+
+	my $fullrigg	= qx( which rigg 2> /dev/null );
+	chomp $fullrigg;
+
+	if ( $fullrigg and $rigg_unveil ) {
+		# check if rigg supports the binary
+		my @rigg_supported_binaries = split( "\n", qx( rigg -l ) );
+		if ( grep { $_ eq $bin } @rigg_supported_binaries ) {
+			vsay "rigg binary found at: $fullrigg";
+			vsay "replacing $bin is with rigg for execution";
+			$fullbin = 'rigg ' .
+				   ($verbosity ? '-v ' : '') .
+				   '-u ' .
+				   ($rigg_unveil == RIGG_STRICT ? 'strict ' : 'permissive ') .
+				   $bin;
+		}
+	}
+
+	my @full_command = ( $fullbin );
+
 	unshift( @full_command, 'env', @{ $config{ env } } ) if ( @{ $config{ env } } );
 	push( @full_command, @{ $config{ args } } ) if ( @{ $config{ args } } );
 
 	vsay $self, "\nLauching $game_name";
 	vsay $self, "Executing: " . join( ' ', @full_command ) . "\n";
+
 	return @full_command;
 }
 

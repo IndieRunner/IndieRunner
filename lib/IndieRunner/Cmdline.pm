@@ -19,6 +19,12 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use Getopt::Long;
 use Pod::Usage;
 
+use constant {
+	RIGG_NONE	=> 0,
+	RIGG_PERMISSIVE	=> 1,
+	RIGG_STRICT	=> 2,
+};
+
 my $dir = '.';
 my $dllmap;
 my $dryrun;
@@ -26,6 +32,7 @@ my $engine;
 my $file;
 my $game;
 my $mode;
+my $rigg_unveil = RIGG_STRICT;
 my $script;
 my $verbosity = 0;
 
@@ -40,10 +47,12 @@ sub init_cli () {
 			'game|g=s'	=> \$game,
 			'man|m'		=> sub { pod2usage(-exitval => 0,
 			                                     -verbose => 2, ); },
+			'norigg'	=> sub { $rigg_unveil = RIGG_NONE; },
+			'permissive|p'	=> sub { $rigg_unveil = RIGG_PERMISSIVE; },
 			'script|s'	=> \$script,
 			'usage'		=> sub { pod2usage(-exitval => 0,
 			                                   -verbose => 0, ); },
-			'verbose|v'	=> sub{ $verbosity++; },
+			'verbose|v+'	=> \$verbosity,
 			'version|V'	=> sub { say $VERSION; exit; },	# XXX: $VERSION from which module or script?
 		   )
 	or pod2usage(2);
@@ -57,6 +66,7 @@ sub init_cli () {
 		file		=> $file,
 		game		=> $game,
 		game_args	=> \@ARGV,
+		rigg_unveil	=> $rigg_unveil,
 		script		=> $script,
 		verbosity	=> $verbosity,
 	};

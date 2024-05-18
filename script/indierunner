@@ -38,7 +38,7 @@ indierunner - command-line interface to IndieRunner
 
 =head1 SYNOPSIS
 
-indierunner [-hnmsvV] [-d I<dir>] [-D I<dllmap>] [-f I<file>] [-g I<game>] [-e I<engine>] [-- I<game arguments>]
+indierunner [-hnmsvV] [-d I<dir>] [-D I<dllmap>] [-f I<file>] [-g I<game>] [-e I<engine>] [--norigg|--permissive] [-- I<game arguments>]
 
 =head1 OPTIONS
 
@@ -75,6 +75,14 @@ Print a brief help message.
 =item B<--man/-m>
 
 Print the manual page and exits.
+
+=item B<--norigg>
+
+Disable rigg (only applicable if rigg is available on the system).
+
+=item B<--permissive>
+
+Change rigg unveil strategy from strict to permissive (only applicable if rigg is available on the system).
 
 =item B<--script/-s>
 

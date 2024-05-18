@@ -32,6 +32,12 @@ use IndieRunner::IdentifyFiles;
 use IndieRunner::Info;
 use IndieRunner::Io;
 
+use constant {
+	RIGG_NONE	=> 0,
+	RIGG_PERMISSIVE	=> 1,
+	RIGG_STRICT	=> 2,
+};
+
 # keep this in sync with return of IndieRunner::Cmdline::init_cli()
 Readonly my %INIT_DEFAULTS => {
 	dllmap		=> '',
@@ -40,6 +46,7 @@ Readonly my %INIT_DEFAULTS => {
 	file		=> '',
 	game		=> '',
 	game_args	=> undef,
+	rigg_unveil	=> RIGG_STRICT,
 	script		=> undef,
 	verbosity	=> 0,
 };
@@ -59,7 +66,8 @@ sub new ( $class, %init ) {
 	my $mode = __PACKAGE__ . '::Mode::' . ( $init{ script } ? 'Script' : ( $init{ dryrun } ? 'Dryrun' : 'Run' ) );
 	eval "require $mode" or die "Failed to load module $mode: $@";
 	$$self{ mode } = $mode->new(
-		verbosity => $$self{ verbosity },
+		verbosity	=> $$self{ verbosity },
+		rigg_unveil	=> $$self{ rigg_unveil },
 	);
 	$$self{ mode }->vvsay( 'Mode: ' . (split( '::', $mode))[-1] );
 
