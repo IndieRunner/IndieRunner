@@ -101,6 +101,7 @@ sub finish ( $self ) {
 sub run ( $self, $game_name, %config ) {
 	my $fullbin	= $config{ bin };
 	my $bin		= (splitpath( $fullbin ))[2];
+	my @rigg_args	= ();
 
 	my $fullrigg	= qx( which rigg 2> /dev/null );
 	chomp $fullrigg;
@@ -111,17 +112,25 @@ sub run ( $self, $game_name, %config ) {
 		if ( grep { $_ eq $bin } @rigg_supported_binaries ) {
 			vsay "rigg binary found at: $fullrigg";
 			vsay "replacing $bin is with rigg for execution";
-			$fullbin = 'rigg ' .
-				   ($verbosity ? '-v ' : '') .
-				   '-u ' .
-				   ($rigg_unveil == RIGG_STRICT ? 'strict ' : 'permissive ') .
-				   $bin;
+			$fullbin = 'rigg';
+			if ( $verbosity ) {
+				push( @rigg_args, '-v' );
+			}
+			push( @rigg_args, '-u' );
+			if ( $rigg_unveil == RIGG_STRICT ) {
+				push( @rigg_args, 'strict' );
+			}
+			else {
+				push( @rigg_args, 'permissive' );
+			}
+			push ( @rigg_args, $bin );
 		}
 	}
 
 	my @full_command = ( $fullbin );
 
 	unshift( @full_command, 'env', @{ $config{ env } } ) if ( @{ $config{ env } } );
+	push( @full_command, @rigg_args );
 	push( @full_command, @{ $config{ args } } ) if ( @{ $config{ args } } );
 
 	vsay $self, "\nLauching $game_name";
