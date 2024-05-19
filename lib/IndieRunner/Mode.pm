@@ -107,14 +107,10 @@ sub run ( $self, $game_name, %config ) {
 	my $bin		= (splitpath( $fullbin ))[2];
 	my @rigg_args	= ();
 
-	my $fullrigg	= qx( which rigg 2> /dev/null );
-	chomp $fullrigg;
-
-	if ( $fullrigg and $rigg_unveil ) {
+	if ( $rigg_unveil ) {
 		# check if rigg supports the binary
 		my @rigg_supported_binaries = split( "\n", qx( rigg -l ) );
 		if ( grep { $_ eq $bin } @rigg_supported_binaries ) {
-			vsay "rigg binary found at: $fullrigg";
 			vsay "replacing $bin is with rigg for execution";
 			$fullbin = 'rigg';
 			if ( $verbosity ) {

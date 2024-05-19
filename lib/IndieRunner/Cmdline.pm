@@ -57,6 +57,12 @@ sub init_cli () {
 		   )
 	or pod2usage(2);
 
+	# if rigg is not available, set rigg_unveil to RIGG_NONE
+	if ( system( 'which rigg > /dev/null 2>&1' ) ) {
+		say 'rigg not found. Continuing without it.' if $verbosity;
+		$rigg_unveil = RIGG_NONE;
+	}
+
 	# keep this in sync with %INIT_ATTRIBUTES_DEFAULTS in IndieRunner.pm
 	return {
 		dir		=> $dir,
