@@ -10,9 +10,9 @@ WriteMakefile(
     NAME                => 'IndieRunner',
     AUTHOR              => q{Thomas Frohwein <thfr@cpan.org>},
     LICENSE		=> 'open_source',
-    MIN_PERL_VERSION	=> ' 5.36.0',
-    VERSION_FROM        => 'bin/indierunner',
-    ABSTRACT_FROM       => 'bin/indierunner',
+    MIN_PERL_VERSION	=> '5.36.0',
+    VERSION_FROM        => 'lib/IndieRunner.pm',
+    ABSTRACT_FROM       => 'lib/IndieRunner.pm',
     PL_FILES            => {},
     PREREQ_PM => {
         'Carp'				=> 0,
