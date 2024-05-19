@@ -32,9 +32,9 @@ README
 README.md
 script/indierunner
 share/config/dllmap.config
-t/00-load.t_
+t/00-load.t
 t/01-IdentifyFiles.t
 t/boilerplate.t
 t/manifest.t
-t/pod-coverage.t_
+t/pod-coverage.t
 t/pod.t
