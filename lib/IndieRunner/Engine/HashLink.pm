@@ -29,7 +29,12 @@ Readonly my @DAT		=> (
 					);
 
 sub setup ( $self ) {
-	map { $$self{ mode_obj }->remove( $_ ) } glob( '*.hdll' );
+	if ( $$self{ rigg_unveil } ) {
+		map { $$self{ mode_obj }->restore( $_ ) } glob( '*.hdll_' );
+	}
+	else {
+		map { $$self{ mode_obj }->remove( $_ ) } glob( '*.hdll' );
+	}
 }
 
 sub get_bin ( $self ) { return $HASHLINK_BIN; }

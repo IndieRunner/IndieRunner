@@ -86,6 +86,10 @@ sub remove ( $self, $file ) {
 	vsay $self, "removing $file";
 }
 
+sub restore ( $self, $file ) {
+	vsay $self, "restoring $file";
+}
+
 sub insert ( $self, $oldfile, $newfile ) {
 	vsay $self, "inserting $oldfile as $newfile";
 }

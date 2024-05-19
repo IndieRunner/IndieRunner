@@ -79,8 +79,9 @@ sub new ( $class, %init ) {
 	$$self{ mode }->vvsay( 'Engine: ' . (split( '::', $engine_class))[-1] );
 	eval "require $engine_class" or die "Failed to load module $engine_class: $@";
 	$$self{ engine } = $engine_class->new(
-		id_file => $engine_id_file || '',
-		mode_obj => $$self{ mode },
+		id_file		=> $engine_id_file || '',
+		mode_obj	=> $$self{ mode },
+		rigg_unveil	=> $$self{ rigg_unveil },
 	);
 
 	# set game from cli argument if present

@@ -93,16 +93,32 @@ sub get_bin ( $self ) {
 }
 
 sub setup ( $self ) {
-	# remove system Mono assemblies, except @MONO_GLOB_EXCLUDE
-	foreach my $f ( get_mono_files() ) {
-		$$self{ mode_obj }->remove( $f )
-			unless grep { /\Q$f\E/ } @MONO_GLOB_EXCLUDE;
+	if ( $$self{ rigg_unveil } ) {
+		# restore any system Mono assemblies
+		foreach my $f ( get_mono_files('_') ) {
+			$$self{ mode_obj }->restore( $f );
+		}
+	}
+	else {
+		# remove system Mono assemblies, except @MONO_GLOB_EXCLUDE
+		foreach my $f ( get_mono_files() ) {
+			$$self{ mode_obj }->remove( $f )
+				unless grep { /\Q$f\E/ } @MONO_GLOB_EXCLUDE;
+		}
 	}
 
-	# remove config files that do dllmap
-	foreach my $c ( glob '*.config' ) {
-		$$self{ mode_obj }->remove( $c )
-			if ( IndieRunner::Helpers::match_bin_file( 'dllmap', $c ) );
+	if ( $$self{ rigg_unveil } ) {
+		# restore any config files
+		foreach my $c ( glob '*.config_' ) {
+			$$self{ mode_obj }->restore( $c );
+		}
+	}
+	else {
+		# remove config files that do dllmap
+		foreach my $c ( glob '*.config' ) {
+			$$self{ mode_obj }->remove( $c )
+				if ( IndieRunner::Helpers::match_bin_file( 'dllmap', $c ) );
+		}
 	}
 
 	# replacement for mono's lost MONO_IOMAP

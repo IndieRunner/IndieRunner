@@ -35,10 +35,19 @@ Readonly my @WMV_TO_OGV => ( '/usr/local/bin/ffmpeg', '-loglevel', 'fatal', '-i'
 # - 7z x -y: verbose output, seems like it can't be quited much (-bd maybe)
 Readonly my @_7Z_COMMAND	=> ( '/usr/local/bin/7z', 'x', '-y' );
 
+# remove doesn't actually delete file, but appends '_'
 sub remove( $self, $file ) {
-	return 0 if ( -f $file.'_' or -d $file.'_' );
+	return 0 if ( -f $file.'_' or -d $file.'_' or $$self{ rigg_unveil } );
 	$self->SUPER::remove( $file );
 	return rename( $file, $file.'_' );
+}
+
+# restore does the opposite of remove: delete '_' suffix
+sub restore( $self, $removed_file ) {
+	my $restored_file = $removed_file;
+	die "$removed_file doesn't end in '_'" unless chop( $restored_file ) eq '_';
+	$self->SUPER::restore( $removed_file );
+	return rename( $removed_file, $restored_file );
 }
 
 sub insert( $self, $oldfile, $newfile ) {
