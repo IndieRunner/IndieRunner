@@ -103,12 +103,9 @@ Platforms
 Dependencies
 ============
 
-Install Perl dependencies on OpenBSD:
-```
-# pkg_add p5-Capture-Tiny p5-File-Copy-Recursive p5-File-Find-Rule p5-File-LibMagic p5-File-Share p5-JSON p5-Path-Tiny p5-Readonly p5-Text-Glob
-```
+For prerequisite Perl modules, see `PREREQ_PM` in [Makefile.PL](Makefile.PL).
 
-External (non-Perl) programs and libraries used:
+Other (non-Perl) programs and libraries used:
 * 7z from p7zip (modules Java, LibGDX, LWJGL2, LWJGL3)
 * CSteamworks (module FNA)
 * FAudio (modules FNA, XNA)
