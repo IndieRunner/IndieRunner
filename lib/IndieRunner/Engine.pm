@@ -26,7 +26,7 @@ sub setup ( $self ) {
 
 	if ( $$self{ rigg_unveil } ) {
 		# check_rigg disables rigg early if no support for engine binary
-		$$self{ mode_obj }->check_rigg( (caller(1))[0]->get_bin() );
+		$$self{ mode_obj }->check_rigg( $self->get_bin() );
 	}
 }
 
