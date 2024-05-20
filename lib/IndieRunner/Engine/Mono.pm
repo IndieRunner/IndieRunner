@@ -135,20 +135,24 @@ sub setup ( $self ) {
 
 sub get_env_ref ( $self ) {
 	my @ld_library_path = (
-		'/usr/local/lib',
-		'/usr/X11R6/lib',
-		'/usr/local/lib/steamworks-nosteam',
-		);
+				'/usr/local/lib',
+				'/usr/X11R6/lib',
+				'/usr/local/lib/steamworks-nosteam',
+			      );
 	my @mono_path = (
-		'/usr/local/share/FNA',
-		'/usr/local/lib/steamworks-nosteam',
-		);
+			  '/usr/local/share/FNA',
+			  '/usr/local/lib/steamworks-nosteam',
+			);
 	my @env = (
-		'LD_LIBRARY_PATH='	. join( ':', @ld_library_path ),
-		'MONO_CONFIG='		. IndieRunner::Engine::Mono::Dllmap::get_dllmap_target(),
-		'MONO_PATH='		. join( ':', @mono_path ),
-		'SDL_PLATFORM=Linux',
-		);
+		    'SDL_PLATFORM=Linux',
+		  );
+	if ( not $$self{ rigg_unveil } ) {
+		push @env,
+			( 'LD_LIBRARY_PATH=' . join( ':', @ld_library_path ),
+			  'MONO_CONFIG=' . IndieRunner::Engine::Mono::Dllmap::get_dllmap_target(),
+			  'MONO_PATH=' . join( ':', @mono_path ),
+			);
+	}
 
 	# quirks
 	foreach my $k ( keys %QUIRKS_ENV ) {
