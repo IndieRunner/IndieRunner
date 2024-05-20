@@ -18,7 +18,7 @@ WriteMakefile(
         'Carp'				=> 0,
         'Config'			=> 0,
         'File::Find::Rule'		=> '0.34',
-        'File::LibMagic			=> '1.23',
+        'File::LibMagic'		=> '1.23',
         'File::LibMagic::Constants'	=> '1.23',
         'File::Path'			=> 0,
         'File::Share'			=> '0.27',
