@@ -23,6 +23,7 @@ use constant {
 	RIGG_NONE	=> 0,
 	RIGG_PERMISSIVE	=> 1,
 	RIGG_STRICT	=> 2,
+	RIGG_DEFAULT	=> 3,
 };
 
 my $dir = '.';
@@ -32,7 +33,7 @@ my $engine;
 my $file;
 my $game;
 my $mode;
-my $rigg_unveil = RIGG_STRICT;
+my $rigg_unveil = RIGG_DEFAULT;
 my $script;
 my $verbosity = 0;
 
@@ -48,8 +49,9 @@ sub init_cli () {
 			'man|m'		=> sub { pod2usage(-exitval => 0,
 			                                     -verbose => 2, ); },
 			'norigg'	=> sub { $rigg_unveil = RIGG_NONE; },
-			'permissive|p'	=> sub { $rigg_unveil = RIGG_PERMISSIVE; },
+			'permissive'	=> sub { $rigg_unveil = RIGG_PERMISSIVE; },
 			'script|s'	=> \$script,
+			'strict'	=> sub { $rigg_unveil = RIGG_STRICT; },
 			'usage'		=> sub { pod2usage(-exitval => 0,
 			                                   -verbose => 0, ); },
 			'verbose|v+'	=> \$verbosity,

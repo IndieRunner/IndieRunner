@@ -36,6 +36,7 @@ use constant {
 	RIGG_NONE	=> 0,
 	RIGG_PERMISSIVE	=> 1,
 	RIGG_STRICT	=> 2,
+	RIGG_DEFAULT	=> 3,
 };
 
 # keep this in sync with return of IndieRunner::Cmdline::init_cli()
@@ -46,7 +47,7 @@ Readonly my %INIT_DEFAULTS => {
 	file		=> '',
 	game		=> '',
 	game_args	=> undef,
-	rigg_unveil	=> RIGG_STRICT,
+	rigg_unveil	=> RIGG_DEFAULT,
 	script		=> undef,
 	verbosity	=> 0,
 };

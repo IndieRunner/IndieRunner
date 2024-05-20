@@ -25,7 +25,17 @@ use constant {
 	RIGG_NONE	=> 0,
 	RIGG_PERMISSIVE	=> 1,
 	RIGG_STRICT	=> 2,
+	RIGG_DEFAULT	=> 3,
 };
+
+Readonly my @NoStrict => (
+	'Anodyne',
+	'AxiomVerge',
+	'DustAET',
+	'Necrovale',
+	'SteelAssaultCs',
+	'Timespinner',
+	);
 
 # XXX: remove if not used
 Readonly my %PLEDGE_GROUP => (
@@ -111,8 +121,20 @@ sub run ( $self, $game_name, %config ) {
 		# check if rigg supports the binary
 		my @rigg_supported_binaries = split( "\n", qx( rigg -l ) );
 		if ( grep { $_ eq $bin } @rigg_supported_binaries ) {
-			vsay "replacing $bin is with rigg for execution";
+			vsay $self, "replacing $bin with rigg for execution";
 			$fullbin = 'rigg';
+
+			# resolve RIGG_DEFAULT into either strict or permissive
+			if ( $rigg_unveil == RIGG_DEFAULT and
+			     grep { index( fc($game_name), fc($_) ) != -1 } @NoStrict ) {
+				     vsay $self, "defaulting to permissive mode (rigg) for $game_name";
+				     $rigg_unveil = RIGG_PERMISSIVE;
+			}
+			elsif ( $rigg_unveil == RIGG_DEFAULT ) {
+				$rigg_unveil = RIGG_STRICT;
+			}
+
+			# build the chain of @rigg_args arguments
 			if ( $verbosity ) {
 				push( @rigg_args, '-v' );
 			}
