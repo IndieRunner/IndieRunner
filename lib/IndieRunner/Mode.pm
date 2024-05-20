@@ -31,9 +31,8 @@ use constant {
 Readonly my @NoStrict => (
 	'AnodyneSharp',
 	'Axiom Verge',
-	'DustAET',
+	'Dust: An Elysian Tail',
 	'Necrovale',
-	'SteelAssaultCs',
 	'Timespinner',
 	);
 
@@ -112,41 +111,48 @@ sub finish ( $self ) {
 	# no-op by default
 }
 
+sub check_rigg ( $self, $binary ) {
+	my @supported_binaries = split( "\n", qx( rigg -l ) );
+	if ( grep { $_ eq $binary } @supported_binaries ) {
+		vsay $self, "replacing $binary with rigg for execution";
+	}
+	else {
+		vsay $self, "rigg disabled (no support for $binary)";
+		$$self{ rigg_unveil } = $rigg_unveil = RIGG_NONE;
+	}
+}
+
+
 sub run ( $self, $game_name, %config ) {
 	my $fullbin	= $config{ bin };
 	my $bin		= (splitpath( $fullbin ))[2];
 	my @rigg_args	= ();
 
 	if ( $rigg_unveil ) {
-		# check if rigg supports the binary
-		my @rigg_supported_binaries = split( "\n", qx( rigg -l ) );
-		if ( grep { $_ eq $bin } @rigg_supported_binaries ) {
-			vsay $self, "replacing $bin with rigg for execution";
-			$fullbin = 'rigg';
+		$fullbin = 'rigg';
 
-			# resolve RIGG_DEFAULT into either strict or permissive
-			if ( $rigg_unveil == RIGG_DEFAULT and
-			     grep { index( fc($game_name), fc($_) ) != -1 } @NoStrict ) {
-				     vsay $self, "defaulting to permissive mode (rigg) for $game_name";
-				     $rigg_unveil = RIGG_PERMISSIVE;
-			}
-			elsif ( $rigg_unveil == RIGG_DEFAULT ) {
-				$rigg_unveil = RIGG_STRICT;
-			}
-
-			# build the chain of @rigg_args arguments
-			if ( $verbosity ) {
-				push( @rigg_args, '-v' );
-			}
-			push( @rigg_args, '-u' );
-			if ( $rigg_unveil == RIGG_STRICT ) {
-				push( @rigg_args, 'strict' );
-			}
-			else {
-				push( @rigg_args, 'permissive' );
-			}
-			push ( @rigg_args, $bin );
+		# resolve RIGG_DEFAULT into either strict or permissive
+		if ( $rigg_unveil == RIGG_DEFAULT and
+		     grep { index( fc($game_name), fc($_) ) != -1 } @NoStrict ) {
+			     vsay $self, "defaulting to permissive mode (rigg) for $game_name";
+			     $rigg_unveil = RIGG_PERMISSIVE;
 		}
+		elsif ( $rigg_unveil == RIGG_DEFAULT ) {
+			$rigg_unveil = RIGG_STRICT;
+		}
+
+		# build the chain of @rigg_args arguments
+		if ( $verbosity ) {
+			push( @rigg_args, '-v' );
+		}
+		push( @rigg_args, '-u' );
+		if ( $rigg_unveil == RIGG_STRICT ) {
+			push( @rigg_args, 'strict' );
+		}
+		else {
+			push( @rigg_args, 'permissive' );
+		}
+		push ( @rigg_args, $bin );
 	}
 
 	my @full_command = ( $fullbin );

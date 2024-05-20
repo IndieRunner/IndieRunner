@@ -27,6 +27,8 @@ Readonly my $GZDOOM_PK3 => '/usr/local/share/games/doom/gzdoom.pk3';
 my $game_ipk3_file;
 
 sub setup ( $self ) {
+	$self->SUPER::setup();
+
 	# neuter gzdoom.pk3 if present and insert
 	# /usr/local/share/games/doom/gzdoom.pk3. Needed for:
 	# - Beyond Sunset (demo)

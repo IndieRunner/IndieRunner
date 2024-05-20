@@ -186,6 +186,7 @@ Letters indicate which platform versions have been tested successfully:
 |Sprout Valley		|Godot3	|W	|	|	|	|	|		|
 |Stardash		|LibGDX	|	|	|L	|	|	|		|
 |Stardew Valley		|MonoGame|	|M	|	|	|	|use MAC 32bit Build|
+|Steel Assault		|FNA	|L	|	|	|	|	|		|
 |Sternly Worded Adventures|Love2D|		|X	|	|	|		|
 |Stone Kingdoms		|Love2D	|	|	|L	|	|	|		|
 |Striving for Light	|Godot3	|	|	|L	|	|	|		|

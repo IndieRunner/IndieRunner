@@ -29,6 +29,8 @@ Readonly my @DAT		=> (
 					);
 
 sub setup ( $self ) {
+	$self->SUPER::setup();
+
 	if ( $$self{ rigg_unveil } ) {
 		map { $$self{ mode_obj }->restore( $_ ) } glob( '*.hdll_' );
 	}

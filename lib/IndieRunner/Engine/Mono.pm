@@ -93,6 +93,8 @@ sub get_bin ( $self ) {
 }
 
 sub setup ( $self ) {
+	$self->SUPER::setup();
+
 	if ( $$self{ rigg_unveil } ) {
 		# restore any system Mono assemblies
 		foreach my $f ( get_mono_files('_') ) {
