@@ -210,4 +210,5 @@ Letters indicate which platform versions have been tested successfully:
 |Vomitoreum		|GZDoom	|L	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
 |V-Hunter Puzzler Dx	|Godot3	|W	|	|	|	|	|		|
 |Wrought Flesh		|Godot3	|L	|	|	|	|	|		|
+|Yolk Heroes: A Long Tamago|Godot3|W	|	|	|	|	|		|
 |The Zachtronics Solitaire Collection|Mono	|L	|	|	|	|	|		|
