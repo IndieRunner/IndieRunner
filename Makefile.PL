@@ -42,7 +42,6 @@ WriteMakefile(
         'Test::More' 			=> 0,
         'Test::Pod'			=> 0,
         'Test::Pod::Coverage'		=> 0,
-        'Test::Simple'			=> 0,
     },
     EXE_FILES => [
         'bin/indierunner',

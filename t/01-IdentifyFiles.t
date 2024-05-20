@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use 5.010;
 
-use Test::Simple tests => 1;
+use Test::More tests => 1;
 
 use IndieRunner::IdentifyFiles qw( get_magic_descr );
 
