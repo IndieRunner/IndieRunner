@@ -103,6 +103,10 @@ sub insert ( $self, $oldfile, $newfile ) {
 	vsay $self, "inserting $oldfile as $newfile";
 }
 
+sub undo_insert( $self, $file ) {
+	vsay $self, "restoring original $file";
+}
+
 sub convert ( $self, $from, $to ) {
 	vsay $self, "converting $from to $to";
 }

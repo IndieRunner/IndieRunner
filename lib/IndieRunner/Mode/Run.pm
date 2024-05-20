@@ -57,6 +57,15 @@ sub insert( $self, $oldfile, $newfile ) {
 	return symlink $oldfile, $newfile;
 }
 
+# undo_insert does the opposite of insert: removes the symlink and puts old file into place
+sub undo_insert( $self, $file ) {
+	if ( not -l $file ) {
+		die "not a symlink: $file";
+	}
+	unlink $file;
+	return restore( $self, $file . '_' );
+}
+
 sub convert( $self, $from, $to ) {
 	if ( -e $to ) {
 		say STDERR "Error: unable convert - target $to already exists";
