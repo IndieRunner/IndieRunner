@@ -47,7 +47,7 @@ Readonly my %INIT_DEFAULTS => {
 	file		=> '',
 	game		=> '',
 	game_args	=> undef,
-	rigg_unveil	=> RIGG_DEFAULT,
+	rigg_unveil	=> undef,
 	script		=> undef,
 	verbosity	=> 0,
 };

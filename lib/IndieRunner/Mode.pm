@@ -29,8 +29,8 @@ use constant {
 };
 
 Readonly my @NoStrict => (
-	'Anodyne',
-	'AxiomVerge',
+	'AnodyneSharp',
+	'Axiom Verge',
 	'DustAET',
 	'Necrovale',
 	'SteelAssaultCs',
