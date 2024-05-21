@@ -117,11 +117,12 @@ sub finish ( $self ) {
 
 sub check_rigg ( $self, $binary ) {
 	my @supported_binaries = split( "\n", qx( rigg -l ) );
-	if ( grep { $_ eq $binary } @supported_binaries ) {
-		vsay $self, "replacing $binary with rigg for execution";
+	my $basename = ( splitpath($binary) )[2];
+	if ( grep { $_ eq $basename } @supported_binaries ) {
+		vsay $self, "replacing $basename with rigg for execution";
 	}
 	else {
-		vsay $self, "rigg disabled (no support for $binary)";
+		vsay $self, "rigg disabled (no support for $basename)";
 		$$self{ rigg_unveil } = $rigg_unveil = RIGG_NONE;
 	}
 }
