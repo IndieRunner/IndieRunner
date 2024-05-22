@@ -35,7 +35,7 @@ Parent class for specific IndieRunner engine modules. Refer to specific engine m
 
 =head2 new()
 
-Create new engine object.
+Create new engine object. Requires an instance of L<IndieRunner::Mode::...> as C<mode_obj> attribute.
 
 =cut
 
@@ -116,6 +116,7 @@ L<IndieRunner::Engine::Mono>
 L<IndieRunner::Engine::MonoGame>
 L<IndieRunner::Engine::ScummVM>
 L<IndieRunner::Engine::XNA>
+L<IndieRunner::Mode>
 
 =head1 AUTHOR
 
