@@ -40,6 +40,10 @@ indierunner - command-line interface to IndieRunner
 
 indierunner [-hnmsvV] [-d I<dir>] [-D I<dllmap>] [-f I<file>] [-g I<game>] [-e I<engine>] [--norigg|--permissive|--strict] [-- I<game arguments>]
 
+=head1 DESCRIPTION
+
+indierunner is the standard CLI interface to the B<IndieRunner> module. It processes CLI flags, creates a new B<IndieRunner> object, and performs the sequence of setup, game execution, and clean-up. It serves as a CLI launcher for various game engines (see L<IndieRunner::Engine>). For supported operating systems, refer to L<IndieRunner::Platform>.
+
 =head1 OPTIONS
 
 =over 8
