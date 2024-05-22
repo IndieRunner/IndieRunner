@@ -13,57 +13,88 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner::Platform;
+
+=head1 NAME
+
+IndieRunner::Platform - supported platforms
+
+=cut
+
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
-use autodie;
-use experimental 'try';
 use English;
 
-use base qw( Exporter );
-our @EXPORT_OK = qw( bin_pathcomplete );
+=head1 SYNOPSIS
 
-use Config;
+  get_platforms();
+  check_platform($name);
+
+=cut
+
+use base qw( Exporter );
+our @EXPORT_OK = qw( get_platforms check_platform );
+
+=head1 DESCRIPTION
+
+Supported Platforms:
+
+=over
+
+=item *
+
+OpenBSD
+
+=back
+
+=cut
+
 use Readonly;
 
-use IndieRunner::Platform::openbsd;
-use IndieRunner::Cmdline;
-
-Readonly my @MUST_INIT => (
+Readonly my @Supported_Platforms => (
 	'openbsd',
 	);
 
-# return array (or first match) of files in $ENV{'PATH'} that start
-# with $fragment. Returns empty array or '' if no match.
-# Can also be used as a test if a binary is in path.
-sub bin_pathcomplete ( $fragment ) {
-	my @matchedfiles;
-	my @path = split( /:/, $ENV{'PATH'} );
-	while (@path) {
-		my $pathdir = shift @path;
-		if (-d $pathdir) {
-			opendir( my $dh, $pathdir);
-			my @candidate_bins = grep { /^\Q$fragment\E/ } readdir( $dh );
-			push @matchedfiles, @candidate_bins;
-			closedir $dh;
-		}
-	}
-	return wantarray ? @matchedfiles : ( $matchedfiles[0] || '' );
+=head1 SUBROUTINES/METHODS
+
+=head2 get_platforms()
+
+  get_platforms();
+
+Return an array of supported platforms.
+
+=cut
+
+sub get_platforms() {
+	return @Supported_Platforms;
 }
 
-# XXX: obsolete? remove?
-sub init_platform () {
-	my $os_platform_module = join( '', __PACKAGE__, '::', $OSNAME );
+=head2 check_platform( $name )
 
-	try {
-		$os_platform_module->init();
+  check_platform('openbsd');
+
+Check if C<$name> is a supported platform.
+
+=cut
+
+sub check_platform( $name ) {
+	if ( grep { fc($_) eq fc($name) } @Supported_Platforms ) {
+		return 1;
 	}
-	catch ($e) {
-		if ( ( grep { /^\Q$OSNAME\E/ } @MUST_INIT ) or
-			( $e =~ !/^\QUndefined subroutine\E/ )  ){
-			say "Fatal: platform init failed for $os_platform_module, with error: $e";
-			exit 1;
-		}
-	}
+	return 0;
 }
 
 1;
+
+__END__
+
+=head1 AUTHOR
+
+Thomas Frohwein E<lt>thfr@cpan.orgE<gt>
+
+=head1 COPYRIGHT
+
+Copyright 2022-2024 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+This program is free software; you can redistribute it and/or modify it under the ISC license.
+
+=cut
