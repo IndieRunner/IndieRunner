@@ -21,10 +21,10 @@ use English;
 use FindBin; use lib "$FindBin::Bin/../lib";
 
 use IndieRunner;
-use IndieRunner::Cmdline;
+use IndieRunner::Cmdline qw( init_cli );
 use IndieRunner::Platform qw( check_platform get_platforms );
 
-my %cli_config = %{ IndieRunner::Cmdline::init_cli() };
+my %cli_config = %{ init_cli() };
 if ( not check_platform( $OSNAME ) ) {
 	warn "Unrecognized platform: $OSNAME... indierunner may not work!";
 }
