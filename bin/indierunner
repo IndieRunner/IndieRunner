@@ -16,13 +16,18 @@
 
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
+use English;
 
 use FindBin; use lib "$FindBin::Bin/../lib";
 
 use IndieRunner;
 use IndieRunner::Cmdline;
+use IndieRunner::Platform qw( check_platform get_platforms );
 
 my %cli_config = %{ IndieRunner::Cmdline::init_cli() };
+if ( not check_platform( $OSNAME ) ) {
+	warn "Unrecognized platform: $OSNAME... indierunner may not work!";
+}
 chdir $cli_config{ dir } or die "Failed to enter $cli_config{ dir }: $!";
 
 my $indierunner = IndieRunner->new( %cli_config );
