@@ -13,13 +13,28 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner::Mode;
+
+=head1 NAME
+
+IndieRunner::Mode - parent class of different IndieRunner modes
+
+=cut
+
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
-
 use English;
 use Readonly;
-
 use File::Spec::Functions qw( devnull splitpath );
+
+=head1 DESCRIPTION
+
+B<Warning! Do not use this class directly, as it is a prototype class for specific IndieRunner modes!>
+
+This is the parent class for the specific mode modules, containing some shared method code. The main modes are L<IndieRunner::Mode::Run> and L<IndieRunner::Mode::Dryrun>. Refer to specific mode modules under L</SEE ALSO> for more information.
+
+=head1 METHODS
+
+=cut
 
 use constant {
 	RIGG_NONE	=> 0,
@@ -45,6 +60,10 @@ Readonly my %PLEDGE_GROUP => (
 my $verbosity;
 my $rigg_unveil;
 
+=head2 vsay(@text)
+
+=cut
+
 sub vsay ( $self, @say_args ) {
 	if ( $verbosity >= 2 ) {
 		say ( '[' . (caller(1))[3] . '] ', @say_args );
@@ -57,6 +76,10 @@ sub vsay ( $self, @say_args ) {
 	return 0;
 }
 
+=head2 vvsay(@text)
+
+=cut
+
 sub vvsay ( $self, @say_args ) {
 	if ( $verbosity >= 2 ) {
 		say ( '[' . (caller(1))[3] . '] ', @say_args );
@@ -65,6 +88,12 @@ sub vvsay ( $self, @say_args ) {
 	return 0;
 }
 
+=head2 vvvsay(@text)
+
+L<perlfunc/say> for up to 3 levels of verbosity.
+
+=cut
+
 sub vvvsay ( $self, @say_args ) {
 	if ( $verbosity >= 3 ) {
 		say ( '[' . (caller(1))[3] . '] ', @say_args );
@@ -72,6 +101,12 @@ sub vvvsay ( $self, @say_args ) {
 	}
 	return 0;
 }
+
+=head2 new( { verbosity => $verbosity, rigg_unveil => $rigg_mode } )
+
+Create new mode object to make use of the polymorphism of mode methods.
+
+=cut
 
 # parent for Mode object constructor
 sub new ( $class, %init ) {
@@ -82,38 +117,86 @@ sub new ( $class, %init ) {
 	$verbosity =	$$self{ verbosity };
 	$rigg_unveil =	$$self{ rigg_unveil };
 
-	init_pledge( $$self{ pledge_group } || 'default' );
+	init_pledge( $$self{ pledge_group } || 'default' );	# XXX: keep?
 
 	return $self;
 }
+
+=head2 extract($file)
+
+File extraction method.
+
+=cut
 
 sub extract ( $self, $file ) {
 	vsay $self, "extracting $file";
 }
 
+=head2 remove($file)
+
+File removal method.
+
+=cut
+
 sub remove ( $self, $file ) {
 	vsay $self, "removing $file";
 }
+
+=head2 restore($file)
+
+File restore method.
+
+=cut
 
 sub restore ( $self, $file ) {
 	vsay $self, "restoring $file";
 }
 
+=head2 insert($oldfile, $newfile)
+
+Method to insert $oldfile as $newfile.
+
+=cut
+
 sub insert ( $self, $oldfile, $newfile ) {
 	vsay $self, "inserting $oldfile as $newfile";
 }
+
+=head2 undo_insert($file)
+
+Reverse L<insert> operation on $file.
+
+=cut
 
 sub undo_insert( $self, $file ) {
 	vsay $self, "restoring original $file";
 }
 
+=head2 convert($from, $to)
+
+Convert file $from to $to. The conversion is determined by the file suffixes.
+
+=cut
+
 sub convert ( $self, $from, $to ) {
 	vsay $self, "converting $from to $to";
 }
 
+=head2 finish()
+
+No-op by default.
+
+=cut
+
 sub finish ( $self ) {
 	# no-op by default
 }
+
+=head2 check_rigg($file)
+
+Check if the binary $file can be replaced by rigg, disable rigg if not.
+
+=cut
 
 sub check_rigg ( $self, $binary ) {
 	my @supported_binaries = split( "\n", qx( rigg -l ) );
@@ -127,6 +210,27 @@ sub check_rigg ( $self, $binary ) {
 	}
 }
 
+=head2 run($game_name, %config)
+
+Launch game with a title $game_name, with details passed via %config.
+
+=over 8
+
+=item bin
+
+Binary to launch.
+
+=item env
+
+Array reference holding the environment settings.
+
+=item args
+
+Array reference to arguments to the engine binary.
+
+=back
+
+=cut
 
 sub run ( $self, $game_name, %config ) {
 	my $fullbin	= $config{ bin };
@@ -172,12 +276,14 @@ sub run ( $self, $game_name, %config ) {
 	return @full_command;
 }
 
-sub set_verbosity ( $self, $verbosity ) {
-	$$self{ verbosity } = $verbosity;
-}
+=head2 init_pledge($group)
+
+Initialize pledge with promises depending on the $group.
+
+=cut
 
 # XXX: remove if not used
-sub init_pledge ( $group ) {
+sub init_pledge ( $self, $group ) {
 	if ( $OSNAME eq 'OpenBSD') {
 		require OpenBSD::Pledge;
 		vvvsay '', 'pledge promises: ' . join( ' ', @{ $PLEDGE_GROUP{ $group } } );
@@ -186,3 +292,23 @@ sub init_pledge ( $group ) {
 }
 
 1;
+
+__END__
+
+=head1 SEE ALSO
+
+L<IndieRunner::Mode::Run>
+L<IndieRunner::Mode::Dryrun>
+L<IndieRunner::Mode::Script>
+
+=head1 AUTHOR
+
+Thomas Frohwein E<lt>thfr@cpan.orgE<gt>
+
+=head1 COPYRIGHT
+
+Copyright 2022-2024 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+This program is free software; you can redistribute it and/or modify it under the ISC license.
+
+=cut
