@@ -13,8 +13,28 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner::Cmdline;
+
+=head1 NAME
+
+IndieRunner::Cmdline - parser for IndieRunner commandline arguments
+
+=cut
+
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
+
+=head1 SYNOPSIS
+
+ use IndieRunner::Cmdline;
+
+ # obtain hash for IndieRunner CLI configuration
+ my %indierunner_config = IndieRunner::Cmdline::init_cli()
+
+=head1 DESCRIPTION
+
+IndieRunner::Cmdline provides subroutine C<init_cli()> for use by a command-line client to configure IndieRunner.
+
+=cut
 
 use Getopt::Long;
 use Pod::Usage;
@@ -37,8 +57,82 @@ my $rigg_unveil = RIGG_DEFAULT;
 my $script;
 my $verbosity = 0;
 
+=head1 SUBROUTINES
+
+=head2 init_cli()
+
+Parse the commandline arguments and return a hash with the configuration. See L</OPTIONS> for available flags.
+
+=cut
+
 sub init_cli () {
 	Getopt::Long::Configure ("bundling");
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<--help/-h>
+
+Print a brief help message.
+
+=item B<--directory=I<directory>/-d I<directory>>
+
+Switch to I<directory>.
+
+=item B<--dllmap=I<file>/-D I<file>>
+
+For use with Mono/FNA/XNA only: specify custom I<file> with dllmap assignments.
+
+=item B<--dryrun/-n>
+
+Show actions that would be taken, without changing or executing anything.
+
+=item B<--engine=I<engine>/-e I<engine>>
+
+Bypass automatic engine detection. Use with caution.
+
+=item B<--file=I<file>/-f I<file>>
+
+Specify the main game file and bypass autodetection.
+
+=item B<--game=I<game>/-g I<game>>
+
+Bypass automatic game detection and run as I<game>. Use with caution.
+
+=item B<--man/-m>
+
+Print the manual page and exit.
+
+=item B<--norigg>
+
+Disable rigg (only applicable if rigg is available on the system).
+
+=item B<--permissive>
+
+Use permissive unveil in rigg (only applicable if rigg is available on the system).
+
+=item B<--script/-s>
+
+Instead of launching the game, generate a shell script to take all the steps (experimental).
+
+=item B<--strict>
+
+Use strict unveil in rigg (only applicable if rigg is available on the system).
+
+=item B<--usage>
+
+Print short usage information.
+
+=item B<--verbose/-v>
+
+Enable verbose output.
+
+=item B<--version/-V>
+
+Print version.
+
+=cut
 	GetOptions (    'help|h'	=> sub { pod2usage(-exitval => 0, -verbose => 1); },
 	                'directory|d=s'	=> \$dir,
 	                'dllmap|D=s'	=> \$dllmap,
@@ -59,12 +153,35 @@ sub init_cli () {
 		   )
 	or pod2usage(2);
 
+=item B<-- I<game arguments>>
+
+Arguments after C<--> are passed to the invocation of the game itself, via the key C<game_args>. Example: C<-windowed -skipintro>
+
+=back
+
+=cut
+
 	# if rigg is not available, set rigg_unveil to RIGG_NONE
 	if ( system( 'which rigg > /dev/null 2>&1' ) ) {
 		say 'rigg not found. Continuing without it.' if $verbosity;
 		$rigg_unveil = RIGG_NONE;
 	}
 
+=head1 RETURN VALUE
+
+init_cli returns a hash with the following keys:
+  dir
+  dllmap
+  dryrun
+  engine
+  file
+  game
+  game_args
+  rigg_unveil
+  script
+  verbosity
+
+=cut
 	# keep this in sync with %INIT_ATTRIBUTES_DEFAULTS in IndieRunner.pm
 	return {
 		dir		=> $dir,
@@ -84,25 +201,22 @@ sub init_cli () {
 
 __END__
 
-=head1 NAME
-
-IndieRunner::Cmdline - command-line parser for construction of IndieRunner object
-
-=head1 SYNOPSIS
-
- use IndieRunner::Cmdline;
-
- # obtain hash for IndieRunner CLI configuration
- my %indierunner_config = IndieRunner::Cmdline::init_cli()
-
-=head1 DESCRIPTION
-
-IndieRunner::Cmdline provides subroutine init_cli() which is meant to be used by a command-line client to configure the creation of IndieRunner object. It is little more than creation of a hash from the commandline arguments. It leaves the use of default values to IndieRunner.
 
 =head1 SEE ALSO
 
-L<IndieRunner>, L<indierunner>.
+L<Getopt::Long>
+L<IndieRunner>
+L<Pod::Usage>
+L<indierunner>
 
 =head1 AUTHOR
 
-Thomas Frohwein
+Thomas Frohwein E<lt>thfr@cpan.orgE<gt>
+
+=head1 COPYRIGHT
+
+Copyright 2022-2024 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+This program is free software; you can redistribute it and/or modify it under the ISC license.
+
+=cut

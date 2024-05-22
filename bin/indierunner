@@ -51,73 +51,7 @@ indierunner is the standard CLI interface to the B<IndieRunner> module. It proce
 
 =head1 OPTIONS
 
-=over 8
-
-=item B<--directory=I<directory>/-d I<directory>>
-
-Switch to I<directory>.
-
-=item B<--dryrun/-n>
-
-Show actions that would be taken, without changing or executing anything.
-
-=item B<--dllmap=I<file>/-D I<file>>
-
-For use with Mono/FNA/XNA only: specify custom I<file> with dllmap assignments.
-
-=item B<--engine=I<engine>/-e I<engine>>
-
-Bypass automatic engine detection. Use with caution.
-
-=item B<--file=I<file>/-f I<file>>
-
-Specify the main game file and bypass autodetection.
-
-=item B<--game=I<game>/-g I<game>>
-
-Bypass automatic game detection and run as I<game>. Use with caution.
-
-=item B<--help/-h>
-
-Print a brief help message.
-
-=item B<--man/-m>
-
-Print the manual page and exits.
-
-=item B<--norigg>
-
-Disable rigg (only applicable if rigg is available on the system).
-
-=item B<--permissive>
-
-Use permissive unveil in rigg (only applicable if rigg is available on the system).
-
-=item B<--script/-s>
-
-Instead of launching the game, generate a shell script to take all the steps (experimental).
-
-=item B<--strict>
-
-Use strict unveil in rigg (only applicable if rigg is available on the system).
-
-=item B<--usage>
-
-Print short usage information.
-
-=item B<--verbose/-v>
-
-Enable verbose output.
-
-=item B<--version/-V>
-
-Print version.
-
-=item B<-- I<game arguments>>
-
-Arguments to pass to the invocation of the game itself, like: C<-windowed -skipintro>
-
-=back
+See L<IndieRunner::Cmdline> for a list of options.
 
 =head1 DESCRIPTION
 
