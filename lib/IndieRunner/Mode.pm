@@ -117,7 +117,7 @@ sub new ( $class, %init ) {
 	$verbosity =	$$self{ verbosity };
 	$rigg_unveil =	$$self{ rigg_unveil };
 
-	init_pledge( $$self{ pledge_group } || 'default' );	# XXX: keep?
+	init_pledge( $self, $$self{ pledge_group } || 'default' );	# XXX: keep?
 
 	return $self;
 }
