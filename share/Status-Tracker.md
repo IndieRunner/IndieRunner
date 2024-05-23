@@ -31,7 +31,7 @@ Letters indicate which platform versions have been tested successfully:
 |Balatro		|Love2D	|W	|	|	|	|	|		|
 |Balrum			|LWJGL3	|	|L	|	|	|	|		|
 |Battlevoid Harbinger	|LibGDX	|	|	|	|	|	|no audio	|
-|Beyond Sunset (demo)	|GZDoom	|L	|	|	|	|	|frequent, unpredicatable crashes|
+|Beyond Sunset (demo)	|GZDoom	|L	|	|	|	|	|frequent, unpredictable crashes|
 |Blade Runner		|ScummVM|	|L	|	|	|	|		|
 |Bleed			|FNA	|	|	|	|	|Humble:L|		|
 |Bleed 2		|FNA	|L	|	|	|	|	|		|
