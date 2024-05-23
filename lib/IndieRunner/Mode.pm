@@ -51,6 +51,10 @@ Readonly my @NoStrict => (
 	'Timespinner',
 	);
 
+Readonly my @NoRigg => (
+	'tiny_slash',	# aka Cat Warrior
+	);
+
 # XXX: remove if not used
 Readonly my %PLEDGE_GROUP => (
 	'default'	=> [ qw( rpath cpath proc exec prot_exec flock unveil ) ],
@@ -58,8 +62,6 @@ Readonly my %PLEDGE_GROUP => (
 	);
 
 my $verbosity;
-my $rigg_unveil;
-
 =head2 vsay(@text)
 
 =cut
@@ -128,13 +130,32 @@ sub new ( $class, %init ) {
 	%$self = ( %$self, %init );
 
 	# make verbosity available for vsay etc.
-	$verbosity =	$$self{ verbosity };
-	$rigg_unveil =	$$self{ rigg_unveil };
+	$verbosity =	$$self{ verbosity } || \$$self{ ir_obj }{ verbosity };
+	say "DEBUG: verbosity: ${ $verbosity }";
+	exit;
 
 	init_pledge( $self, $$self{ pledge_group } || 'default' );	# XXX: keep?
 
 	return $self;
 }
+
+sub rigg_quirks( $self, $game_name ) {
+	# resolve RIGG_DEFAULT into strict, permissive, or none
+	if ( $$self{ rigg_unveil } == RIGG_DEFAULT ) {
+		if ( grep { index( fc($game_name), fc($_) ) != -1 } @NoStrict ) {
+		     $self->vsay( "defaulting to permissive mode (rigg) for $game_name" );
+		     $$self{ rigg_unveil } = RIGG_PERMISSIVE;
+		}
+		elsif ( grep { index( fc($game_name), fc($_) ) != -1 } @NoRigg ) {
+		     $self->vsay( "by default running $game_name without rigg" );
+		     $$self{ rigg_unveil } = RIGG_NONE;
+		}
+		else {
+			$$self{ rigg_unveil } = RIGG_STRICT;
+		}
+	}
+}
+
 
 =head2 extract($file)
 
@@ -206,21 +227,22 @@ sub finish ( $self ) {
 	# no-op by default
 }
 
-=head2 check_rigg($file)
+=head2 check_rigg_binary($file)
 
 Check if the binary $file can be replaced by rigg, disable rigg if not.
 
 =cut
 
-sub check_rigg ( $self, $binary ) {
+sub check_rigg_binary ( $self, $binary ) {
+	return unless $$self{ rigg_unveil };
 	my @supported_binaries = split( "\n", qx( rigg -l ) );
 	my $basename = ( splitpath($binary) )[2];
 	if ( grep { $_ eq $basename } @supported_binaries ) {
-		$self->vsay( "replacing $basename with rigg for execution" );
+		$self->vsay( "enabling rigg for supported binary $basename" );
 	}
 	else {
 		$self->vsay( "rigg disabled (no support for $basename)" );
-		$$self{ rigg_unveil } = $rigg_unveil = RIGG_NONE;
+		$$self{ rigg_unveil } = RIGG_NONE;
 	}
 }
 
@@ -251,25 +273,15 @@ sub run ( $self, $game_name, %config ) {
 	my $bin		= (splitpath( $fullbin ))[2];
 	my @rigg_args	= ();
 
-	if ( $rigg_unveil ) {
+	if ( $$self{ rigg_unveil } ) {
 		$fullbin = 'rigg';
-
-		# resolve RIGG_DEFAULT into either strict or permissive
-		if ( $rigg_unveil == RIGG_DEFAULT and
-		     grep { index( fc($game_name), fc($_) ) != -1 } @NoStrict ) {
-			     $self->vsay( "defaulting to permissive mode (rigg) for $game_name" );
-			     $rigg_unveil = RIGG_PERMISSIVE;
-		}
-		elsif ( $rigg_unveil == RIGG_DEFAULT ) {
-			$rigg_unveil = RIGG_STRICT;
-		}
 
 		# build the chain of @rigg_args arguments
 		if ( $verbosity ) {
 			push( @rigg_args, '-v' );
 		}
 		push( @rigg_args, '-u' );
-		if ( $rigg_unveil == RIGG_STRICT ) {
+		if ( $$self{ rigg_unveil } == RIGG_STRICT ) {
 			push( @rigg_args, 'strict' );
 		}
 		else {

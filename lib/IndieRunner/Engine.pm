@@ -54,8 +54,8 @@ sub setup ( $self ) {
 	$$self{ mode_obj }->vvsay( 'Setup' );
 
 	if ( $$self{ rigg_unveil } ) {
-		# check_rigg disables rigg early if no support for engine binary
-		$$self{ mode_obj }->check_rigg( $self->get_bin() );
+		# check_rigg_binary disables rigg early if no support for engine binary
+		$$self{ mode_obj }->check_rigg_binary( $self->get_bin() );
 	}
 }
 

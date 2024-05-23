@@ -67,7 +67,9 @@ sub new ( $class, %init ) {
 	my $mode = __PACKAGE__ . '::Mode::' . ( $init{ script } ? 'Script' : ( $init{ dryrun } ? 'Dryrun' : 'Run' ) );
 	eval "require $mode" or die "Failed to load module $mode: $@";
 	$$self{ mode } = $mode->new(
-		verbosity	=> $$self{ verbosity },
+		# ir_obj: IndieRunner object for referencing verbosity, rigg_unveil
+		ir_obj		=> $self,
+		#verbosity	=> $$self{ verbosity },
 		rigg_unveil	=> $$self{ rigg_unveil },
 	);
 	$$self{ mode }->vvsay( 'Mode: ' . (split( '::', $mode))[-1] );
@@ -80,19 +82,25 @@ sub new ( $class, %init ) {
 	$$self{ mode }->vvsay( 'Engine: ' . (split( '::', $engine_class))[-1] );
 	eval "require $engine_class" or die "Failed to load module $engine_class: $@";
 	$$self{ engine } = $engine_class->new(
+		# ir_obj: IndieRunner object for referencing verbosity, rigg_unveil
+		ir_obj		=> $self,
 		id_file		=> $engine_id_file || '',
 		mode_obj	=> $$self{ mode },
 		rigg_unveil	=> $$self{ rigg_unveil },
 	);
 
 	# set game from cli argument if present
-	my $game = $init{ game } || detect_game_name( $$self{ engine } );
-	$$self{ mode }->vvsay( 'Game Name: ' . $game );
+	my $game_name = $init{ game } || detect_game_name( $$self{ engine } );
+	$$self{ mode }->vvsay( 'Game Name: ' . $game_name );
 
-	$$self{ engine }->set_game_name( $game );
+	if ( $$self{ rigg_unveil } ) {
+		$$self{ mode }->rigg_quirks( $game_name );
+	}
+
+	$$self{ engine }->set_game_name( $game_name );
 
 	$$self{ game } = ( __PACKAGE__ . '::Game' )->new(
-		name		=> $game,
+		name		=> $game_name,
 		engine		=> $$self{ engine },
 		user_args	=> @$self{ game_args },
 	);
