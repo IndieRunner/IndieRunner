@@ -6,7 +6,7 @@ use 5.010;
 
 use Test::More tests => 4;
 
-use IndieRunner::IdentifyFiles qw( get_magic_descr find_file_magic );
+use IndieRunner::Helpers qw( get_magic_descr find_file_magic );
 
 is( get_magic_descr( 'README' ), 'ASCII text', 'recognize ASCII text file' );
 
