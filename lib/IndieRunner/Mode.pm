@@ -65,7 +65,11 @@ my $rigg_unveil;
 =cut
 
 sub vsay ( $self, @say_args ) {
-	if ( $verbosity >= 2 ) {
+	# if contains nothing but whitespace, print just an empty line
+	my $not_empty= join('', @say_args);
+	$not_empty =~ s/\s//g;
+
+	if ( $verbosity >= 2 && $not_empty ) {
 		say ( '[' . (caller(1))[3] . '] ', @say_args );
 		return 1;
 	}
@@ -81,7 +85,12 @@ sub vsay ( $self, @say_args ) {
 =cut
 
 sub vvsay ( $self, @say_args ) {
-	if ( $verbosity >= 2 ) {
+	# if contains nothing but whitespace, print just an empty line
+	my $not_empty= join('', @say_args);
+	$not_empty =~ s/\s//g;
+
+	if ( $verbosity >= 2 && $not_empty ) {
+	#if ( $verbosity >= 2 ) {
 		say ( '[' . (caller(1))[3] . '] ', @say_args );
 		return 1;
 	}
@@ -95,7 +104,12 @@ L<perlfunc/say> for up to 3 levels of verbosity.
 =cut
 
 sub vvvsay ( $self, @say_args ) {
-	if ( $verbosity >= 3 ) {
+	# if contains nothing but whitespace, print just an empty line
+	my $not_empty= join('', @say_args);
+	$not_empty =~ s/\s//g;
+
+	if ( $verbosity >= 2 && $not_empty ) {
+	#if ( $verbosity >= 3 ) {
 		say ( '[' . (caller(1))[3] . '] ', @say_args );
 		return 1;
 	}
@@ -270,7 +284,8 @@ sub run ( $self, $game_name, %config ) {
 	push( @full_command, @rigg_args );
 	push( @full_command, @{ $config{ args } } ) if ( @{ $config{ args } } );
 
-	vsay $self, "\nLauching $game_name";
+	$self->vsay( '' );
+	vsay $self, "Lauching $game_name";
 	vsay $self, "Executing: " . join( ' ', @full_command ) . "\n";
 
 	return @full_command;
