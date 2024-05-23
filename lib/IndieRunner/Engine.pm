@@ -53,7 +53,7 @@ Perform engine-specific setup operations.
 sub setup ( $self ) {
 	$$self{ mode_obj }->vvsay( 'Setup' );
 
-	if ( $$self{ rigg_unveil } ) {
+	if ( $$self{ ir_obj }->get_use_rigg ) {
 		# check_rigg_binary disables rigg early if no support for engine binary
 		$$self{ mode_obj }->check_rigg_binary( $self->get_bin() );
 	}

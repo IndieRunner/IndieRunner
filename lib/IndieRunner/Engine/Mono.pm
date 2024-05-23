@@ -94,7 +94,7 @@ sub get_bin ( $self ) {
 sub setup ( $self ) {
 	$self->SUPER::setup();
 
-	if ( $$self{ rigg_unveil } ) {
+	if ( $$self{ ir_obj }->get_use_rigg ) {
 		# restore any system Mono assemblies
 		foreach my $f ( get_mono_files('_') ) {
 			$$self{ mode_obj }->restore( $f );
@@ -108,7 +108,7 @@ sub setup ( $self ) {
 		}
 	}
 
-	if ( $$self{ rigg_unveil } ) {
+	if ( $$self{ ir_obj }->get_use_rigg ) {
 		# restore any config files
 		foreach my $c ( glob '*.config_' ) {
 			$$self{ mode_obj }->restore( $c );
@@ -145,7 +145,7 @@ sub get_env_ref ( $self ) {
 	my @env = (
 		    'SDL_PLATFORM=Linux',
 		  );
-	if ( not $$self{ rigg_unveil } ) {
+	if ( not $$self{ ir_obj }->get_use_rigg ) {
 		push @env,
 			( 'LD_LIBRARY_PATH=' . join( ':', @ld_library_path ),
 			  'MONO_CONFIG=' . IndieRunner::Engine::Mono::Dllmap::get_dllmap_target(),

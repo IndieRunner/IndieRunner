@@ -62,6 +62,20 @@ Readonly my %PLEDGE_GROUP => (
 	);
 
 my $verbosity;
+
+sub verbosity( $self ) {
+	# default is the reference to the IndieRunner object's verbosity
+	# This is overridden if set for this module
+	return $$self{ verbosity } || $$self{ ir_obj }{ verbosity };
+}
+
+sub use_rigg( $self ) {
+	# default is the reference to the IndieRunner object's rigg_unveil
+	# This is overridden if set for this module
+	return $$self{ rigg_unveil } || $$self{ ir_obj }->get_use_rigg;
+}
+
+
 =head2 vsay(@text)
 
 =cut
@@ -71,11 +85,11 @@ sub vsay ( $self, @say_args ) {
 	my $not_empty= join('', @say_args);
 	$not_empty =~ s/\s//g;
 
-	if ( $verbosity >= 2 && $not_empty ) {
+	if ( $self->verbosity >= 2 && $not_empty ) {
 		say ( '[' . (caller(1))[3] . '] ', @say_args );
 		return 1;
 	}
-	elsif ( $verbosity >= 1 ) {
+	elsif ( $self->verbosity >= 1 ) {
 		say @say_args;
 		return 1;
 	}
@@ -91,8 +105,7 @@ sub vvsay ( $self, @say_args ) {
 	my $not_empty= join('', @say_args);
 	$not_empty =~ s/\s//g;
 
-	if ( $verbosity >= 2 && $not_empty ) {
-	#if ( $verbosity >= 2 ) {
+	if ( $self->verbosity >= 2 && $not_empty ) {
 		say ( '[' . (caller(1))[3] . '] ', @say_args );
 		return 1;
 	}
@@ -110,8 +123,7 @@ sub vvvsay ( $self, @say_args ) {
 	my $not_empty= join('', @say_args);
 	$not_empty =~ s/\s//g;
 
-	if ( $verbosity >= 2 && $not_empty ) {
-	#if ( $verbosity >= 3 ) {
+	if ( $self->verbosity >= 2 && $not_empty ) {
 		say ( '[' . (caller(1))[3] . '] ', @say_args );
 		return 1;
 	}
@@ -129,11 +141,6 @@ sub new ( $class, %init ) {
 	my $self = bless {}, $class;
 	%$self = ( %$self, %init );
 
-	# make verbosity available for vsay etc.
-	$verbosity =	$$self{ verbosity } || \$$self{ ir_obj }{ verbosity };
-	say "DEBUG: verbosity: ${ $verbosity }";
-	exit;
-
 	init_pledge( $self, $$self{ pledge_group } || 'default' );	# XXX: keep?
 
 	return $self;
@@ -141,17 +148,17 @@ sub new ( $class, %init ) {
 
 sub rigg_quirks( $self, $game_name ) {
 	# resolve RIGG_DEFAULT into strict, permissive, or none
-	if ( $$self{ rigg_unveil } == RIGG_DEFAULT ) {
+	if ( $self->use_rigg == RIGG_DEFAULT ) {
 		if ( grep { index( fc($game_name), fc($_) ) != -1 } @NoStrict ) {
-		     $self->vsay( "defaulting to permissive mode (rigg) for $game_name" );
-		     $$self{ rigg_unveil } = RIGG_PERMISSIVE;
+			$self->vsay( "defaulting to permissive mode (rigg) for $game_name" );
+			$$self{ ir_obj }->set_use_rigg( RIGG_PERMISSIVE );
 		}
 		elsif ( grep { index( fc($game_name), fc($_) ) != -1 } @NoRigg ) {
-		     $self->vsay( "by default running $game_name without rigg" );
-		     $$self{ rigg_unveil } = RIGG_NONE;
+			$self->vsay( "by default running $game_name without rigg" );
+			$$self{ ir_obj }->set_use_rigg( RIGG_NONE );
 		}
 		else {
-			$$self{ rigg_unveil } = RIGG_STRICT;
+			$$self{ ir_obj }->set_use_rigg( RIGG_STRICT );
 		}
 	}
 }
@@ -234,7 +241,7 @@ Check if the binary $file can be replaced by rigg, disable rigg if not.
 =cut
 
 sub check_rigg_binary ( $self, $binary ) {
-	return unless $$self{ rigg_unveil };
+	return unless $self->use_rigg;
 	my @supported_binaries = split( "\n", qx( rigg -l ) );
 	my $basename = ( splitpath($binary) )[2];
 	if ( grep { $_ eq $basename } @supported_binaries ) {
@@ -242,7 +249,7 @@ sub check_rigg_binary ( $self, $binary ) {
 	}
 	else {
 		$self->vsay( "rigg disabled (no support for $basename)" );
-		$$self{ rigg_unveil } = RIGG_NONE;
+		$$self{ ir_obj }->set_use_rigg( RIGG_NONE );
 	}
 }
 
@@ -313,7 +320,7 @@ Initialize pledge with promises depending on the $group.
 sub init_pledge ( $self, $group ) {
 	if ( $OSNAME eq 'OpenBSD') {
 		require OpenBSD::Pledge;
-		vvvsay '', 'pledge promises: ' . join( ' ', @{ $PLEDGE_GROUP{ $group } } );
+		$self->vvvsay( 'pledge promises: ' . join( ' ', @{ $PLEDGE_GROUP{ $group } } ) );
 		pledge( @{ $PLEDGE_GROUP{ $group } } ) || die "unable to pledge: $!";
 	}
 }

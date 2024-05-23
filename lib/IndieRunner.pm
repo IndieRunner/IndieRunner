@@ -52,8 +52,19 @@ Readonly my %INIT_DEFAULTS => {
 	verbosity	=> 0,
 };
 
+sub get_use_rigg( $self ) {
+	return $$self{ rigg_unveil };
+}
+
+sub set_use_rigg( $self, $rigg_mode ) {
+	if ( $rigg_mode < RIGG_NONE or $rigg_mode > RIGG_DEFAULT ) {
+		croak "tried to set invalid rigg mode: $rigg_mode";
+	}
+	$$self{ rigg_unveil } = $rigg_mode;
+}
+
 sub new ( $class, %init ) {
-	my $self = {};
+	my $self = bless {}, $class;
 
 	my $engine;
 	my $engine_id_file;
@@ -70,7 +81,7 @@ sub new ( $class, %init ) {
 		# ir_obj: IndieRunner object for referencing verbosity, rigg_unveil
 		ir_obj		=> $self,
 		#verbosity	=> $$self{ verbosity },
-		rigg_unveil	=> $$self{ rigg_unveil },
+		#rigg_unveil	=> $$self{ rigg_unveil },
 	);
 	$$self{ mode }->vvsay( 'Mode: ' . (split( '::', $mode))[-1] );
 
@@ -105,7 +116,7 @@ sub new ( $class, %init ) {
 		user_args	=> @$self{ game_args },
 	);
 
-	return bless $self, $class;
+	return $self;
 }
 
 sub detect_engine ( $self ) {
