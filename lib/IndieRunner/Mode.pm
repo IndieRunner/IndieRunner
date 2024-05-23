@@ -143,7 +143,7 @@ File extraction method.
 =cut
 
 sub extract ( $self, $file ) {
-	vsay $self, "extracting $file";
+	$self->vsay( "extracting $file" );
 }
 
 =head2 remove($file)
@@ -153,7 +153,7 @@ File removal method.
 =cut
 
 sub remove ( $self, $file ) {
-	vsay $self, "removing $file";
+	$self->vsay( "removing $file" );
 }
 
 =head2 restore($file)
@@ -163,7 +163,7 @@ File restore method.
 =cut
 
 sub restore ( $self, $file ) {
-	vsay $self, "restoring $file";
+	$self->vsay( "restoring $file" );
 }
 
 =head2 insert($oldfile, $newfile)
@@ -173,7 +173,7 @@ Method to insert $oldfile as $newfile.
 =cut
 
 sub insert ( $self, $oldfile, $newfile ) {
-	vsay $self, "inserting $oldfile as $newfile";
+	$self->vsay( "inserting $oldfile as $newfile" );
 }
 
 =head2 undo_insert($file)
@@ -183,7 +183,7 @@ Reverse L<insert> operation on $file.
 =cut
 
 sub undo_insert( $self, $file ) {
-	vsay $self, "restoring original $file";
+	$self->vsay( "restoring original $file" );
 }
 
 =head2 convert($from, $to)
@@ -193,7 +193,7 @@ Convert file $from to $to. The conversion is determined by the file suffixes.
 =cut
 
 sub convert ( $self, $from, $to ) {
-	vsay $self, "converting $from to $to";
+	$self->vsay( "converting $from to $to" );
 }
 
 =head2 finish()
@@ -216,10 +216,10 @@ sub check_rigg ( $self, $binary ) {
 	my @supported_binaries = split( "\n", qx( rigg -l ) );
 	my $basename = ( splitpath($binary) )[2];
 	if ( grep { $_ eq $basename } @supported_binaries ) {
-		vsay $self, "replacing $basename with rigg for execution";
+		$self->vsay( "replacing $basename with rigg for execution" );
 	}
 	else {
-		vsay $self, "rigg disabled (no support for $basename)";
+		$self->vsay( "rigg disabled (no support for $basename)" );
 		$$self{ rigg_unveil } = $rigg_unveil = RIGG_NONE;
 	}
 }
@@ -257,7 +257,7 @@ sub run ( $self, $game_name, %config ) {
 		# resolve RIGG_DEFAULT into either strict or permissive
 		if ( $rigg_unveil == RIGG_DEFAULT and
 		     grep { index( fc($game_name), fc($_) ) != -1 } @NoStrict ) {
-			     vsay $self, "defaulting to permissive mode (rigg) for $game_name";
+			     $self->vsay( "defaulting to permissive mode (rigg) for $game_name" );
 			     $rigg_unveil = RIGG_PERMISSIVE;
 		}
 		elsif ( $rigg_unveil == RIGG_DEFAULT ) {
@@ -285,8 +285,8 @@ sub run ( $self, $game_name, %config ) {
 	push( @full_command, @{ $config{ args } } ) if ( @{ $config{ args } } );
 
 	$self->vsay( '' );
-	vsay $self, "Lauching $game_name";
-	vsay $self, "Executing: " . join( ' ', @full_command ) . "\n";
+	$self->vsay( "Lauching $game_name" );
+	$self->vsay( 'Executing: ', join( ' ', @full_command ), "\n" );
 
 	return @full_command;
 }
