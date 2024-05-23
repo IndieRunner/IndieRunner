@@ -48,6 +48,7 @@ Letters indicate which platform versions have been tested successfully:
 |Capsized		|MonoGame|	|L	|	|	|	|		|
 |Cards with Personalities|Godot3|W	|	|	|	|	|		|
 |Cassette Beasts	|Godot3	|L	|	|	|	|	|		|
+|Cat Warrior		|FNA	|L	|	|	|	|	|		|
 |Celeste		|FNA	|W	|	|L	|	|	|no audio	|
 |Charlie Murder		|FNA	|L	|	|	|	|	|no online multiplayer|
 |Chasm			|FNA	|	|L	|	|	|	|		|
