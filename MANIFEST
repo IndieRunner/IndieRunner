@@ -23,7 +23,6 @@ lib/IndieRunner/Engine/XNA.pm
 lib/IndieRunner/Game.pm
 lib/IndieRunner/GrandCentral.pm
 lib/IndieRunner/Helpers.pm
-lib/IndieRunner/IdentifyFiles.pm
 lib/IndieRunner/Info.pm
 lib/IndieRunner/Io.pm
 lib/IndieRunner/Mode.pm

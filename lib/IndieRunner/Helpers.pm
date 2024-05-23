@@ -16,8 +16,28 @@ package IndieRunner::Helpers;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use autodie;
+use base qw( Exporter );
+our @EXPORT_OK = qw ( get_magic_descr find_file_magic match_bin_file );
 
+use File::Find::Rule;
+use File::LibMagic;
 use Path::Tiny;
+
+sub get_magic_descr ( $file ) {
+	return File::LibMagic	->new
+				->info_from_filename( $file )
+				->{description};
+}
+
+sub find_file_magic ( $magic_regex, @files ) {
+	my @out;
+	foreach my $f ( @files ) {
+		if( grep( /$magic_regex/, get_magic_descr( $f ) ) ) {
+			push @out, $f;
+		}
+	}
+	return @out;
+}
 
 # return first regex match from within a raw file
 sub match_bin_file ( $regex, $file, $case_insensitive = 0 ) {

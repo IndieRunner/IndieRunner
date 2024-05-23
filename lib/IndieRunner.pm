@@ -28,7 +28,7 @@ use IndieRunner::Engine::Mono;		# for get_mono_files
 use IndieRunner::Engine::ScummVM;	# for detect_game during engine heuristic
 use IndieRunner::Game;
 use IndieRunner::GrandCentral;
-use IndieRunner::IdentifyFiles;
+use IndieRunner::Helpers qw( find_file_magic );
 use IndieRunner::Info;
 use IndieRunner::Io;
 
@@ -185,8 +185,8 @@ sub detect_game_name ( $engine_module ) {
 	}
 
 	$game_name = IndieRunner::Info::goggame_name() unless $game_name;
-	($game_name) = IndieRunner::IdentifyFiles::find_file_magic( '^ELF.*executable', glob '*' ) unless $game_name;
-	($game_name) = IndieRunner::IdentifyFiles::find_file_magic( '^PE32 executable \(console\)', glob '*' ) unless $game_name;
+	($game_name) = find_file_magic( '^ELF.*executable', glob '*' ) unless $game_name;
+	($game_name) = find_file_magic( '^PE32 executable \(console\)', glob '*' ) unless $game_name;
 	$game_name = 'unknown' unless $game_name;	# bail
 
 	# XXX: set $game_name from $$self{ file } if not identified yet
@@ -282,7 +282,7 @@ L<IndieRunner::Engine::FNA>, L<IndieRunner::Engine::GZDoom>, L<IndieRunner::Engi
 
 =head2 Other
 
-L<IndieRunner::Mode>, L<IndieRunner::GrandCentral>, L<IndieRunner::IdentifyFiles>.
+L<IndieRunner::Mode>, L<IndieRunner::GrandCentral>, L<IndieRunner::Helpers>.
 
 =head1 AUTHOR
 

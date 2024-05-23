@@ -23,8 +23,7 @@ use Readonly;
 
 use IndieRunner::Engine::Mono::Dllmap;
 use IndieRunner::Engine::Mono::Iomap;
-use IndieRunner::Helpers;
-use IndieRunner::IdentifyFiles;
+use IndieRunner::Helpers qw( match_bin_file );
 
 # OpenBSD:	/usr/local/bin/mono
 # Gentoo:	/usr/bin/mono
@@ -119,7 +118,7 @@ sub setup ( $self ) {
 		# remove config files that do dllmap
 		foreach my $c ( glob '*.config' ) {
 			$$self{ mode_obj }->remove( $c )
-				if ( IndieRunner::Helpers::match_bin_file( 'dllmap', $c ) );
+				if ( match_bin_file( 'dllmap', $c ) );
 		}
 	}
 
