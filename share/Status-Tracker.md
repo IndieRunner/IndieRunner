@@ -31,7 +31,7 @@ Letters indicate which platform versions have been tested successfully:
 |Balatro		|Love2D	|W	|	|	|	|	|		|
 |Balrum			|LWJGL3	|	|L	|	|	|	|		|
 |Battlevoid Harbinger	|LibGDX	|	|	|	|	|	|no audio	|
-|Beyond Sunset (demo)	|GZDoom	|L	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
+|Beyond Sunset (demo)	|GZDoom	|L	|	|	|	|	|frequent, unpredicatable crashes|
 |Blade Runner		|ScummVM|	|L	|	|	|	|		|
 |Bleed			|FNA	|	|	|	|	|Humble:L|		|
 |Bleed 2		|FNA	|L	|	|	|	|	|		|
@@ -39,7 +39,7 @@ Letters indicate which platform versions have been tested successfully:
 |BLUE REVOLVER		|Love2D	|	|	|L	|	|	|XXX: detects wrong Love2D version|
 |Brawl Tactics: Origins	|W	|	|	|	|	|	|		|
 |Breath of Death VII	|XNA	|W	|	|	|	|	|		|
-|Britebot		|Love2D	|	|	|L	|	|	|love-0.10	|
+|Britebot		|Love2D	|	|	|L	|	|	|		|
 |Broken Sword II: The Smoking Mirror|ScummVM||W	|	|	|	|original game, not remastered version|
 |Brotato		|Godot3	|W	|	|	|	|	|		|
 |Brushwood Buddies	|FNA	|	|	|L	|	|	|		|
@@ -73,7 +73,7 @@ Letters indicate which platform versions have been tested successfully:
 |Dust: An Elysian Tail	|FNA	|	|L	|	|	|	|		|
 |Eagle Island		|MonoGame|	|L	|	|	|	|run in subdirectory 'Linux'|
 |Eliza			|Mono	|	|L	|	|	|	|		|
-|Endoparasitic		|Godot3	|L	|	|	|	|	|Godot with mono support|
+|Endoparasitic		|Godot3	|L	|	|	|	|	|		|
 |An English Haunting	|ScummVM|	|	|W	|	|	|		|
 |Escape Goat		|MonoGame|	|	|	|	|Humble:L|		|
 |Escape Goat 2		|MonoGame|	|	|	|	|Humble:L|		|
@@ -88,12 +88,12 @@ Letters indicate which platform versions have been tested successfully:
 |Flinthook		|FNA	|L	|	|	|	|	|		|
 |Flotilla		|FNA	|	|	|L	|	|	|		|
 |Forest's Secret	|LibGDX	|	|	|L	|	|	|		|
-|The Forestale		|GZDoom	|W	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
+|The Forestale		|GZDoom	|W	|	|	|	|	|		|
 |Fraymakers		|HashLink|L	|	|	|	|	|early access	|
-|Fury's Sky		|GZDoom	|W	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
+|Fury's Sky		|GZDoom	|W	|	|	|	|	|		|
 |Gateways		|MonoGame|	|	|	|	|Humble:L|Humble version works. Steam version needs more API in steamwrapper stub.|
 |Glitchangels		|FNA	|L	|	|	|	|	|		|
-|Gravity Circuit	|Love2D	|L	|	|	|	|	|needs luasteam	|
+|Gravity Circuit	|Love2D	|L	|	|	|	|	|		|
 |Groundskeeper 2	|LibGDX	|	|	|L	|	|	|		|
 |Growing Pains		|FNA	|L	|	|	|	|	|		|
 |Gunslugs		|LibGDX	|	|	|L	|	|	|		|
@@ -103,16 +103,16 @@ Letters indicate which platform versions have been tested successfully:
 |Heroes of Loot		|LibGDX	|	|	|L	|	|	|		|
 |Hexes			|Godot3	|L	|	|	|	|	|		|
 |Hive			|FNA	|L	|	|	|	|	|		|
-|Hoarder's Horrible House of Stuff|Love2D||	|L	|	|	|love-11	|
+|Hoarder's Horrible House of Stuff|Love2D||	|L	|	|	|		|
 |Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
-|I Am Sakuya		|GZDoom	|W	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
+|I Am Sakuya		|GZDoom	|W	|	|	|	|	|		|
 |If On A Winter's Night, Four Travelers|ScummVM|||L	|	|	|		|
 |INC: The Beginning	|LibGDX	|	|	|L	|	|	|		|
 |Into the Necrovale	|HashLink|		|L(demo)|	|	|		|
 |The Isolated Town	|Godot3	|	|	|L	|	|	|		|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
 |Kitsune Zero		|FNA	|	|	|L	|	|	|		|
-|Labyrinth of Legendary Loot|Love2D|	|	|L	|	|	|love-11	|
+|Labyrinth of Legendary Loot|Love2D|	|	|L	|	|	|		|
 |Lair of goblins	|Godot3	|W	|	|	|	|	|		|
 |Landnama		|Godot3	|L	|	|	|	|	|		|
 |LaserCat		|XNA	|	|	|L	|	|	|		|
@@ -134,7 +134,7 @@ Letters indicate which platform versions have been tested successfully:
 |NeuroVoider		|MonoGame|	|L	|	|	|	|SQL error on launch|
 |Ninja Warrior		|XNA	|	|	|	|	|	|engine detection fails|
 |Nuclear Blaze		|HashLink|	|	|	|	|	|steam.hdll stub: Steam is not running!|
-|Of Blades & Tails	|Godot3	|L	|	|	|	|	|Godot with mono support|
+|Of Blades & Tails	|Godot3	|L	|	|	|	|	|		|
 |Omnigon		|Godot3	|W	|	|	|	|	|		|
 |One Finger Death Punch	|XNA	|W	|	|	|	|	|		|
 |Operation STEEL	|Godot3	|L	|	|	|	|	|		|
@@ -149,7 +149,7 @@ Letters indicate which platform versions have been tested successfully:
 |Poems & Codes		|Love2D	|	|	|L(demo)|	|	|		|
 |Possession		|Love2D	|	|	|L	|	|	|		|
 |Primal Light		|Godot3	|L	|	|	|	|	|		|
-|Project Crypt		|GZDoom	|W	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
+|Project Crypt		|GZDoom	|W	|	|	|	|	|		|
 |Prose & Code		|Love2D	|	|	|L	|	|	|		|
 |PUTRID SHOT ULTRA	|Love2D	|W	|	|	|	|	|		|
 |The Puzzler's Revenge	|Love2D	|	|	|W	|	|	|		|
@@ -161,22 +161,22 @@ Letters indicate which platform versions have been tested successfully:
 |Roma Invicta		|Godot3	|L	|	|	|	|	|		|
 |RUN: The world in-between|Godot3|L	|	|	|	|	|		|
 |Salt & Sanctuary	|FNA	|L	|	|	|	|	|		|
-|Settlers of the Deep	|Love2D	|	|	|L	|	|	|love-11	|
-|Shell Out Showdown	|Love2D	|	|	|L	|	|	|love-11	|
+|Settlers of the Deep	|Love2D	|	|	|L	|	|	|		|
+|Shell Out Showdown	|Love2D	|	|	|L	|	|	|		|
 |SHENZHEN I/O		|Mono	|	|L	|	|	|	|		|
-|Shrine			|GZDoom	|L	|	|	|	|	|free! handling gzdoom.pk3 not yet implemented|
-|Shrine II		|GZDoom	|L	|	|	|	|	|free! handling gzdoom.pk3 not yet implemented|
+|Shrine			|GZDoom	|L	|	|	|	|	|		|
+|Shrine II		|GZDoom	|L	|	|	|	|	|		|
 |Simona's Requiem	|Godot3	|L	|	|	|	|	|		|
 |Sir Questionnaire	|LibGDX	|	|	|L	|	|	|		|
 |Skulls of the Shogun	|MonoGame|	|L	|	|	|	|		|
-|Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j	|
+|Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j (Steam version)|
 |Snake Core		|LibGDX	|	|	|L	|	|	|		|
-|SNKRX			|Love2D	|W	|	|	|	|	|needs luasteam	|
+|SNKRX			|Love2D	|W	|	|	|	|	|		|
 |SokoChess White	|Godot3	|L	|	|	|	|	|		|
 |SokoSolitaire		|Godot3	|L	|	|	|	|	|needs to run with --video-driver GLES2 to avoid graphics bugs|
 |Sole Saga		|Godot3	|L	|	|	|	|	|		|
 |SoulCaster I & II	|FNA	|	|	|	|	|Humble:L|		|
-|Soulstice		|Love2D	|	|	|L	|	|	|love-0.10	|
+|Soulstice		|Love2D	|	|	|L	|	|	|		|
 |SpaceChem		|Mono	|	|	|L	|	|	|		|
 |Space Grunts		|LibGDX	|	|	|L	|	|	|		|
 |Space Grunts 2		|LibGDX	|	|	|L	|	|	|		|
@@ -186,19 +186,19 @@ Letters indicate which platform versions have been tested successfully:
 |Spellrazor		|Love2D	|	|	|W	|	|	|		|
 |Sprout Valley		|Godot3	|W	|	|	|	|	|		|
 |Stardash		|LibGDX	|	|	|L	|	|	|		|
-|Stardew Valley		|MonoGame|	|M	|	|	|	|use MAC 32bit Build|
+|Stardew Valley		|MonoGame|	|M	|	|	|	|use MAC 32bit Build (GOG) or branch "compatibility" (Steam) - no audio since ~2023 (openal issue?)|
 |Steel Assault		|FNA	|L	|	|	|	|	|		|
 |Sternly Worded Adventures|Love2D|		|X	|	|	|		|
 |Stone Kingdoms		|Love2D	|	|	|L	|	|	|		|
 |Striving for Light	|Godot3	|	|	|L	|	|	|		|
 |Super Bernie World	|FNA	|	|	|L	|	|	|		|
 |Super Spy Raccoon	|Godot3	|W	|	|	|	|	|		|
-|Supplice		|GZDoom	|W	|	|	|	|	|gzdoom 4.10	|
+|Supplice		|GZDoom	|W	|	|	|	|	|		|
 |Sword of the Stars: The Pit|XNA|	|W	|	|	|	|		|
 |Takara Cards		|Godot3	|L	|	|	|	|	|		|
 |Tendryll		|Godot3	|W	|	|	|	|	|needs addons/godotsteam/x11/libgodotsteam.so|
 |Tempus Bound		|Godot3	|W	|	|	|	|	|		|
-|Terraria		|FNA	|L	|L	|	|	|	|Version 1.4.4.9|
+|Terraria		|FNA	|L	|L	|	|	|	|		|
 |They Don't Sleep	|Godot3	|W	|	|	|	|	|		|
 |Titan Attacks!		|LWJGL2	|	|	|	|	|Humble:L|		|
 |TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
@@ -208,7 +208,7 @@ Letters indicate which platform versions have been tested successfully:
 |Ultratron		|LWJGL2	|	|	|	|	|Humble:L|		|
 |Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|Steam version needs steamworks4j|
 |Verses of Enchantment	|Godot3	|L	|	|	|	|	|		|
-|Vomitoreum		|GZDoom	|L	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
+|Vomitoreum		|GZDoom	|L	|	|	|	|	|		|
 |V-Hunter Puzzler Dx	|Godot3	|W	|	|	|	|	|		|
 |Wrought Flesh		|Godot3	|L	|	|	|	|	|		|
 |Yolk Heroes: A Long Tamago|Godot3|W	|	|	|	|	|		|
