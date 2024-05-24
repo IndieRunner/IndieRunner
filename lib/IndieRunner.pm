@@ -13,6 +13,35 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner;
+
+=head1 NAME
+
+IndieRunner - Launch your indie games on more platforms
+
+=head1 SYNOPSIS
+
+ use IndieRunner;
+
+ # create IndieRunner object with default values
+ chdir path/to/game or die "chdir failed: $!";
+ my $indierunner = IndieRunner->new();
+
+ # perform setup of files for the project
+ $indierunner->setup();
+
+ # run the project
+ $indierunner->run();
+
+=head1 DESCRIPTION
+
+B<IndieRunner> handles the nitty gritty details of running a variety of (indie) games made with certain engines (SEE ALSO). It performs heuristics to determine type of engine, setup needs, and runtime configuration. Modes for dryrun and the generation of a statical shell script that can be used independently of IndieRunner are included.
+
+=head1 METHODS
+
+=over
+
+=cut
+
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use English;
@@ -52,9 +81,23 @@ Readonly my %INIT_DEFAULTS => {
 	verbosity	=> 0,
 };
 
+=head2 get_use_rigg()
+
+Return the value of use_rigg: 0 = disabled, 1 = permissive, 2 = strict, 3 = default.
+
+=cut
+
 sub get_use_rigg( $self ) {
 	return $$self{ rigg_unveil };
 }
+
+=head2 set_use_rigg( $rigg_mode )
+
+Set the value of use_rigg: 0 = disable, 1 = permissive, 2 = strict, 3 = default.
+This determines if rigg will be used (if supported).
+I<default> converts to I<strict>, unless the game is listed in @NoStrict or @NoRigg (see L<IndieRunner::Mode>).
+
+=cut
 
 sub set_use_rigg( $self, $rigg_mode ) {
 	if ( $rigg_mode < RIGG_NONE or $rigg_mode > RIGG_DEFAULT ) {
@@ -62,6 +105,12 @@ sub set_use_rigg( $self, $rigg_mode ) {
 	}
 	$$self{ rigg_unveil } = $rigg_mode;
 }
+
+=head2 new()
+
+Constructor.
+
+=cut
 
 sub new ( $class, %init ) {
 	my $self = bless {}, $class;
@@ -211,6 +260,12 @@ sub detect_game_name ( $engine_module ) {
 	return $game_name;
 }
 
+=head2 setup()
+
+Perform setup for the game.
+
+=cut
+
 sub setup ( $self ) {
 	$$self{ mode }->vvsay( 'Setup' );
 	$$self{ engine }->setup();
@@ -218,11 +273,25 @@ sub setup ( $self ) {
 
 }
 
+=head2 run()
+
+Configure the runtime binary, arguments, and parameters. Then execute it.
+
+=cut
+
 sub run ( $self ) {
 	$$self{ mode }->vvsay( 'Run' );
 	my $configuration_ref = $$self{ game }->configure();
 	$$self{ mode }->run( $$self{ game }{ name }, %{ $configuration_ref } );
 }
+
+=head2 finish()
+
+Depending on mode, perform remaining tasks after C<run>.
+
+=back
+
+=cut
 
 sub finish ( $self ) {
 	$$self{ mode }->vvsay( 'Finish' );
@@ -232,50 +301,6 @@ sub finish ( $self ) {
 1;
 
 __END__
-
-=head1 NAME
-
-IndieRunner - Launch your indie games on more platforms
-
-=head1 SYNOPSIS
-
- use IndieRunner;
-
- # create IndieRunner object with default values
- chdir path/to/game or die "chdir failed: $!";
- my $indierunner = IndieRunner->new();
-
- # perform setup of files for the project
- $indierunner->setup();
-
- # run the project
- $indierunner->run();
-
-=head1 DESCRIPTION
-
-B<IndieRunner> handles the nitty gritty details of running a variety of (indie) games made with certain engines (SEE ALSO). It performs heuristics to determine type of engine, setup needs, and runtime configuration. Modes for dryrun and the generation of a statical shell script that can be used independently of IndieRunner are included.
-
-=head1 METHODS
-
-=over
-
-=item C<new()>
-
-Constructor.
-
-=item C<setup()>
-
-Perform setup for the game.
-
-=item C<run()>
-
-Configure the runtime binary, arguments, and parameters. Then execute it.
-
-=item C<finish()>
-
-Depending on mode, perform remaining tasks after C<run>.
-
-=back
 
 =head1 SUBROUTINES
 
@@ -295,12 +320,29 @@ Detect the name of the game, using engine-specific heuristics from the C<$engine
 
 =head2 Engines
 
-L<IndieRunner::Engine::FNA>, L<IndieRunner::Engine::GZDoom>, L<IndieRunner::Engine::Godot>, L<IndieRunner::Engine::HashLink>, L<IndieRunner::Engine::Java>, L<IndieRunner::Engine::Love2D>, L<IndieRunner::Engine::Mono>, L<IndieRunner::Engine::MonoGame>, L<IndieRunner::Engine::XNA>.
+L<IndieRunner::Engine::FNA>
+L<IndieRunner::Engine::GZDoom>
+L<IndieRunner::Engine::Godot>
+L<IndieRunner::Engine::HashLink>
+L<IndieRunner::Engine::Java>
+L<IndieRunner::Engine::Love2D>
+L<IndieRunner::Engine::Mono>
+L<IndieRunner::Engine::MonoGame>
+L<IndieRunner::Engine::ScummVM>
+L<IndieRunner::Engine::XNA>
 
 =head2 Other
 
-L<IndieRunner::Mode>, L<IndieRunner::GrandCentral>, L<IndieRunner::Helpers>.
+L<IndieRunner::Mode>
+L<IndieRunner::GrandCentral>
+L<IndieRunner::Helpers>
 
 =head1 AUTHOR
 
-Thomas Frohwein
+Thomas Frohwein E<lt>thfr@cpan.orgE<gt>
+
+=head1 COPYRIGHT
+
+Copyright 2022-2024 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+This program is free software; you can redistribute it and/or modify it under the ISC license.
