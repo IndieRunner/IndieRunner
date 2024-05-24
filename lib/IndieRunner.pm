@@ -34,7 +34,9 @@ IndieRunner - Launch your indie games on more platforms
 
 =head1 DESCRIPTION
 
-B<IndieRunner> handles the nitty gritty details of running a variety of (indie) games made with certain engines (SEE ALSO). It performs heuristics to determine type of engine, setup needs, and runtime configuration. Modes for dryrun and the generation of a statical shell script that can be used independently of IndieRunner are included.
+B<IndieRunner> handles the nitty gritty details of running a variety of (indie) games made with certain engines (SEE ALSO).
+It performs heuristics to determine type of engine, setup needs, and runtime configuration.
+Modes for dryrun and the generation of a statical shell script that can be used independently of IndieRunner are included.
 
 =head1 METHODS
 
@@ -272,7 +274,7 @@ sub setup ( $self ) {
 
 =head2 run()
 
-Configure the runtime binary, arguments, and parameters. Then execute it.
+Configure the runtime binary, arguments, and parameters, then run it.
 
 =cut
 
@@ -284,7 +286,7 @@ sub run ( $self ) {
 
 =head2 finish()
 
-Depending on mode, perform remaining tasks after C<run>.
+Depending on mode, perform remaining tasks after L</run()>.
 
 =cut
 
