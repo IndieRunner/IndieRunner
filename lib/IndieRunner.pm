@@ -38,8 +38,6 @@ B<IndieRunner> handles the nitty gritty details of running a variety of (indie) 
 
 =head1 METHODS
 
-=over
-
 =cut
 
 use v5.36;
@@ -289,8 +287,6 @@ sub run ( $self ) {
 
 Depending on mode, perform remaining tasks after C<run>.
 
-=back
-
 =cut
 
 sub finish ( $self ) {
@@ -304,17 +300,13 @@ __END__
 
 =head1 SUBROUTINES
 
-=over
-
-=item C<detect_engine()>
+=head2 detect_engine()
 
 Detect the engine.
 
-=item C<detect_game_name( $engine_module )>
+=head2 detect_game_name( $engine_module )
 
 Detect the name of the game, using engine-specific heuristics from the C<$engine_module>.
-
-=back
 
 =head1 SEE ALSO
 
