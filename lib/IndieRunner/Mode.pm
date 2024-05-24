@@ -67,6 +67,12 @@ sub verbosity( $self ) {
 	return $$self{ verbosity } || $$self{ ir_obj }{ verbosity };
 }
 
+=head2 use_rigg()
+
+Return if rigg is being used. By default use reference to IndieRunner object's attribute use_rigg. Can be overridden/replaced by setting it for this module.
+
+=cut
+
 sub use_rigg( $self ) {
 	# default is the reference to the IndieRunner object's use_rigg
 	# This is overridden if set for this module

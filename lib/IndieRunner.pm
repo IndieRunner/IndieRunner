@@ -142,7 +142,6 @@ sub new ( $class, %init ) {
 		ir_obj		=> $self,
 		id_file		=> $engine_id_file || '',
 		mode_obj	=> $$self{ mode },
-		rigg_unveil	=> $$self{ rigg_unveil },
 	);
 
 	# set game from cli argument if present

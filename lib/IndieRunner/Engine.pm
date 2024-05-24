@@ -100,6 +100,16 @@ sub set_game_name ( $self, $name ) {
 	$$self{ game_name } = $name;
 }
 
+=head2 use_rigg()
+
+Return if rigg is being used. By default use reference to IndieRunner object's attribute use_rigg. Can be overridden/replaced by setting it for this module.
+
+=cut
+
+sub use_rigg( $self ) {
+	return $$self{ use_rigg } || $$self{ ir_obj }->get_use_rigg;
+}
+
 1;
 
 __END__

@@ -61,12 +61,12 @@ sub setup ( $self ) {
 				$fna_replacement_version >= $FNA_MIN_VERSION ) {
 				die "No FNA.dll found with version >= $FNA_MIN_VERSION";
 			}
-			elsif ( not $$self{ rigg_unveil } ) {
+			elsif ( not $self->use_rigg ) {
 				$$self{ mode_obj }->insert( $FNA_REPLACEMENT,
 				                            $FNA_DLL ) || die;
 			}
 		}
-		elsif ( $$self{ rigg_unveil } ) {
+		elsif ( $self->use_rigg ) {
 			if ( -l $FNA_DLL ) {
 				$$self{ mode_obj }->undo_insert( $FNA_DLL );
 			}

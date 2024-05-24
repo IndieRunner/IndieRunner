@@ -31,7 +31,7 @@ Readonly my @DAT		=> (
 sub setup ( $self ) {
 	$self->SUPER::setup();
 
-	if ( $$self{ rigg_unveil } ) {
+	if ( $self->use_rigg ) {
 		map { $$self{ mode_obj }->restore( $_ ) } glob( '*.hdll_' );
 	}
 	else {
