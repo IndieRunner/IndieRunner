@@ -150,8 +150,8 @@ sub new ( $class, %init ) {
 	my $game_name = $init{ game } || detect_game_name( $$self{ engine } );
 	$$self{ mode }->vvsay( 'Game Name: ' . $game_name );
 
-	if ( $$self{ use_rigg } ) {
-		$$self{ mode }->rigg_quirks( $game_name );
+	if ( $$self{ use_rigg } == RIGG_DEFAULT ) {
+		$$self{ mode }->resolve_rigg_default( $game_name );
 	}
 
 	$$self{ engine }->set_game_name( $game_name );

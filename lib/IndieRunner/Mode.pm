@@ -148,8 +148,14 @@ sub new ( $class, %init ) {
 	return $self;
 }
 
-sub rigg_quirks( $self, $game_name ) {
-	# resolve RIGG_DEFAULT into strict, permissive, or none
+=head2 resolve_rigg_default( $game_name )
+
+Resolve RIGG_DEFAULT into I<strict>, I<permissive>, or disables rigg.
+Defaults to I<strict>, unless the game is marked for NoStrict or NoRigg.
+
+=cut
+
+sub resolve_rigg_default( $self, $game_name ) {
 	if ( $self->use_rigg == RIGG_DEFAULT ) {
 		if ( grep { index( fc($game_name), fc($_) ) != -1 } @NoStrict ) {
 			$self->vsay( "defaulting to permissive mode (rigg) for $game_name" );
@@ -162,6 +168,9 @@ sub rigg_quirks( $self, $game_name ) {
 		else {
 			$$self{ ir_obj }->set_use_rigg( RIGG_STRICT );
 		}
+	}
+	else {
+		carp "Ignoring request to resolve rigg status, as it is not set to RIGG_DEFAULT. This should not happen";
 	}
 }
 
