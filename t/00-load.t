@@ -1,6 +1,6 @@
 #!perl -T
 
-use Test::More tests => 31;
+use Test::More tests => 30;
 
 BEGIN {
     require_ok( 'IndieRunner' )				|| print "Bail out!\n";
@@ -26,7 +26,6 @@ BEGIN {
     require_ok( 'IndieRunner::Game' )			|| print "Bail out!\n";
     require_ok( 'IndieRunner::GrandCentral' )		|| print "Bail out!\n";
     require_ok( 'IndieRunner::Helpers' )		|| print "Bail out!\n";
-    require_ok( 'IndieRunner::Info' )			|| print "Bail out!\n";
     require_ok( 'IndieRunner::Io' )			|| print "Bail out!\n";
     require_ok( 'IndieRunner::Mode' )			|| print "Bail out!\n";
     require_ok( 'IndieRunner::Mode::Dryrun' )		|| print "Bail out!\n";

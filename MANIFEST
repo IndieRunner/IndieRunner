@@ -23,7 +23,6 @@ lib/IndieRunner/Engine/XNA.pm
 lib/IndieRunner/Game.pm
 lib/IndieRunner/GrandCentral.pm
 lib/IndieRunner/Helpers.pm
-lib/IndieRunner/Info.pm
 lib/IndieRunner/Io.pm
 lib/IndieRunner/Mode.pm
 lib/IndieRunner/Mode/Dryrun.pm
@@ -39,7 +38,7 @@ README.md
 share/config/dllmap.config
 share/LICENSE
 t/00-load.t
-t/01-IdentifyFiles.t
+t/01-Helpers.t
 t/boilerplate.t
 t/manifest.t
 t/pod-coverage.t

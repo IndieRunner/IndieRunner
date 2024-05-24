@@ -57,8 +57,7 @@ use IndieRunner::Engine::Mono;		# for get_mono_files
 use IndieRunner::Engine::ScummVM;	# for detect_game during engine heuristic
 use IndieRunner::Game;
 use IndieRunner::GrandCentral;
-use IndieRunner::Helpers qw( find_file_magic );
-use IndieRunner::Info;
+use IndieRunner::Helpers qw( find_file_magic goggame_name );
 use IndieRunner::Io;
 
 use constant {
@@ -249,7 +248,7 @@ sub detect_game_name ( $engine_module ) {
 		$game_name = substr $game_name, 0, -4;
 	}
 
-	$game_name = IndieRunner::Info::goggame_name() unless $game_name;
+	$game_name = goggame_name() unless $game_name;
 	($game_name) = find_file_magic( '^ELF.*executable', glob '*' ) unless $game_name;
 	($game_name) = find_file_magic( '^PE32 executable \(console\)', glob '*' ) unless $game_name;
 	$game_name = 'unknown' unless $game_name;	# bail
