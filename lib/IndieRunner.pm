@@ -80,8 +80,6 @@ sub new ( $class, %init ) {
 	$$self{ mode } = $mode->new(
 		# ir_obj: IndieRunner object for referencing verbosity, rigg_unveil
 		ir_obj		=> $self,
-		#verbosity	=> $$self{ verbosity },
-		#rigg_unveil	=> $$self{ rigg_unveil },
 	);
 	$$self{ mode }->vvsay( 'Mode: ' . (split( '::', $mode))[-1] );
 

@@ -61,8 +61,6 @@ Readonly my %PLEDGE_GROUP => (
 	'no_file_mod'	=> [ qw( rpath proc exec prot_exec flock unveil ) ],
 	);
 
-my $verbosity;
-
 sub verbosity( $self ) {
 	# default is the reference to the IndieRunner object's verbosity
 	# This is overridden if set for this module
@@ -70,9 +68,9 @@ sub verbosity( $self ) {
 }
 
 sub use_rigg( $self ) {
-	# default is the reference to the IndieRunner object's rigg_unveil
+	# default is the reference to the IndieRunner object's use_rigg
 	# This is overridden if set for this module
-	return $$self{ rigg_unveil } || $$self{ ir_obj }->get_use_rigg;
+	return $$self{ use_rigg } || $$self{ ir_obj }->get_use_rigg;
 }
 
 
@@ -130,7 +128,7 @@ sub vvvsay ( $self, @say_args ) {
 	return 0;
 }
 
-=head2 new( { verbosity => $verbosity, rigg_unveil => $rigg_mode } )
+=head2 new( { verbosity => $verbosity, use_rigg => $rigg_mode } )
 
 Create new mode object to make use of the polymorphism of mode methods.
 
@@ -245,7 +243,7 @@ sub check_rigg_binary ( $self, $binary ) {
 	my @supported_binaries = split( "\n", qx( rigg -l ) );
 	my $basename = ( splitpath($binary) )[2];
 	if ( grep { $_ eq $basename } @supported_binaries ) {
-		$self->vsay( "enabling rigg for supported binary $basename" );
+		$self->vsay( "using rigg for supported binary $basename" );
 	}
 	else {
 		$self->vsay( "rigg disabled (no support for $basename)" );
@@ -280,15 +278,15 @@ sub run ( $self, $game_name, %config ) {
 	my $bin		= (splitpath( $fullbin ))[2];
 	my @rigg_args	= ();
 
-	if ( $$self{ rigg_unveil } ) {
+	if ( $self->use_rigg ) {
 		$fullbin = 'rigg';
 
 		# build the chain of @rigg_args arguments
-		if ( $verbosity ) {
+		if ( $self->verbosity ) {
 			push( @rigg_args, '-v' );
 		}
 		push( @rigg_args, '-u' );
-		if ( $$self{ rigg_unveil } == RIGG_STRICT ) {
+		if ( $self->use_rigg == RIGG_STRICT ) {
 			push( @rigg_args, 'strict' );
 		}
 		else {
