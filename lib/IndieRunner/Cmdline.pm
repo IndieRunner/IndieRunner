@@ -55,7 +55,7 @@ my $engine;
 my $file;
 my $game;
 my $mode;
-my $rigg_unveil = RIGG_DEFAULT;
+my $use_rigg;
 my $script;
 my $verbosity = 0;
 
@@ -144,10 +144,10 @@ Print version.
 			'game|g=s'	=> \$game,
 			'man|m'		=> sub { pod2usage(-exitval => 0,
 			                                     -verbose => 2, ); },
-			'norigg'	=> sub { $rigg_unveil = RIGG_NONE; },
-			'permissive'	=> sub { $rigg_unveil = RIGG_PERMISSIVE; },
+			'norigg'	=> sub { $use_rigg = RIGG_NONE; },
+			'permissive'	=> sub { $use_rigg = RIGG_PERMISSIVE; },
 			'script|s'	=> \$script,
-			'strict'	=> sub { $rigg_unveil = RIGG_STRICT; },
+			'strict'	=> sub { $use_rigg = RIGG_STRICT; },
 			'usage'		=> sub { pod2usage(-exitval => 0,
 			                                   -verbose => 0, ); },
 			'verbose|v+'	=> \$verbosity,
@@ -163,10 +163,10 @@ Arguments after C<--> are passed to the invocation of the game itself, via the k
 
 =cut
 
-	# if rigg is not available, set rigg_unveil to RIGG_NONE
+	# if rigg is not available, set use_rigg to RIGG_NONE
 	if ( system( 'which rigg > /dev/null 2>&1' ) ) {
 		say 'rigg not found. Continuing without it.' if $verbosity;
-		$rigg_unveil = RIGG_NONE;
+		$use_rigg = RIGG_NONE;
 	}
 
 =head1 RETURN VALUE
@@ -179,7 +179,7 @@ init_cli returns a hash with the following keys:
   file
   game
   game_args
-  rigg_unveil
+  use_rigg
   script
   verbosity
 
@@ -193,7 +193,7 @@ init_cli returns a hash with the following keys:
 		file		=> $file,
 		game		=> $game,
 		game_args	=> \@ARGV,
-		rigg_unveil	=> $rigg_unveil,
+		use_rigg	=> $use_rigg,
 		script		=> $script,
 		verbosity	=> $verbosity,
 	};

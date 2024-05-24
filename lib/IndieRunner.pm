@@ -74,7 +74,7 @@ Readonly my %INIT_DEFAULTS => {
 	file		=> '',
 	game		=> '',
 	game_args	=> undef,
-	rigg_unveil	=> undef,
+	use_rigg	=> RIGG_DEFAULT,
 	script		=> undef,
 	verbosity	=> 0,
 };
@@ -86,7 +86,7 @@ Return the value of use_rigg: 0 = disabled, 1 = permissive, 2 = strict, 3 = defa
 =cut
 
 sub get_use_rigg( $self ) {
-	return $$self{ rigg_unveil };
+	return $$self{ use_rigg };
 }
 
 =head2 set_use_rigg( $rigg_mode )
@@ -101,7 +101,7 @@ sub set_use_rigg( $self, $rigg_mode ) {
 	if ( $rigg_mode < RIGG_NONE or $rigg_mode > RIGG_DEFAULT ) {
 		croak "tried to set invalid rigg mode: $rigg_mode";
 	}
-	$$self{ rigg_unveil } = $rigg_mode;
+	$$self{ use_rigg } = $rigg_mode;
 }
 
 =head2 new()
@@ -118,14 +118,14 @@ sub new ( $class, %init ) {
 
 	# set attributes from %init or default
 	while ( my ( $k, $v ) = each ( %INIT_DEFAULTS ) ) {
-		$$self{ $k } = $init{ $k } || $v;
+		$$self{ $k } = defined( $init{ $k } ) ? $init{ $k } : $v;
 	}
 
 	# determine and set mode (Run, Dryrun, or Script)
 	my $mode = __PACKAGE__ . '::Mode::' . ( $init{ script } ? 'Script' : ( $init{ dryrun } ? 'Dryrun' : 'Run' ) );
 	eval "require $mode" or die "Failed to load module $mode: $@";
 	$$self{ mode } = $mode->new(
-		# ir_obj: IndieRunner object for referencing verbosity, rigg_unveil
+		# ir_obj: IndieRunner object for referencing verbosity, use_rigg
 		ir_obj		=> $self,
 	);
 	$$self{ mode }->vvsay( 'Mode: ' . (split( '::', $mode))[-1] );
@@ -138,7 +138,7 @@ sub new ( $class, %init ) {
 	$$self{ mode }->vvsay( 'Engine: ' . (split( '::', $engine_class))[-1] );
 	eval "require $engine_class" or die "Failed to load module $engine_class: $@";
 	$$self{ engine } = $engine_class->new(
-		# ir_obj: IndieRunner object for referencing verbosity, rigg_unveil
+		# ir_obj: IndieRunner object for referencing verbosity, use_rigg
 		ir_obj		=> $self,
 		id_file		=> $engine_id_file || '',
 		mode_obj	=> $$self{ mode },
@@ -149,7 +149,7 @@ sub new ( $class, %init ) {
 	my $game_name = $init{ game } || detect_game_name( $$self{ engine } );
 	$$self{ mode }->vvsay( 'Game Name: ' . $game_name );
 
-	if ( $$self{ rigg_unveil } ) {
+	if ( $$self{ use_rigg } ) {
 		$$self{ mode }->rigg_quirks( $game_name );
 	}
 
