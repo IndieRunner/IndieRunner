@@ -74,8 +74,6 @@ Return if rigg is being used. By default use reference to IndieRunner object's a
 =cut
 
 sub use_rigg( $self ) {
-	# default is the reference to the IndieRunner object's use_rigg
-	# This is overridden if set for this module
 	return $$self{ use_rigg } || $$self{ ir_obj }->get_use_rigg;
 }
 
