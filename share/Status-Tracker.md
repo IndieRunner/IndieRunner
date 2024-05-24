@@ -192,6 +192,7 @@ Letters indicate which platform versions have been tested successfully:
 |Sternly Worded Adventures|Love2D|		|X	|	|	|		|
 |Stone Kingdoms		|Love2D	|	|	|L	|	|	|		|
 |Striving for Light	|Godot3	|	|	|L	|	|	|		|
+|Sudocats		|Godot3	|	|W	|	|	|	|		|
 |Super Bernie World	|FNA	|	|	|L	|	|	|		|
 |Super Spy Raccoon	|Godot3	|W	|	|	|	|	|		|
 |Supplice		|GZDoom	|W	|	|	|	|	|		|
