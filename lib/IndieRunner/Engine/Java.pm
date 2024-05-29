@@ -216,7 +216,6 @@ sub setup ( $self ) {
 	}
 
 	# Call specific setup for each framework
-	detect_java_frameworks();
 	unless ( skip_framework_setup() ) {
 		foreach my $fw ( @java_frameworks ) {
 			my $module = "IndieRunner::Engine::Java::$fw";
@@ -364,6 +363,7 @@ sub new ( $class, %init ) {
 	}
 
 	# set java_home
+	detect_java_frameworks();
 	if ( grep { /^\QLWJGL3\E$/ } @java_frameworks ) {
 		$java_version{ lwjgl3 } =
 			IndieRunner::Engine::Java::LWJGL3::get_java_version_preference();
@@ -421,6 +421,9 @@ sub get_args_ref( $self ) {
 	}
 	else {
 		die "Unable to identify main class for JVM execution" unless $main_class;
+		# XXX: Urtuk fails unless -cp starts with '.', otherwise
+		#      an incompatible version of org.objectweb.asm is picked up
+		#      Quirk? Or figure out root cause?
 		push @jvm_args, ( '-cp', join( ':', @jvm_classpath, '.' ) ) if $jvm_classpath[0];
 		push @jvm_args, $main_class;
 	}
