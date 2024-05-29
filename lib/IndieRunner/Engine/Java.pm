@@ -421,7 +421,7 @@ sub get_args_ref( $self ) {
 	}
 	else {
 		die "Unable to identify main class for JVM execution" unless $main_class;
-		push @jvm_args, ( '-cp', join( ':', '.', @jvm_classpath ) ) if $jvm_classpath[0];
+		push @jvm_args, ( '-cp', join( ':', @jvm_classpath, '.' ) ) if $jvm_classpath[0];
 		push @jvm_args, $main_class;
 	}
 
