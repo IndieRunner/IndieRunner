@@ -167,6 +167,9 @@ sub replace_lib ( $lib ) {
 sub bundled_libraries () {
 	my %symlink_libs;
 
+	# XXX: use '!/' for pointing to path within JAR files
+	#      see https://stackoverflow.com/questions/17466261/unable-to-open-resources-in-directories-which-end-with-an-exclamation-mark
+	#      jar:<URL for JAR file>!/<path within the JAR file>
 	my @bundled_libs	= File::Find::Rule->file
 						  ->name( '*' . $So_Sufx )
 						  ->in( '.');
