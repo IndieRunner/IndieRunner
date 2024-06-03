@@ -29,3 +29,6 @@ assignees: ''
 
 **Verbose Output**
 <!--Include output with indierunner -vv -->
+
+**dmesg**
+<!--insert dmesg(1) output of the system here-->
