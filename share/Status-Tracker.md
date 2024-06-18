@@ -69,6 +69,7 @@ Letters indicate which platform versions have been tested successfully:
 |Dice Tribes: Ambitions	|HashLink|L	|	|	|	|	|		|
 |Dome Keeper		|Godot3	|L	|	|	|	|	|		|
 |Draw a Stickman: EPIC	|XNA	|	|	|	|	|	|crashes early without Steamworks.NET.dll stub|
+|DreamCell: Lost in Nightmares|Godot3|W	|	|	|	|	|		|
 |Dreams in the Witch House|ScummVM|W	|	|	|	|	|		|
 |Droid Assault		|LWJGL2	|	|	|	|	|Humble:L|		|
 |Dust: An Elysian Tail	|FNA	|	|L	|	|	|	|		|
@@ -108,6 +109,7 @@ Letters indicate which platform versions have been tested successfully:
 |Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
 |I Am Sakuya		|GZDoom	|W	|	|	|	|	|		|
 |If On A Winter's Night, Four Travelers|ScummVM|||L	|	|	|		|
+|Immortals Must Die	|Godot3	|W	|	|	|	|	|		|
 |INC: The Beginning	|LibGDX	|	|	|L	|	|	|		|
 |Into the Necrovale	|HashLink|		|L(demo)|	|	|		|
 |The Isolated Town	|Godot3	|	|	|L	|	|	|		|
