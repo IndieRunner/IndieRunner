@@ -135,6 +135,7 @@ Letters indicate which platform versions have been tested successfully:
 |Murder Miners		|FNA	|L	|	|	|	|	|no online support|
 |Neoteria		|LibGDX	|	|	|	|	|	|		|
 |NeuroVoider		|MonoGame|	|L	|	|	|	|SQL error on launch|
+|Nightmare Frames	|ScummVM|	|	|W	|	|	|Adventure Game Studio game|
 |Ninja Warrior		|XNA	|	|	|	|	|	|engine detection fails|
 |Nuclear Blaze		|HashLink|	|	|	|	|	|steam.hdll stub: Steam is not running!|
 |Of Blades & Tails	|Godot3	|L	|	|	|	|	|		|
