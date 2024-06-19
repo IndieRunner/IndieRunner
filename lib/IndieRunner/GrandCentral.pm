@@ -75,6 +75,7 @@ Readonly my %Indicators => (
 		'glob'		=> [	'*.exe',
 					'{,bin/}snacktorio',
 					'{,bin/}GravityCircuit',
+					'{,bin/}EndlessDark',
 					'bin/love',	# Shell Out Showdown
 				   ],
 		'magic_bytes'	=> 'love_version',	# or: luaopen_love or love.boot

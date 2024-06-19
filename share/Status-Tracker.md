@@ -75,6 +75,7 @@ Letters indicate which platform versions have been tested successfully:
 |Dust: An Elysian Tail	|FNA	|	|L	|	|	|	|		|
 |Eagle Island		|MonoGame|	|L	|	|	|	|run in subdirectory 'Linux'|
 |Eliza			|Mono	|	|L	|	|	|	|		|
+|Endless Dark		|Love2D	|L	|	|	|	|	|		|
 |Endoparasitic		|Godot3	|L	|	|	|	|	|		|
 |An English Haunting	|ScummVM|	|	|W	|	|	|		|
 |Escape Goat		|MonoGame|	|	|	|	|Humble:L|		|
