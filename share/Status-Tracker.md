@@ -65,6 +65,7 @@ Letters indicate which platform versions have been tested successfully:
 |Dead Cells		|HashLink|	|L	|	|	|	|		|
 |Dead Pixels II		|FNA	|L	|	|	|	|	|Early Access (2022-08-27)|
 |Deepest Chamber: Resurrection|LibGDX|L	|	|	|	|	|		|
+|Defendor		|Godot3	|W	|	|	|	|	|		|
 |Delver			|LibGDX	|L	|	|	|	|	|		|
 |Dice Tribes: Ambitions	|HashLink|L	|	|	|	|	|		|
 |Dome Keeper		|Godot3	|L	|	|	|	|	|		|
