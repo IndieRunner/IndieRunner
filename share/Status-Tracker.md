@@ -176,7 +176,7 @@ Letters indicate which platform versions have been tested successfully:
 |Sir Questionnaire	|LibGDX	|	|	|L	|	|	|		|
 |Skulls of the Shogun	|MonoGame|	|L	|	|	|	|		|
 |Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j (Steam version)|
-|Snails			|XNA	|	|	|W	|	|https://github.com/xesf/SnailsXNA |needs more iomap workarounds|
+|Snails			|XNA	|	|	|W	|	|https://github.com/xesf/SnailsXNA |needs more iomap workarounds and fix for trying (and failing) to cloud save via Steam|
 |Snake Core		|LibGDX	|	|	|L	|	|	|		|
 |SNKRX			|Love2D	|W	|	|	|	|	|		|
 |SokoChess White	|Godot3	|L	|	|	|	|	|		|
