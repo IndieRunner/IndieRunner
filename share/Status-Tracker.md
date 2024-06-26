@@ -61,6 +61,7 @@ Letters indicate which platform versions have been tested successfully:
 |Curse of the Arrow	|Love2D	|	|	|L	|	|	|		|
 |Curse of the Crescent Isle DX|FNA	|	|	|	|	|Humble:L|	|
 |Dad Quest		|MonoGame|W	|	|	|	|	|		|
+|The Dagger of Amon Ra	|ScummVM|	|W	|	|	|	|		|
 |Dashpong		|Godot3	|L	|	|	|	|	|		|
 |Dead Cells		|HashLink|	|L	|	|	|	|		|
 |Dead Pixels II		|FNA	|L	|	|	|	|	|Early Access (2022-08-27)|
