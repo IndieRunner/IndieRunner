@@ -46,6 +46,7 @@ sub setup ( $self ) {
 	}
 
 	# check if FNA version needs to be replaced
+	# XXX: needs re-implementation with rigg
 	unless ( $skip_fna_version ) {
 		my $fna_bundled_version = version->declare(
 			IndieRunner::Engine::Mono::get_assembly_version( $FNA_DLL ) )

@@ -219,6 +219,7 @@ Letters indicate which platform versions have been tested successfully:
 |Verses of Enchantment	|Godot3	|L	|	|	|	|	|		|
 |Vomitoreum		|GZDoom	|L	|	|	|	|	|		|
 |V-Hunter Puzzler Dx	|Godot3	|W	|	|	|	|	|		|
+|Wizorb			|FNA	|	|	|	|	|Humble:L|crash in GameOver state|
 |Wrought Flesh		|Godot3	|L	|	|	|	|	|		|
 |Yolk Heroes: A Long Tamago|Godot3|W	|	|	|	|	|		|
 |The Zachtronics Solitaire Collection|Mono	|L	|	|	|	|	|		|
