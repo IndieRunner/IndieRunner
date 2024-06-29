@@ -18,6 +18,9 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 use Carp;
 use Readonly;
 
+# XXX: go over all of them and see which are still needed now that FNA
+#      is built with CASE_SENSITIVITY_HACK
+
 Readonly my %iomap => {
 	'AJ1.exe' => [
 		[ 'j_rip.xnb', 'Content/AJ1/j_Rip.xnb' ],
