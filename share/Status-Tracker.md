@@ -122,6 +122,7 @@ Letters indicate which platform versions have been tested successfully:
 |Lair of goblins	|Godot3	|W	|	|	|	|	|		|
 |Landnama		|Godot3	|L	|	|	|	|	|		|
 |LaserCat		|XNA	|	|	|L	|	|	|		|
+|Legendary Creatures	|Godot3	|W	|	|	|	|	|		|
 |Lil Baby Poop's NIGHTMARES|Godot3|W	|	|	|	|	|		|
 |Little Racers STREET	|FNA	|L	|	|	|	|	|		|
 |Lycanthorn II		|GZDoom	|L	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
