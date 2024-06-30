@@ -30,6 +30,7 @@ Letters indicate which platform versions have been tested successfully:
 |Axiom Verge		|FNA	|L(1.56)|	|	|1.51	|	|		|
 |Balatro		|Love2D	|W	|	|	|	|	|		|
 |Balrum			|LWJGL3	|	|L	|	|	|	|Steam version needs steamworks4j	|
+|Bananaguy 2		|Godot3	|W	|	|	|	|	|		|
 |Battlevoid Harbinger	|LibGDX	|	|	|	|	|	|no audio	|
 |Beyond Sunset (demo)	|GZDoom	|L	|	|	|	|	|frequent, unpredictable crashes|
 |Blade Runner		|ScummVM|	|L	|	|	|	|		|
