@@ -125,6 +125,7 @@ Other (non-Perl) programs and libraries used:
 * LWJGL, LWJGL3
 * mono (modules Mono, FNA, XNA, MonoGame)
 * OpenAL (module LibGDX)
+* rigg (optional, as alternative runtime for selected engines to apply unveil(2))
 * ScummVM (module ScummVM)
 * SDL2 (modules FNA, XNA, HashLink)
 * SDL2-image

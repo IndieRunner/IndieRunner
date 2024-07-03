@@ -37,6 +37,7 @@ README
 README.md
 share/config/dllmap.config
 share/LICENSE
+share/Status-Tracker.md
 t/00-load.t
 t/01-Helpers.t
 t/02-Platform.t
