@@ -34,6 +34,7 @@ Highlights
 
 The following selection of high profile games have been working with IndieRunner (and still are to the best of my knowledge);
 
+* Balatro
 * Brotato
 * Dead Cells
 * Deepest Chamber: Resurrection
@@ -43,7 +44,6 @@ The following selection of high profile games have been working with IndieRunner
 * Owlboy
 * Salt and Sanctuary
 * Slay the Spire
-* Stardew Valley
 * Terraria
 
 "Indie"?
