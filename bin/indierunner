@@ -15,7 +15,7 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 use v5.36;
-use version 0.77; our $VERSION = version->declare('v0.0.1');
+use version 0.77; our $VERSION = version->declare('v0.1');
 use English;
 
 use FindBin; use lib "$FindBin::Bin/../lib";

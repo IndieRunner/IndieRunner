@@ -39,6 +39,8 @@ share/config/dllmap.config
 share/LICENSE
 t/00-load.t
 t/01-Helpers.t
+t/02-Platform.t
+t/03-Cmdline.t
 t/boilerplate.t
 t/manifest.t
 t/pod-coverage.t
