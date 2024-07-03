@@ -10,7 +10,7 @@ Many games are built in a way that allows more platforms than advertised.
 For Users
 ---------
 
-Free your games from these artificial restraints and preserve your games across many different platforms.
+Free your games from these artificial restraints and preserve your games across many different platforms. IndieRunner provides a universal CLI launcher for a variety of independent games built with frameworks like FNA, XNA, LWJGL, LibGDX, HashLink, GZDoom, ScummVM, Love2D. It selects a runtime, configures it as needed, and takes care of outdated or incompatible bundled libraries.
 
 [Status Tracker](share/Status-Tracker.md)
 
