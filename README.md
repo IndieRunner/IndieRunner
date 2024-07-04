@@ -54,6 +54,11 @@ The following selection of high profile games have been working with IndieRunner
 1. Run games (other software?) in a more platform-independent way.
 2. The primary use is for engines primarily used in the indie game space (FNA, HashLink, etc.)
 
+Contributing
+============
+
+If you want to propose adding a new "Engine" module, please check out [Adding-Engine-Modules.md](share/doc/Adding-Engine-Modules.md) and make sure you have accurate answers to the questions therein.
+
 How to Make a Project that Can Run on as Many Platforms as Possible
 ===================================================================
 
