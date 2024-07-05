@@ -60,6 +60,8 @@ Readonly my %Indicator_Files => (
 	'MonoGame.Framework.dll.config'	=> 'MonoGame',
 	'xnafx40_redist.msi'		=> 'XNA',
 	'_CommonRedist/XNA'		=> 'XNA',
+	# XXX: implement choosing DosBox only as second line after ScummVM
+	#'dosbox*.conf'			=> 'DosBox',
 );
 
 # combination of file glob and byte sequence to identify frameworks

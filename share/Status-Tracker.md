@@ -143,6 +143,7 @@ Letters indicate which platform versions have been tested successfully:
 |NeuroVoider		|MonoGame|	|L	|	|	|	|SQL error on launch|
 |Nightmare Frames	|ScummVM|	|	|W	|	|	|Adventure Game Studio game|
 |Ninja Warrior		|XNA	|	|	|	|	|	|engine detection fails|
+|Northgard		|HashLink|L	|L	|	|	|	|report that Steam version needs to run with --permissive to be able to save game|
 |Nuclear Blaze		|HashLink|	|	|	|	|	|steam.hdll stub: Steam is not running!|
 |Of Blades & Tails	|Godot3	|L	|	|	|	|	|		|
 |Omnigon		|Godot3	|W	|	|	|	|	|		|

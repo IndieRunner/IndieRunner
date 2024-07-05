@@ -168,6 +168,7 @@ sub detect_engine ( $self ) {
 	my $engine;
 	my $engine_id_file;
 
+	# XXX: move the file search and iteration into identify_engine()
 	my @files = File::Find::Rule->file()->maxdepth( 3 )->in( '.' );
 
 	# 1st Pass: File Names
