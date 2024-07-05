@@ -23,8 +23,8 @@ use constant DRYRUN_MIN_VERBOSITY => 2;
 
 sub new ( $class, %init ) {
 	$init{ pledge_group } = 'no_file_mod';
-	if ( $init{ verbosity } < DRYRUN_MIN_VERBOSITY ) {
-		$init{ verbosity } = DRYRUN_MIN_VERBOSITY;
+	if ( $init{ ir_obj }{ verbosity } < DRYRUN_MIN_VERBOSITY ) {
+		$init{ ir_obj }{ verbosity } = DRYRUN_MIN_VERBOSITY;
 	}
 	return $class->SUPER::new( %init );
 }
