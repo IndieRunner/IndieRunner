@@ -27,7 +27,7 @@ use JSON;
 use Path::Tiny;
 use Readonly;
 
-use IndieRunner::Helpers;
+use IndieRunner::Helpers qw( get_magic_descr match_bin_file );
 use IndieRunner::Engine::Java::LibGDX;
 use IndieRunner::Engine::Java::LWJGL2;
 use IndieRunner::Engine::Java::LWJGL3;
@@ -68,8 +68,12 @@ Readonly my @INVALID_CONFIG_FILES => (
 	'uiskin.json',
 	);
 
-Readonly my @JAR_MODE_FILES => (
+Readonly my @EXEC_JAR_FILES => (
 	'Airships',
+	);
+
+Readonly my @NO_BUNDLED_CONFIG_FILES => (
+	'forests_secret*.jar',	# forests_secret_v2_1.jar
 	);
 
 my %Valid_Java_Versions = (
@@ -82,9 +86,10 @@ my %Valid_Java_Versions = (
 	);
 
 my $class_path_ptr;
+my $exec_jar;	# run with `-jar <filename>` rather than main_class
 my $game_jar;
-my $jar_mode;	# if set, run with a game .jar file rather than from extracted files
 my $main_class;
+my $no_bundled_config;	# don't look for any config before extracting .jar file
 my @java_frameworks;
 my $java_home;
 my @jvm_args;
@@ -116,7 +121,7 @@ sub get_bundled_java_version () {
 	return undef unless $bundled_java_bin;
 
 	# fetch version string and trim to format for JAVA_HOME
-	my $got_version = IndieRunner::Helpers::match_bin_file(
+	my $got_version = match_bin_file(
 						$JAVA_VER_REGEX,
 						$bundled_java_bin);
 	return undef unless $got_version;
@@ -186,10 +191,12 @@ sub bundled_libraries () {
 }
 
 sub setup ( $self ) {
+	# XXX: at present, check_rigg_binary in SUPER::setup needs $java_home
+	#      to be set for sub check_bin; warns about uninitialized $java_home
 	$self->SUPER::setup();
 
 	# Extract JAR file if not done previously
-	unless ( -f $MANIFEST or $jar_mode ) {
+	unless ( -f $MANIFEST or $exec_jar ) {
 		$$self{ mode_obj }->vvsay( "Trying to extract game jar file..." );
 		if ( $game_jar ) {
 			$$self{ mode_obj }->extract( $game_jar ) || die "failed to extract: $game_jar";
@@ -203,6 +210,37 @@ sub setup ( $self ) {
 			#foreach my $f ( glob '*.jar' ) {
 				#$$self{ mode_obj }->extract( $f ) || die "failed to extract: $f";
 			#}
+		}
+	}
+
+	# if no java_frameworks, rerun detect_java_frameworks now that jar
+	# has been unpacked
+	# XXX: find better flow or other way to avoid running this twice in
+	#      some circumstances
+	detect_java_frameworks() unless @java_frameworks;
+
+	# get main_class from MANIFEST
+	if ( -f $MANIFEST and not $main_class ) {
+		unless ( $main_class ) {
+			my @mlines = path( $MANIFEST )->lines_utf8 if -f $MANIFEST;
+			map { /^\QMain-Class:\E\s+(\S+)/ and $main_class = $1 } @mlines;
+		}
+	}
+
+	# get Java build version number from main_class's file
+	if ( $main_class ) {
+		my $main_class_file = $main_class;
+		$main_class_file =~ tr,.,/,s;
+		$main_class_file .= '.class';
+		my $mainclass_magic = get_magic_descr( $main_class_file );
+		if ( $mainclass_magic =~ /\(Java ([0-9\.\-_\+]+)\)/ ) {
+			my $prelim_version = $1;
+			for my $v ( @{$Valid_Java_Versions{$OSNAME}} ) {
+				if ( rindex( $v, $prelim_version, 0 ) == 0 ) {
+					set_java_home( $v );
+					last;
+				}
+			}
 		}
 	}
 
@@ -267,11 +305,22 @@ sub skip_framework_setup () {
 	return 0;
 }
 
-sub test_jar_mode () {
-	foreach my $j ( @JAR_MODE_FILES ) {
+sub test_exec_jar () {
+	foreach my $j ( @EXEC_JAR_FILES ) {
 		return 1 if -e $j;
 	}
 	return 0;
+}
+
+# finds .jar files that are supposed to run without checking for a bundled
+# config file
+sub jar_no_bundled_config() {
+	foreach my $j ( @NO_BUNDLED_CONFIG_FILES ) {
+		while (glob($j)) {
+			return $_;
+		}
+	}
+	return undef;
 }
 
 sub new ( $class, %init ) {
@@ -282,7 +331,33 @@ sub new ( $class, %init ) {
 
 	die "OS not recognized: " . $OSNAME
 		unless ( exists $Valid_Java_Versions{$OSNAME} );
-	$jar_mode = test_jar_mode();
+
+	# XXX: this constructor needs to decide on/set the following:
+	#      $Bit_Sufx
+	#      $exec_jar or $main_class
+	#      $java_version and $java_home
+	#      $config_file
+	#      $game_jar (extracted unless $exec_jar; in that case is the argument)
+	#      @jvm_args
+	#      @jvm_classpath
+
+	### SCENARIOS ###
+	#
+	# 1. jar + config: read config, then unpack .jar, then execute main_class
+	#    (Slay the Spire, Urtuk the Desolation)
+	# 2. exec_jar game (Airships)
+	# 3. no_bundled_config: no config, unpack .jar and determine main_class
+	#    from there file (Forest's Secret)
+	#
+	###  ###
+
+	$exec_jar = test_exec_jar();
+	$game_jar = jar_no_bundled_config();
+	if ( $game_jar ) {
+		$no_bundled_config = 1;
+		return $self;
+	}
+
 	$Bit_Sufx = ( $Config{'use64bitint'} ? '64' : '' ) . $So_Sufx;
 
 	$java_version{ bundled } = get_bundled_java_version();
@@ -397,6 +472,9 @@ sub new ( $class, %init ) {
 }
 
 sub get_bin ( $self ) {
+	unless ( $java_home ) {
+		return '';
+	}
 	return $java_home . "/bin/java";
 }
 
@@ -415,7 +493,7 @@ sub get_args_ref( $self ) {
 	push @jvm_args, '-Dorg.lwjgl.util.Debug=true';
 	#push @jvm_args, '-Dos.name=Linux';	# XXX: keep? could cause weird errors
 
-	if ( $jar_mode ) {
+	if ( $exec_jar ) {
 		push @jvm_args, ( '-cp', join( ':', @jvm_classpath, '.' ) );
 		push @jvm_args, ( '-jar', $game_jar );
 	}
@@ -437,11 +515,6 @@ sub get_args_ref( $self ) {
 
 sub get_env_ref ( $self ) {
 	@jvm_env = ( "JAVA_HOME=" . $java_home, );
-	# more effort to figure out $main_class if not set
-	unless ( $main_class ) {
-		my @mlines = path( $MANIFEST )->lines_utf8 if -f $MANIFEST;
-		map { /^\QMain-Class:\E\s+(\S+)/ and $main_class = $1 } @mlines;
-	}
 	return \@jvm_env;
 }
 
