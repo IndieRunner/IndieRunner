@@ -50,6 +50,7 @@ Readonly my @NoStrict => (
 	'Dust: An Elysian Tail',
 	'Necrovale',
 	'Timespinner',
+	'Vay',		# at Vay.Model.UserPreferences..cctor
 	);
 
 Readonly my @NoRigg => (
