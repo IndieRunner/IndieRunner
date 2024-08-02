@@ -120,6 +120,7 @@ Letters indicate which platform versions have been tested successfully:
 |Into the Necrovale	|HashLink|		|L(demo)|	|	|		|
 |The Isolated Town	|Godot3	|	|	|L	|	|	|		|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
+|Kitsune Tails		|FNA	|	|	|L	|	|	|		|
 |Kitsune Zero		|FNA	|	|	|L	|	|	|		|
 |Labyrinth of Legendary Loot|Love2D|	|	|L	|	|	|		|
 |Lair of goblins	|Godot3	|W	|	|	|	|	|		|

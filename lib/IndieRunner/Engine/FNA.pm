@@ -27,9 +27,12 @@ Readonly my $FNA_REPLACEMENT => '/usr/local/share/FNA/FNA.dll';
 
 Readonly my $FNA_DLL		=> 'FNA.dll';
 
+# XXX: @ALLOW_BUNDLED_FNA games can't run with rigg at this point and need
+#      to be excempted. need a mechanism to pass this on to rigg.
 Readonly  my @ALLOW_BUNDLED_FNA => (
 	# 'Game.exe',		# game version,		FNA version
-	'SuperBernieWorld.exe',	# 1.2.0 (Kitsune Zero),	19.3
+	'SuperBernieWorld.exe',	# 1.2.0 (Kitsune Zero)	19.3
+	'KitsuneTails.exe',	# 2024-08-01		19.3
 	);
 
 sub setup ( $self ) {

@@ -54,6 +54,8 @@ Readonly my @NoStrict => (
 	);
 
 Readonly my @NoRigg => (
+	'Kitsune Tails',	# because needs bundled FNA (rigg limitation)
+	'Super Bernie World', 	# because needs bundeld FNA (rigg limitation)
 	'tiny_slash',	# aka Cat Warrior
 	);
 
