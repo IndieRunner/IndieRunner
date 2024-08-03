@@ -43,7 +43,7 @@ Modes for dryrun and the generation of a statical shell script that can be used 
 =cut
 
 use v5.36;
-use version 0.77; our $VERSION = version->declare('v0.1');
+use version 0.77; our $VERSION = version->declare('v0.2');
 use English;
 
 use Carp;
