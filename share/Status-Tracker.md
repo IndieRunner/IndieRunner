@@ -20,6 +20,7 @@ Letters indicate which platform versions have been tested successfully:
 |Aether			|Godot	|L	|	|	|	|	|		|
 |Airships: Conquer the Skies|LibGDX|	|	|L	|	|	|		|
 |Akane the Kunoichi	|XNA	|W	|	|	|	|	|		|
+|ALL IN THE GAME: Crime Strategy|Love2D|W|	|	|	|	|needs luasteam 3.2.1; early access|
 |Amazing Princess Sarah	|XNA	|	|	|	|	|	|iomap error when loading level	|
 |Anagrams		|Love2D	|	|	|L	|	|	|		|
 |Apocalyptic Vibes	|GZDoom	|W	|	|	|	|	|		|
