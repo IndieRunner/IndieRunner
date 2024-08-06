@@ -71,6 +71,7 @@ Letters indicate which platform versions have been tested successfully:
 |Deepest Chamber: Resurrection|LibGDX|L	|	|	|	|	|		|
 |Defendor		|Godot3	|W	|	|	|	|	|		|
 |Delver			|LibGDX	|L	|	|	|	|	|		|
+|Destroy The Monoliths	|Godot3	|L	|	|	|	|	|		|
 |Dice Tribes: Ambitions	|HashLink|L	|	|	|	|	|		|
 |Dome Keeper		|Godot3	|L	|	|	|	|	|		|
 |Draw a Stickman: EPIC	|XNA	|	|	|	|	|	|crashes early without Steamworks.NET.dll stub|
