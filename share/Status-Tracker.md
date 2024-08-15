@@ -27,6 +27,7 @@ Letters indicate which platform versions have been tested successfully:
 |Apocalyptic Vibes	|GZDoom	|W	|	|	|	|	|		|
 |Apotheon		|FNA	|L	|	|	|	|	|		|
 |Apple Jack 1&2		|XNA	|W	|	|	|	|	|		|
+|Arco			|Love2D	|W	|	|	|	|	|		|
 |Ashworld		|LibGDX	|	|	|L	|	|	|		|
 |Atom Zombie Smasher	|Mono	|L	|	|	|	|	|		|
 |Axiom Verge		|FNA	|L(1.56)|	|	|1.51	|	|		|
