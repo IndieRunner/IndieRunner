@@ -58,8 +58,9 @@ Letters indicate which platform versions have been tested successfully:
 |Charlie Murder		|FNA	|L	|	|	|	|	|no online multiplayer|
 |Chasm			|FNA	|	|L	|	|	|	|		|
 |cityglitch		|Love2D	|	|	|L	|	|	|		|
-|COLORED EFFECTS	|Godot	|L	|	|	|	|	|		|
+|Colored Effects	|Godot	|L	|	|	|	|	|		|
 |CometStriker		|FNA	|L	|	|	|	|	|		|
+|The Crimson Diamond	|ScummVM|W	|	|	|	|	|		|
 |Crop Rotation		|HashLink|L	|	|	|	|	|		|
 |CRYPTARK		|FNA	|L	|L	|	|	|	|		|
 |Crystal Project	|FNA	|L	|	|	|	|	|		|
