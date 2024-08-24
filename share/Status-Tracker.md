@@ -101,6 +101,7 @@ Letters indicate which platform versions have been tested successfully:
 |Flinthook		|FNA	|L	|	|	|	|	|		|
 |Flotilla		|FNA	|	|	|L	|	|	|		|
 |Forest's Secret	|LibGDX	|	|	|L	|	|	|		|
+|FoxTail		|ScummVM|	|L	|	|	|	|early access	|
 |The Forestale		|GZDoom	|W	|	|	|	|	|		|
 |Fraymakers		|HashLink|L	|	|	|	|	|early access	|
 |Fury's Sky		|GZDoom	|W	|	|	|	|	|		|
@@ -215,6 +216,7 @@ Letters indicate which platform versions have been tested successfully:
 |Stone Kingdoms		|Love2D	|	|	|L	|	|	|		|
 |Striving for Light	|Godot	|	|	|L	|	|	|		|
 |Sudocats		|Godot	|	|W	|	|	|	|		|
+|Sumatra: Fate of Yandi	|ScummVM|	|W	|	|	|	|		|
 |Super Bernie World	|FNA	|	|	|L	|	|	|		|
 |Super Spy Raccoon	|Godot	|W	|	|	|	|	|		|
 |Supplice		|GZDoom	|W	|	|	|	|	|		|
