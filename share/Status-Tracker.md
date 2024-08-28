@@ -43,6 +43,7 @@ Letters indicate which platform versions have been tested successfully:
 |BLUE REVOLVER		|Love2D	|	|	|L	|	|	|XXX: detects wrong Love2D version|
 |Brawl Tactics: Origins	|W	|	|	|	|	|	|		|
 |Breath of Death VII	|XNA	|W	|	|	|	|	|		|
+|Bring the Chickens Home|Godot	|L	|	|	|	|	|XXX: needs addons/godotsteam/x11/libgodotsteam.so|
 |Britebot		|Love2D	|	|	|L	|	|	|		|
 |Broken Sword II: The Smoking Mirror|ScummVM||W	|	|	|	|original game, not remastered version|
 |Brotato		|Godot	|W	|	|	|	|	|		|
