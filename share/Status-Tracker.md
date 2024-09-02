@@ -134,6 +134,7 @@ Letters indicate which platform versions have been tested successfully:
 |Lair of goblins	|Godot	|W	|	|	|	|	|		|
 |Landnama		|Godot	|L	|	|	|	|	|		|
 |LaserCat		|XNA	|	|	|L	|	|	|		|
+|The Last Craftsman	|Godot	|L	|	|	|	|	|		|
 |The Legend of Skye	|ScummVM|	|L	|	|	|	|Adventure Game Studio	|
 |Legendary Creatures	|Godot	|W	|	|	|	|	|		|
 |Lil Baby Poop's NIGHTMARES|Godot|W	|	|	|	|	|		|
