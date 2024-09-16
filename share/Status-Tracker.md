@@ -117,7 +117,7 @@ Letters indicate which platform versions have been tested successfully:
 |Her Name Was Fire	|Godot	|W	|	|	|	|	|		|
 |Heroes of Loot		|LibGDX	|	|	|L	|	|	|		|
 |Hexes			|Godot	|L	|	|	|	|	|		|
-|Hexis		|	|Godot	|L	|	|	|	|	|		|
+|Hexis		|Godot	|L	|	|	|	|	|	|
 |Hive			|FNA	|L	|	|	|	|	|		|
 |Hoarder's Horrible House of Stuff|Love2D||	|L	|	|	|		|
 |Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
