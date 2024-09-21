@@ -108,6 +108,7 @@ Letters indicate which platform versions have been tested successfully:
 |Fury's Sky		|GZDoom	|W	|	|	|	|	|		|
 |Gateways		|MonoGame|	|	|	|	|Humble:L|Humble version works. Steam version needs more API in steamwrapper stub.|
 |Glitchangels		|FNA	|L	|	|	|	|	|		|
+|Goliath Depot		|Godot	|W	|	|	|	|	|		|
 |Gravity Circuit	|Love2D	|L	|	|	|	|	|		|
 |Groundskeeper 2	|LibGDX	|	|	|L	|	|	|		|
 |Growing Pains		|FNA	|L	|	|	|	|	|		|
@@ -117,7 +118,7 @@ Letters indicate which platform versions have been tested successfully:
 |Her Name Was Fire	|Godot	|W	|	|	|	|	|		|
 |Heroes of Loot		|LibGDX	|	|	|L	|	|	|		|
 |Hexes			|Godot	|L	|	|	|	|	|		|
-|Hexis		|	|Godot	|L	|	|	|	|	|		|
+|Hexis			|Godot	|L	|	|	|	|	|		|
 |Hive			|FNA	|L	|	|	|	|	|		|
 |Hoarder's Horrible House of Stuff|Love2D||	|L	|	|	|		|
 |Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
@@ -159,6 +160,7 @@ Letters indicate which platform versions have been tested successfully:
 |Northgard		|HashLink|L	|L	|	|	|	|report that Steam version needs to run with --permissive to be able to save game|
 |Nuclear Blaze		|HashLink|	|	|	|	|	|steam.hdll stub: Steam is not running!|
 |Of Blades & Tails	|Godot	|L	|	|	|	|	|		|
+|Oh My Git!		|Godot	|	|	|L	|	|	|		|
 |Omnigon		|Godot	|W	|	|	|	|	|		|
 |One Finger Death Punch	|XNA	|W	|	|	|	|	|		|
 |Operation STEEL	|Godot	|L	|	|	|	|	|		|
