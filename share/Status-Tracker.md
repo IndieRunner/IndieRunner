@@ -42,6 +42,7 @@ Letters indicate which platform versions have been tested successfully:
 |Blossom Tales II: The Minotaur Prince	|FNA	|L	|	|	|	|	|		|
 |BLUE REVOLVER		|Love2D	|	|	|L	|	|	|XXX: detects wrong Love2D version|
 |Brawl Tactics: Origins	|W	|	|	|	|	|	|		|
+|Brawn, Scorn and Ammo	|Godot	|	|	|L	|	|	|		|
 |Breath of Death VII	|XNA	|W	|	|	|	|	|		|
 |Bring the Chickens Home|Godot	|L	|	|	|	|	|XXX: needs addons/godotsteam/x11/libgodotsteam.so|
 |Britebot		|Love2D	|	|	|L	|	|	|		|
@@ -70,6 +71,7 @@ Letters indicate which platform versions have been tested successfully:
 |Curse of the Crescent Isle DX|FNA	|	|	|	|	|Humble:L|	|
 |Dad Quest		|MonoGame|W	|	|	|	|	|		|
 |The Dagger of Amon Ra	|ScummVM|	|W	|	|	|	|		|
+|Daisy Dangerous	|Godot	|L	|	|	|	|	|		|
 |Dashpong		|Godot	|L	|	|	|	|	|		|
 |Dead Cells		|HashLink|	|L	|	|	|	|		|
 |Dead Pixels II		|FNA	|L	|	|	|	|	|Early Access (2022-08-27)|
@@ -83,6 +85,7 @@ Letters indicate which platform versions have been tested successfully:
 |DreamCell: Lost in Nightmares|Godot|W	|	|	|	|	|		|
 |Dreams in the Witch House|ScummVM|W	|	|	|	|	|		|
 |Droid Assault		|LWJGL2	|	|	|	|	|Humble:L|		|
+|Dungeons & Keyboards	|Godot	|W	|	|	|	|	|		|
 |Dust: An Elysian Tail	|FNA	|	|L	|	|	|	|		|
 |Eagle Island		|MonoGame|	|L	|	|	|	|run in subdirectory 'Linux'|
 |Eliza			|Mono	|	|L	|	|	|	|		|
@@ -150,6 +153,7 @@ Letters indicate which platform versions have been tested successfully:
 |MidBoss		|FNA	|	|	|L	|	|	|Crash on death; needs SDL_image fix from fnaify|
 |Mobius Front '83	|Mono	|	|L	|	|	|	|buggy with random crashes|
 |MOLEK-SYNTEZ		|Mono	|	|L	|	|	|	|		|
+|Monster Bullets	|Godot	|W	|	|	|	|	|		|
 |Moonring		|Love2D	|W	|	|	|	|	|		|
 |Mount Your Friends	|XNA	|W	|	|	|	|	|		|
 |Murder Miners		|FNA	|L	|	|	|	|	|no online support|
@@ -232,6 +236,7 @@ Letters indicate which platform versions have been tested successfully:
 |They Don't Sleep	|Godot	|W	|	|	|	|	|		|
 |Titan Attacks!		|LWJGL2	|	|	|	|	|Humble:L|		|
 |TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
+|Town Keeper		|Godot	|W	|	|	|	|	|		|
 |Transmogrify		|Godot	|L	|	|	|	|	|		|
 |Trolley Delayma	|Godot	|	|	|L	|	|	|		|
 |Twilight Town: A Cyberpunk FPS|GZDoom|W|	|	|	|	|		|
