@@ -60,6 +60,7 @@ Letters indicate which platform versions have been tested successfully:
 |Charlie Murder		|FNA	|L	|	|	|	|	|no online multiplayer|
 |Chasm			|FNA	|	|L	|	|	|	|		|
 |cityglitch		|Love2D	|	|	|L	|	|	|		|
+|Cloaks and Capes	|Godot	|L	|	|	|	|	|		|
 |Colored Effects	|Godot	|L	|	|	|	|	|		|
 |CometStriker		|FNA	|L	|	|	|	|	|		|
 |The Crimson Diamond	|ScummVM|W	|	|	|	|	|		|
@@ -207,6 +208,7 @@ Letters indicate which platform versions have been tested successfully:
 |SokoChess White	|Godot	|L	|	|	|	|	|		|
 |SokoSolitaire		|Godot	|L	|	|	|	|	|needs to run with --video-driver GLES2 to avoid graphics bugs|
 |Sole Saga		|Godot	|L	|	|	|	|	|		|
+|A Solitaire Mystery	|Love2D	|	|	|W	|	|	|		|
 |SoulCaster I & II	|FNA	|	|	|	|	|Humble:L|		|
 |Soulstice		|Love2D	|	|	|L	|	|	|		|
 |SpaceChem		|Mono	|	|	|L	|	|	|		|
