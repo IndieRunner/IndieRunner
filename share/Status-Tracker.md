@@ -35,7 +35,9 @@ Letters indicate which platform versions have been tested successfully:
 |Balrum			|LWJGL3	|	|L	|	|	|	|Steam version needs steamworks4j	|
 |Bananaguy 2		|Godot	|W	|	|	|	|	|		|
 |Battlevoid Harbinger	|LibGDX	|	|	|	|	|	|no audio	|
+|Ben There, Dan That!	|ScummVM|	|W	|	|	|	|		|
 |Beyond Sunset (demo)	|GZDoom	|L	|	|	|	|	|frequent, unpredictable crashes|
+|Beyond The Edge Of Owlsgard|ScummVM|	|L	|	|	|	|		|
 |Blade Runner		|ScummVM|	|L	|	|	|	|		|
 |Bleed			|FNA	|	|	|	|	|Humble:L|		|
 |Bleed 2		|FNA	|L	|	|	|	|	|		|
@@ -65,6 +67,7 @@ Letters indicate which platform versions have been tested successfully:
 |CometStriker		|FNA	|L	|	|	|	|	|		|
 |The Crimson Diamond	|ScummVM|W	|	|	|	|	|		|
 |Crop Rotation		|HashLink|L	|	|	|	|	|		|
+|Crossroad OS		|Godot	|L	|	|	|	|	|		|
 |CRYPTARK		|FNA	|L	|L	|	|	|	|		|
 |Crystal Project	|FNA	|L	|	|	|	|	|		|
 |Cthulhu Saves the World|XNA	|W	|	|	|	|	|		|
@@ -237,6 +240,7 @@ Letters indicate which platform versions have been tested successfully:
 |Tempus Bound		|Godot	|W	|	|	|	|	|		|
 |Terraria		|FNA	|L	|L	|	|	|	|		|
 |They Don't Sleep	|Godot	|W	|	|	|	|	|		|
+|Time Gentlemen, Please!|ScummVM|	|W	|	|	|	|		|
 |Titan Attacks!		|LWJGL2	|	|	|	|	|Humble:L|		|
 |TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
 |Town Keeper		|Godot	|W	|	|	|	|	|		|
