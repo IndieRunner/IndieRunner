@@ -18,7 +18,14 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use parent 'IndieRunner::Engine';
 
-use constant GODOT3_BIN	=> '/usr/local/bin/godot';
+use Carp;
+use IndieRunner::Helpers qw( match_bin_file );
+
+use constant GODOT3_BIN	=>		'/usr/local/bin/godot';
+use constant GODOT4_BIN =>		'/usr/local/bin/godot4';
+use constant PACK_HEADER_MAGIC =>	'GDPC';
+
+my $game_file;
 
 ###
 # Godot 4 games for future addition when implemented:
@@ -26,17 +33,34 @@ use constant GODOT3_BIN	=> '/usr/local/bin/godot';
 # - 8 Colors Star Guardians (itch.io)
 ###
 
+sub get_pack_format_version( $file ) {
+	my $pack_header_bytes = match_bin_file( 'GDPC.', $file );
+	my $pack_format_version = hex unpack( 'H2', substr($pack_header_bytes, -1));
+	return $pack_format_version;
+}
+
 sub detect_game( $self ) {
 	my @pck_files =	glob '*.pck';
 	return undef unless @pck_files;
 	return $pck_files[0] =~ s/\.pck$//r;
 }
 
-sub get_bin( $self ) { return GODOT3_BIN; }
+sub get_bin( $self ) {
+	$game_file = $$self{ id_file } if $$self{ id_file };
+	$game_file = ( glob( '*.pck' ) )[0] unless $game_file;
+	my $pack_format_version = get_pack_format_version( $game_file );
+	if ( $pack_format_version == 1 ) {
+		return GODOT3_BIN;
+	}
+	elsif ( $pack_format_version == 2 ) {
+		return GODOT4_BIN;
+	}
+	else {
+		croak "unable to determine Godot binary from $game_file";
+	}
+}
 
 sub get_args_ref( $self ) {
-	my $game_file = $$self{ id_file } if $$self{ id_file };
-	$game_file = ( glob( '*.pck' ) )[0] unless $game_file;
 	my @args = (
 		'--quiet',
 		'--main-pack',
