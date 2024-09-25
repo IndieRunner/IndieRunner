@@ -218,6 +218,7 @@ Letters indicate which platform versions have been tested successfully:
 |Spaceport Hope		|LibGDX	|L	|	|	|	|	|		|
 |SpeedRunners		|FNA	|L	|	|	|	|	|FNA used since 2023-03-25 update|
 |Spellrazor		|Love2D	|	|	|W	|	|	|		|
+|Spring Dash		|Godot	|W	|	|	|	|	|		|
 |Sprout Valley		|Godot	|W	|	|	|	|	|		|
 |Stardash		|LibGDX	|	|	|L	|	|	|		|
 |Stardew Valley		|MonoGame|	|M	|	|	|	|use MAC 32bit Build (GOG) or branch "compatibility" (Steam) - no audio since ~2023 (openal issue?)|
