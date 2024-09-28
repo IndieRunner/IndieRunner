@@ -51,6 +51,7 @@ Letters indicate which platform versions have been tested successfully:
 |Broken Sword II: The Smoking Mirror|ScummVM||W	|	|	|	|original game, not remastered version|
 |Brotato		|Godot	|W	|	|	|	|	|		|
 |Brushwood Buddies	|FNA	|	|	|L	|	|	|		|
+|Buckshot Roulette	|Godot	|	|	|L	|	|	|		|
 |Bugscraper		|Love2D	|	|	|	|	|	|		|
 |Burrito Bear		|Godot	|W	|	|	|	|	|		|
 |Capsized		|MonoGame|	|L	|	|	|	|		|
@@ -65,6 +66,7 @@ Letters indicate which platform versions have been tested successfully:
 |Cloaks and Capes	|Godot	|L	|	|	|	|	|		|
 |Colored Effects	|Godot	|L	|	|	|	|	|		|
 |CometStriker		|FNA	|L	|	|	|	|	|		|
+|Cozy Space Survivors	|Godot	|L	|	|	|	|	|		|
 |The Crimson Diamond	|ScummVM|W	|	|	|	|	|		|
 |Crop Rotation		|HashLink|L	|	|	|	|	|		|
 |Crossroad OS		|Godot	|L	|	|	|	|	|		|
@@ -112,7 +114,9 @@ Letters indicate which platform versions have been tested successfully:
 |FoxTail		|ScummVM|	|L	|	|	|	|early access	|
 |The Forestale		|GZDoom	|W	|	|	|	|	|		|
 |Fraymakers		|HashLink|L	|	|	|	|	|early access	|
+|Frood Robotics		|Godot	|L	|	|	|	|	|		|
 |Fury's Sky		|GZDoom	|W	|	|	|	|	|		|
+|Game of Squares	|Godot	|W	|	|	|	|	|		|
 |Gateways		|MonoGame|	|	|	|	|Humble:L|Humble version works. Steam version needs more API in steamwrapper stub.|
 |Glitchangels		|FNA	|L	|	|	|	|	|		|
 |Goliath Depot		|Godot	|W	|	|	|	|	|		|
@@ -126,6 +130,7 @@ Letters indicate which platform versions have been tested successfully:
 |Heroes of Loot		|LibGDX	|	|	|L	|	|	|		|
 |Hexes			|Godot	|L	|	|	|	|	|		|
 |Hexis			|Godot	|L	|	|	|	|	|		|
+|Hexpire		|Godot	|W	|	|	|	|	|		|
 |Hive			|FNA	|L	|	|	|	|	|		|
 |Hoarder's Horrible House of Stuff|Love2D||	|L	|	|	|		|
 |Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
@@ -133,6 +138,7 @@ Letters indicate which platform versions have been tested successfully:
 |If On A Winter's Night, Four Travelers|ScummVM|||L	|	|	|		|
 |Immortals Must Die	|Godot	|W	|	|	|	|	|		|
 |INC: The Beginning	|LibGDX	|	|	|L	|	|	|		|
+|Interstellar Plunderer	|Godot	|L	|	|	|	|	|		|
 |Into the Necrovale	|HashLink|		|L(demo)|	|	|		|
 |The Isolated Town	|Godot	|	|	|L	|	|	|		|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
@@ -185,8 +191,10 @@ Letters indicate which platform versions have been tested successfully:
 |Primal Light		|Godot	|L	|	|	|	|	|		|
 |Project Crypt		|GZDoom	|W	|	|	|	|	|		|
 |Prose & Code		|Love2D	|	|	|L	|	|	|		|
+|The Pulse of Evil	|Godot	|W	|	|	|	|	|		|
 |PUTRID SHOT ULTRA	|Love2D	|W	|	|	|	|	|		|
 |The Puzzler's Revenge	|Love2D	|	|	|W	|	|	|		|
+|Retro Kart Rush	|Godot	|L	|	|	|	|	|		|
 |Revenge of the Titans	|LWJGL2	|	|	|	|	|Humble:L|		|
 |Rex Rocket		|FNA	|L	|	|	|	|	|		|
 |Rise to Ruins		|LWJGL2	|	|	|L	|	|	|		|
@@ -202,6 +210,7 @@ Letters indicate which platform versions have been tested successfully:
 |Shrine II		|GZDoom	|L	|	|	|	|	|		|
 |Simona's Requiem	|Godot	|L	|	|	|	|	|		|
 |Sir Questionnaire	|LibGDX	|	|	|L	|	|	|		|
+|Sisypush		|Godot	|L	|	|	|	|	|		|
 |Skulls of the Shogun	|MonoGame|	|L	|	|	|	|		|
 |Skycliffs		|Godot	|L	|	|	|	|	|		|
 |Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j (Steam version)|
@@ -240,6 +249,7 @@ Letters indicate which platform versions have been tested successfully:
 |Tempus Bound		|Godot	|W	|	|	|	|	|		|
 |Terraria		|FNA	|L	|L	|	|	|	|		|
 |They Don't Sleep	|Godot	|W	|	|	|	|	|		|
+|That's Not My Neighbor	|Godot	|	|	|L	|	|	|		|
 |Time Gentlemen, Please!|ScummVM|	|W	|	|	|	|		|
 |Titan Attacks!		|LWJGL2	|	|	|	|	|Humble:L|		|
 |TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
@@ -255,6 +265,7 @@ Letters indicate which platform versions have been tested successfully:
 |Vomitoreum		|GZDoom	|L	|	|	|	|	|		|
 |V-Hunter Puzzler Dx	|Godot	|W	|	|	|	|	|		|
 |Vay			|FNA	|L	|	|	|	|	|		|
+|Void Wizard		|Godot	|W	|	|	|	|	|		|
 |Wizorb			|FNA	|	|	|	|	|Humble:L|crash in GameOver state|
 |Wrought Flesh		|Godot	|L	|	|	|	|	|		|
 |Yolk Heroes: A Long Tamago|Godot|W	|	|	|	|	|		|
