@@ -34,7 +34,9 @@ my $game_file;
 ###
 
 sub get_pack_format_version( $file ) {
-	my $pack_header_bytes = match_bin_file( 'GDPC.', $file );
+	# [\x00-\x02] - marker for pack version for Godot 2 (\x00) to
+	# Godot 4 (\x02)
+	my $pack_header_bytes = match_bin_file( 'GDPC[\x00-\x02]', $file );
 	my $pack_format_version = hex unpack( 'H2', substr($pack_header_bytes, -1));
 	return $pack_format_version;
 }
@@ -49,7 +51,10 @@ sub get_bin( $self ) {
 	$game_file = $$self{ id_file } if $$self{ id_file };
 	$game_file = ( glob( '*.pck' ) )[0] unless $game_file;
 	my $pack_format_version = get_pack_format_version( $game_file );
-	if ( $pack_format_version == 1 ) {
+	if ( $pack_format_version == 0 ) {
+		die "No runtime for Godot version 2 (pack version 0 in $game_file)";
+	}
+	elsif ( $pack_format_version == 1 ) {
 		return GODOT3_BIN;
 	}
 	elsif ( $pack_format_version == 2 ) {
