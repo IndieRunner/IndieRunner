@@ -60,6 +60,7 @@ Letters indicate which platform versions have been tested successfully:
 |A Castle Full of Cats	|Godot	|	|W	|	|	|	|		|
 |Cat Warrior		|FNA	|L	|	|	|	|	|		|
 |Celeste		|FNA	|W	|	|L	|	|	|no audio	|
+|Champy the Useless Vampire|Godot|W	|	|	|	|	|		|
 |Charlie Murder		|FNA	|L	|	|	|	|	|no online multiplayer|
 |Chasm			|FNA	|	|L	|	|	|	|		|
 |cityglitch		|Love2D	|	|	|L	|	|	|		|
@@ -230,6 +231,7 @@ Letters indicate which platform versions have been tested successfully:
 |Spaceport Hope		|LibGDX	|L	|	|	|	|	|		|
 |SpeedRunners		|FNA	|L	|	|	|	|	|FNA used since 2023-03-25 update|
 |Spellrazor		|Love2D	|	|	|W	|	|	|		|
+|Spin Hero		|Godot	|W	|	|	|	|	|		|
 |Spring Dash		|Godot	|W	|	|	|	|	|		|
 |Sprout Valley		|Godot	|W	|	|	|	|	|		|
 |Stardash		|LibGDX	|	|	|L	|	|	|		|
@@ -254,6 +256,7 @@ Letters indicate which platform versions have been tested successfully:
 |Titan Attacks!		|LWJGL2	|	|	|	|	|Humble:L|		|
 |TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
 |Town Keeper		|Godot	|W	|	|	|	|	|		|
+|Toziuha Night: Order of the Alchemists|Godot|L||	|	|	|		|
 |Transmogrify		|Godot	|L	|	|	|	|	|		|
 |Trolley Delayma	|Godot	|	|	|L	|	|	|		|
 |Twilight Town: A Cyberpunk FPS|GZDoom|W|	|	|	|	|		|
@@ -265,7 +268,9 @@ Letters indicate which platform versions have been tested successfully:
 |Vomitoreum		|GZDoom	|L	|	|	|	|	|		|
 |V-Hunter Puzzler Dx	|Godot	|W	|	|	|	|	|		|
 |Vay			|FNA	|L	|	|	|	|	|		|
+|Vlobs			|Godot	|	|	|L	|	|	|		|
 |Void Wizard		|Godot	|W	|	|	|	|	|		|
+|WHATEVER		|Godot	|W	|	|	|	|	|		|
 |Wizorb			|FNA	|	|	|	|	|Humble:L|crash in GameOver state|
 |Wrought Flesh		|Godot	|L	|	|	|	|	|		|
 |Yolk Heroes: A Long Tamago|Godot|W	|	|	|	|	|		|
