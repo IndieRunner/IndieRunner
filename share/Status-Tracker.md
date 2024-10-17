@@ -54,6 +54,7 @@ Letters indicate which platform versions have been tested successfully:
 |Buckshot Roulette	|Godot	|	|	|L	|	|	|		|
 |Bugscraper		|Love2D	|	|	|	|	|	|		|
 |Burrito Bear		|Godot	|W	|	|	|	|	|		|
+|Calm Skies: The Wingsuit Flying Experience|Godot|L||	|	|	|		|
 |Capsized		|MonoGame|	|L	|	|	|	|		|
 |Cards with Personalities|Godot|W	|	|	|	|	|		|
 |Cassette Beasts	|Godot	|L	|	|	|	|	|		|
@@ -85,6 +86,7 @@ Letters indicate which platform versions have been tested successfully:
 |Deepest Chamber: Resurrection|LibGDX|L	|	|	|	|	|		|
 |Defendor		|Godot	|W	|	|	|	|	|		|
 |Delver			|LibGDX	|L	|	|	|	|	|		|
+|Desert Kingdoms	|Godot	|W	|	|	|	|	|		|
 |Destroy The Monoliths	|Godot	|L	|	|	|	|	|		|
 |Dice Tribes: Ambitions	|HashLink|L	|	|	|	|	|		|
 |Dome Keeper		|Godot	|L	|	|	|	|	|		|
@@ -153,6 +155,7 @@ Letters indicate which platform versions have been tested successfully:
 |The Legend of Skye	|ScummVM|	|L	|	|	|	|Adventure Game Studio	|
 |Legendary Creatures	|Godot	|W	|	|	|	|	|		|
 |Lil Baby Poop's NIGHTMARES|Godot|W	|	|	|	|	|		|
+|Lingo			|Godot	|W	|	|	|	|	|		|
 |Little Racers STREET	|FNA	|L	|	|	|	|	|		|
 |Lycanthorn II		|GZDoom	|L	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
 |Marvellous Inc.	|Love2D	|	|	|L	|	|	|		|
@@ -176,6 +179,7 @@ Letters indicate which platform versions have been tested successfully:
 |Nuclear Blaze		|HashLink|	|	|	|	|	|steam.hdll stub: Steam is not running!|
 |Of Blades & Tails	|Godot	|L	|	|	|	|	|		|
 |Oh My Git!		|Godot	|	|	|L	|	|	|		|
+|Omega Warp		|Godot	|L	|	|	|	|	|		|
 |Omnigon		|Godot	|W	|	|	|	|	|		|
 |One Finger Death Punch	|XNA	|W	|	|	|	|	|		|
 |Operation STEEL	|Godot	|L	|	|	|	|	|		|
