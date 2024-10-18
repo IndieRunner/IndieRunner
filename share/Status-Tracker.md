@@ -161,6 +161,7 @@ Letters indicate which platform versions have been tested successfully:
 |Marvellous Inc.	|Love2D	|	|	|L	|	|	|		|
 |Meganoid		|LibGDX	|	|	|L	|	|	|		|
 |Meganoid: Grandpa's Chronicles|LibGDX|	|	|L	|	|	|		|
+|Melt Them All		|Godot	|L	|	|	|	|	|		|
 |Mercenary Kings	|FNA	|	|	|	|	|	|NLog.NLogConfigurationException|
 |Metanet Hunter G4	|Love2D	|	|	|L	|	|	|		|
 |Mewnbase		|LibGDX	|	|	|	|	|	|		|
