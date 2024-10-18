@@ -42,6 +42,9 @@ Readonly my $MANIFEST		=> 'META-INF/MANIFEST.MF';
 #                               '1.7.0-u80-unofficial-b32'
 Readonly my $JAVA_VER_REGEX => '\d{1,2}\.\d{1,2}\.\d{1,2}[_\+\-][\w\-]+';
 
+# Quirks for games that need the bundled classes to come first
+Readonly my @CLASSPATH_PREFER_BUNDLED	=> ( 'Urtuk: The Desolation', );
+
 Readonly my $So_Sufx => '.so';
 my $Bit_Sufx;
 
@@ -499,10 +502,17 @@ sub get_args_ref( $self ) {
 	}
 	else {
 		die "Unable to identify main class for JVM execution" unless $main_class;
-		# XXX: Urtuk fails unless -cp starts with '.', otherwise
-		#      an incompatible version of org.objectweb.asm is picked up
-		#      Quirk? Or figure out root cause?
-		push @jvm_args, ( '-cp', join( ':', @jvm_classpath, '.' ) ) if $jvm_classpath[0];
+
+		my $reverse_classpath = 0;
+		for ( @CLASSPATH_PREFER_BUNDLED ) {
+			$reverse_classpath = 1 if $$self{ game_name } eq $_;
+		}
+		if ( $jvm_classpath[0] and $reverse_classpath ) {
+			push @jvm_args, ( '-cp', join( ':', '.', @jvm_classpath ) )
+		}
+		elsif ( $jvm_classpath[0] ) {
+			push @jvm_args, ( '-cp', join( ':', @jvm_classpath, '.' ) )
+		}
 		push @jvm_args, $main_class;
 	}
 
