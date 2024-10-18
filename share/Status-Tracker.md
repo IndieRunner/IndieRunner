@@ -15,6 +15,7 @@ Letters indicate which platform versions have been tested successfully:
 |Game			|Module	|Steam	|GOG	|itch.io|Epic	|Other	|Comments	|
 |-----------------------|-------|-------|-------|-------|-------|-------|---------------|
 |20 Small Mazes		|Godot	|	|	|W	|	|	|free		|
+|8 Colors Star Guardians|Godot	|	|	|W	|	|	|GodotSteam	|
 |100 Steps		|Godot	|W	|	|	|	|	|		|
 |Abscission		|ScummVM|W	|	|	|	|	|		|
 |The Adventures of Shuggy|FNA	|	|	|	|	|Humble:L|		|
