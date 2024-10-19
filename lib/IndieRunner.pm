@@ -113,9 +113,7 @@ Constructor.
 
 sub new ( $class, %init ) {
 	my $self = bless {}, $class;
-
 	my $engine;
-	my $engine_id_file;
 
 	# set attributes from %init or default
 	while ( my ( $k, $v ) = each ( %INIT_DEFAULTS ) ) {
@@ -133,7 +131,7 @@ sub new ( $class, %init ) {
 
 	# detect and load engine
 	unless ( $engine = $init{ engine } ) {
-		( $engine, $engine_id_file ) = ( detect_engine( $self ) );
+		$engine = detect_engine( $self );
 	}
 	my $engine_class = __PACKAGE__ . '::Engine::' . $engine;
 	$$self{ mode }->vvsay( 'Engine: ' . (split( '::', $engine_class))[-1] );
@@ -141,7 +139,6 @@ sub new ( $class, %init ) {
 	$$self{ engine } = $engine_class->new(
 		# ir_obj: IndieRunner object for referencing verbosity, use_rigg
 		ir_obj		=> $self,
-		id_file		=> $engine_id_file || '',
 		mode_obj	=> $$self{ mode },
 	);
 
@@ -166,44 +163,30 @@ sub new ( $class, %init ) {
 
 sub detect_engine ( $self ) {
 	my $engine;
-	my $engine_id_file;
-
-	# XXX: move the file search and iteration into identify_engine()
-	my @files = File::Find::Rule->file()->maxdepth( 3 )->in( '.' );
 
 	# 1st Pass: File Names
 	$$self{ mode }->vvsay( 'Engine detection: 1st pass' );
-	foreach my $f ( @files ) {
-		# use just basename of file, as different games put those files
-		# in different directories
-		my $basename = (splitpath( $f ))[2];
-		$engine = IndieRunner::GrandCentral::identify_engine($basename);
-		if ( $engine ) {
-			$engine_id_file = $f;
-			last;
-		}
+	my %ir_match = IndieRunner::GrandCentral::identify_engine( 0 );
+	if ( $ir_match{ '.' } ) {
+		$$self{ mode }->vvsay( "engine found: $ir_match{ '.' }" );
+		return $ir_match{ '.' };
 	}
-	return ( $engine, $engine_id_file || '' ) if $engine;
 
 	# not FNA, XNA, or MonoGame on 1st pass; check if it could still be Mono
-	$engine = 'Mono' if IndieRunner::Engine::Mono::get_mono_files() or
+	return 'Mono' if IndieRunner::Engine::Mono::get_mono_files() or
 		IndieRunner::Engine::Mono::get_mono_files('_');
-	return ( $engine, $engine_id_file || '' ) if $engine;
 
 	# not Mono-anything, check if it could be ScummVM
-	$engine = 'ScummVM' if IndieRunner::Engine::ScummVM::detect_game( undef );
-	return ( $engine, $engine_id_file || '' ) if $engine;
+	return 'ScummVM' if IndieRunner::Engine::ScummVM::detect_game( undef );
 
 	# 2nd Pass: Byte Sequences
 	$$self{ mode }->vvsay( 'Engine detection: 2nd pass' ) or
 		say STDERR "Failed to identify game engine on first pass; performing second pass.";
-	foreach my $f ( @files ) {
-		$engine = IndieRunner::GrandCentral::identify_engine_thorough($f);
-		if ( $engine ) {
-			$engine_id_file = $f;
-			say STDERR "second pass result: $engine found in $engine_id_file";
-			return ( $engine, $engine_id_file || '' );
-		}
+	%ir_match = IndieRunner::GrandCentral::identify_engine_thorough( 0 );
+	if ( $ir_match{ '.' } ) {
+		$$self{ mode }->vvsay( "engine found: $ir_match{ '.' }" ) or
+			say STDERR "second pass result: $engine found in $ir_match{ '.' }";
+		return $ir_match{ '.' };
 	}
 
 	confess "No game engine identified. Aborting.";

@@ -58,18 +58,12 @@ Readonly my %LOVE2D_GAME_VERSION => {
 	};
 
 sub get_bin ( $self ) {
-	for my $k ( keys %LOVE2D_GAME_VERSION ) {
-		if ( $$self{ id_file } =~ /$k/ ) {
-			return $LOVE2D_VERSION_BIN{ $LOVE2D_GAME_VERSION{ $k } };
-		}
-	}
-
 	my @valid_versions = values %LOVE2D_GAME_VERSION;
 	# turn @valid_versions into regex
 	map { s/x/\\d+/g } @valid_versions;
 	map { s/\./\\./g } @valid_versions;
 
-	my @found = ( $$self{ id_file } );
+	my @found;
 	for my $g ( @LOVE2D_VERSION_FILES ) {
 		push @found, File::Find::Rule->file()
 					    ->name( $g )
@@ -91,7 +85,15 @@ sub get_bin ( $self ) {
 }
 
 sub get_args_ref ( $self ) {
-	my $game_file = $$self{ id_file };
+	my $game_file;
+	my @found = glob( "*.love bin/snacktorio bin/GravityCircuit bin/EndlessDark bin/love" );
+	for my $f ( @found ) {
+		if ( -f $f ) {
+			$game_file = $f;
+			last;
+		}
+	}
+	die "Failed to identify Love2D game file." unless $game_file;
 
 	return [ $game_file ];
 }

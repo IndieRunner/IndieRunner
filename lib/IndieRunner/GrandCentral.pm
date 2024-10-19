@@ -24,6 +24,8 @@ use v5.36;
 use version; our $VERSION = qv('0.0.1');
 use autodie;
 
+use Cwd qw( cwd );
+use File::Find::Rule;
 use Readonly;
 use Text::Glob qw( match_glob );
 
@@ -125,38 +127,73 @@ sub find_bytes ( $file, $bytes ) {
 =head2 identify_engine( $file )
 
 Compare I<filename> against known globs for L<IndieRunner> engines and return the matching engine.
-Returns an empty string if no match was found.
+Returns a hash with directory as key and identified engine as value. Set $maxdepth to search subdirectories (C<undef> to not set any maximum depth). Set $all to 1 to not stop after the first match.
+Returns an empty hash if no match was found.
 
 =cut
 
-sub identify_engine ( $file ) { # detect by globbing for keys of %Indicator_Files
-	for my $engine_pattern ( keys %Indicator_Files ) {
-		# account for possible '_' add the end after previous run
-		if ( match_glob( $engine_pattern, $file )
-		  || match_glob( $engine_pattern . '_', $file ) ) {
-			return $Indicator_Files{ $engine_pattern };
+sub identify_engine ( $maxdepth = 0, $all = 0 ) {
+	my %ret;
+
+	my $origin = cwd;
+	my @subdirs = File::Find::Rule->directory->maxdepth( $maxdepth )->in( '.' );
+	for my $s ( @subdirs ) {
+		chdir $s or die;
+		for my $g ( keys %Indicator_Files ) {
+			my @matches = glob( $g . '{,_}' );
+			for ( @matches ) {
+				# XXX: TOCTOU because of access(2)
+				if ( -f $_ ) {
+					$ret{ $s } = $Indicator_Files{ $g };
+					last; # assumes only 1 engine in a directory
+				}
+			}
 		}
+		chdir $origin or die;
+		# returning first matched dir unless $all
+		last if %ret and not $all;
 	}
-	return '';
+
+	return %ret;
 }
 
 =head2 identify_engine_thorough( $file )
 
 Compare I<file content> against known bytestrings for L<IndieRunner> engines, using I<find_bytes>.
-Returns the matching engine, or an empty string if no match was found.
+Returns the matching engine, or an empty hash if no match was found.
 
 =cut
 
-sub identify_engine_thorough ( $file ) {
-	for my $engine ( keys %Indicators ) {
-		if ( #match_glob( $Indicators{$engine}{'glob'}, $file ) and not
-		     grep { match_glob( $_, $file ) } @{ $Indicators{$engine}{glob} } and not
-		     grep { $_ eq $file } @SkipFiles and
-		     find_bytes( $file, $Indicators{$engine}{'magic_bytes'} )	) {
-			return $engine;
+sub identify_engine_thorough ( $maxdepth = 0, $all = 0 ) {
+	my %ret;
+
+	my $origin = cwd;
+	my @subdirs = File::Find::Rule->directory->maxdepth( $maxdepth )->in( '.' );
+	for my $s ( @subdirs ) {
+		chdir $s or die;
+
+		for my $engine ( keys %Indicators ) {
+			for my $g ( @{ $Indicators{$engine}{glob} } ) {
+				my @matches = glob( $g . '{,_}' );
+				for my $m ( @matches ) {
+					# XXX: TOCTOU because of access(2)
+					if ( -f $m and not
+					     grep { $_ eq $m } @SkipFiles and
+					     find_bytes( $m, $Indicators{$engine}{'magic_bytes'} ) ) {
+						$ret{ $s } = $engine;
+						last;
+					}
+				}
+				last if %ret;
+			}
+			last if %ret;
 		}
+		chdir $origin or die;
+		# returning first matched dir unless $all
+		last if %ret and not $all;
 	}
-	return '';
+
+	return %ret;
 }
 
 1;

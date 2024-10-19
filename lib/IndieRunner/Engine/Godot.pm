@@ -62,12 +62,18 @@ use constant ARGV0_SYMLINK =>		'.godot-indierunner';
 
 my $game_file;
 
-sub get_pack_format_version( $file ) {
-	# [\x00-\x02] - marker for pack version for Godot 2 (\x00) to
-	# Godot 4 (\x02)
-	my $pack_header_bytes = match_bin_file( 'GDPC[\x00-\x02]', $file );
-	my $pack_format_version = hex unpack( 'H2', substr($pack_header_bytes, -1));
-	return $pack_format_version;
+sub get_pack_format_version() {
+	my @files = glob( "*.pck *.x86_64 *.x86 *.exe Melt_Them_All" );
+	for my $f ( @files ) {
+		# [\x00-\x02] - marker for pack version for Godot 2 (\x00) to
+		# Godot 4 (\x02)
+		my $pack_header_bytes = match_bin_file( 'GDPC[\x00-\x02]', $f );
+		next unless $pack_header_bytes;
+		$game_file = $f;
+		my $pack_format_version = hex unpack( 'H2', substr($pack_header_bytes, -1));
+		return $pack_format_version;
+	}
+	die "Failed to find pack format version";
 }
 
 sub detect_game( $self ) {
@@ -77,9 +83,7 @@ sub detect_game( $self ) {
 }
 
 sub get_bin( $self ) {
-	$game_file = $$self{ id_file } if $$self{ id_file };
-	$game_file = ( glob( '*.pck' ) )[0] unless $game_file;
-	my $pack_format_version = get_pack_format_version( $game_file );
+	my $pack_format_version = get_pack_format_version();
 
 	# XXX: create local symlink, fixes issues with binary location (some software like
 	#      Crossroad OS expects binary to be in the game dir)
