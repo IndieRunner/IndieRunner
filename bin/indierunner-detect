@@ -1,0 +1,54 @@
+#!/usr/bin/env perl
+
+# Copyright (c) 2024 Thomas Frohwein
+#
+# Permission to use, copy, modify, and distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+use v5.36;
+use version 0.77; our $VERSION = version->declare('v0.2');
+use English;
+
+use FindBin; use lib "$FindBin::Bin/../lib";
+
+use IndieRunner;
+use IndieRunner::GrandCentral;
+
+my %matches = IndieRunner::GrandCentral::identify_engine( undef, 1 );
+
+# XXX: incorporate identify_engine_thorough if not too costly
+
+while ( my ($k, $v) = each %matches ) {
+	printf( "%-32s  %16s\n", $k, $v );
+}
+
+__END__
+
+=head1 NAME
+
+indierunner-detect - scan directory tree for IndieRunner games
+
+=head1 SYNOPSIS
+
+indierunner-detect
+
+=head1 DESCRIPTION
+
+B<indierunner-detect> checks the directory tree at the current working directory for games recognized by IndieRunner.
+
+=head1 SEE ALSO
+
+L<IndieRunner>
+
+=head1 AUTHOR
+
+Thomas Frohwein
