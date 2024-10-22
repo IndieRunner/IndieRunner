@@ -37,7 +37,11 @@ Readonly my @_7Z_COMMAND	=> ( '/usr/local/bin/7z', 'x', '-y' );
 # remove doesn't actually delete file, but appends '_'
 sub remove( $self, $file ) {
 	# rigg hides files using unveil(file, ""), so no need to remove anything
-	return 0 if ( -f $file.'_' or -d $file.'_' or $self->use_rigg );
+	return 0 if $self->use_rigg;
+	# balk if $file.'_' exists because rename(2) would clobber it and we
+	# don't want that
+	return 0 if -e $file.'_';
+
 	$self->SUPER::remove( $file );
 	return rename( $file, $file.'_' );
 }
