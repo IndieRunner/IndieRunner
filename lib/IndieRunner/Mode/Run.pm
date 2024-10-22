@@ -75,7 +75,7 @@ sub undo_insert( $self, $file ) {
 	if ( not -l $file ) {
 		die "not a symlink: $file";
 	}
-	unlink $file;
+	unlink $file or die;
 	return restore( $self, $file . '_' );
 }
 
