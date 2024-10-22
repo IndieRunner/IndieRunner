@@ -209,9 +209,9 @@ sub restore ( $self, $file ) {
 	$self->vsay( "restoring $file" );
 }
 
-=head2 insert($oldfile, $newfile)
+=head2 insert($target, $newfile)
 
-Method to insert $oldfile as $newfile.
+Method to insert $target as $newfile.
 
 =cut
 

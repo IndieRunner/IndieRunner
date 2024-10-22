@@ -16,7 +16,6 @@ package IndieRunner::Mode::Run;
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
-use autodie;
 use parent 'IndieRunner::Mode';
 
 use Cwd;
@@ -51,11 +50,24 @@ sub restore( $self, $removed_file ) {
 	return rename( $removed_file, $restored_file );
 }
 
-sub insert( $self, $oldfile, $newfile ) {
-	return 1 if ( ( -f $newfile or -d $newfile ) and -l $newfile );	# symlink already set up
-	remove( $self, $newfile ) if ( -f $newfile or -d $newfile );
-	$self->SUPER::insert( $oldfile, $newfile );
-	return symlink $oldfile, $newfile;
+# insert a symlink to $target at $newfile
+# dies on error, no return value therefore
+sub insert( $self, $target, $newfile ) {
+	unless ( symlink( $target, $newfile ) ) {
+		my $ret = readlink $newfile;
+		unless ( $ret ) {
+			# not a symlink; remove existing file
+			remove( $self, $newfile ) or unlink $newfile or die;
+			symlink( $target, $newfile ) or die;
+		}
+		elsif ( $ret ne $target ) {
+			# symlink is incorrect, so fix it and proceed
+			# don't use sub remove here to avoid second symlink
+			unlink $newfile or die;
+			symlink $target, $newfile or die;
+		}
+	}
+	$self->SUPER::insert( $target, $newfile );
 }
 
 # undo_insert does the opposite of insert: removes the symlink and puts old file into place
