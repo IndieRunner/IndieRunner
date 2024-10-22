@@ -58,7 +58,7 @@ Limitations on OpenBSD include:
 use constant GODOT3_BIN	=>		'/usr/local/bin/godot';
 use constant GODOT4_BIN =>		'/usr/local/bin/godot4';
 use constant PACK_HEADER_MAGIC =>	'GDPC';
-use constant ARGV0_SYMLINK =>		'.godot-indierunner';
+use constant ARGV0_SYMLINK =>		'.indierunner-godot-helper';
 
 my $game_file;
 

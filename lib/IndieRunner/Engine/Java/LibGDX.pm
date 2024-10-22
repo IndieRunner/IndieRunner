@@ -133,12 +133,11 @@ sub setup ( $, $mode_obj ) {
 
 	# insert framework libraries
 	foreach my $l ( glob $native_gdx . '/*.so' ) {
-		$mode_obj->insert( $l, ( splitpath( $l ) )[2] ) || die;
+		$mode_obj->insert( $l, ( splitpath( $l ) )[2] );
 	}
 
 	# insert framework managed code (class files)
-	$mode_obj->insert( catdir( $native_gdx, $GDX_BUNDLED_LOC ), $GDX_BUNDLED_LOC )
-		|| die "failed to insert gdx class libraries";
+	$mode_obj->insert( catdir( $native_gdx, $GDX_BUNDLED_LOC ), $GDX_BUNDLED_LOC );
 }
 
 1;

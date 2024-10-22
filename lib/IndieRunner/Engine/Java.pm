@@ -252,8 +252,7 @@ sub setup ( $self ) {
 	foreach my $lib ( keys %bundled_libs ) {
 		next unless $bundled_libs{ $lib };
 		say "$lib | $bundled_libs{ $lib }";
-		$$self{ mode_obj }->insert( $bundled_libs{ $lib }, $lib ) || die
-			"failed to symlink $lib -> $bundled_libs{ $lib }";
+		$$self{ mode_obj }->insert( $bundled_libs{ $lib }, $lib );
 	}
 
 	# Call specific setup for each framework

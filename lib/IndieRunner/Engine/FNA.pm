@@ -67,7 +67,7 @@ sub setup ( $self ) {
 			}
 			elsif ( not $self->use_rigg ) {
 				$$self{ mode_obj }->insert( $FNA_REPLACEMENT,
-				                            $FNA_DLL ) || die;
+				                            $FNA_DLL );
 			}
 		}
 		elsif ( $self->use_rigg ) {
