@@ -228,6 +228,7 @@ Letters indicate which platform versions have been tested successfully:
 |SokoSolitaire		|Godot	|L	|	|	|	|	|needs to run with --video-driver GLES2 to avoid graphics bugs|
 |Sole Saga		|Godot	|L	|	|	|	|	|		|
 |A Solitaire Mystery	|Love2D	|	|	|W	|	|	|		|
+|Sonar Shock		|Godot	|L	|	|	|	|	|		|
 |SoulCaster I & II	|FNA	|	|	|	|	|Humble:L|		|
 |Soulstice		|Love2D	|	|	|L	|	|	|		|
 |SpaceChem		|Mono	|	|	|L	|	|	|		|
