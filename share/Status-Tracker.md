@@ -254,6 +254,7 @@ Letters indicate which platform versions have been tested successfully:
 |Supplice		|GZDoom	|W	|	|	|	|	|		|
 |Sword of the Stars: The Pit|XNA|	|W	|	|	|	|		|
 |Takara Cards		|Godot	|L	|	|	|	|	|		|
+|Tanks of Freedom II	|Godot	|L	|	|	|	|	|		|
 |Tendryll		|Godot	|W	|	|	|	|	|needs addons/godotsteam/x11/libgodotsteam.so|
 |Tempus Bound		|Godot	|W	|	|	|	|	|		|
 |Terraria		|FNA	|L	|L	|	|	|	|		|
