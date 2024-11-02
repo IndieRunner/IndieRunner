@@ -77,8 +77,10 @@ Letters indicate which platform versions have been tested successfully:
 |Crystal Project	|FNA	|L	|	|	|	|	|		|
 |Cthulhu Saves the World|XNA	|W	|	|	|	|	|		|
 |Curse of the Arrow	|Love2D	|	|	|L	|	|	|		|
-|Curse of the Crescent Isle DX|FNA	|	|	|	|	|Humble:L|	|
+|Curse of the Crescent Isle DX|FNA|	|	|	|	|Humble:L|		|
 |Dad Quest		|MonoGame|W	|	|	|	|	|		|
+|Daedalus Demise	|Godot	|	|	|W	|	|	|		|
+|Daedalus Demise - The Haunted Pyramid|Godot||	|W	|	|	|		|
 |The Dagger of Amon Ra	|ScummVM|	|W	|	|	|	|		|
 |Daisy Dangerous	|Godot	|L	|	|	|	|	|		|
 |Dashpong		|Godot	|L	|	|	|	|	|		|
