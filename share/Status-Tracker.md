@@ -260,8 +260,9 @@ Letters indicate which platform versions have been tested successfully:
 |Tendryll		|Godot	|W	|	|	|	|	|needs addons/godotsteam/x11/libgodotsteam.so|
 |Tempus Bound		|Godot	|W	|	|	|	|	|		|
 |Terraria		|FNA	|L	|L	|	|	|	|		|
-|They Don't Sleep	|Godot	|W	|	|	|	|	|		|
 |That's Not My Neighbor	|Godot	|	|	|L	|	|	|		|
+|They Don't Sleep	|Godot	|W	|	|	|	|	|		|
+|Thimbleweed Park	|ScummVM|	|L	|	|	|	|		|
 |Time Gentlemen, Please!|ScummVM|	|W	|	|	|	|		|
 |Titan Attacks!		|LWJGL2	|	|	|	|	|Humble:L|		|
 |TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
