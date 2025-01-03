@@ -33,6 +33,8 @@ Letters indicate which platform versions have been tested successfully:
 |Atom Zombie Smasher	|Mono	|L	|	|	|	|	|		|
 |Axiom Verge		|FNA	|L(1.56)|	|	|1.51	|	|		|
 |Balatro		|Love2D	|W	|	|	|	|	|		|
+|Baldur's Gate		|GemRB	|	|W	|	|	|	|		|
+|Baldur's Gate 2	|GemRB	|	|W	|	|	|	|		|
 |Balrum			|LWJGL3	|	|L	|	|	|	|Steam version needs steamworks4j	|
 |Bananaguy 2		|Godot	|W	|	|	|	|	|		|
 |Battlevoid Harbinger	|LibGDX	|	|	|	|	|	|no audio	|
@@ -141,6 +143,7 @@ Letters indicate which platform versions have been tested successfully:
 |Hoarder's Horrible House of Stuff|Love2D||	|L	|	|	|		|
 |Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
 |I Am Sakuya		|GZDoom	|W	|	|	|	|	|		|
+|Icewind Dale		|GemRB	|	|W	|	|	|	|		|
 |If On A Winter's Night, Four Travelers|ScummVM|||L	|	|	|		|
 |Immortals Must Die	|Godot	|W	|	|	|	|	|		|
 |INC: The Beginning	|LibGDX	|	|	|L	|	|	|		|
@@ -194,6 +197,7 @@ Letters indicate which platform versions have been tested successfully:
 |Path of Achra		|Godot	|W	|	|	|	|	|		|
 |Penny Arcade's On the Rain-Slick Precipice of Darkness 3|XNA|||||||
 |Penny Arcade's On the Rain-Slick Precipice of Darkness 4|XNA|||||||
+|Planescape: Torment	|GemRB	|	|W	|	|	|	|		|
 |Planetfriend		|FNA	|	|	|L	|	|	|		|
 |Poems & Codes		|Love2D	|	|	|L(demo)|	|	|		|
 |Possession		|Love2D	|	|	|L	|	|	|		|
