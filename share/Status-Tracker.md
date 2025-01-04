@@ -105,6 +105,7 @@ Letters indicate which platform versions have been tested successfully:
 |Eliza			|Mono	|	|L	|	|	|	|		|
 |Endless Dark		|Love2D	|L	|	|	|	|	|		|
 |Endoparasitic		|Godot	|L	|	|	|	|	|		|
+|Endoparasitic 2	|Godot	|	|	|L	|	|	|		|
 |An English Haunting	|ScummVM|	|	|W	|	|	|		|
 |Escape Goat		|MonoGame|	|	|	|	|Humble:L|		|
 |Escape Goat 2		|MonoGame|	|	|	|	|Humble:L|		|
@@ -125,9 +126,12 @@ Letters indicate which platform versions have been tested successfully:
 |Frood Robotics		|Godot	|L	|	|	|	|	|		|
 |Fury's Sky		|GZDoom	|W	|	|	|	|	|		|
 |Game of Squares	|Godot	|W	|	|	|	|	|		|
+|The Garden Path	|Godot	|	|	|L	|	|	|		|
 |Gateways		|MonoGame|	|	|	|	|Humble:L|Humble version works. Steam version needs more API in steamwrapper stub.|
 |Glitchangels		|FNA	|L	|	|	|	|	|		|
+|Globs			|Godot	|	|	|L	|	|	|		|
 |Goliath Depot		|Godot	|W	|	|	|	|	|		|
+|Gorgon Shield		|Godot	|W	|	|	|	|	|		|
 |Gravity Circuit	|Love2D	|L	|	|	|	|	|		|
 |Groundskeeper 2	|LibGDX	|	|	|L	|	|	|		|
 |Growing Pains		|FNA	|L	|	|	|	|	|		|
@@ -153,6 +157,7 @@ Letters indicate which platform versions have been tested successfully:
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
 |Kitsune Tails		|FNA	|	|	|L	|	|	|		|
 |Kitsune Zero		|FNA	|	|	|L	|	|	|		|
+|knakk			|Godot	|	|	|L	|	|	|		|
 |Labyrinth of Legendary Loot|Love2D|	|	|L	|	|	|		|
 |Lair of goblins	|Godot	|W	|	|	|	|	|		|
 |Landnama		|Godot	|L	|	|	|	|	|		|
@@ -215,6 +220,7 @@ Letters indicate which platform versions have been tested successfully:
 |Rogue Legacy		|FNA	|L	|	|	|	|	|		|
 |Roma Invicta		|Godot	|L	|	|	|	|	|		|
 |RUN: The world in-between|Godot|L	|	|	|	|	|		|
+|Sailing in the Dark	|Godot	|	|	|W	|	|	|		|
 |Salt & Sanctuary	|FNA	|L	|	|	|	|	|		|
 |Settlers of the Deep	|Love2D	|	|	|L	|	|	|		|
 |Shell Out Showdown	|Love2D	|	|	|L	|	|	|		|
