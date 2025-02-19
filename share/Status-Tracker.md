@@ -275,6 +275,7 @@ Letters indicate which platform versions have been tested successfully:
 |They Don't Sleep	|Godot	|W	|	|	|	|	|		|
 |Thimbleweed Park	|ScummVM|	|L	|	|	|	|		|
 |Time Gentlemen, Please!|ScummVM|	|W	|	|	|	|		|
+|Tiny Pasture		|Godot	|W	|	|	|	|	|		|
 |Titan Attacks!		|LWJGL2	|	|	|	|	|Humble:L|		|
 |TowerFall: Ascension	|FNA	|	|	|L	|	|	|		|
 |Town Keeper		|Godot	|W	|	|	|	|	|		|
