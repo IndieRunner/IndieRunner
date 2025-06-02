@@ -1,4 +1,4 @@
-# Copyright (c) 2024 Thomas Frohwein
+# Copyright (c) 2024-2025 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -17,6 +17,9 @@ use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use parent 'IndieRunner::Engine';
+
+# Resources:
+# https://www.dosbox.com/wiki/GOG_games_that_use_DOSBox
 
 # XXX: add option for bin/dosbox-x
 use constant DOSBOX_BIN	=> '/usr/local/bin/dosbox';
