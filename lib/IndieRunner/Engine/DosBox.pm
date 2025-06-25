@@ -18,14 +18,19 @@ use version 0.77; our $VERSION = version->declare('v0.0.1');
 
 use parent 'IndieRunner::Engine';
 
+use File::Spec::Functions qw( rel2abs );
+use JSON;
+use Path::Tiny;
+
 # Resources:
 # https://www.dosbox.com/wiki/GOG_games_that_use_DOSBox
 
-# XXX: add option for bin/dosbox-x
-use constant DOSBOX_BIN	=> '/usr/local/bin/dosbox';
+# XXX: add option for bin/dosbox-x or bin/dosbox; how to choose?
+use constant DOSBOX_BIN	=> '/usr/local/bin/dosbox-x';
 
 sub select_conf_files() {
 	my @out;
+	# XXX: add ->maxdepth( $level )
 	my @conf_files = File::Find::Rule->file()
 					 ->name( 'dosbox*.conf' )
 					 ->in( '.' );
@@ -38,7 +43,8 @@ sub select_conf_files() {
 	for( @conf_files ) {
 		$basic_conf = $_ if length( $_ ) < length( $basic_conf );
 	}
-	push @out, $basic_conf;
+	#XXX: disabled $basic_conf; dosbox-x works better without it
+	#push @out, $basic_conf;
 
 	# single_conf is the one ending in _single.conf
 	my $single_conf;
@@ -46,7 +52,7 @@ sub select_conf_files() {
 	if ( @all_single_confs ) {
 		$single_conf = $all_single_confs[0];
 	}
-	push( @out, $single_conf ) if $single_conf;
+	push( @out, rel2abs( $single_conf ) ) if $single_conf;
 
 	return @out;
 }
@@ -55,11 +61,36 @@ sub get_bin( $self ) { return DOSBOX_BIN; }
 
 sub get_args_ref( $self ) {
 	my @args = ();
+
+	# dosbox-x: disable verbose/unneeded output
+	push @args, '-fastlaunch';	# skip dosbox-x start screen
+	# XXX: enable logging if verbose?
+	push @args, '-nolog';		# disable verbose logging
+
 	for my $c ( select_conf_files() ) {
 		push @args, '-conf';
 		push @args, $c;
 	}
+
 	return \@args;
+}
+
+sub get_exec_dir( $self ) {
+	# GOG DosBox games: check goggame-XXXXXXXXXX.info for "workingDir"
+	# XXX: add ->maxdepth( $level )
+	# XXX: or use glob instead, like in Helpers.pm?
+	my $info_file = File::Find::Rule->file()
+					->name( 'goggame-*.info' )
+					->start( '.' )
+					->match;
+	return '' unless $info_file;
+	my $dat = decode_json( path( $info_file )->slurp_utf8 ) or return '';
+
+	say $$dat{ playTasks }[0]{ workingDir };
+	if ( exists $$dat{ playTasks }[0]{ workingDir } ) {
+		return $$dat{ playTasks }[0]{ workingDir };
+	}
+	return '';
 }
 
 1;

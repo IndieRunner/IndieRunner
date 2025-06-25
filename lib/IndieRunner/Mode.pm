@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Thomas Frohwein
+# Copyright (c) 2022-2025 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -320,6 +320,9 @@ sub run ( $self, $game_name, %config ) {
 
 	$self->vsay( '' );
 	$self->vsay( "Lauching $game_name" );
+	if ( $config{ exec_dir } ) {
+		$self->vsay( "Change working directory to: $config{ exec_dir}" );
+	}
 	$self->vsay( 'Executing: ', join( ' ', @full_command ), "\n" );
 
 	return @full_command;

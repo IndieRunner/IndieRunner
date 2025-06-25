@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Thomas Frohwein
+# Copyright (c) 2022-2025 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -79,6 +79,15 @@ sub get_env_ref( $self ) {
 	return \@;
 }
 
+=head2 get_exec_dir()
+
+Return the directory for the binary execution, will L<perlfunc/chdir> to it just before the binary is invoked.
+
+=cut
+
+sub get_exec_dir( $self ) {
+	return '';
+}
 
 =head2 get_args_ref()
 

@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Thomas Frohwein
+# Copyright (c) 2022-2025 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -27,7 +27,7 @@ use Readonly;
 =head1 DESCRIPTION
 
 In IndieRunner, the game object is the ultimate arbiter for how a game is run.
-It queries the engine object (by reference) for the engine's determination of environment variables, binary, and commandline arguments/flags.
+It queries the engine object (by reference) for the engine's determination of environment variables, binary, commandline arguments/flags, and execution directory.
 Then it applies any game-specific adjustments, if necessary, and returns the configuration divided into I<env>, I<bin>, and I<args> as a hash.
 User-provided arguments to the engine are added to the resuling arguments.
 
@@ -57,15 +57,16 @@ sub new ( $class, %init ) {
 
 =head2 engine_config( $engine )
 
-Retrieve binary, environment, and argument configuration from the engine and return it as hash of I<bin>, I<env>, and I<args>.
+Retrieve binary, environment, and argument configuration from the engine and return it as hash of I<bin>, I<env>, I<args>, and I<exec_dir>.
 
 =cut
 
 sub engine_config ( $engine ) {
 	(
-	 bin	=> $engine->get_bin(),
-	 env	=> $engine->get_env_ref(),	# arrayref
-	 args	=> $engine->get_args_ref(),	# arrayref
+	 bin		=> $engine->get_bin(),
+	 env		=> $engine->get_env_ref(),	# arrayref
+	 args		=> $engine->get_args_ref(),	# arrayref
+	 exec_dir	=> $engine->get_exec_dir(),
 	);
 }
 
@@ -92,9 +93,10 @@ sub configure ( $self ) {
 	@{ $$self{ args } } = grep { !/^$/ } @{ $$self{ args } };
 
 	return {
-		bin	=> $$self{ bin },
-		env	=> $$self{ env },
-		args	=> $$self{ args },
+		bin		=> $$self{ bin },
+		env		=> $$self{ env },
+		args		=> $$self{ args },
+		exec_dir	=> $$self{ exec_dir },
 	};
 }
 

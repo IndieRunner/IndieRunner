@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Thomas Frohwein
+# Copyright (c) 2022-2025 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -119,6 +119,9 @@ sub extract( $self, $file ) {
 
 sub run( $self, $game_name, %config ) {
 	my @full_command = $self->SUPER::run( $game_name, %config );
+	if ( $config{ exec_dir } ) {
+		chdir $config{ exec_dir } or die "chdir failed: $config{ exec_dir }" ;
+	}
 	return system( @full_command );
 }
 
