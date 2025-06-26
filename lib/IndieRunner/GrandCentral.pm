@@ -66,7 +66,8 @@ Readonly my %Indicator_Files => (
 	'xnafx40_redist.msi'		=> 'XNA',
 	'_CommonRedist/XNA'		=> 'XNA',
 	# XXX: implement choosing DosBox only as second line after ScummVM
-	#'dosbox*.conf'			=> 'DosBox',
+	'dosbox*_single.conf'		=> 'DosBox',	# GOG DosBox configs
+	'__support/app/dosbox*.conf'	=> 'DosBox',	# GOG DosBox configs
 );
 
 # combination of file glob and byte sequence to identify frameworks

@@ -64,13 +64,15 @@ sub get_args_ref( $self ) {
 
 	# dosbox-x: disable verbose/unneeded output
 	push @args, '-fastlaunch';	# skip dosbox-x start screen
-	# XXX: enable logging if verbose?
+	# XXX: add switch to enable logging? (mostly useless IMO)
 	push @args, '-nolog';		# disable verbose logging
 
 	for my $c ( select_conf_files() ) {
 		push @args, '-conf';
 		push @args, $c;
 	}
+
+	# XXX: consider using dosbox-x -defaultdir <path> instead of get_exec_dir
 
 	return \@args;
 }
