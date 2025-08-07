@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Thomas Frohwein
+# Copyright (c) 2022-2025 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -47,11 +47,7 @@ sub detect_game ( $self ) {
 sub get_bin( $self ) { return $SCUMMVM_BIN; }
 
 sub get_args_ref( $self ) {
-	my @args = (
-		'--path=.',
-		$game,
-		);
-	return \@args;
+	return [ '--auto-detect' ];
 }
 
 1;
