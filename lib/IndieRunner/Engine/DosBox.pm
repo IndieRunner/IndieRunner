@@ -26,7 +26,7 @@ use Path::Tiny;
 # https://www.dosbox.com/wiki/GOG_games_that_use_DOSBox
 
 # XXX: add option for bin/dosbox-x or bin/dosbox; how to choose?
-use constant DOSBOX_BIN	=> '/usr/local/bin/dosbox-x';
+use constant DOSBOX_BIN	=> '/usr/local/bin/dosbox-staging';
 
 sub select_conf_files() {
 	my @out;
@@ -63,9 +63,9 @@ sub get_args_ref( $self ) {
 	my @args = ();
 
 	# dosbox-x: disable verbose/unneeded output
-	push @args, '-fastlaunch';	# skip dosbox-x start screen
+	#push @args, '-fastlaunch';	# skip dosbox-x start screen
 	# XXX: add switch to enable logging? (mostly useless IMO)
-	push @args, '-nolog';		# disable verbose logging
+	#push @args, '-nolog';		# disable verbose logging
 
 	for my $c ( select_conf_files() ) {
 		push @args, '-conf';
@@ -73,6 +73,10 @@ sub get_args_ref( $self ) {
 	}
 
 	# XXX: consider using dosbox-x -defaultdir <path> instead of get_exec_dir
+	#      or for dosbox-staging: --working-dir <path>
+
+	# XXX: only for dosbox-staging to quit when just leaving menu?
+	push @args, '--exit';
 
 	return \@args;
 }
