@@ -86,7 +86,7 @@ sub get_bin ( $self ) {
 
 sub get_args_ref ( $self ) {
 	my $game_file;
-	my @found = glob( "*.love bin/snacktorio bin/GravityCircuit bin/EndlessDark bin/love *.exe" );
+	my @found = glob( "*.love bin/ArkovsTower bin/snacktorio bin/GravityCircuit bin/EndlessDark bin/love *.exe" );
 	for my $f ( @found ) {
 		if ( -f $f ) {
 			$game_file = $f;

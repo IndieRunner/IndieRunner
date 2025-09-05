@@ -84,9 +84,10 @@ Readonly my %Indicators => (
 	},
 	'Love2D' => {
 		'glob'		=> [	'*.exe',
-					'{,bin/}snacktorio',
-					'{,bin/}GravityCircuit',
+					'{,bin/}ArkovsTower',
 					'{,bin/}EndlessDark',
+					'{,bin/}GravityCircuit',
+					'{,bin/}snacktorio',
 					'bin/love',	# Shell Out Showdown
 				   ],
 		'magic_bytes'	=> 'love_version',	# or: luaopen_love or love.boot

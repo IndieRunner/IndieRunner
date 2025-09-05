@@ -91,6 +91,7 @@ Letters indicate which platform versions have been tested successfully:
 |Deepest Chamber: Resurrection|LibGDX|L	|	|	|	|	|		|
 |Defendor		|Godot	|W	|	|	|	|	|		|
 |Delver			|LibGDX	|L	|	|	|	|	|		|
+|Descent from Arkov's Tower|Love2D|L	|	|	|	|	|		|
 |Desert Kingdoms	|Godot	|W	|	|	|	|	|		|
 |Destroy The Monoliths	|Godot	|L	|	|	|	|	|		|
 |Dice Tribes: Ambitions	|HashLink|L	|	|	|	|	|		|

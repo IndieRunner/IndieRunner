@@ -319,7 +319,7 @@ sub run ( $self, $game_name, %config ) {
 	push( @full_command, @{ $config{ args } } ) if ( @{ $config{ args } } );
 
 	$self->vsay( '' );
-	$self->vsay( "Lauching $game_name" );
+	$self->vsay( "Launching $game_name" );
 	if ( $config{ exec_dir } ) {
 		$self->vsay( "Change working directory to: $config{ exec_dir}" );
 	}
