@@ -198,6 +198,7 @@ Letters indicate which platform versions have been tested successfully:
 |One Finger Death Punch	|XNA	|W	|	|	|	|	|		|
 |Operation STEEL	|Godot	|L	|	|	|	|	|		|
 |Opus Magnum		|Mono	|	|L	|	|	|	|		|
+|Order of the Thorne: The King's Challenge|ScummVM||W|	|	|	|		|
 |Overdriven Reloaded	|FNA	|L	|	|	|	|	|		|
 |Owlboy			|FNA	|L	|L	|	|	|	|		|
 |Paladin		|FNA	|	|	|	|	|Humble:L|		|
