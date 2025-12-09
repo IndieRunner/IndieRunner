@@ -209,6 +209,7 @@ Letters indicate which platform versions have been tested successfully:
 |Poems & Codes		|Love2D	|	|	|L(demo)|	|	|		|
 |Possession		|Love2D	|	|	|L	|	|	|		|
 |Primal Light		|Godot	|L	|	|	|	|	|		|
+|Primal Planet		|Godot	|	|W	|	|	|	|		|
 |Project Crypt		|GZDoom	|W	|	|	|	|	|		|
 |Prose & Code		|Love2D	|	|	|L	|	|	|		|
 |The Pulse of Evil	|Godot	|W	|	|	|	|	|		|
