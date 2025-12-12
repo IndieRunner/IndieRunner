@@ -25,7 +25,7 @@ Letters indicate which platform versions have been tested successfully:
 |ALL IN THE GAME: Crime Strategy|Love2D|W|	|	|	|	|needs luasteam 3.2.1; early access|
 |Amazing Princess Sarah	|XNA	|	|	|	|	|	|iomap error when loading level	|
 |Anagrams		|Love2D	|	|	|L	|	|	|		|
-|Apocalyptic Vibes	|GZDoom	|W	|	|	|	|	|		|
+|Apocalyptic Vibes	|idTech1|W	|	|	|	|	|		|
 |Apotheon		|FNA	|L	|	|	|	|	|		|
 |Apple Jack 1&2		|XNA	|W	|	|	|	|	|		|
 |Arco			|Love2D	|W	|	|	|	|	|		|
@@ -39,7 +39,7 @@ Letters indicate which platform versions have been tested successfully:
 |Bananaguy 2		|Godot	|W	|	|	|	|	|		|
 |Battlevoid Harbinger	|LibGDX	|	|	|	|	|	|no audio	|
 |Ben There, Dan That!	|ScummVM|	|W	|	|	|	|		|
-|Beyond Sunset (demo)	|GZDoom	|L	|	|	|	|	|frequent, unpredictable crashes|
+|Beyond Sunset		|idTech1|L	|	|	|	|	|frequent, unpredictable crashes|
 |Beyond The Edge Of Owlsgard|ScummVM|	|L	|	|	|	|		|
 |Blade Runner		|ScummVM|	|L	|	|	|	|		|
 |Bleed			|FNA	|	|	|	|	|Humble:L|		|
@@ -61,12 +61,14 @@ Letters indicate which platform versions have been tested successfully:
 |Capsized		|MonoGame|	|L	|	|	|	|		|
 |Cards with Personalities|Godot|W	|	|	|	|	|		|
 |Cassette Beasts	|Godot	|L	|	|	|	|	|		|
+|Castlevania: Simon's Destiny|idTech1|	|	|W	|	|	|		|
 |A Castle Full of Cats	|Godot	|	|W	|	|	|	|		|
 |Cat Warrior		|FNA	|L	|	|	|	|	|		|
 |Celeste		|FNA	|W	|	|L	|	|	|no audio	|
 |Champy the Useless Vampire|Godot|W	|	|	|	|	|		|
 |Charlie Murder		|FNA	|L	|	|	|	|	|no online multiplayer|
 |Chasm			|FNA	|	|L	|	|	|	|		|
+|Chex Quest 3		|idTech1|	|	|	|	|Vendor:W|https://www.chexquest3.com/ |
 |cityglitch		|Love2D	|	|	|L	|	|	|		|
 |Cloaks and Capes	|Godot	|L	|	|	|	|	|		|
 |Colored Effects	|Godot	|L	|	|	|	|	|		|
@@ -122,10 +124,10 @@ Letters indicate which platform versions have been tested successfully:
 |Flotilla		|FNA	|	|	|L	|	|	|		|
 |Forest's Secret	|LibGDX	|	|	|L	|	|	|		|
 |FoxTail		|ScummVM|	|L	|	|	|	|early access	|
-|The Forestale		|GZDoom	|W	|	|	|	|	|		|
+|The Forestale		|idTech1|W	|	|	|	|	|		|
 |Fraymakers		|HashLink|L	|	|	|	|	|early access	|
 |Frood Robotics		|Godot	|L	|	|	|	|	|		|
-|Fury's Sky		|GZDoom	|W	|	|	|	|	|		|
+|Fury's Sky		|idTech1|W	|	|	|	|	|dumps core on start wit h {G,L,U}ZDoom|
 |Game of Squares	|Godot	|W	|	|	|	|	|		|
 |The Garden Path	|Godot	|	|	|L	|	|	|		|
 |Gateways		|MonoGame|	|	|	|	|Humble:L|Humble version works. Steam version needs more API in steamwrapper stub.|
@@ -147,7 +149,7 @@ Letters indicate which platform versions have been tested successfully:
 |Hive			|FNA	|L	|	|	|	|	|		|
 |Hoarder's Horrible House of Stuff|Love2D||	|L	|	|	|		|
 |Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
-|I Am Sakuya		|GZDoom	|W	|	|	|	|	|		|
+|I Am Sakuya		|idTech1|W	|	|	|	|	|		|
 |Icewind Dale		|GemRB	|	|W	|	|	|	|		|
 |If On A Winter's Night, Four Travelers|ScummVM|||L	|	|	|		|
 |Immortals Must Die	|Godot	|W	|	|	|	|	|		|
@@ -170,7 +172,7 @@ Letters indicate which platform versions have been tested successfully:
 |Lil Baby Poop's NIGHTMARES|Godot|W	|	|	|	|	|		|
 |Lingo			|Godot	|W	|	|	|	|	|		|
 |Little Racers STREET	|FNA	|L	|	|	|	|	|		|
-|Lycanthorn II		|GZDoom	|L	|	|	|	|	|handling gzdoom.pk3 not yet implemented|
+|Lycanthorn II		|idTech1|L	|	|	|	|	|		|
 |Marvellous Inc.	|Love2D	|	|	|L	|	|	|		|
 |Meganoid		|LibGDX	|	|	|L	|	|	|		|
 |Meganoid: Grandpa's Chronicles|LibGDX|	|	|L	|	|	|		|
@@ -211,7 +213,8 @@ Letters indicate which platform versions have been tested successfully:
 |Possession		|Love2D	|	|	|L	|	|	|		|
 |Primal Light		|Godot	|L	|	|	|	|	|		|
 |Primal Planet		|Godot	|	|W	|	|	|	|		|
-|Project Crypt		|GZDoom	|W	|	|	|	|	|		|
+|Project Crypt		|idTech1|W	|	|	|	|	|GZ version works fine; if trying LZ version, may need to replace bundled lzdoom.pk3 with /usr/local/share/lzdoom/lzdoom.pk3|
+|Project Osiris		|idTech1|	|	|W	|	|	|		|
 |Prose & Code		|Love2D	|	|	|L	|	|	|		|
 |The Pulse of Evil	|Godot	|W	|	|	|	|	|		|
 |PUTRID SHOT ULTRA	|Love2D	|W	|	|	|	|	|		|
@@ -229,8 +232,8 @@ Letters indicate which platform versions have been tested successfully:
 |Settlers of the Deep	|Love2D	|	|	|L	|	|	|		|
 |Shell Out Showdown	|Love2D	|	|	|L	|	|	|		|
 |SHENZHEN I/O		|Mono	|	|L	|	|	|	|		|
-|Shrine			|GZDoom	|L	|	|	|	|	|		|
-|Shrine II		|GZDoom	|L	|	|	|	|	|		|
+|Shrine			|idTech1|L	|	|	|	|	|		|
+|Shrine II		|idTech1|L	|	|	|	|	|		|
 |Simona's Requiem	|Godot	|L	|	|	|	|	|		|
 |Sir Questionnaire	|LibGDX	|	|	|L	|	|	|		|
 |Sisypush		|Godot	|L	|	|	|	|	|		|
@@ -262,12 +265,13 @@ Letters indicate which platform versions have been tested successfully:
 |Steel Assault		|FNA	|L	|	|	|	|	|		|
 |Sternly Worded Adventures|Love2D|		|X	|	|	|		|
 |Stone Kingdoms		|Love2D	|	|	|L	|	|	|		|
+|Strife			|idTech1|	|L	|	|	|	|		|
 |Striving for Light	|Godot	|	|	|L	|	|	|		|
 |Sudocats		|Godot	|	|W	|	|	|	|		|
 |Sumatra: Fate of Yandi	|ScummVM|	|W	|	|	|	|		|
 |Super Bernie World	|FNA	|	|	|L	|	|	|		|
 |Super Spy Raccoon	|Godot	|W	|	|	|	|	|		|
-|Supplice		|GZDoom	|W	|	|	|	|	|		|
+|Supplice		|idTech1|W	|	|	|	|	|		|
 |Sword of the Stars: The Pit|XNA|	|W	|	|	|	|		|
 |Takara Cards		|Godot	|L	|	|	|	|	|		|
 |Tanks of Freedom II	|Godot	|L	|	|	|	|	|		|
@@ -285,13 +289,13 @@ Letters indicate which platform versions have been tested successfully:
 |Toziuha Night: Order of the Alchemists|Godot|L||	|	|	|		|
 |Transmogrify		|Godot	|L	|	|	|	|	|		|
 |Trolley Delayma	|Godot	|	|	|L	|	|	|		|
-|Twilight Town: A Cyberpunk FPS|GZDoom|W|	|	|	|	|		|
+|Twilight Town: A Cyberpunk FPS|idTech1|W|	|	|	|	|		|
 |Ukraine Defense Force Tactics|Godot|W	|	|	|	|	|		|
 |Ultratron		|LWJGL2	|	|	|	|	|Humble:L|		|
 |Under the Yoke		|Godot	|	|	|L	|	|	|		|
 |Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|Steam version needs steamworks4j|
 |Verses of Enchantment	|Godot	|L	|	|	|	|	|		|
-|Vomitoreum		|GZDoom	|L	|	|	|	|	|		|
+|Vomitoreum		|idTech1|L	|	|	|	|	|		|
 |V-Hunter Puzzler Dx	|Godot	|W	|	|	|	|	|		|
 |Vay			|FNA	|L	|	|	|	|	|		|
 |Vlobs			|Godot	|	|	|L	|	|	|		|
