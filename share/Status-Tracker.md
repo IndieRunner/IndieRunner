@@ -158,6 +158,7 @@ Letters indicate which platform versions have been tested successfully:
 |Into the Necrovale	|HashLink|		|L(demo)|	|	|		|
 |The Isolated Town	|Godot	|	|	|L	|	|	|		|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
+|Just Ignore Them	|ScummVM|W	|	|	|	|	|		|
 |Kitsune Tails		|FNA	|	|	|L	|	|	|		|
 |Kitsune Zero		|FNA	|	|	|L	|	|	|		|
 |knakk			|Godot	|	|	|L	|	|	|		|
