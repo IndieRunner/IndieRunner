@@ -10,7 +10,7 @@ Many games are built in a way that allows more platforms than advertised.
 For Users
 ---------
 
-Free your games from these artificial restraints and preserve your games across many different platforms. IndieRunner provides a universal CLI launcher for a variety of independent games built with frameworks like FNA, XNA, LWJGL, LibGDX, HashLink, GZDoom, ScummVM, Love2D. It selects a runtime, configures it as needed, and takes care of outdated or incompatible bundled libraries.
+Free your games from these artificial restraints and preserve your games across many different platforms. IndieRunner provides a universal CLI launcher for a variety of independent games built with frameworks like FNA, XNA, LWJGL, LibGDX, HashLink, idTech1, ScummVM, Love2D. It selects a runtime, configures it as needed, and takes care of outdated or incompatible bundled libraries.
 
 [Status Tracker](share/Status-Tracker.md)
 
@@ -73,7 +73,7 @@ Opensource your Engine Code; Sell the Assets
 
 Examples:
 * Barony
-* idTech (gzdoom)
+* idTech1 (GZDoom/UZDoom)
 * Wolfire Games (Lugaru, Overgrowth)
 
 Use a ByteCode Framework that Relies on Open-Source Native Libraries
@@ -118,7 +118,7 @@ Other (non-Perl) programs and libraries used:
 * FNA (modules FNA, XNA)
 * godot (module Godot)
 * goldberg_emulator, if no native support for libsteam_api.so
-* gzdoom (module GZDoom)
+* lzdoom (module idTech1)
 * hashlink (module HashLink)
 * hlsteam (module HashLink)
 * Java JDK 1.8, 11, 17 (modules Java, LibGDX, LWJGL2, LWJGL3)
@@ -140,7 +140,7 @@ Other (non-Perl) programs and libraries used:
 
 Install them all with:
 ```
-# pkg_add faudio ffmpeg fna godot gzdoom hashlink hlsteam jdk libgdx libstubborn libtheora{,file,play} love lwjgl{,3} mono openal p7zip sdl2-image sdl2-mixer
+# pkg_add faudio ffmpeg fna godot lzdoom hashlink hlsteam jdk libgdx libstubborn libtheora{,file,play} love lwjgl{,3} mono openal p7zip sdl2-image sdl2-mixer
 ```
 
 Platform Requirements

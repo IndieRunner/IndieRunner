@@ -32,6 +32,7 @@ my %unveil_paths = (
 	'/usr/local/share/misc/magic.mgc'	=> 'r',
 	'/usr/local/share/FNA/'			=> 'r', # for FNA
 	'/usr/local/share/games/doom/gzdoom.pk3'=> 'r', # for GZDoom
+	'/usr/local/share/games/lzdoom/lzdoom.pk3' => '4', # for LZDoom
 	'/usr/local/share/libgdx/'		=> 'r', # for LibGDX
 	'/usr/local/share/lwjgl/'		=> 'r', # for LWJGL2
 	'/usr/local/share/lwjgl3/'		=> 'r', # for LWJGL3
