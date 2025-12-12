@@ -5,7 +5,7 @@ lib/IndieRunner/Cmdline.pm
 lib/IndieRunner/Engine.pm
 lib/IndieRunner/Engine/FNA.pm
 lib/IndieRunner/Engine/Godot.pm
-lib/IndieRunner/Engine/GZDoom.pm
+lib/IndieRunner/Engine/idTech1.pm
 lib/IndieRunner/Engine/HashLink.pm
 lib/IndieRunner/Engine/Java.pm
 lib/IndieRunner/Engine/Java/JavaMod.pm

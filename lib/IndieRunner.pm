@@ -297,7 +297,7 @@ Detect the name of the game, using engine-specific heuristics from the C<$engine
 =head2 Engines
 
 L<IndieRunner::Engine::FNA>
-L<IndieRunner::Engine::GZDoom>
+L<IndieRunner::Engine::idTech1>
 L<IndieRunner::Engine::Godot>
 L<IndieRunner::Engine::HashLink>
 L<IndieRunner::Engine::Java>

@@ -7,7 +7,7 @@ BEGIN {
     require_ok( 'IndieRunner::Cmdline' )		|| print "Bail out!\n";
     require_ok( 'IndieRunner::Engine' )			|| print "Bail out!\n";
     require_ok( 'IndieRunner::Engine::FNA' )		|| print "Bail out!\n";
-    require_ok( 'IndieRunner::Engine::GZDoom' )		|| print "Bail out!\n";
+    require_ok( 'IndieRunner::Engine::idTech1' )	|| print "Bail out!\n";
     require_ok( 'IndieRunner::Engine::Godot' )		|| print "Bail out!\n";
     require_ok( 'IndieRunner::Engine::HashLink' )	|| print "Bail out!\n";
     require_ok( 'IndieRunner::Engine::Love2D' )		|| print "Bail out!\n";

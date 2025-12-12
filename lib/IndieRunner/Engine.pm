@@ -126,7 +126,7 @@ __END__
 =head1 SEE ALSO
 
 L<IndieRunner::Engine::FNA>
-L<IndieRunner::Engine::GZDoom>
+L<IndieRunner::Engine::idTech1>
 L<IndieRunner::Engine::Godot>
 L<IndieRunner::Engine::HashLink>
 L<IndieRunner::Engine::Java>
