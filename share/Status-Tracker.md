@@ -220,6 +220,7 @@ Letters indicate which platform versions have been tested successfully:
 |The Pulse of Evil	|Godot	|W	|	|	|	|	|		|
 |PUTRID SHOT ULTRA	|Love2D	|W	|	|	|	|	|		|
 |The Puzzler's Revenge	|Love2D	|	|	|W	|	|	|		|
+|REKKR: Sunken Land	|idTech1|	|W	|	|	|	|		|
 |Retro Kart Rush	|Godot	|L	|	|	|	|	|		|
 |Revenge of the Titans	|LWJGL2	|	|	|	|	|Humble:L|		|
 |Rex Rocket		|FNA	|L	|	|	|	|	|		|
