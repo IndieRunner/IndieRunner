@@ -13,6 +13,21 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner::Engine::DosBox;
+
+=head1 NAME
+
+IndieRunner::Engine::DosBox - DosBox engine module
+
+=head1 DESCRIPTION
+
+Module to set up and launch DosBox games.
+
+=head1 METHODS
+
+=over 8
+
+=cut
+
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
@@ -27,6 +42,12 @@ use Path::Tiny;
 
 # XXX: add option for bin/dosbox-x or bin/dosbox; how to choose?
 use constant DOSBOX_BIN	=> '/usr/local/bin/dosbox-staging';
+
+=item select_conf_files()
+
+Select bundled DosBox config files that are suitable to be used and return them.
+
+=cut
 
 sub select_conf_files() {
 	my @out;
@@ -57,7 +78,19 @@ sub select_conf_files() {
 	return @out;
 }
 
+=item get_bin()
+
+Return the DosBox binary.
+
+=cut
+
 sub get_bin( $self ) { return DOSBOX_BIN; }
+
+=item get_args_ref()
+
+Set up arguments for DosBox execution: config files and parameter to exit after running the command.
+
+=cut
 
 sub get_args_ref( $self ) {
 	my @args = ();
@@ -81,6 +114,12 @@ sub get_args_ref( $self ) {
 	return \@args;
 }
 
+=item get_exec_dir()
+
+Heuristic to figure out the working directory from bundled files, if possible.
+
+=cut
+
 sub get_exec_dir( $self ) {
 	# GOG DosBox games: check goggame-XXXXXXXXXX.info for "workingDir"
 	# XXX: add ->maxdepth( $level )
@@ -100,3 +139,21 @@ sub get_exec_dir( $self ) {
 }
 
 1;
+
+__END__
+
+=back
+
+=head1 SEE ALSO
+
+L<IndieRunner::Engine>
+
+=head1 AUTHOR
+
+Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+=head1 COPYRIGHT
+
+Copyright 2024-2025 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+This program is free software; you can redistribute it and/or modify it under the ISC license.
