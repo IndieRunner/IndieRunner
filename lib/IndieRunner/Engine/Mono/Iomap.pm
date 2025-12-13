@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Thomas Frohwein
+# Copyright (c) 2022-2025 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -13,6 +13,22 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner::Engine::Mono::Iomap;
+
+=head1 NAME
+
+IndieRunner::Engine::Mono::Iomap - workaround for games with varying filename spelling, formerly handled by now defunct MONO_IOMAP
+
+=head1 DESCRIPTION
+
+Case-sensitive file systems like generally on Unix-derivatives can lead to errors if the game was programmed with discrepant case on a case-insensitive operating system like Windows.
+Mono used to provide MONO_IOMAP as a workaround, but this was removed without replacement at some point.
+
+This module provides game-specific lists of files and directories that need adjustment, and symlinks are used to provide this.
+
+=over 8
+
+=cut
+
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use Carp;
@@ -321,6 +337,13 @@ Readonly my %iomap => {
 		],
 	};
 
+=item iomap_symlink()
+
+Identifies the game through a unique filename in the directory.
+Then iterates over the list of associated filenames to create pairs for symlinking.
+
+=cut
+
 sub iomap_symlink () {
 	my %symlink_hash;
 	my $index_file;
@@ -340,3 +363,21 @@ sub iomap_symlink () {
 }
 
 1;
+
+__END__
+
+=back
+
+=head1 SEE ALSO
+
+L<IndieRunner::Engine::Mono>
+
+=head1 AUTHOR
+
+Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+=head1 COPYRIGHT
+
+Copyright 2022-2025 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+This program is free software; you can redistribute it and/or modify it under the ISC license.

@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Thomas Frohwein
+# Copyright (c) 2022-2025 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -13,6 +13,21 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner::Engine::Mono;
+
+=head1 NAME
+
+IndieRunner::Engine::Mono - Mono engine module
+
+=head1 DESCRIPTION
+
+Module to set up and launch games made with Mono. There are games that use just this engine module, but it also serves as the baseline for other Mono-based engines.
+
+=head1 METHODS
+
+=over 8
+
+=cut
+
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
@@ -60,6 +75,12 @@ Readonly my %QUIRKS_ENV => {
 		],
 	};
 
+=item get_mono_files($custom_suffix)
+
+Collect and return an array of Mono files that are often bundled and interfere with execution of the native Mono binary.
+C<$custom_suffix> is an optional argument, allowing to select files with a suffix like "_".
+
+=cut
 
 sub get_mono_files ( $custom_suffix = '' ) {
 	my @mono_files;
@@ -77,6 +98,12 @@ sub get_mono_files ( $custom_suffix = '' ) {
 	return @mono_files;
 }
 
+=item get_assembly_version($assembly_file)
+
+Takes a mono assembly as the argument, and returns the assembly version as returned from L<monodis(1)>.
+
+=cut
+
 sub get_assembly_version ( $assembly_file ) {
         my $monodis_info = qx( monodis --assembly $assembly_file );
         if ( $monodis_info =~ /\nVersion:\s+([0-9\.]+)/ ) {
@@ -87,9 +114,22 @@ sub get_assembly_version ( $assembly_file ) {
         }
 }
 
+=item get_bin()
+
+Return the Mono binary.
+
+=cut
+
 sub get_bin ( $self ) {
 	return $MONO_BIN;
 }
+
+=item setup()
+
+Removes Mono-related libraries and config files that interfere with execution of the system Mono binary if necessary.
+Also performs the replacement for L<mono(1)>'s previous MONO_IOMAP functionality.
+
+=cut
 
 sub setup ( $self ) {
 	$self->SUPER::setup();
@@ -132,6 +172,12 @@ sub setup ( $self ) {
 }
 
 
+=item get_env_ref()
+
+Build the array for L<mono(1)> execution, consisting of LD_LIBRARY_PATH, MONO_PATH, and SDL_PLATFORM.
+
+=cut
+
 sub get_env_ref ( $self ) {
 	my @ld_library_path = (
 				'/usr/local/lib',
@@ -165,6 +211,12 @@ sub get_env_ref ( $self ) {
 
 	return \@env;
 }
+
+=item get_args_ref()
+
+Build the arguments array, including heuristic for the .exe assembly and the game name.
+
+=cut
 
 sub get_args_ref ( $self ) {
 	# heuristic to figure out the binary name from game_name
@@ -213,3 +265,25 @@ sub get_args_ref ( $self ) {
 }
 
 1;
+
+__END__
+
+=back
+
+=head1 SEE ALSO
+
+L<IndieRunner::Engine>,
+L<IndieRunner::Engine::FNA>,
+L<IndieRunner::Engine::MonoGame>,
+L<IndieRunner::Engine::XNA>,
+L<IndieRunner::Engine::Mono::Iomap>.
+
+=head1 AUTHOR
+
+Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+=head1 COPYRIGHT
+
+Copyright 2022-2025 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+This program is free software; you can redistribute it and/or modify it under the ISC license.

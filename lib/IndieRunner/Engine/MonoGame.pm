@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Thomas Frohwein
+# Copyright (c) 2022-2025 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -13,6 +13,20 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner::Engine::MonoGame;
+
+=head1 NAME
+
+IndieRunner::Engine::MonoGame - MonoGame engine module
+
+=head1 DESCRIPTION
+
+Module to set up and launch games made with MonoGame.
+It inherits from L<IndieRunner::Engine::Mono>.
+
+=over 8
+
+=cut
+
 use v5.36;
 use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use parent 'IndieRunner::Engine::Mono';
@@ -28,9 +42,16 @@ Readonly my %MG_LIBS => (
 	'libopenal.so.1'	=> '/usr/local/lib/libopenal.so.*',
 	);
 
+=item setup()
+
+Adds insertion of symlinks for certain MonoGame-associated native libraries that are loaded via L<dlopen(3)> (which is why they can't just be added to C<FNA.dll.config>).
+
+=cut
+
 sub setup ( $self ) {
 	$self->SUPER::setup();
 
+	# XXX: fold libdl.so.2 into %MG_LIBS
 	$$self{ mode_obj }->insert( ( glob( '/usr/lib/libc.so.*' ) )[-1],
 	                   'libdl.so.2' );
 
@@ -47,3 +68,19 @@ sub setup ( $self ) {
 }
 
 1;
+
+=back
+
+=head1 SEE ALSO
+
+L<IndieRunner::Engine::Mono>
+
+=head1 AUTHOR
+
+Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+=head1 COPYRIGHT
+
+Copyright 2022-2025 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+This program is free software; you can redistribute it and/or modify it under the ISC license.

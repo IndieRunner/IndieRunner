@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Thomas Frohwein
+# Copyright (c) 2022-2025 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -13,12 +13,32 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner::Engine::XNA;
+
+=head1 NAME
+
+IndieRunner::Engine::XNA - XNA engine module
+
+=head1 DESCRIPTION
+
+Module to set up and launch games made with XNA.
+It inherits from L<IndieRunner::Engine::Mono>.
+
+=over 8
+
+=cut
+
 use v5.36;
 use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use parent 'IndieRunner::Engine::Mono';
 
 use Carp;
 use File::Find::Rule;
+
+=item setup()
+
+Adds conversion of media file formats that are not supported by the emulation of XNA through FNA.
+
+=cut
 
 sub setup ( $self ) {
 	$self->SUPER::setup();
@@ -42,3 +62,21 @@ sub setup ( $self ) {
 }
 
 1;
+
+__END__
+
+=back
+
+=head1 SEE ALSO
+
+L<IndieRunner::Engine::Mono>
+
+=head1 AUTHOR
+
+Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+=head1 COPYRIGHT
+
+Copyright 2022-2025 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+This program is free software; you can redistribute it and/or modify it under the ISC license.
