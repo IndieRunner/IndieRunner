@@ -13,6 +13,22 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner::Engine::ScummVM;
+
+=head1 NAME
+
+IndieRunner::Engine::ScummVM - ScummVM engine module
+
+=head1 DESCRIPTION
+
+Module to set up and launch games made with Love2D.
+This includes classic SCUMM engine games, as well as many others supported by ScummVM, like Adventure Game Studio, Wintermute, etc.
+
+=head1 METHODS
+
+=over 8
+
+=cut
+
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
@@ -24,6 +40,12 @@ Readonly my $SCUMMVM_BIN	=> '/usr/local/bin/scummvm';
 Readonly my $MAX_OUT		=> 64;
 
 my $game;
+
+=item detect_game()
+
+Use ScummVM's built-in detection to identify the game.
+
+=cut
 
 sub detect_game ( $self ) {
 	return $game if $game;	# save cycles if called a second time
@@ -44,10 +66,40 @@ sub detect_game ( $self ) {
 	return $game;
 }
 
+=item get_bin()
+
+Return the ScummVM binary.
+
+=cut
+
 sub get_bin( $self ) { return $SCUMMVM_BIN; }
+
+=item get_args_ref()
+
+ScummVM can identify the game engine it needs using its own auto detection.
+
+=cut
 
 sub get_args_ref( $self ) {
 	return [ '--auto-detect' ];
 }
 
 1;
+
+__END__
+
+=back
+
+=head1 SEE ALSO
+
+L<IndieRunner::Engine>
+
+=head1 AUTHOR
+
+Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+=head1 COPYRIGHT
+
+Copyright 2022-2025 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+This program is free software; you can redistribute it and/or modify it under the ISC license.
