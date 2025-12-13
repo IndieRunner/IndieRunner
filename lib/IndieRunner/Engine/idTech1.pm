@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Thomas Frohwein
+# Copyright (c) 2025 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -112,6 +112,6 @@ Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
 
 =head1 COPYRIGHT
 
-Copyright 2022-2025 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+Copyright 2025 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
 
 This program is free software; you can redistribute it and/or modify it under the ISC license.
