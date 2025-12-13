@@ -85,4 +85,6 @@ Thomas Frohwein E<lt>thfr@cpan.orgE<gt>
 
 Copyright 2022-2025 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>
 
-This program is free software; you can redistribute it and/or modify it under the ISC license. 
+This program is free software; you can redistribute it and/or modify it under the ISC license.
+
+=cut

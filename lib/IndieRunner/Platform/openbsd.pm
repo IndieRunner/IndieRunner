@@ -13,6 +13,21 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner::Platform::openbsd;
+
+=head1 NAME
+
+IndieRunner::Platform::openbsd - OpenBSD-specific subroutines
+
+=head1 SYNOPSIS
+
+  IndieRunner::Platform::openbsd->init();
+
+=head1 DESCRIPTION
+
+=over 8
+
+=cut
+
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use autodie;
@@ -70,9 +85,37 @@ sub _unveil () {
 	unveil() || die "$!";
 }
 
+=item init()
+
+Run init functions for OpenBSD platform, currently limited to invoking L<OpenBSD::Unveil>.
+
+=back
+
+=cut
+
+# XXX: currently not used
 sub init ( $self ) {
 	_unveil();
 	return 1;
 }
 
 1;
+
+__END__
+
+=head1 SEE ALSO
+
+L<IndieRunner::Platform>
+L<OpenBSD::Unveil>
+
+=head1 AUTHOR
+
+Thomas Frohwein E<lt>thfr@cpan.orgE<gt>
+
+=head1 COPYRIGHT
+
+Copyright 2022-2025 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+This program is free software; you can redistribute it and/or modify it under the ISC license.
+
+=cut

@@ -31,15 +31,29 @@ use Carp;
 
 Module to set up and launch games made with the Infinity game engine.
 
-=head2 Status
+=over 8
 
 =cut
 
 use constant GEMRB_BIN	=>		'/usr/local/bin/gemrb';
 
+=item get_bin()
+
+Return the GemRB binary.
+
+=cut
+
 sub get_bin( $self ) {
 	return GEMRB_BIN;
 }
+
+=item get_args_ref()
+
+Return arguments for execution (current directory).
+
+=back
+
+=cut
 
 sub get_args_ref( $self ) {
 	my @args = ( '.' );
@@ -53,5 +67,9 @@ __END__
 =head1 AUTHOR
 
 Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+=head1 COPYRIGHT
+
+Copyright 2022-2025 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
 
 This program is free software; you can redistribute it and/or modify it under the ISC license.
