@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Thomas Frohwein
+# Copyright (c) 2022-2025 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -13,6 +13,22 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner::Engine::Love2D;
+
+=head1 NAME
+
+IndieRunner::Engine::Love2D - Love2D engine module
+
+=head1 DESCRIPTION
+
+Module to set up and launch games made with Love2D.
+Currently supports games made with Love2D versions 0.8, 0.9, 0.10, and 11.
+
+=head1 METHODS
+
+=over 8
+
+=cut
+
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use autodie;
@@ -57,6 +73,13 @@ Readonly my %LOVE2D_GAME_VERSION => {
 	'StoneKingdoms'			=> '11.x',
 	};
 
+=item get_bin()
+
+Chooses a Love2D binary.
+This is done by examining selected local files for a Love2D version string.
+
+=cut
+
 sub get_bin ( $self ) {
 	my @valid_versions = values %LOVE2D_GAME_VERSION;
 	# turn @valid_versions into regex
@@ -84,6 +107,12 @@ sub get_bin ( $self ) {
 	die "failed to determine a binary";
 }
 
+=item get_args_ref()
+
+Heuristic to identify the actual game file which is then passed as an argument to the binary.
+
+=cut
+
 sub get_args_ref ( $self ) {
 	my $game_file;
 	my @found = glob( "*.love bin/ArkovsTower bin/snacktorio bin/GravityCircuit bin/EndlessDark bin/love *.exe" );
@@ -99,3 +128,21 @@ sub get_args_ref ( $self ) {
 }
 
 1;
+
+__END__
+
+=back
+
+=head1 SEE ALSO
+
+L<IndieRunner::Engine>
+
+=head1 AUTHOR
+
+Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+=head1 COPYRIGHT
+
+Copyright 2022-2025 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+This program is free software; you can redistribute it and/or modify it under the ISC license.
