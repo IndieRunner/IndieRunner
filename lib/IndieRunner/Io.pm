@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Thomas Frohwein
+# Copyright (c) 2022-2025 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -13,6 +13,30 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner::Io;
+
+=head1 NAME
+
+IndieRunner::Io - filesystem input/output for IndieRunner
+
+=head1 SYNOPSIS
+
+  use IndieRunner::Io;
+
+  write_file($data, $filename);
+  read_file($filename);
+
+=head1 DESCRIPTION
+
+General use methods for file input/output operations.
+
+=over 8
+
+=item write_file($data, $filename)
+
+Write $data to $filename. Creates the path if it doesn't already exist. Fails if $filename already exists.
+
+=cut
+
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use autodie;
@@ -30,6 +54,14 @@ sub write_file( $data, $filename ) {
 	close $fh;
 }
 
+=item read_file($filename)
+
+Returns data from $filename. Fails if $filename doesn't exist.
+
+=back
+
+=cut
+
 sub read_file( $filename ) {
 	my $out;
 	die "No such file: $filename" unless ( -f $filename );
@@ -42,3 +74,15 @@ sub read_file( $filename ) {
 }
 
 1;
+
+__END__
+
+=head1 AUTHOR
+
+Thomas Frohwein E<lt>thfr@cpan.orgE<gt>
+
+=head1 COPYRIGHT
+
+Copyright 2022-2025 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>
+
+This program is free software; you can redistribute it and/or modify it under the ISC license. 
