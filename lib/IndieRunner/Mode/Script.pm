@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Thomas Frohwein
+# Copyright (c) 2022-2025 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -13,6 +13,23 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner::Mode::Script;
+
+=head1 NAME
+
+IndieRunner::Mode::Script - create a stand-alone shell script to run a particular game
+
+=head1 DESCRIPTION
+
+This mode is similar to L<IndieRunner::Mode::Dryrun> in that it doesn't execute external programs or manipulate files itself.
+Unlike L<IndieRunner::Mode::Dryrun>, this mode creates a shell script that can perform the steps otherwise executed by L<IndieRunner::Mode::Run> to launch the game in question.
+This script is printed to standard output.
+
+=head1 METHODS
+
+=over 8
+
+=cut
+
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use English;
@@ -23,7 +40,13 @@ use Carp;
 use File::Share qw( :all );
 use File::Spec::Functions qw( catfile );
 
-my $out;	# accumulates all script output lines which will be printed to stdout in the end
+my $out;	# accumulates all script output lines which will be printed to stdout
+
+=item script_head()
+
+The head of the script output.
+
+=cut
 
 sub script_head () {
 	if ( $OSNAME eq 'openbsd' ) {
@@ -40,6 +63,12 @@ sub script_head () {
 	}
 }
 
+=item new($class, %init)
+
+Special constructor for this mode. It adds the head of the script and disables verbose output.
+
+=cut
+
 sub new ( $class, %init ) {
 	$out = script_head();
 	$init{ pledge_group } = 'no_file_mod';
@@ -47,8 +76,34 @@ sub new ( $class, %init ) {
 	return $class->SUPER::new( %init );
 }
 
+=item finish()
+
+As the last step, print the shell script to standard output.
+
+=cut
+
 sub finish ( $self ) {
 	say $out;
 }
 
 1;
+
+__END__
+
+=back
+
+=head1 SEE ALSO
+
+L<IndieRunner::Mode>,
+L<IndieRunner::Mode::Run>,
+L<IndieRunner::Mode::Dryrun>.
+
+=head1 AUTHOR
+
+Thomas Frohwein E<lt>thfr@cpan.orgE<gt>
+
+=head1 COPYRIGHT
+
+Copyright 2022-2025 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+This program is free software; you can redistribute it and/or modify it under the ISC license.

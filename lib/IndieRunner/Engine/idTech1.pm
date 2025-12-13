@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Thomas Frohwein
+# Copyright (c) 2022-2025 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -13,6 +13,21 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner::Engine::idTech1;
+
+=head1 NAME
+
+IndieRunner::Engine::idTech1 - id Tech 1 engine module (includes ZDoom games)
+
+=head1 DESCRIPTION
+
+Module to set up and launch games made with id Tech 1/ZDoom.
+
+=head1 METHODS
+
+=over 8
+
+=cut
+
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 
@@ -26,6 +41,12 @@ Readonly my $GZDOOM_PK3_SUBST => '/usr/local/share/games/lzdoom/lzdoom.pk3';
 
 my $game_iwad;
 
+=item setup()
+
+Replace any bundled C<gzdoom.pk3> with the appropriate substitution.
+
+=cut
+
 sub setup ( $self ) {
 	$self->SUPER::setup();
 
@@ -34,6 +55,12 @@ sub setup ( $self ) {
 		$$self{ mode_obj }->insert( $GZDOOM_PK3_SUBST, 'gzdoom.pk3' );
 	}
 }
+
+=item detect_game()
+
+Simple heuristic to identify the game's main IWAD file for execution and return a game name.
+
+=cut
 
 sub detect_game ( $self ) {
 	my @iwad_files = glob '*.ipk3';
@@ -45,9 +72,21 @@ sub detect_game ( $self ) {
 	return $game_iwad =~ s/\.[^\.]+$//r;
 }
 
+=item get_bin()
+
+Return the binary for id Tech 1 games.
+
+=cut
+
 sub get_bin ( $self ) {
 	return $IDTECH1_BIN;
 }
+
+=item get_args_ref()
+
+Return the arguments that specify the IWAD to run.
+
+=cut
 
 sub get_args_ref( $self ) {
 	my @args = (
@@ -58,3 +97,21 @@ sub get_args_ref( $self ) {
 }
 
 1;
+
+__END__
+
+=back
+
+=head1 SEE ALSO
+
+L<IndieRunner::Engine>
+
+=head1 AUTHOR
+
+Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+=head1 COPYRIGHT
+
+Copyright 2022-2025 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+This program is free software; you can redistribute it and/or modify it under the ISC license.
