@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Thomas Frohwein
+# Copyright (c) 2022-2025 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -53,6 +53,10 @@ Limitations on OpenBSD include:
 
 =back
 
+=head1 METHODS
+
+=over 8
+
 =cut
 
 use constant GODOT3_BIN	=>		'/usr/local/bin/godot';
@@ -61,6 +65,12 @@ use constant PACK_HEADER_MAGIC =>	'GDPC';
 use constant ARGV0_SYMLINK =>		'.indierunner-godot-helper';
 
 my $game_file;
+
+=item get_pack_format_version()
+
+Helper function to determine the Godot pack format version.
+
+=cut
 
 sub get_pack_format_version() {
 	my @files = glob( "*.pck *.x86_64 *.x86 *.exe Melt_Them_All" );
@@ -76,17 +86,26 @@ sub get_pack_format_version() {
 	die "Failed to find pack format version";
 }
 
+=item detect_game()
+
+Heuristic to return the name of the game (if possible).
+
+=cut
+
 sub detect_game( $self ) {
 	my @pck_files =	glob '*.pck';
 	return undef unless @pck_files;
 	return $pck_files[0] =~ s/\.pck$//r;
 }
 
+=item get_bin()
+
+Create a local symlink to the appropriate binary, to work around issues with games that expect to be called from a binary in the same location as the other files. The binary is determined by the pack format version that is found.
+
+=cut
+
 sub get_bin( $self ) {
 	my $pack_format_version = get_pack_format_version();
-
-	# XXX: create local symlink, fixes issues with binary location (some software like
-	#      Crossroad OS expects binary to be in the game dir)
 
 	if ( $pack_format_version == 0 ) {
 		die "No runtime for Godot version 2 (pack version 0 in $game_file)";
@@ -103,6 +122,12 @@ sub get_bin( $self ) {
 	return './' . ARGV0_SYMLINK;
 }
 
+=item get_args_ref()
+
+Return arguments required for execution (main pack file and verbosity arguments).
+
+=cut
+
 sub get_args_ref( $self ) {
 	my @args = (
 		'--quiet',
@@ -116,8 +141,18 @@ sub get_args_ref( $self ) {
 
 __END__
 
+=back
+
+=head1 SEE ALSO
+
+L<IndieRunner::Engine>
+
 =head1 AUTHOR
 
 Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+=head1 COPYRIGHT
+
+Copyright 2022-2025 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
 
 This program is free software; you can redistribute it and/or modify it under the ISC license.

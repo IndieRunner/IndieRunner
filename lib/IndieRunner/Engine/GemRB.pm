@@ -64,6 +64,10 @@ sub get_args_ref( $self ) {
 
 __END__
 
+=head1 SEE ALSO
+
+L<IndieRunner::Engine>
+
 =head1 AUTHOR
 
 Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
