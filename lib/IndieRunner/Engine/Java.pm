@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Thomas Frohwein
+# Copyright (c) 2022-2025 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -13,6 +13,20 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner::Engine::Java;
+
+=head1 NAME
+
+IndieRunner::Engine::Java - Java engine module
+
+=head1 DESCRIPTION
+
+Module to set up and launch games made with Java.
+Currently supports games made with Java versions 1.8.0, 11, 17, and 21.
+
+=over 8
+
+=cut
+
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use autodie;
@@ -104,6 +118,12 @@ my %java_version = (
 	lwjgl3	=> 0,
 	);
 
+=item fix_jvm_args()
+
+Quirks for certain arguments to the JVM.
+
+=cut
+
 sub fix_jvm_args () {
 	my @initial_jvm_args = @jvm_args;
 
@@ -112,6 +132,13 @@ sub fix_jvm_args () {
 	# have to keep '.' separate from @LIB_LOCATIONS to avoid creating symlink loops
 	push @jvm_args, '-Djava.library.path=' . join( ':', @LIB_LOCATIONS, '.' );
 }
+
+=item get_bundled_java_version()
+
+Many Java games are distributed with bundled Java files.
+In order to match the Java version that the game was created with, get the version number from the bundled files to later pick the right native binary.
+
+=cut
 
 sub get_bundled_java_version () {
 	my $bundled_java_bin;
@@ -130,7 +157,7 @@ sub get_bundled_java_version () {
 	return undef unless $got_version;
 
 	if ( $OSNAME eq 'openbsd' ) {
-		# OpenBSD: '1.8.0', '11', '17'
+		# OpenBSD: '1.8.0', '11', '17', '21'
 		if (substr($got_version, 0, 2) eq '1.') {
 			return '1.8.0';
 		}
@@ -143,6 +170,12 @@ sub get_bundled_java_version () {
 	}
 }
 
+=item set_java_home($v)
+
+Assign the correct JAVA_HOME based on the version $v.
+
+=cut
+
 sub set_java_home ( $v ) {
 	if ( $OSNAME eq 'openbsd' ) {
 		$java_home = '/usr/local/jdk-' . $v;
@@ -153,6 +186,13 @@ sub set_java_home ( $v ) {
 	die "Couldn't locate desired JAVA_HOME directory at $java_home: $!"
 		unless ( -d $java_home );
 }
+
+=item replace_lib($lib)
+
+Returns a system library to serve as a replacement for bundled library $lib.
+Returns an empty string if none is found.
+
+=cut
 
 sub replace_lib ( $lib ) {
 	my $lib_glob;           # pattern to search for $syslib
@@ -171,6 +211,12 @@ sub replace_lib ( $lib ) {
 
 	return '';
 }
+
+=item bundled_libraries()
+
+Identify bundled libraries, then find replacements for them. Returns a hash, containing each bundled library and its replacement.
+
+=cut
 
 sub bundled_libraries () {
 	my %symlink_libs;
@@ -192,6 +238,12 @@ sub bundled_libraries () {
 
 	return %symlink_libs;
 }
+
+=item setup()
+
+Setup for Java games: extract JAR file, identify key data like C<main_class>, replace bundled libraries, identify the bundled frameworks (LWJGL2, LWJGL3, LibGDX, ...), and invoke each framework's setup method.
+
+=cut
 
 sub setup ( $self ) {
 	# XXX: at present, check_rigg_binary in SUPER::setup needs $java_home
@@ -265,13 +317,31 @@ sub setup ( $self ) {
 	}
 }
 
+=item has_libgdx()
+
+Look for libgdx in bundled files. Returns 1 if found, 0 if not.
+
+=cut
+
 sub has_libgdx () {
 	( glob '*gdx*.{so,dll}' ) ? return 1 : return 0;
 }
 
+=item has_steamworks4j()
+
+Look for Steamworks4j in bundled files. Returns 1 if found, 0 if not.
+
+=cut
+
 sub has_steamworks4j () {
 	( glob '*steamworks4j*.{so,dll}' ) ? return 1 : return 0;
 }
+
+=item has_lwjgl_any()
+
+Look for LWJGL in bundled files. Returns 1 if found, 0 if not.
+
+=cut
 
 sub has_lwjgl_any () {
 	if ( File::Find::Rule->file
@@ -281,6 +351,12 @@ sub has_lwjgl_any () {
 	return 0;
 }
 
+=item lwjgl_2_or_3()
+
+Return the major version of bundled LWJGL.
+
+=cut
+
 sub lwjgl_2_or_3 () {
 	if ( File::Find::Rule->file
 			     ->name( '*lwjgl_{opengl,remotery,stb,xxhash}.{so,dll}' )
@@ -288,6 +364,12 @@ sub lwjgl_2_or_3 () {
 	   ) { return 3; }
 	return 2;
 }
+
+=item detect_java_frameworks()
+
+Returns an array of the bundled frameworks (LWJGL 2/3, Steamworks4j).
+
+=cut
 
 sub detect_java_frameworks () {
 	if ( has_libgdx() ) {
@@ -300,12 +382,24 @@ sub detect_java_frameworks () {
 	push @java_frameworks, 'Steamworks4j' if has_steamworks4j();
 }
 
+=item skip_framework_setup()
+
+Checks if the game is one where framework setup is disabled.
+
+=cut
+
 sub skip_framework_setup () {
 	foreach my $g ( @SKIP_FRAMEWORKS ) {
 		return 1 if -e $g;
 	}
 	return 0;
 }
+
+=item test_exec_jar()
+
+Check if the game is one where the JAR is executed directly.
+
+=cut
 
 sub test_exec_jar () {
 	foreach my $j ( @EXEC_JAR_FILES ) {
@@ -314,8 +408,12 @@ sub test_exec_jar () {
 	return 0;
 }
 
-# finds .jar files that are supposed to run without checking for a bundled
-# config file
+=item jar_no_bundled_config()
+
+Check if this is a game that has to run without checking for a bundled config file.
+
+=cut
+
 sub jar_no_bundled_config() {
 	foreach my $j ( @NO_BUNDLED_CONFIG_FILES ) {
 		while (glob($j)) {
@@ -325,6 +423,51 @@ sub jar_no_bundled_config() {
 	return undef;
 }
 
+=item new($class, %init)
+
+Constructor that detects/sets the following:
+
+=over 8
+
+=item *
+
+$Bit_Sufx
+
+=item *
+
+$exec_jar or $main_class
+
+=item *
+
+$java_version
+
+=item *
+
+$java_home
+
+=item *
+
+$config_file
+
+=item *
+
+$game_jar
+
+=item *
+
+@jvm_args
+
+=item *
+
+@jvm_classpath
+
+=back
+
+It proceeds to extract $game_jar, unless $exec_jar is set.
+The data is collected from various bundled files, including bundled shell scripts.
+
+=cut
+
 sub new ( $class, %init ) {
 	my $config_file;
 
@@ -333,15 +476,6 @@ sub new ( $class, %init ) {
 
 	die "OS not recognized: " . $OSNAME
 		unless ( exists $Valid_Java_Versions{$OSNAME} );
-
-	# XXX: this constructor needs to decide on/set the following:
-	#      $Bit_Sufx
-	#      $exec_jar or $main_class
-	#      $java_version and $java_home
-	#      $config_file
-	#      $game_jar (extracted unless $exec_jar; in that case is the argument)
-	#      @jvm_args
-	#      @jvm_classpath
 
 	### SCENARIOS ###
 	#
@@ -473,12 +607,25 @@ sub new ( $class, %init ) {
 	return $self;
 }
 
+=item get_bin()
+
+Return the Java binary.
+
+=cut
+
 sub get_bin ( $self ) {
 	unless ( $java_home ) {
 		return '';
 	}
 	return $java_home . "/bin/java";
 }
+
+=item get_args_ref()
+
+Assembles and returns the arguments to the Java binary.
+This involves setting the classpath based on the frameworks that are used, as well as game-specific quirks to the arguments.
+
+=cut
 
 sub get_args_ref( $self ) {
 	# expand classpath based on frameworks that are used
@@ -522,9 +669,43 @@ sub get_args_ref( $self ) {
 	return \@jvm_args;
 }
 
+=item get_env_ref()
+
+Returns the array ref for the Java environment variables, i.e. JAVA_HOME.
+
+=cut
+
 sub get_env_ref ( $self ) {
 	@jvm_env = ( "JAVA_HOME=" . $java_home, );
 	return \@jvm_env;
 }
 
 1;
+
+__END__
+
+=back
+
+=head1 CAVEATS
+
+There are many different ways in which Java-based games are distributed and it is impossible to account for all possible variations.
+The parsing of files like .config files and especially the shell scripts to obtain the necessary information for execution is a potential source of errors.
+
+=head1 AUTHOR
+
+Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+=head1 SEE ALSO
+
+L<IndieRunner::Engine>,
+L<IndieRunner::Engine::JavaMod>,
+L<IndieRunner::Engine::LWJGL2>,
+L<IndieRunner::Engine::LWJGL3>,
+L<IndieRunner::Engine::LibGDX>,
+L<IndieRunner::Engine::Steamworks4j>.
+
+=head1 COPYRIGHT
+
+Copyright 2022-2025 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+This program is free software; you can redistribute it and/or modify it under the ISC license.
