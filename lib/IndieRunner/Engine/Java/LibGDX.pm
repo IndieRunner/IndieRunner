@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Thomas Frohwein
+# Copyright (c) 2022-2025 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -13,6 +13,19 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner::Engine::Java::LibGDX;
+
+=head1 NAME
+
+IndieRunner::Engine::Java::LibGDX - module for LibGDX
+
+=head1 DESCRIPTION
+
+This module assists with setup for Java games that use the LibGDX framework.
+
+=over 8
+
+=cut
+
 use v5.36;
 use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use autodie;
@@ -38,6 +51,12 @@ Readonly my $GDX_VERSION_REGEX	=> '\d+\.\d+\.\d+';
 Readonly my $GDX_NATIVE_LOC	=> '/usr/local/share/libgdx';
 
 my $native_gdx;
+
+=item select_most_compatible_version($target_v, @candidate_v)
+
+Heuristic to pick a version of LibGDX to use from an array of possible candidates.
+
+=cut
 
 sub select_most_compatible_version ( $target_v, @other_v ) {
 	# takes target version, followed by array of candidate version numbers
@@ -85,12 +104,24 @@ sub select_most_compatible_version ( $target_v, @other_v ) {
 	confess "Unable to find a replacement version";	# this shouldn't be reached
 }
 
+=item get_bundled_gdx_version()
+
+Returns the version of the bundled LibGDX.
+
+=cut
+
 sub get_bundled_gdx_version () {
 	my $gdx_version_file = catfile( $GDX_BUNDLED_LOC, $GDX_VERSION_FILE );
 	return '' unless ( -e $gdx_version_file );
 	return IndieRunner::Helpers::match_bin_file( $GDX_VERSION_REGEX,
 		$gdx_version_file );
 }
+
+=item get_native_gdx($bundled_v)
+
+Using the bundled LibGDX version number, this subroutine returns the system directory location of the most appropriate version of LibGDX.
+
+=cut
 
 sub get_native_gdx ( $bundled_v ) {
 	my %candidate_replacements =	# keys: version, values: location
@@ -106,12 +137,25 @@ sub get_native_gdx ( $bundled_v ) {
 	return ( catdir( @location ) );
 }
 
+=item add_classpath()
+
+Return what to add to classpath.
+
+=cut
+
 sub add_classpath ( $self ) { # XXX: remove? not called by anything
 	#return ( $native_gdx ); # XXX: not working currently
 	#say "DEBUG: native_gdx - $native_gdx";
 	#exit;
 	return ( '/usr/local/share/libgdx/1.9.9' );
 }
+
+=item setup($mode_obj)
+
+Setup steps for LWJGL3 framework.
+Determines the version of native LibGDX to use for this game to insert the native and managed libraries.
+
+=cut
 
 sub setup ( $, $mode_obj ) {
 
@@ -141,3 +185,22 @@ sub setup ( $, $mode_obj ) {
 }
 
 1;
+
+__END__
+
+=back
+
+=head1 AUTHOR
+
+Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+=head1 SEE ALSO
+
+L<IndieRunner::Engine::Java>,
+L<IndieRunner::Engine::Java::JavaMod>.
+
+=head1 COPYRIGHT
+
+Copyright 2022-2025 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+This program is free software; you can redistribute it and/or modify it under the ISC license.

@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Thomas Frohwein
+# Copyright (c) 2022-2025 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -13,6 +13,19 @@
 # OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 package IndieRunner::Engine::Java::Steamworks4j;
+
+=head1 NAME
+
+IndieRunner::Engine::Java::Steamworks4j - module for Steamworks4j
+
+=head1 DESCRIPTION
+
+This module assists with setup for Java games that use Steamworks4j.
+
+=over 8
+
+=cut
+
 use v5.36;
 use version 0.77; our $VERSION = version->declare( 'v0.0.1' );
 use parent 'IndieRunner::Engine::Java::JavaMod';
@@ -23,13 +36,44 @@ use File::Spec::Functions qw( catdir );
 Readonly my $S4J_BUNDLED_LOC	=> 'com/codedisaster/steamworks';
 Readonly my $S4J_NATIVE_LOC	=> '/usr/local/share/steamworks4j';
 
+=item add_classpath()
+
+Return the location of the Steamworks4j system install to add to the classpath.
+
+=cut
+
 sub add_classpath ( $self ) {
 	return ( $S4J_NATIVE_LOC );
 }
+
+=item setup($mode_obj)
+
+Insert the system location of the managed Steamworks4j libraries.
+
+=cut
 
 sub setup ( $self, $mode_obj ) {
 	if ( -d $S4J_NATIVE_LOC ) {
 		$mode_obj->insert( catdir( $S4J_NATIVE_LOC, $S4J_BUNDLED_LOC ), $S4J_BUNDLED_LOC );
 	}
 }
+
 1;
+
+__END__
+
+=back
+
+=head1 AUTHOR
+
+Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+=head1 SEE ALSO
+
+L<IndieRunner::Engine::Java::JavaMod>
+
+=head1 COPYRIGHT
+
+Copyright 2022-2025 by Thomas Frohwein E<lt>thfr@cpan.orgE<gt>.
+
+This program is free software; you can redistribute it and/or modify it under the ISC license.
