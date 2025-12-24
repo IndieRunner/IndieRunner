@@ -50,6 +50,10 @@ Readonly my $GDX_VERSION_FILE	=> 'Version.class';
 Readonly my $GDX_VERSION_REGEX	=> '\d+\.\d+\.\d+';
 Readonly my $GDX_NATIVE_LOC	=> '/usr/local/share/libgdx';
 
+Readonly my %GDX_JAVA_VERSION => (
+	'openbsd'	=> '11',
+	);
+
 my $native_gdx;
 
 =item select_most_compatible_version($target_v, @candidate_v)
@@ -102,6 +106,17 @@ sub select_most_compatible_version ( $target_v, @other_v ) {
 	}
 
 	confess "Unable to find a replacement version";	# this shouldn't be reached
+}
+
+=item get_min_java_v()
+
+Return the preferred Java version to use for LibGDX games.
+This is dependent on the operating system.
+
+=cut
+
+sub get_min_java_v ( $ ) {
+	return $GDX_JAVA_VERSION{ $OSNAME };
 }
 
 =item get_bundled_gdx_version()

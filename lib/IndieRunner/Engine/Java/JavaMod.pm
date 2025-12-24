@@ -56,6 +56,17 @@ sub setup ( $, $mode_obj ) {
 	# no-op
 }
 
+=item get_min_java()
+
+Returns the minimum required Java version for this specific module (OS-dependent).
+Defaults to 0.
+
+=cut
+
+sub get_min_java_v( $ ) {
+	return 0;
+}
+
 1;
 
 __END__

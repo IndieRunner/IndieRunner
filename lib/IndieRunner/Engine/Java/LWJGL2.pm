@@ -33,9 +33,24 @@ use parent 'IndieRunner::Engine::Java::JavaMod';
 
 use Readonly;
 
+Readonly my %LWJGL2_JAVA_VERSION => (
+	'openbsd'	=> '11',
+	);
+
 Readonly my %LWJGL2_DIR => (
 	        'openbsd'       => '/usr/local/share/lwjgl',
                 );
+
+=item get_min_java_v()
+
+Return the preferred Java version to use for LWJGL2 games.
+This is dependent on the operating system.
+
+=cut
+
+sub get_min_java_v ( $ ) {
+	return $LWJGL2_JAVA_VERSION{ $OSNAME };
+}
 
 =item add_classpath()
 

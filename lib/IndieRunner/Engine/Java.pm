@@ -104,7 +104,9 @@ my %Valid_Java_Versions = (
 
 my $class_path_ptr;
 my $exec_jar;	# run with `-jar <filename>` rather than main_class
+my $fw_min_java_v;
 my $game_jar;
+my $java_v;
 my $main_class;
 my $no_bundled_config;	# don't look for any config before extracting .jar file
 my @java_frameworks;
@@ -112,11 +114,6 @@ my $java_home;
 my @jvm_args;
 my @jvm_classpath;
 my @jvm_env;
-
-my %java_version = (
-	bundled	=> 0,
-	lwjgl3	=> 0,
-	);
 
 =item fix_jvm_args()
 
@@ -282,6 +279,8 @@ sub setup ( $self ) {
 		}
 	}
 
+	# XXX: overhaul this; see if really needed as the frameworks dictate
+	#      Java 11 for a lot of games
 	# get Java build version number from main_class's file
 	if ( $main_class ) {
 		my $main_class_file = $main_class;
@@ -292,7 +291,8 @@ sub setup ( $self ) {
 			my $prelim_version = $1;
 			for my $v ( @{$Valid_Java_Versions{$OSNAME}} ) {
 				if ( rindex( $v, $prelim_version, 0 ) == 0 ) {
-					set_java_home( $v );
+					# XXX: set this up properly with $v vs. $java_v
+					#set_java_home( $v );
 					last;
 				}
 			}
@@ -324,6 +324,7 @@ Look for libgdx in bundled files. Returns 1 if found, 0 if not.
 =cut
 
 sub has_libgdx () {
+	# XXX: add a way with jar -tf *.jar etc to check before extracting
 	( glob '*gdx*.{so,dll}' ) ? return 1 : return 0;
 }
 
@@ -334,6 +335,7 @@ Look for Steamworks4j in bundled files. Returns 1 if found, 0 if not.
 =cut
 
 sub has_steamworks4j () {
+	# XXX: add a way with jar -tf *.jar etc to check before extracting
 	( glob '*steamworks4j*.{so,dll}' ) ? return 1 : return 0;
 }
 
@@ -344,6 +346,7 @@ Look for LWJGL in bundled files. Returns 1 if found, 0 if not.
 =cut
 
 sub has_lwjgl_any () {
+	# XXX: add a way with jar -tf *.jar etc to check before extracting
 	if ( File::Find::Rule->file
 			     ->name( '*lwjgl*.{so,dll}' )
 			     ->in( '.' )
@@ -358,6 +361,7 @@ Return the major version of bundled LWJGL.
 =cut
 
 sub lwjgl_2_or_3 () {
+	# XXX: add a way with jar -tf *.jar etc to check before extracting
 	if ( File::Find::Rule->file
 			     ->name( '*lwjgl_{opengl,remotery,stb,xxhash}.{so,dll}' )
 			     ->in( '.' )
@@ -439,7 +443,7 @@ $exec_jar or $main_class
 
 =item *
 
-$java_version
+$java_v
 
 =item *
 
@@ -496,8 +500,8 @@ sub new ( $class, %init ) {
 
 	$Bit_Sufx = ( $Config{'use64bitint'} ? '64' : '' ) . $So_Sufx;
 
-	$java_version{ bundled } = get_bundled_java_version();
-	unless ( $java_version{ bundled } ) {
+	$java_v = get_bundled_java_version();
+	unless ( $java_v ) {
 		say STDERR "Warning: unable to identify Java version from the bundled files.";
 	}
 
@@ -573,35 +577,37 @@ sub new ( $class, %init ) {
 		$$self{ mode_obj }->vvsay( "No config file or shell script with configuration data found." );
 	}
 
-	# set java_home
+	# detect frameworks and their preferences
+	# XXX: This may be too early! E.g. Urtuk - can only identify
+	#      frameworks *after* the jar is extracted
 	detect_java_frameworks();
-	if ( grep { /^\QLWJGL3\E$/ } @java_frameworks ) {
-		$java_version{ lwjgl3 } =
-			IndieRunner::Engine::Java::LWJGL3::get_java_version_preference();
+	foreach my $fw ( @java_frameworks ) {
+		$fw_min_java_v = 0;
+		my $module = "IndieRunner::Engine::Java::$fw";
+		$fw_min_java_v = $module->get_min_java_v();
+		say "DEBUG: $fw -> $fw_min_java_v";
+		$java_v = ( version->declare($fw_min_java_v)->numify >
+		            version->declare($java_v)->numify ? $fw_min_java_v : $java_v );
 	}
 
 	# validate java versions
-	foreach my $k ( keys %java_version ) {
-		if ( grep( /^\Q$java_version{ $k }\E$/, @{$Valid_Java_Versions{$OSNAME}} ) ) {
-			$java_version{ $k } = version->declare( $java_version{ $k } );
-		}
-		else {
-			# change to next-highest valid Java version
-			$java_version{$k} = (sort {$a cmp $b} grep( version->declare($_)->numify
-			                                      > version->declare($java_version{$k})->numify,
-								@{$Valid_Java_Versions{$OSNAME}} ) )[0];
-		}
+	if ( grep( /^\Q$java_v\E$/, @{$Valid_Java_Versions{$OSNAME}} ) ) {
+		$java_v = version->declare( $java_v );
+	}
+	else {
+		# change to next-highest valid Java version
+		$java_v = (sort {$a cmp $b} grep( version->declare($_)->numify
+                              > version->declare($java_v)->numify,
+				@{$Valid_Java_Versions{$OSNAME}} ) )[0];
 	}
 
 	# pick best java version
-	my $os_java_version = (sort {$b cmp $a} values( %java_version ) )[0];
-	$os_java_version = '1.8.0' unless $os_java_version;
-	$$self{ mode_obj }->vsay( "Bundled Java version:\t\t" . ( $java_version{ bundled }
-		? $java_version{ bundled } : 'not found' ) );
-	$$self{ mode_obj }->vsay( "LWJGL3 preferred Java version:\t$java_version{ lwjgl3 }" )
-		if $java_version{ lwjgl3 };
-	$$self{ mode_obj }->vsay( "Java version to be used:\t$os_java_version" );
-	set_java_home( $os_java_version );
+	# XXX: make the default OS-dependent?
+	$java_v = '11' unless $java_v;
+	$$self{ mode_obj }->vsay( "Java version to be used:\t$java_v" );
+
+	# set java_home
+	set_java_home( $java_v );
 	$$self{ mode_obj }->vsay( "Java Home:\t\t\t$java_home" );
 
 	return $self;
