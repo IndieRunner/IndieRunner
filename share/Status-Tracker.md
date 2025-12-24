@@ -224,7 +224,7 @@ Letters indicate which platform versions have been tested successfully:
 |Retro Kart Rush	|Godot	|L	|	|	|	|	|		|
 |Revenge of the Titans	|LWJGL2	|	|	|	|	|Humble:L|		|
 |Rex Rocket		|FNA	|L	|	|	|	|	|		|
-|Rise to Ruins		|LWJGL2	|	|	|L	|	|	|		|
+|Rise to Ruins		|LWJGL2	|	|	|L	|	|	|requires steamworks4j|
 |Robotherapy		|Godot	|L	|	|	|	|	|		|
 |Rogue Legacy		|FNA	|L	|	|	|	|	|		|
 |Roma Invicta		|Godot	|L	|	|	|	|	|		|
