@@ -130,7 +130,9 @@ sub get_native_gdx ( $bundled_v ) {
 		    } File::Find::Rule->file
 				      ->name( $GDX_VERSION_FILE )
 				      ->in( $GDX_NATIVE_LOC );
-	my $most_compatible_version = select_most_compatible_version( $bundled_v,
+	# XXX: hack to proceed with *some* version if no bundled_v found,
+	#      e.g. PuppyGames titles
+	my $most_compatible_version = select_most_compatible_version( $bundled_v || 0,
 				keys( %candidate_replacements ) );
 	my @location = splitdir( $candidate_replacements{ $most_compatible_version } );
 	@location = splice @location, 0, (scalar @location - 4);
@@ -180,8 +182,14 @@ sub setup ( $, $mode_obj ) {
 		$mode_obj->insert( $l, ( splitpath( $l ) )[2] );
 	}
 
-	# insert framework managed code (class files)
-	$mode_obj->insert( catdir( $native_gdx, $GDX_BUNDLED_LOC ), $GDX_BUNDLED_LOC );
+	# insert framework managed code (class files) if exists
+	if (-d $GDX_BUNDLED_LOC) {
+		$mode_obj->insert( catdir( $native_gdx, $GDX_BUNDLED_LOC ),
+				   $GDX_BUNDLED_LOC );
+	}
+	else {
+		$mode_obj->vsay( "No managed LibGDX libraries at $GDX_BUNDLED_LOC" );
+	}
 }
 
 1;
