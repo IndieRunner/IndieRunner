@@ -148,13 +148,13 @@ sub get_bundled_java_version () {
 			       File::Find::Rule->file->name('java.exe')->in('.'),
 			       File::Find::Rule->file->name('release')->in('.')
 			      );
-	return undef unless $bundled_java_bin;
+	return 0 unless $bundled_java_bin;
 
 	# fetch version string and trim to format for JAVA_HOME
 	my $got_version = match_bin_file(
 						$JAVA_VER_REGEX,
 						$bundled_java_bin);
-	return undef unless $got_version;
+	return 0 unless $got_version;
 
 	if ( $OSNAME eq 'openbsd' ) {
 		# OpenBSD: '1.8.0', '11', '17', '21'
@@ -260,11 +260,11 @@ sub setup ( $self ) {
 			$$self{ mode_obj }->extract( @{$class_path_ptr}[0] ) || die "failed to extract file";
 		}
 		else {
-			# XXX: review - remove?
+			# XXX: review! Needed for Droid Assault, other Puppy Games titles?
 			die "No JAR file to extract" unless glob '*.jar';
-			#foreach my $f ( glob '*.jar' ) {
-				#$$self{ mode_obj }->extract( $f ) || die "failed to extract: $f";
-			#}
+			foreach my $f ( glob '*.jar' ) {
+				$$self{ mode_obj }->extract( $f ) || die "failed to extract: $f";
+			}
 		}
 	}
 
