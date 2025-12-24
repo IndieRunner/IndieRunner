@@ -33,10 +33,6 @@ use English;
 
 use Readonly;
 
-Readonly my $GDX_BUNDLED_LOC	=> 'com/badlogic/gdx';
-Readonly my $GDX_VERSION_FILE	=> 'Version.class';
-Readonly my $GDX_NATIVE_LOC	=> '/usr/local/share/libgdx';
-
 =item add_classpath()
 
 Method for adding to the classpath.
