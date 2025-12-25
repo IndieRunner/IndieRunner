@@ -58,6 +58,12 @@ Readonly my @LOVE2D_VERSION_FILES => (
 	'*.exe',
 	);
 
+# Quirks to shortcut selecting a specific binary based on presence of a file.
+# XXX: need better heuristic for bundled *.love files to not rely on quirks!
+Readonly my %LOVE2D_BIN_QUIRKS => {
+	'quadrant.love'	=> '11.x',
+	};
+
 Readonly my %LOVE2D_GAME_VERSION => {
 	'britebot'			=> '0.10.x',
 	'cityglitch'			=> '0.10.x',
@@ -85,6 +91,13 @@ sub get_bin ( $self ) {
 	# turn @valid_versions into regex
 	map { s/x/\\d+/g } @valid_versions;
 	map { s/\./\\./g } @valid_versions;
+
+	# quirks
+	for my $k ( keys %LOVE2D_BIN_QUIRKS ) {
+		if ( -f $k ) {
+			return $LOVE2D_VERSION_BIN{ $LOVE2D_BIN_QUIRKS{ $k } };
+		}
+	}
 
 	my @found;
 	for my $g ( @LOVE2D_VERSION_FILES ) {
