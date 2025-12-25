@@ -304,6 +304,7 @@ Letters indicate which platform versions have been tested successfully:
 |Void Wizard		|Godot	|W	|	|	|	|	|		|
 |WHATEVER		|Godot	|W	|	|	|	|	|		|
 |Wizorb			|FNA	|	|	|	|	|Humble:L|crash in GameOver state|
+|Woodworm		|Love2D	|	|	|W	|	|	|		|
 |Wrought Flesh		|Godot	|L	|	|	|	|	|		|
 |Yolk Heroes: A Long Tamago|Godot|W	|	|	|	|	|		|
 |The Zachtronics Solitaire Collection|Mono	|L	|	|	|	|	|		|
