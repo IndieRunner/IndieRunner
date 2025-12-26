@@ -77,6 +77,7 @@ sub get_pack_format_version() {
 	for my $f ( @files ) {
 		# [\x00-\x02] - marker for pack version for Godot 2 (\x00) to
 		# Godot 4 (\x02)
+		next unless -f $f;
 		my $pack_header_bytes = match_bin_file( 'GDPC[\x00-\x02]', $f );
 		next unless $pack_header_bytes;
 		$game_file = $f;
