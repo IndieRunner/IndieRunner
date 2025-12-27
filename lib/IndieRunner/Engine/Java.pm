@@ -585,7 +585,6 @@ sub new ( $class, %init ) {
 		$fw_min_java_v = 0;
 		my $module = "IndieRunner::Engine::Java::$fw";
 		$fw_min_java_v = $module->get_min_java_v();
-		say "DEBUG: $fw -> $fw_min_java_v";
 		$java_v = ( version->declare($fw_min_java_v)->numify >
 		            version->declare($java_v)->numify ? $fw_min_java_v : $java_v );
 	}

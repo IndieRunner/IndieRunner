@@ -23,6 +23,7 @@ Letters indicate which platform versions have been tested successfully:
 |Airships: Conquer the Skies|LibGDX|	|	|L	|	|	|		|
 |Akane the Kunoichi	|XNA	|W	|	|	|	|	|		|
 |ALL IN THE GAME: Crime Strategy|Love2D|W|	|	|	|	|needs luasteam 3.2.1; early access|
+|Alum			|ScummVM|W	|	|	|	|	|		|
 |Amazing Princess Sarah	|XNA	|	|	|	|	|	|iomap error when loading level	|
 |Anagrams		|Love2D	|	|	|L	|	|	|		|
 |Apocalyptic Vibes	|idTech1|W	|	|	|	|	|		|
@@ -32,6 +33,7 @@ Letters indicate which platform versions have been tested successfully:
 |Ashworld		|LibGDX	|	|	|L	|	|	|		|
 |Atom Zombie Smasher	|Mono	|L	|	|	|	|	|		|
 |Axiom Verge		|FNA	|L(1.56)|	|	|1.51	|	|		|
+|Babushka's Glitch Dungeon|Godot|	|	|W	|	|	|		|
 |Balatro		|Love2D	|W	|	|	|	|	|		|
 |Baldur's Gate		|GemRB	|	|W	|	|	|	|		|
 |Baldur's Gate 2	|GemRB	|	|W	|	|	|	|		|
@@ -148,6 +150,7 @@ Letters indicate which platform versions have been tested successfully:
 |Hexpire		|Godot	|W	|	|	|	|	|		|
 |Hive			|FNA	|L	|	|	|	|	|		|
 |Hoarder's Horrible House of Stuff|Love2D||	|L	|	|	|		|
+|Hungry Horrors		|Godot	|	|	|L	|	|	|demo/early access|
 |Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
 |I Am Sakuya		|idTech1|W	|	|	|	|	|		|
 |Icewind Dale		|GemRB	|	|W	|	|	|	|		|
@@ -159,6 +162,7 @@ Letters indicate which platform versions have been tested successfully:
 |The Isolated Town	|Godot	|	|	|L	|	|	|		|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
 |Just Ignore Them	|ScummVM|W	|	|	|	|	|		|
+|Kaizen: A Factory Story|Mono	|	|	|L	|	|	|		|
 |Kitsune Tails		|FNA	|	|	|L	|	|	|		|
 |Kitsune Zero		|FNA	|	|	|L	|	|	|		|
 |knakk			|Godot	|	|	|L	|	|	|		|
@@ -188,6 +192,7 @@ Letters indicate which platform versions have been tested successfully:
 |Moonring		|Love2D	|W	|	|	|	|	|		|
 |Mount Your Friends	|XNA	|W	|	|	|	|	|		|
 |Murder Miners		|FNA	|L	|	|	|	|	|no online support|
+|Nelly Cootalot: Spoonbeaks Ahoy! HD|ScummVM||W	|	|	|	|		|
 |Neoteria		|LibGDX	|	|	|	|	|	|		|
 |NeuroVoider		|MonoGame|	|L	|	|	|	|SQL error on launch|
 |Nightmare Frames	|ScummVM|	|	|W	|	|	|Adventure Game Studio game|
@@ -206,6 +211,7 @@ Letters indicate which platform versions have been tested successfully:
 |Owlboy			|FNA	|L	|L	|	|	|	|		|
 |Paladin		|FNA	|	|	|	|	|Humble:L|		|
 |Path of Achra		|Godot	|W	|	|	|	|	|		|
+|Pathway (2020)		|Godot	|	|	|L	|	|	|		|
 |Penny Arcade's On the Rain-Slick Precipice of Darkness 3|XNA|||||||
 |Penny Arcade's On the Rain-Slick Precipice of Darkness 4|XNA|||||||
 |Planescape: Torment	|GemRB	|	|W	|	|	|	|		|
@@ -220,6 +226,7 @@ Letters indicate which platform versions have been tested successfully:
 |The Pulse of Evil	|Godot	|W	|	|	|	|	|		|
 |PUTRID SHOT ULTRA	|Love2D	|W	|	|	|	|	|		|
 |The Puzzler's Revenge	|Love2D	|	|	|W	|	|	|		|
+|quadrant		|Love2D	|L	|	|	|	|	|		|
 |Randotura		|Love2D	|W	|	|	|	|	|		|
 |REKKR: Sunken Land	|idTech1|	|W	|	|	|	|		|
 |Retro Kart Rush	|Godot	|L	|	|	|	|	|		|
@@ -245,6 +252,7 @@ Letters indicate which platform versions have been tested successfully:
 |Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j (Steam version)|
 |Snails			|XNA	|	|	|W	|	|https://github.com/xesf/SnailsXNA |needs more iomap workarounds and fix for trying (and failing) to cloud save via Steam|
 |Snake Core		|LibGDX	|	|	|L	|	|	|		|
+|Snow Problem		|ScummVM|W	|	|	|	|	|		|
 |SNKRX			|Love2D	|W	|	|	|	|	|		|
 |SokoChess White	|Godot	|L	|	|	|	|	|		|
 |SokoSolitaire		|Godot	|L	|	|	|	|	|needs to run with --video-driver GLES2 to avoid graphics bugs|
@@ -273,6 +281,7 @@ Letters indicate which platform versions have been tested successfully:
 |Sudocats		|Godot	|	|W	|	|	|	|		|
 |Sumatra: Fate of Yandi	|ScummVM|	|W	|	|	|	|		|
 |Super Bernie World	|FNA	|	|	|L	|	|	|		|
+|Super Greedy Cat	|Godot	|L	|	|	|	|	|		|
 |Super Spy Raccoon	|Godot	|W	|	|	|	|	|		|
 |Supplice		|idTech1|W	|	|	|	|	|		|
 |Sword of the Stars: The Pit|XNA|	|W	|	|	|	|		|
