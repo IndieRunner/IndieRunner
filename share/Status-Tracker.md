@@ -277,6 +277,7 @@ Letters indicate which platform versions have been tested successfully:
 |Steel Assault		|FNA	|L	|	|	|	|	|		|
 |Sternly Worded Adventures|Love2D|		|X	|	|	|		|
 |Stone Kingdoms		|Love2D	|	|	|L	|	|	|		|
+|Strange Jigsaws	|Godot	|W	|	|	|	|	|		|
 |Strife			|idTech1|	|L	|	|	|	|		|
 |Striving for Light	|Godot	|	|	|L	|	|	|		|
 |Sudocats		|Godot	|	|W	|	|	|	|		|
