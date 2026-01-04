@@ -268,6 +268,7 @@ Letters indicate which platform versions have been tested successfully:
 |Space Haven		|LibGDX	|	|L	|	|	|	|buggy - crashes; sometimes white noise music|
 |Spaceport Hope		|LibGDX	|L	|	|	|	|	|		|
 |SpeedRunners		|FNA	|L	|	|	|	|	|FNA used since 2023-03-25 update|
+|Spellatro		|XNA	|	|	|W	|	|	|		|
 |Spellrazor		|Love2D	|	|	|W	|	|	|		|
 |Spin Hero		|Godot	|W	|	|	|	|	|		|
 |Spring Dash		|Godot	|W	|	|	|	|	|		|
