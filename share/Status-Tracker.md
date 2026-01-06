@@ -152,6 +152,7 @@ Letters indicate which platform versions have been tested successfully:
 |Hexpire		|Godot	|W	|	|	|	|	|		|
 |Hive			|FNA	|L	|	|	|	|	|		|
 |Hoarder's Horrible House of Stuff|Love2D||	|L	|	|	|		|
+|House of Necrosis	|Godot	|L	|	|	|	|	|		|
 |Hungry Horrors		|Godot	|	|	|L	|	|	|demo/early access|
 |Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
 |I Am Sakuya		|idTech1|W	|	|	|	|	|		|
