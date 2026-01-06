@@ -144,6 +144,7 @@ Letters indicate which platform versions have been tested successfully:
 |Gunslugs		|LibGDX	|	|	|L	|	|	|		|
 |Gunslugs 3: Rogue Tactics|LibGDX|	|	|L	|	|	|		|
 |Hacknet		|FNA	|	|L	|	|	|	|		|
+|Hell Builder		|Godot	|W	|	|	|	|	|		|
 |Her Name Was Fire	|Godot	|W	|	|	|	|	|		|
 |Heroes of Loot		|LibGDX	|	|	|L	|	|	|		|
 |Hexes			|Godot	|L	|	|	|	|	|		|
