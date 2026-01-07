@@ -100,6 +100,7 @@ Letters indicate which platform versions have been tested successfully:
 |Desert Kingdoms	|Godot	|W	|	|	|	|	|		|
 |Destroy The Monoliths	|Godot	|L	|	|	|	|	|		|
 |Dice Tribes: Ambitions	|HashLink|L	|	|	|	|	|		|
+|DOGWALK		|Godot	|	|	|L	|	|	|some graphics glitches|
 |Dome Keeper		|Godot	|L	|	|	|	|	|		|
 |Draw a Stickman: EPIC	|XNA	|	|	|	|	|	|crashes early without Steamworks.NET.dll stub|
 |DreamCell: Lost in Nightmares|Godot|W	|	|	|	|	|		|
