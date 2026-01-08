@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Thomas Frohwein
+# Copyright (c) 2022-2026 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -22,10 +22,13 @@ IndieRunner::Engine::Godot - Godot engine module
 
 use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
+use English;
 
 use parent 'IndieRunner::Engine';
 
 use Carp;
+use Readonly;
+
 use IndieRunner::Helpers qw( match_bin_file );
 
 =head1 DESCRIPTION
@@ -59,12 +62,21 @@ Limitations on OpenBSD include:
 
 =cut
 
-use constant GODOT3_BIN	=>		'/usr/local/bin/godot';
-use constant GODOT4_BIN =>		'/usr/local/bin/godot4';
 use constant PACK_HEADER_MAGIC =>	'GDPC';
 use constant ARGV0_SYMLINK =>		'.indierunner-godot-helper';
 
 my $game_file;
+
+# keys: OS
+# values: array of runtimes for each pack version. Position in array == pack format version
+#         for example: [ 'godot2', 'godot3', 'godot44', 'godot45' ]
+Readonly my %os_pack_version_runtimes => {
+	'openbsd'	=> [	'',
+				'/usr/local/bin/godot',
+				'/usr/local/bin/godot4',
+				'',
+			   ],
+};
 
 =item get_pack_format_version()
 
@@ -75,14 +87,14 @@ Helper function to determine the Godot pack format version.
 sub get_pack_format_version() {
 	my @files = glob( "*.pck *.x86_64 *.x86 *.exe Melt_Them_All" );
 	for my $f ( @files ) {
-		# [\x00-\x02] - marker for pack version for Godot 2 (\x00) to
-		# Godot 4 (\x02)
+		# [\x00-\x03] - marker for pack version for Godot 2 (\x00) to
+		# Godot 4.5+ (\x03)
 		next unless -f $f;
-		my $pack_header_bytes = match_bin_file( 'GDPC[\x00-\x02]', $f );
+		my $pack_header_bytes = match_bin_file( 'GDPC[\x00-\x09]', $f );
 		next unless $pack_header_bytes;
 		$game_file = $f;
 		my $pack_format_version = hex unpack( 'H2', substr($pack_header_bytes, -1));
-		return $pack_format_version;
+		return $pack_format_version if $pack_format_version;
 	}
 	die "Failed to find pack format version";
 }
@@ -107,19 +119,11 @@ Create a local symlink to the appropriate binary, to work around issues with gam
 
 sub get_bin( $self ) {
 	my $pack_format_version = get_pack_format_version();
+	my $bin = ${ $os_pack_version_runtimes{ $OSNAME } }[ $pack_format_version ];
 
-	if ( $pack_format_version == 0 ) {
-		die "No runtime for Godot version 2 (pack version 0 in $game_file)";
-	}
-	elsif ( $pack_format_version == 1 ) {
-		$$self{ mode_obj }->insert( GODOT3_BIN, ARGV0_SYMLINK );
-	}
-	elsif ( $pack_format_version == 2 ) {
-		$$self{ mode_obj }->insert( GODOT4_BIN, ARGV0_SYMLINK );
-	}
-	else {
-		croak "unable to determine Godot binary from $game_file";
-	}
+	croak "No binary for Godot pack format version $pack_format_version on $OSNAME"
+		unless $bin;
+	$$self{ mode_obj }->insert( $bin, ARGV0_SYMLINK );
 	return './' . ARGV0_SYMLINK;
 }
 
