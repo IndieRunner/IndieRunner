@@ -67,6 +67,7 @@ Letters indicate which platform versions have been tested successfully:
 |Castlevania: Simon's Destiny|idTech1|	|	|W	|	|	|		|
 |A Castle Full of Cats	|Godot	|	|W	|	|	|	|		|
 |Cat Warrior		|FNA	|L	|	|	|	|	|		|
+|Cattle Country		|FNA	|L	|	|	|	|	|FNA 26.02 and sdl-bleepbloop|
 |Celeste		|FNA	|W	|	|L	|	|	|no audio	|
 |Champy the Useless Vampire|Godot|W	|	|	|	|	|		|
 |Charlie Murder		|FNA	|L	|	|	|	|	|no online multiplayer|
@@ -90,6 +91,7 @@ Letters indicate which platform versions have been tested successfully:
 |Daedalus Demise - The Haunted Pyramid|Godot||	|W	|	|	|		|
 |The Dagger of Amon Ra	|ScummVM|	|W	|	|	|	|		|
 |Daisy Dangerous	|Godot	|L	|	|	|	|	|		|
+|The Dark Rites of Arkham|ScummVM|	|	|W	|	|	|		|
 |Dashpong		|Godot	|L	|	|	|	|	|		|
 |Dead Cells		|HashLink|	|L	|	|	|	|		|
 |Dead Pixels II		|FNA	|L	|	|	|	|	|Early Access (2022-08-27)|
@@ -105,6 +107,7 @@ Letters indicate which platform versions have been tested successfully:
 |Draw a Stickman: EPIC	|XNA	|	|	|	|	|	|crashes early without Steamworks.NET.dll stub|
 |DreamCell: Lost in Nightmares|Godot|W	|	|	|	|	|		|
 |Dreams in the Witch House|ScummVM|W	|	|	|	|	|		|
+|Drill Bird		|Godot	|W	|		|	|	|		|
 |Droid Assault		|LWJGL2	|	|	|	|	|Humble:L|		|
 |Dungeons & Keyboards	|Godot	|W	|	|	|	|	|		|
 |Dust: An Elysian Tail	|FNA	|	|L	|	|	|	|		|
@@ -144,6 +147,7 @@ Letters indicate which platform versions have been tested successfully:
 |Growing Pains		|FNA	|L	|	|	|	|	|		|
 |Gunslugs		|LibGDX	|	|	|L	|	|	|		|
 |Gunslugs 3: Rogue Tactics|LibGDX|	|	|L	|	|	|		|
+|Gurk in Trouble	|ScummVM|	|	|W	|	|	|		|
 |Hacknet		|FNA	|	|L	|	|	|	|		|
 |Hell Builder		|Godot	|W	|	|	|	|	|		|
 |Her Name Was Fire	|Godot	|W	|	|	|	|	|		|
@@ -295,7 +299,7 @@ Letters indicate which platform versions have been tested successfully:
 |Tanks of Freedom II	|Godot	|L	|	|	|	|	|		|
 |Tendryll		|Godot	|W	|	|	|	|	|needs addons/godotsteam/x11/libgodotsteam.so|
 |Tempus Bound		|Godot	|W	|	|	|	|	|		|
-|Terraria		|FNA	|L	|L	|	|	|	|		|
+|Terraria		|FNA	|L	|L	|	|	|	|v1.4.5.5 with FNA 26.02|
 |That's Not My Neighbor	|Godot	|	|	|L	|	|	|		|
 |They Don't Sleep	|Godot	|W	|	|	|	|	|		|
 |Thimbleweed Park	|ScummVM|	|L	|	|	|	|		|
@@ -312,6 +316,7 @@ Letters indicate which platform versions have been tested successfully:
 |Ultratron		|LWJGL2	|	|	|	|	|Humble:L|		|
 |Under the Yoke		|Godot	|	|	|L	|	|	|		|
 |Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|Steam version needs steamworks4j|
+|Utter a Name		|Godot	|L	|	|	|	|	|		|
 |Verses of Enchantment	|Godot	|L	|	|	|	|	|		|
 |Vomitoreum		|idTech1|L	|	|	|	|	|		|
 |V-Hunter Puzzler Dx	|Godot	|W	|	|	|	|	|		|
