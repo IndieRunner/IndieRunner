@@ -72,9 +72,9 @@ my $game_file;
 #         for example: [ 'godot2', 'godot3', 'godot44', 'godot45' ]
 Readonly my %os_pack_version_runtimes => {
 	'openbsd'	=> [	'',
+				'/usr/local/bin/godot3',
+				'/usr/local/bin/godot44',
 				'/usr/local/bin/godot',
-				'/usr/local/bin/godot4',
-				'',
 			   ],
 };
 

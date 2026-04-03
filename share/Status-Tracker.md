@@ -93,6 +93,7 @@ Letters indicate which platform versions have been tested successfully:
 |Daisy Dangerous	|Godot	|L	|	|	|	|	|		|
 |The Dark Rites of Arkham|ScummVM|	|	|W	|	|	|		|
 |Dashpong		|Godot	|L	|	|	|	|	|		|
+|Dawnfolk		|Godot	|L	|	|	|	|	|		|
 |Dead Cells		|HashLink|	|L	|	|	|	|		|
 |Dead Pixels II		|FNA	|L	|	|	|	|	|Early Access (2022-08-27)|
 |Deepest Chamber: Resurrection|LibGDX|L	|	|	|	|	|		|
@@ -184,6 +185,7 @@ Letters indicate which platform versions have been tested successfully:
 |Legendary Creatures	|Godot	|W	|	|	|	|	|		|
 |Lil Baby Poop's NIGHTMARES|Godot|W	|	|	|	|	|		|
 |Lingo			|Godot	|W	|	|	|	|	|		|
+|Linovictus		|Love2D	|	|	|X	|	|	|		|
 |Little Racers STREET	|FNA	|L	|	|	|	|	|		|
 |Lycanthorn II		|idTech1|L	|	|	|	|	|		|
 |Marvellous Inc.	|Love2D	|	|	|L	|	|	|		|

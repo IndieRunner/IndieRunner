@@ -62,6 +62,7 @@ Readonly my @LOVE2D_VERSION_FILES => (
 # XXX: need better heuristic for bundled *.love files to not rely on quirks!
 Readonly my %LOVE2D_BIN_QUIRKS => {
 	'quadrant.love'	=> '11.x',
+	'linovictus.love' => '11.x',
 	};
 
 Readonly my %LOVE2D_GAME_VERSION => {
