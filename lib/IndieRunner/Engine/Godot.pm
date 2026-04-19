@@ -29,7 +29,7 @@ use parent 'IndieRunner::Engine';
 use Carp;
 use Readonly;
 
-use IndieRunner::Helpers qw( match_bin_file );
+use IndieRunner::Helpers qw( match_bin_file match_bin_file_head );
 
 =head1 DESCRIPTION
 
@@ -87,10 +87,18 @@ Helper function to determine the Godot pack format version.
 sub get_pack_format_version() {
 	my @files = glob( "*.pck *.x86_64 *.x86 *.exe Melt_Them_All" );
 	for my $f ( @files ) {
+		my $pack_header_bytes;
+
 		# [\x00-\x03] - marker for pack version for Godot 2 (\x00) to
 		# Godot 4.5+ (\x03)
 		next unless -f $f;
-		my $pack_header_bytes = match_bin_file( 'GDPC[\x00-\x09]', $f );
+		if ( $f =~ /\.pck$/ ) {
+			# .pck files have the signature at the beginning, so don't load the whole file
+			$pack_header_bytes = match_bin_file_head( 'GDPC[\x00-\x09]', $f, 8 );
+		}
+		else {
+			$pack_header_bytes = match_bin_file( 'GDPC[\x00-\x09]', $f );
+		}
 		next unless $pack_header_bytes;
 		$game_file = $f;
 		my $pack_format_version = hex unpack( 'H2', substr($pack_header_bytes, -1));

@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Thomas Frohwein
+# Copyright (c) 2022-2026 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -23,7 +23,7 @@ IndieRunner::Io - filesystem input/output for IndieRunner
   use IndieRunner::Io;
 
   write_file($data, $filename);
-  read_file($filename);
+  read_file_lines($filename);
 
 =head1 DESCRIPTION
 
@@ -54,20 +54,49 @@ sub write_file( $data, $filename ) {
 	close $fh;
 }
 
-=item read_file($filename)
+=item read_file_lines($filename)
 
 Returns data from $filename. Fails if $filename doesn't exist.
+This is preferred for files divided into lines, like text files.
 
 =back
 
 =cut
 
-sub read_file( $filename ) {
+sub read_file_lines( $filename ) {
 	my $out;
 	die "No such file: $filename" unless ( -f $filename );
 	open( my $fh, '<', $filename );
 	while( my $line = <$fh> ) {
 		$out .= $line;
+	}
+	close $fh;
+	return $out;
+}
+
+=item read_file_raw($filename, $length = 0)
+
+Returns data from $filename. Fails if $filename doesn't exist.
+If $length is 0 (the default), the whole file is read.
+Otherwise, it is read for $length number of bytes.
+This is preferred for binary files.
+
+=back
+
+=cut
+
+sub read_file_raw( $filename, $length = 0 ) {
+	my $out;
+	die "No such file: $filename" unless ( -f $filename );
+	open( my $fh, '<:raw', $filename );
+	if ( $length ) {
+		read( $fh, $out, $length ) or die $!;
+	}
+	else {
+		while(1)  {
+			read( $fh, $out, 1024 ) or last;
+		}
+		die $! if $!;
 	}
 	close $fh;
 	return $out;

@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Thomas Frohwein
+# Copyright (c) 2022-2026 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -198,7 +198,7 @@ sub detect_game_name ( $engine_module ) {
 
 	# 1. try to identify known game from Status-Tracker.md
 	#    (XXX: may need quirks before this)
-	my @known_games = split( "\n", IndieRunner::Io::read_file( dist_file( 'IndieRunner', 'Status-Tracker.md' ) ) );
+	my @known_games = split( "\n", IndieRunner::Io::read_file_lines( dist_file( 'IndieRunner', 'Status-Tracker.md' ) ) );
 	@known_games = grep { /^[[:blank:]]*\|/ } @known_games;
 	@known_games = grep { !/^[[:blank:]]*\|[[:blank:]]*Game[[:blank:]]*\|/ } @known_games;
 	@known_games = grep { !/^[[:blank:]]*\|[\-[:blank:]]*\|/ } @known_games;

@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Thomas Frohwein
+# Copyright (c) 2022-2026 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -24,12 +24,14 @@ use v5.36;
 use version 0.77; our $VERSION = version->declare('v0.0.1');
 use autodie;
 use base qw( Exporter );
-our @EXPORT_OK = qw ( get_magic_descr goggame_name find_file_magic match_bin_file );
+our @EXPORT_OK = qw ( get_magic_descr goggame_name find_file_magic match_bin_file match_bin_file_head );
 
 use File::Find::Rule;
 use File::LibMagic;
 use JSON;
 use Path::Tiny;
+
+use IndieRunner::Io;
 
 =head1 DESCRIPTION
 
@@ -70,7 +72,7 @@ sub find_file_magic ( $magic_regex, @files ) {
 Perform search for matching regular expression C<$regex> on raw C<$file>.
 Returns the matching string, or undef if there is no match.
 By default, the match is case-sensitive.
-Set $case_insensitive to false (0) to run a case-insensitive match.
+Set $case_insensitive to true (1) to run a case-insensitive match.
 
 =cut
 
@@ -79,6 +81,25 @@ sub match_bin_file ( $regex, $file, $case_insensitive = 0 ) {
 	my $out = $1 if ( $case_insensitive ?
 	                  path($file)->slurp_raw =~ /($regex)/i :
 	                  path($file)->slurp_raw =~ /($regex)/ );
+
+	# XXX: return empty string '' instead of undef if no match?
+	return $out;
+}
+
+=head2 match_bin_file_head( $regex, $file, $length, $case_insensitive )
+
+Perform search for matching regular expression C<$regex> on raw C<$file>, for $length amount of bytes.
+Returns the matching string, or undef if there is no match.
+By default, the match is case-sensitive.
+Set $case_insensitive to true (1) to run a case-insensitive match.
+
+=cut
+
+# return first regex match from within a raw file
+sub match_bin_file_head ( $regex, $file, $length, $case_insensitive = 0 ) {
+	my $out = $1 if ( $case_insensitive ?
+	                  IndieRunner::Io::read_file_raw($file, $length) =~ /($regex)/i :
+	                  IndieRunner::Io::read_file_raw($file, $length) =~ /($regex)/ );
 
 	# XXX: return empty string '' instead of undef if no match?
 	return $out;

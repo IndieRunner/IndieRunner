@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Thomas Frohwein
+# Copyright (c) 2022-2026 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -50,7 +50,7 @@ The head of the script output.
 
 sub script_head () {
 	if ( $OSNAME eq 'openbsd' ) {
-		my $license = "#!/bin/ksh\n" . IndieRunner::Io::read_file(
+		my $license = "#!/bin/ksh\n" . IndieRunner::Io::read_file_lines(
 				catfile( dist_file( 'IndieRunner', 'LICENSE' ) )
 				);
 		$license =~ s/\n/\n\# /g;
