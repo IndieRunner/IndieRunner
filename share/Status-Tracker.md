@@ -113,6 +113,7 @@ Letters indicate which platform versions have been tested successfully:
 |Dungeons & Keyboards	|Godot	|W	|	|	|	|	|		|
 |Dust: An Elysian Tail	|FNA	|	|L	|	|	|	|		|
 |Eagle Island		|MonoGame|	|L	|	|	|	|run in subdirectory 'Linux'|
+|Egg			|Godot	|	|	|L	|	|	|		|
 |Eliza			|Mono	|	|L	|	|	|	|		|
 |Endless Dark		|Love2D	|L	|	|	|	|	|		|
 |Endoparasitic		|Godot	|L	|	|	|	|	|		|
@@ -243,6 +244,7 @@ Letters indicate which platform versions have been tested successfully:
 |Revenge of the Titans	|LWJGL2	|	|	|	|	|Humble:L|		|
 |Rex Rocket		|FNA	|L	|	|	|	|	|		|
 |Rise to Ruins		|LWJGL2	|	|	|L	|	|	|requires steamworks4j|
+|Road to Vostok		|Godot	|W	|	|	|	|	|early access	|
 |Robotherapy		|Godot	|L	|	|	|	|	|		|
 |Rogue Legacy		|FNA	|L	|	|	|	|	|		|
 |Roma Invicta		|Godot	|L	|	|	|	|	|		|
