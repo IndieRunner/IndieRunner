@@ -210,6 +210,7 @@ Letters indicate which platform versions have been tested successfully:
 |Ninja Warrior		|XNA	|	|	|	|	|	|engine detection fails|
 |Northgard		|HashLink|L	|L	|	|	|	|report that Steam version needs to run with --permissive to be able to save game|
 |Nuclear Blaze		|HashLink|	|	|	|	|	|steam.hdll stub: Steam is not running!|
+|Observa		|Godot	|W	|	|	|	|	|		|
 |Of Blades & Tails	|Godot	|L	|	|	|	|	|		|
 |Oh My Git!		|Godot	|	|	|L	|	|	|		|
 |Omega Warp		|Godot	|L	|	|	|	|	|		|
@@ -271,6 +272,7 @@ Letters indicate which platform versions have been tested successfully:
 |Sole Saga		|Godot	|L	|	|	|	|	|		|
 |A Solitaire Mystery	|Love2D	|	|	|W	|	|	|		|
 |Sonar Shock		|Godot	|L	|	|	|	|	|		|
+|Sophie's Grids		|Godot	|		|W	|	|	|		|
 |SoulCaster I & II	|FNA	|	|	|	|	|Humble:L|		|
 |Soulstice		|Love2D	|	|	|L	|	|	|		|
 |SpaceChem		|Mono	|	|	|L	|	|	|		|
