@@ -188,6 +188,7 @@ Letters indicate which platform versions have been tested successfully:
 |Lingo			|Godot	|W	|	|	|	|	|		|
 |Linovictus		|Love2D	|	|	|X	|	|	|		|
 |Little Racers STREET	|FNA	|L	|	|	|	|	|		|
+|Lost Wiki: Kozlovka	|Godot	|L	|	|	|	|	|		|
 |Lycanthorn II		|idTech1|L	|	|	|	|	|		|
 |Marvellous Inc.	|Love2D	|	|	|L	|	|	|		|
 |Meganoid		|LibGDX	|	|	|L	|	|	|		|
