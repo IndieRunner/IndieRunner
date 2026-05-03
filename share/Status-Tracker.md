@@ -323,6 +323,7 @@ Letters indicate which platform versions have been tested successfully:
 |Ukraine Defense Force Tactics|Godot|W	|	|	|	|	|		|
 |Ultratron		|LWJGL2	|	|	|	|	|Humble:L|		|
 |Under the Yoke		|Godot	|	|	|L	|	|	|		|
+|Upload Labs		|Godot	|L	|	|	|	|	|		|
 |Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|Steam version needs steamworks4j|
 |Utter a Name		|Godot	|L	|	|	|	|	|		|
 |Verses of Enchantment	|Godot	|L	|	|	|	|	|		|
