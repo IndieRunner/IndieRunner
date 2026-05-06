@@ -41,6 +41,7 @@ Letters indicate which platform versions have been tested successfully:
 |Balrum			|LWJGL3	|	|L	|	|	|	|Steam version needs steamworks4j	|
 |Bananaguy 2		|Godot	|W	|	|	|	|	|		|
 |Battlevoid Harbinger	|LibGDX	|	|	|	|	|	|no audio	|
+|The Beekeeper's Picnic	|ScummVM|		|L	|	|	|		|
 |Ben There, Dan That!	|ScummVM|	|W	|	|	|	|		|
 |Beyond Sunset		|idTech1|L	|	|	|	|	|frequent, unpredictable crashes|
 |Beyond The Edge Of Owlsgard|ScummVM|	|L	|	|	|	|		|
@@ -242,6 +243,7 @@ Letters indicate which platform versions have been tested successfully:
 |The Puzzler's Revenge	|Love2D	|	|	|W	|	|	|		|
 |quadrant		|Love2D	|L	|	|	|	|	|		|
 |Randotura		|Love2D	|W	|	|	|	|	|		|
+|Ravage Road		|Godot	|W	|	|	|	|	|		|
 |REKKR: Sunken Land	|idTech1|	|W	|	|	|	|		|
 |Retro Kart Rush	|Godot	|L	|	|	|	|	|		|
 |Revenge of the Titans	|LWJGL2	|	|	|	|	|Humble:L|		|
