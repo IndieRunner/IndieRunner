@@ -328,6 +328,7 @@ Letters indicate which platform versions have been tested successfully:
 |Upload Labs		|Godot	|L	|	|	|	|	|		|
 |Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|Steam version needs steamworks4j|
 |Utter a Name		|Godot	|L	|	|	|	|	|		|
+|U.V.S. Nirmana		|Mono	|L	|	|	|	|	|		|
 |Verses of Enchantment	|Godot	|L	|	|	|	|	|		|
 |Vomitoreum		|idTech1|L	|	|	|	|	|		|
 |V-Hunter Puzzler Dx	|Godot	|W	|	|	|	|	|		|
