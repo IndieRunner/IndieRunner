@@ -59,6 +59,7 @@ Letters indicate which platform versions have been tested successfully:
 |Brotato		|Godot	|W	|	|	|	|	|		|
 |Brushwood Buddies	|FNA	|	|	|L	|	|	|		|
 |Buckshot Roulette	|Godot	|	|	|L	|	|	|		|
+|Bufo Jump		|Godot	|W	|	|	|	|	|		|
 |Bugscraper		|Love2D	|	|	|	|	|	|		|
 |Burrito Bear		|Godot	|W	|	|	|	|	|		|
 |Calm Skies: The Wingsuit Flying Experience|Godot|L||	|	|	|		|
@@ -134,6 +135,7 @@ Letters indicate which platform versions have been tested successfully:
 |Flinthook		|FNA	|L	|	|	|	|	|		|
 |Flotilla		|FNA	|	|	|L	|	|	|		|
 |Forest's Secret	|LibGDX	|	|	|L	|	|	|		|
+|FOUNTAINS		|Godot	|L	|	|	|	|	|		|
 |FoxTail		|ScummVM|	|L	|	|	|	|early access	|
 |The Forestale		|idTech1|W	|	|	|	|	|		|
 |Fraymakers		|HashLink|L	|	|	|	|	|early access	|
@@ -166,6 +168,7 @@ Letters indicate which platform versions have been tested successfully:
 |Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
 |I Am Sakuya		|idTech1|W	|	|	|	|	|		|
 |Icewind Dale		|GemRB	|	|W	|	|	|	|		|
+|The Idiot's Tale	|ScummVM|W	|	|	|	|	|		|
 |If On A Winter's Night, Four Travelers|ScummVM|||L	|	|	|		|
 |Immortals Must Die	|Godot	|W	|	|	|	|	|		|
 |INC: The Beginning	|LibGDX	|	|	|L	|	|	|		|
@@ -256,6 +259,7 @@ Letters indicate which platform versions have been tested successfully:
 |RUN: The world in-between|Godot|L	|	|	|	|	|		|
 |Sailing in the Dark	|Godot	|	|	|W	|	|	|		|
 |Salt & Sanctuary	|FNA	|L	|	|	|	|	|		|
+|Sealed Bite: Extended	|Godot	|L	|	|	|	|	|		|
 |Settlers of the Deep	|Love2D	|	|	|L	|	|	|		|
 |Shell Out Showdown	|Love2D	|	|	|L	|	|	|		|
 |SHENZHEN I/O		|Mono	|	|L	|	|	|	|		|
