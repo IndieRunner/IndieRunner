@@ -27,6 +27,7 @@ use English;
 use parent 'IndieRunner::Engine';
 
 use Carp;
+use Cwd;
 use Readonly;
 
 use IndieRunner::Helpers qw( match_bin_file match_bin_file_head );
@@ -131,8 +132,11 @@ sub get_bin( $self ) {
 
 	croak "No binary for Godot pack format version $pack_format_version on $OSNAME"
 		unless $bin;
+
+	# XXX: need to launch with full path to ARGV0_SYMLINK, otherwise Brotato
+	#      and The Case of the Golden Idol can't detect their DLC if present.
 	$$self{ mode_obj }->insert( $bin, ARGV0_SYMLINK );
-	return './' . ARGV0_SYMLINK;
+	return cwd() . '/' . ARGV0_SYMLINK;
 }
 
 =item get_args_ref()
