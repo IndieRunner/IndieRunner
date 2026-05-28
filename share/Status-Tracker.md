@@ -32,6 +32,7 @@ Letters indicate which platform versions have been tested successfully:
 |Arco			|Love2D	|W	|	|	|	|	|		|
 |Ascent DX		|Love2D	|W	|	|	|	|	|		|
 |Ashworld		|LibGDX	|	|	|L	|	|	|		|
+|Astro Protocol		|Godot	|L	|	|	|	|	|		|
 |Atom Zombie Smasher	|Mono	|L	|	|	|	|	|		|
 |Axiom Verge		|FNA	|L(1.56)|	|	|1.51	|	|		|
 |Babushka's Glitch Dungeon|Godot|	|	|W	|	|	|		|
@@ -332,6 +333,7 @@ Letters indicate which platform versions have been tested successfully:
 |Twilight Town: A Cyberpunk FPS|idTech1|W|	|	|	|	|		|
 |Ukraine Defense Force Tactics|Godot|W	|	|	|	|	|		|
 |Ultratron		|LWJGL2	|	|	|	|	|Humble:L|		|
+|Understand		|Godot	|W	|	|	|	|	|		|
 |Under the Yoke		|Godot	|	|	|L	|	|	|		|
 |Upload Labs		|Godot	|L	|	|	|	|	|		|
 |Urtuk - The Desolation	|LibGDX	|	|L	|L	|	|	|Steam version needs steamworks4j|
