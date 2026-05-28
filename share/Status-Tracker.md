@@ -45,6 +45,7 @@ Letters indicate which platform versions have been tested successfully:
 |Ben There, Dan That!	|ScummVM|	|W	|	|	|	|		|
 |Beyond Sunset		|idTech1|L	|	|	|	|	|frequent, unpredictable crashes|
 |Beyond The Edge Of Owlsgard|ScummVM|	|L	|	|	|	|		|
+|Bird Society		|Godot	|	|	|W	|	|	|		|
 |Blade Runner		|ScummVM|	|L	|	|	|	|		|
 |Bleed			|FNA	|	|	|	|	|Humble:L|		|
 |Bleed 2		|FNA	|L	|	|	|	|	|		|
@@ -79,6 +80,7 @@ Letters indicate which platform versions have been tested successfully:
 |Cloaks and Capes	|Godot	|L	|	|	|	|	|		|
 |Colored Effects	|Godot	|L	|	|	|	|	|		|
 |CometStriker		|FNA	|L	|	|	|	|	|		|
+|Coreward		|Godot	|L	|	|	|	|	|		|
 |Cozy Space Survivors	|Godot	|L	|	|	|	|	|		|
 |The Crimson Diamond	|ScummVM|W	|	|	|	|	|		|
 |Crop Rotation		|HashLink|L	|	|	|	|	|		|
@@ -129,6 +131,7 @@ Letters indicate which platform versions have been tested successfully:
 |EXAPUNKS		|Mono	|	|L	|	|	|	|		|
 |The Excavation of Hob's Barrow|ScummVM||L	|	|	|	|		|
 |Extinction Eclipse	|Godot	|L	|	|	|	|	|		|
+|Fading Serenades	|Godot	|W	|	|	|	|	|		|
 |Farm Keeper		|Godot	|W	|	|	|	|	|		|
 |FEZ			|FNA	|L(beta)|	|	|	|	|		|
 |Fist Puncher		|FNA	|	|L	|	|	|	|		|
@@ -260,6 +263,7 @@ Letters indicate which platform versions have been tested successfully:
 |Sailing in the Dark	|Godot	|	|	|W	|	|	|		|
 |Salt & Sanctuary	|FNA	|L	|	|	|	|	|		|
 |Sealed Bite: Extended	|Godot	|L	|	|	|	|	|		|
+|Seedlings		|Godot	|L	|	|	|	|	|		|
 |Settlers of the Deep	|Love2D	|	|	|L	|	|	|		|
 |Shell Out Showdown	|Love2D	|	|	|L	|	|	|		|
 |SHENZHEN I/O		|Mono	|	|L	|	|	|	|		|
