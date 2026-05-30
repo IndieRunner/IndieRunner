@@ -346,6 +346,7 @@ Letters indicate which platform versions have been tested successfully:
 |Vlobs			|Godot	|	|	|L	|	|	|		|
 |Void Wizard		|Godot	|W	|	|	|	|	|		|
 |WHATEVER		|Godot	|W	|	|	|	|	|		|
+|What's the Password?	|Godot	|	|	|L	|	|	|		|
 |Wizorb			|FNA	|	|	|	|	|Humble:L|crash in GameOver state|
 |Woodworm		|Love2D	|	|	|W	|	|	|		|
 |Wrought Flesh		|Godot	|L	|	|	|	|	|		|
