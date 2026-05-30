@@ -37,7 +37,6 @@ The following selection of high profile games have been working with IndieRunner
 * Balatro
 * Brotato
 * Dead Cells
-* Deepest Chamber: Resurrection
 * Gravity Circuit
 * Northgard
 * Nuclear Blaze
