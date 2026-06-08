@@ -56,7 +56,7 @@ sub setup ( $, $mode_obj ) {
 	# no-op
 }
 
-=item get_min_java()
+=item get_min_java_v()
 
 Returns the minimum required Java version for this specific module (OS-dependent).
 Defaults to 0.

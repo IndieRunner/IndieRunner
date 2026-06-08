@@ -59,8 +59,6 @@ sub write_file( $data, $filename ) {
 Returns data from $filename. Fails if $filename doesn't exist.
 This is preferred for files divided into lines, like text files.
 
-=back
-
 =cut
 
 sub read_file_lines( $filename ) {
