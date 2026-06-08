@@ -68,6 +68,7 @@ use constant {
 };
 
 # keep this in sync with return of IndieRunner::Cmdline::init_cli()
+# XXX: fix use of file for TerrariaServer.exe; ideally for all engines.
 Readonly my %INIT_DEFAULTS => {
 	dllmap		=> '',
 	dryrun		=> undef,

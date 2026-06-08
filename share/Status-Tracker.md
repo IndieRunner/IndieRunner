@@ -122,6 +122,7 @@ Letters indicate which platform versions have been tested successfully:
 |Egg			|Godot	|	|	|L	|	|	|		|
 |Eliza			|Mono	|	|L	|	|	|	|		|
 |Endless Dark		|Love2D	|L	|	|	|	|	|		|
+|The Endless Night	|Love2D	|	|	|W	|	|	|		|
 |Endoparasitic		|Godot	|L	|	|	|	|	|		|
 |Endoparasitic 2	|Godot	|	|	|L	|	|	|		|
 |An English Haunting	|ScummVM|	|	|W	|	|	|		|
