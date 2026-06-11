@@ -89,6 +89,7 @@ Readonly my %Indicators => (
 					'{,bin/}ArkovsTower',
 					'{,bin/}EndlessDark',
 					'{,bin/}GravityCircuit',
+					'{,bin/}Snacktorio',
 					'{,bin/}snacktorio',
 					'bin/love',	# Shell Out Showdown
 				   ],

@@ -77,6 +77,8 @@ Letters indicate which platform versions have been tested successfully:
 |Charlie Murder		|FNA	|L	|	|	|	|	|no online multiplayer|
 |Chasm			|FNA	|	|L	|	|	|	|		|
 |Chex Quest 3		|idTech1|	|	|	|	|Vendor:W|https://www.chexquest3.com/ |
+|Chronicle of Innsmouth	|ScummVM|W	|	|	|	|	|		|
+|Chronicle of Innsmouth: Mountains of Madness|ScummVM|W|||	|	|		|
 |cityglitch		|Love2D	|	|	|L	|	|	|		|
 |Cloaks and Capes	|Godot	|L	|	|	|	|	|		|
 |Colored Effects	|Godot	|L	|	|	|	|	|		|
@@ -201,6 +203,7 @@ Letters indicate which platform versions have been tested successfully:
 |Lost Wiki: Kozlovka	|Godot	|L	|	|	|	|	|		|
 |Lycanthorn II		|idTech1|L	|	|	|	|	|		|
 |Marvellous Inc.	|Love2D	|	|	|L	|	|	|		|
+|Maze Mice		|Godot	|	|	|L	|	|	|		|
 |Meganoid		|LibGDX	|	|	|L	|	|	|		|
 |Meganoid: Grandpa's Chronicles|LibGDX|	|	|L	|	|	|		|
 |Melt Them All		|Godot	|L	|	|	|	|	|		|
@@ -261,6 +264,7 @@ Letters indicate which platform versions have been tested successfully:
 |Robotherapy		|Godot	|L	|	|	|	|	|		|
 |Rogue Legacy		|FNA	|L	|	|	|	|	|		|
 |Roma Invicta		|Godot	|L	|	|	|	|	|		|
+|Rootin' Tootin' Lootin' & Shootin'|Love2D|W|	|	|	|	|		|
 |RUN: The world in-between|Godot|L	|	|	|	|	|		|
 |Sailing in the Dark	|Godot	|	|	|W	|	|	|		|
 |Salt & Sanctuary	|FNA	|L	|	|	|	|	|		|

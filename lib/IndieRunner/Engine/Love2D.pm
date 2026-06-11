@@ -129,7 +129,7 @@ Heuristic to identify the actual game file which is then passed as an argument t
 
 sub get_args_ref ( $self ) {
 	my $game_file;
-	my @found = glob( "*.love bin/ArkovsTower bin/snacktorio bin/GravityCircuit bin/EndlessDark bin/love *.exe" );
+	my @found = glob( "*.love bin/ArkovsTower bin/snacktorio bin/Snacktorio bin/GravityCircuit bin/EndlessDark bin/love *.exe" );
 	for my $f ( @found ) {
 		if ( -f $f ) {
 			$game_file = $f;
