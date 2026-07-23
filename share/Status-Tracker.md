@@ -48,6 +48,8 @@ Letters indicate which platform versions have been tested successfully:
 |Beyond Sunset		|idTech1|L	|	|	|	|	|frequent, unpredictable crashes|
 |Beyond The Edge Of Owlsgard|ScummVM|	|L	|	|	|	|		|
 |Bird Society		|Godot	|	|	|W	|	|	|		|
+|The Blackwell Epiphany	|ScummVM|	|L	|	|	|	|		|
+|Blackwell Unbound	|ScummVM|	|L	|	|	|	|		|
 |Blade Runner		|ScummVM|	|L	|	|	|	|		|
 |Bleed			|FNA	|	|	|	|	|Humble:L|		|
 |Bleed 2		|FNA	|L	|	|	|	|	|		|
