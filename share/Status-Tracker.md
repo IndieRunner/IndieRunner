@@ -23,6 +23,7 @@ Letters indicate which platform versions have been tested successfully:
 |Airships: Conquer the Skies|LibGDX|	|	|L	|	|	|		|
 |Akane the Kunoichi	|XNA	|W	|	|	|	|	|		|
 |ALL IN THE GAME: Crime Strategy|Love2D|W|	|	|	|	|needs luasteam 3.2.1; early access|
+|Alphaman		|Godot	|	|	|L	|	|	|		|
 |Alum			|ScummVM|W	|	|	|	|	|		|
 |Amazing Princess Sarah	|XNA	|	|	|	|	|	|iomap error when loading level	|
 |Anagrams		|Love2D	|	|	|L	|	|	|		|
@@ -223,6 +224,7 @@ Letters indicate which platform versions have been tested successfully:
 |Nightmare Frames	|ScummVM|	|	|W	|	|	|Adventure Game Studio game|
 |Ninja Warrior		|XNA	|	|	|	|	|	|engine detection fails|
 |Northgard		|HashLink|L	|L	|	|	|	|report that Steam version needs to run with --permissive to be able to save game|
+|no signal		|Godot	|	|	|L	|	|	|		|
 |Nuclear Blaze		|HashLink|	|	|	|	|	|steam.hdll stub: Steam is not running!|
 |Observa		|Godot	|W	|	|	|	|	|		|
 |Of Blades & Tails	|Godot	|L	|	|	|	|	|		|
@@ -255,6 +257,7 @@ Letters indicate which platform versions have been tested successfully:
 |quadrant		|Love2D	|L	|	|	|	|	|		|
 |Randotura		|Love2D	|W	|	|	|	|	|		|
 |Ravage Road		|Godot	|W	|	|	|	|	|		|
+|Redacted - The Safehouse|Godot	|	|	|L	|	|	|		|
 |REKKR: Sunken Land	|idTech1|	|W	|	|	|	|		|
 |Retro Kart Rush	|Godot	|L	|	|	|	|	|		|
 |Revenge of the Titans	|LWJGL2	|	|	|	|	|Humble:L|		|
