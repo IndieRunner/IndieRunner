@@ -42,6 +42,7 @@ Letters indicate which platform versions have been tested successfully:
 |Baldur's Gate 2	|GemRB	|	|W	|	|	|	|		|
 |Balrum			|LWJGL3	|	|L	|	|	|	|Steam version needs steamworks4j	|
 |Bananaguy 2		|Godot	|W	|	|	|	|	|		|
+|Bare Knuckle Sandwich	|Godot	|W	|	|	|	|	|		|
 |Battlevoid Harbinger	|LibGDX	|	|	|	|	|	|no audio	|
 |The Beekeeper's Picnic	|ScummVM|		|L	|	|	|		|
 |Ben There, Dan That!	|ScummVM|	|W	|	|	|	|		|
@@ -324,6 +325,7 @@ Letters indicate which platform versions have been tested successfully:
 |Super Spy Raccoon	|Godot	|W	|	|	|	|	|		|
 |Supplice		|idTech1|W	|	|	|	|	|		|
 |Sword of the Stars: The Pit|XNA|	|W	|	|	|	|		|
+|TactiCats		|Godot	|L	|	|	|	|	|		|
 |Takara Cards		|Godot	|L	|	|	|	|	|		|
 |Tanks of Freedom II	|Godot	|L	|	|	|	|	|		|
 |Tendryll		|Godot	|W	|	|	|	|	|needs addons/godotsteam/x11/libgodotsteam.so|
@@ -360,5 +362,6 @@ Letters indicate which platform versions have been tested successfully:
 |Wizorb			|FNA	|	|	|	|	|Humble:L|crash in GameOver state|
 |Woodworm		|Love2D	|	|	|W	|	|	|		|
 |Wrought Flesh		|Godot	|L	|	|	|	|	|		|
+|Yokai Hunter Shintaro	|Godot	|W	|	|	|	|	|		|
 |Yolk Heroes: A Long Tamago|Godot|W	|	|	|	|	|		|
 |The Zachtronics Solitaire Collection|Mono	|L	|	|	|	|	|		|
