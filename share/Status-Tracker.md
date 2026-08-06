@@ -146,6 +146,7 @@ Letters indicate which platform versions have been tested successfully:
 |Flinthook		|FNA	|L	|	|	|	|	|		|
 |Flotilla		|FNA	|	|	|L	|	|	|		|
 |Forest's Secret	|LibGDX	|	|	|L	|	|	|		|
+|Forehead Chip		|Godot	|L	|	|	|	|	|		|
 |FOUNTAINS		|Godot	|L	|	|	|	|	|		|
 |FoxTail		|ScummVM|	|L	|	|	|	|early access	|
 |The Forestale		|idTech1|W	|	|	|	|	|		|
@@ -162,6 +163,7 @@ Letters indicate which platform versions have been tested successfully:
 |Gravity Circuit	|Love2D	|L	|	|	|	|	|		|
 |Groundskeeper 2	|LibGDX	|	|	|L	|	|	|		|
 |Growing Pains		|FNA	|L	|	|	|	|	|		|
+|Guard Duty		|ScummVM|	|L	|	|	|	|		|
 |Gunslugs		|LibGDX	|	|	|L	|	|	|		|
 |Gunslugs 3: Rogue Tactics|LibGDX|	|	|L	|	|	|		|
 |Gurk in Trouble	|ScummVM|	|	|W	|	|	|		|
@@ -182,6 +184,7 @@ Letters indicate which platform versions have been tested successfully:
 |The Idiot's Tale	|ScummVM|W	|	|	|	|	|		|
 |If On A Winter's Night, Four Travelers|ScummVM|||L	|	|	|		|
 |Immortals Must Die	|Godot	|W	|	|	|	|	|		|
+|The Incident at Galley House|Godot|L	|	|	|	|	|		|
 |INC: The Beginning	|LibGDX	|	|	|L	|	|	|		|
 |Interstellar Plunderer	|Godot	|L	|	|	|	|	|		|
 |Into the Necrovale	|HashLink|		|L(demo)|	|	|		|
