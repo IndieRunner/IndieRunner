@@ -87,6 +87,7 @@ Letters indicate which platform versions have been tested successfully:
 |Cloaks and Capes	|Godot	|L	|	|	|	|	|		|
 |Colored Effects	|Godot	|L	|	|	|	|	|		|
 |CometStriker		|FNA	|L	|	|	|	|	|		|
+|Confidential Killings - A Detective Game|Godot|W||	|	|	|		|
 |Coreward		|Godot	|L	|	|	|	|	|		|
 |Cozy Space Survivors	|Godot	|L	|	|	|	|	|		|
 |The Crimson Diamond	|ScummVM|W	|	|	|	|	|		|
@@ -225,6 +226,8 @@ Letters indicate which platform versions have been tested successfully:
 |Mount Your Friends	|XNA	|W	|	|	|	|	|		|
 |Murder Miners		|FNA	|L	|	|	|	|	|no online support|
 |Nelly Cootalot: Spoonbeaks Ahoy! HD|ScummVM||W	|	|	|	|		|
+|Neofeud		|ScummVM|	|	|L	|	|	|		|
+|Neofeud 2		|ScummVM|W	|	|	|	|	|		|
 |Neoteria		|LibGDX	|	|	|	|	|	|		|
 |NeuroVoider		|MonoGame|	|L	|	|	|	|SQL error on launch|
 |Nightmare Frames	|ScummVM|	|	|W	|	|	|Adventure Game Studio game|
