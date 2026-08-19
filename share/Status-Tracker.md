@@ -123,6 +123,7 @@ Letters indicate which platform versions have been tested successfully:
 |Dreams in the Witch House|ScummVM|W	|	|	|	|	|		|
 |Drill Bird		|Godot	|W	|		|	|	|		|
 |Droid Assault		|LWJGL2	|	|	|	|	|Humble:L|		|
+|Dungeons of Blood and Dream|Godot|W	|	|	|	|	|		|
 |Dungeons & Keyboards	|Godot	|W	|	|	|	|	|		|
 |Dust: An Elysian Tail	|FNA	|	|L	|	|	|	|		|
 |Eagle Island		|MonoGame|	|L	|	|	|	|run in subdirectory 'Linux'|
@@ -190,12 +191,14 @@ Letters indicate which platform versions have been tested successfully:
 |Interstellar Plunderer	|Godot	|L	|	|	|	|	|		|
 |Into the Necrovale	|HashLink|		|L(demo)|	|	|		|
 |The Isolated Town	|Godot	|	|	|L	|	|	|		|
+|Jitter			|HashLink|W	|	|	|	|	|early access	|
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
 |Just Ignore Them	|ScummVM|W	|	|	|	|	|		|
 |Kaizen: A Factory Story|Mono	|	|	|L	|	|	|		|
 |Kitsune Tails		|FNA	|	|	|L	|	|	|		|
 |Kitsune Zero		|FNA	|	|	|L	|	|	|		|
 |knakk			|Godot	|	|	|L	|	|	|		|
+|Knytt			|FNA	|	|L	|	|	|	|		|
 |Labyrinth of Legendary Loot|Love2D|	|	|L	|	|	|		|
 |Lair of goblins	|Godot	|W	|	|	|	|	|		|
 |Landnama		|Godot	|L	|	|	|	|	|		|
