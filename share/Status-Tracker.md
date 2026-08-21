@@ -142,6 +142,7 @@ Letters indicate which platform versions have been tested successfully:
 |The Excavation of Hob's Barrow|ScummVM||L	|	|	|	|		|
 |Extinction Eclipse	|Godot	|L	|	|	|	|	|		|
 |Fading Serenades	|Godot	|W	|	|	|	|	|		|
+|False Alarm		|Godot	|L	|	|	|	|	|		|
 |Farm Keeper		|Godot	|W	|	|	|	|	|		|
 |FEZ			|FNA	|L(beta)|	|	|	|	|		|
 |Fist Puncher		|FNA	|	|L	|	|	|	|		|
@@ -179,6 +180,7 @@ Letters indicate which platform versions have been tested successfully:
 |Hive			|FNA	|L	|	|	|	|	|		|
 |Hoarder's Horrible House of Stuff|Love2D||	|L	|	|	|		|
 |House of Necrosis	|Godot	|L	|	|	|	|	|		|
+|how to kill a fly [H2KAF]|Godot|W	|	|	|	|	|		|
 |Hungry Horrors		|Godot	|	|	|L	|	|	|demo/early access|
 |Hyphen			|FNA	|L	|	|	|	|	|unlisted on Steam. Still on humblebundle.|
 |I Am Sakuya		|idTech1|W	|	|	|	|	|		|
@@ -232,6 +234,7 @@ Letters indicate which platform versions have been tested successfully:
 |Neofeud		|ScummVM|	|	|L	|	|	|		|
 |Neofeud 2		|ScummVM|W	|	|	|	|	|		|
 |Neoteria		|LibGDX	|	|	|	|	|	|		|
+|Nested			|Godot	|L	|	|	|	|	|		|
 |NeuroVoider		|MonoGame|	|L	|	|	|	|SQL error on launch|
 |Nightmare Frames	|ScummVM|	|	|W	|	|	|Adventure Game Studio game|
 |Ninja Warrior		|XNA	|	|	|	|	|	|engine detection fails|
