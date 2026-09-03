@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2024 Thomas Frohwein
+# Copyright (c) 2022-2026 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -87,6 +87,7 @@ Readonly my %Indicators => (
 	'Love2D' => {
 		'glob'		=> [	'*.exe',
 					'{,bin/}ArkovsTower',
+					'{,bin/}Beatblock',
 					'{,bin/}EndlessDark',
 					'{,bin/}GravityCircuit',
 					'{,bin/}Snacktorio',

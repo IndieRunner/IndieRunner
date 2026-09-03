@@ -44,6 +44,7 @@ Letters indicate which platform versions have been tested successfully:
 |Bananaguy 2		|Godot	|W	|	|	|	|	|		|
 |Bare Knuckle Sandwich	|Godot	|W	|	|	|	|	|		|
 |Battlevoid Harbinger	|LibGDX	|	|	|	|	|	|no audio	|
+|Beatblock		|Love2D	|L	|	|	|	|	|disable project.useSteamAPI in bin/project.lua|
 |The Beekeeper's Picnic	|ScummVM|		|L	|	|	|		|
 |Ben There, Dan That!	|ScummVM|	|W	|	|	|	|		|
 |Beyond Sunset		|idTech1|L	|	|	|	|	|frequent, unpredictable crashes|
@@ -197,6 +198,7 @@ Letters indicate which platform versions have been tested successfully:
 |Jon Shafer's At the Gates|FNA	|L	|	|	|	|	|		|
 |Just Ignore Them	|ScummVM|W	|	|	|	|	|		|
 |Kaizen: A Factory Story|Mono	|	|	|L	|	|	|		|
+|King's Well		|Godot	|W	|	|	|	|	|		|
 |Kitsune Tails		|FNA	|	|	|L	|	|	|		|
 |Kitsune Zero		|FNA	|	|	|L	|	|	|		|
 |knakk			|Godot	|	|	|L	|	|	|		|
@@ -299,6 +301,7 @@ Letters indicate which platform versions have been tested successfully:
 |Skulls of the Shogun	|MonoGame|	|L	|	|	|	|		|
 |Skycliffs		|Godot	|L	|	|	|	|	|		|
 |Slay the Spire		|LibGDX	|L	|	|	|	|	|steamworks4j (Steam version)|
+|Snacktorio		|Love2D	|	|	|L	|	|	|		|
 |Snails			|XNA	|	|	|W	|	|https://github.com/xesf/SnailsXNA |needs more iomap workarounds and fix for trying (and failing) to cloud save via Steam|
 |Snake Core		|LibGDX	|	|	|L	|	|	|		|
 |Snow Problem		|ScummVM|W	|	|	|	|	|		|

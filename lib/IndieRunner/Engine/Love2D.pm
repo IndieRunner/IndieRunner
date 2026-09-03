@@ -1,4 +1,4 @@
-# Copyright (c) 2022-2025 Thomas Frohwein
+# Copyright (c) 2022-2026 Thomas Frohwein
 #
 # Permission to use, copy, modify, and distribute this software for any
 # purpose with or without fee is hereby granted, provided that the above
@@ -45,11 +45,12 @@ Readonly my %LOVE2D_VERSION_BIN => {
 	'0.9.x'		=> 'love-0.9',		# not in ports July 2023
 	'0.10.x'	=> 'love-0.10',
 	'11.x'		=> 'love-11',
-	#'12.x'		=> '/nonexistent',	# XXX: need port
+	'12.x'		=> 'love-12',
 	};
 
 Readonly my @LOVE2D_VERSION_FILES => (
 	'conf.lua',	# if not packaged, e.g. Move or Die
+	'lbconfig.lua',	# comes from: https://github.com/ellraiser/love-build
 	'liblove*.so*',
 	'love',
 	'love.exe',
@@ -88,7 +89,10 @@ This is done by examining selected local files for a Love2D version string.
 =cut
 
 sub get_bin ( $self ) {
-	my @valid_versions = values %LOVE2D_GAME_VERSION;
+
+	# XXX: this doesn't really make use of the assignments in %LOVE2D_GAME_VERSION
+
+	my @valid_versions = keys %LOVE2D_VERSION_BIN;
 	# turn @valid_versions into regex
 	map { s/x/\\d+/g } @valid_versions;
 	map { s/\./\\./g } @valid_versions;
@@ -114,7 +118,7 @@ sub get_bin ( $self ) {
 		}
 		next unless $love_v;
 		$love_v =~ s/\.\d+$/.x/;
-		next unless grep { /^\Q$love_v\E$/ } values %LOVE2D_GAME_VERSION;
+		next unless grep { /^\Q$love_v\E$/ } keys %LOVE2D_VERSION_BIN;
 		return $LOVE2D_VERSION_BIN{ $love_v };
 	}
 
@@ -129,7 +133,7 @@ Heuristic to identify the actual game file which is then passed as an argument t
 
 sub get_args_ref ( $self ) {
 	my $game_file;
-	my @found = glob( "*.love bin/ArkovsTower bin/snacktorio bin/Snacktorio bin/GravityCircuit bin/EndlessDark bin/love *.exe" );
+	my @found = glob( "*.love bin/ArkovsTower bin/Beatblock bin/EndlessDark bin/GravityCircuit bin/snacktorio bin/Snacktorio bin/love *.exe" );
 	for my $f ( @found ) {
 		if ( -f $f ) {
 			$game_file = $f;
